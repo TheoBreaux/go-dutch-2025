@@ -1,4 +1,4 @@
-import { Image, View } from 'react-native'
+import { Image } from 'react-native'
 import Style from '../style'
 import Images from '../assets/images/images'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'

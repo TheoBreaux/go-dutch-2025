@@ -27,4 +27,6 @@ export default StyleSheet.create({
       logo: { resizeMode: 'contain', width: SCREEN_WIDTH, height: SCREEN_HEIGHT * 0.1 },
     },
   },
+
+   // =============================================================== LOGIN SCREEN
 })
