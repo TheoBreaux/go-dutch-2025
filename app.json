@@ -19,10 +19,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.theobreaux.godutch2025"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "02aa5aa2-442b-4f50-a0b1-8ac82f008732"
+      }
+    },
+    "owner": "theobreaux"
   }
 }
