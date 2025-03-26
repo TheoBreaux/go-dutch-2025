@@ -17,6 +17,7 @@ import FavoritesScreen from './screens/FavoritesScreen'
 import HistoryScreen from './screens/HistoryScreen'
 import RegistrationScreen from './screens/RegistrationScreen'
 import WelcomeScreen from './screens/WelcomeScreen'
+import LoginScreen from './screens/LoginScreen'
 
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
@@ -59,15 +60,17 @@ const ScreensNavigator = () => {
         name="Welcome"
         component={WelcomeScreen}
       />
-
       <Stack.Screen
         name="Registration"
         component={RegistrationScreen}
       />
-
       <Stack.Screen
         name="Profile"
         component={ProfileScreen}
+      />
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
       />
     </Stack.Navigator>
   )
@@ -110,41 +113,6 @@ const App = () => {
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
-        {!fontsLoaded && (
-          <View
-            style={{
-              width: 150,
-              height: 150,
-              backgroundColor: 'white',
-              borderRadius: 10,
-              justifyContent: 'center',
-              alignItems: 'center',
-              elevation: 20,
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.25,
-              shadowRadius: 3.84,
-            }}
-          >
-            <View
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: 'rgba(0, 0, 0, 0.5)',
-              }}
-            >
-              <ActivityIndicator
-                size="large"
-                color="#0000ff"
-              />
-            </View>
-          </View>
-        )}
       </NavigationContainer>
     </SafeAreaProvider>
   )
