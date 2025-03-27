@@ -1,11 +1,12 @@
 import { View, Text } from 'react-native';
 import React from 'react';
+import LogoScreenWrapper from '../components/LogoScreenWrapper';
 
 const FavoritesScreen = () => {
   return (
-    <View>
-      <Text>FavoritesScreen</Text>
-    </View>
+    <LogoScreenWrapper>
+      
+    </LogoScreenWrapper>
   );
 };
 

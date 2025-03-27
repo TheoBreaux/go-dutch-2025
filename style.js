@@ -7,6 +7,12 @@ const containerHeight = SCREEN_HEIGHT * 0.1 // 10% of screen height
 const containerBorderRadius = scaleFont(15)
 
 export default StyleSheet.create({
+  // ================================================================================================================================== TAB BAR
+  tabBar: {
+    tabBarStyle: { backgroundColor: COLORS.goDutchBlue, height: 65 },
+    tabBarLabelStyle: { color: 'white', marginTop: 5, fontFamily: 'Poppins-SemiBold', fontSize: scaleFont(12) },
+  },
+
   // ================================================================================================================================== PRIMARY BUTTON
   primaryButton: {
     outterContainer: {
@@ -42,10 +48,10 @@ export default StyleSheet.create({
     alignItems: 'center',
     imageBackground: {
       position: 'absolute',
-      top: SCREEN_HEIGHT * 0.03,
+      top: SCREEN_HEIGHT * 0.04,
       left: 0,
       width: '100%',
-      height: '100%',
+      height: SCREEN_HEIGHT,
       zIndex: 1,
       flex: 1,
       alignItems: 'center',
@@ -125,13 +131,13 @@ export default StyleSheet.create({
   // ======================================================================================================================================= LOGIN SCREEN
   logInScreen: {
     container: {
-      flex: 1,
+      flexDirection: 'column',
       backgroundColor: 'white',
       justifyContent: 'center',
       alignItems: 'center',
       modal: {
-        width: SCREEN_WIDTH *.95,
-        height: SCREEN_HEIGHT * .40,
+        width: SCREEN_WIDTH,
+        height: SCREEN_HEIGHT * 0.55,
         justifyContent: 'center',
         alignItems: 'center',
         position: 'relative',
@@ -149,6 +155,53 @@ export default StyleSheet.create({
         inputsContainer: { width: '80%', padding: 20 },
         passwordInput: { flexDirection: 'row', alignItems: 'center', position: 'relative', passwordIcon: { position: 'absolute', right: 10 } },
       },
+    },
+  },
+
+  // ====================================================================================================================================== SPLIT SCREEN
+  splitScreen: {
+    container: {
+      alignItems: 'center',
+      heading: {
+        textAlign: 'center',
+        marginVertical: 20,
+        width: SCREEN_WIDTH * 0.9,
+        fontFamily: 'Poppins-Bold',
+        fontSize: scaleFont(25),
+        color: COLORS.goDutchBlue,
+      },
+      image: { width: SCREEN_WIDTH * 0.9, resizeMode: 'cover' },
+      button: {
+        marginTop: 60,
+        backgroundColor: 'transparent',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: SCREEN_HEIGHT * 0.15,
+        width: SCREEN_WIDTH * 0.3,
+        borderRadius: '50%',
+        borderWidth: 3,
+        borderColor: COLORS.goDutchBlue,
+      },
+    },
+  },
+
+  // ====================================================================================================================================== HOME SCREEN
+  homeScreen: {
+    container: {},
+    heading: {
+      textAlign: 'center',
+      width: SCREEN_WIDTH * 0.9,
+      fontFamily: 'Poppins-Regular',
+      fontSize: scaleFont(38),
+      color: COLORS.goDutchBlue,
+      marginTop: 20,
+    },
+    welcomeMessage: {
+      textAlign: 'center',
+      width: SCREEN_WIDTH * 0.9,
+      fontFamily: 'Poppins-Bold',
+      fontSize: scaleFont(20),
+      color: COLORS.goDutchBlue,
     },
   },
 })

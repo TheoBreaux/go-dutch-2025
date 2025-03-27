@@ -1,5 +1,4 @@
 import { View, Text, TouchableOpacity } from 'react-native'
-import React from 'react'
 import Style from '../style'
 import { SCREEN_WIDTH } from '../constants/constants'
 

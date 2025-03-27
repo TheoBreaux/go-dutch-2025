@@ -18,33 +18,95 @@ import HistoryScreen from './screens/HistoryScreen'
 import RegistrationScreen from './screens/RegistrationScreen'
 import WelcomeScreen from './screens/WelcomeScreen'
 import LoginScreen from './screens/LoginScreen'
-import * as Splash from 'expo-splash-screen'
+import { useDisableBackButton } from './utils/utils'
+import { COLORS } from './constants/constants'
+import { Ionicons } from '@expo/vector-icons'
+import { FontAwesome } from '@expo/vector-icons'
+import GoDutchIcon from './components/GoDutchIcon'
+import Style from './style'
 
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
 
+console.log(Style.tabBar.tabBarStyle)
+
 const Tabs = () => {
+  //disable back button on android devices
+  useDisableBackButton()
+
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: Style.tabBar.tabBarStyle,
+        tabBarLabelStyle: Style.tabBar.tabBarLabelStyle,
+        tabBarActiveBackgroundColor: COLORS.goDutchRed,
+        tabBarIconStyle: { marginTop: 5 },
+      }}
+    >
       <Tab.Screen
         name="Home"
         component={HomeScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons
+              name="home"
+              color="white"
+              size={30}
+            />
+          ),
+        }}
       />
       <Tab.Screen
         name="Favorites"
         component={FavoritesScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons
+              name="heart"
+              color="white"
+              size={30}
+            />
+          ),
+        }}
       />
       <Tab.Screen
         name="Split"
         component={SplitScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <GoDutchIcon
+              size={40}
+              color="white"
+            />
+          ),
+        }}
       />
       <Tab.Screen
         name="History"
         component={HistoryScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome
+              name="history"
+              size={30}
+              color="white"
+            />
+          ),
+        }}
       />
       <Tab.Screen
         name="Restaurants"
         component={RestaurantsScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons
+              name="restaurant"
+              size={30}
+              color="white"
+            />
+          ),
+        }}
       />
     </Tab.Navigator>
   )

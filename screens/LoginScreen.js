@@ -1,43 +1,59 @@
 import { View, Text, TextInput, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import PrimaryButton from '../components/PrimaryButton'
 import Style from '../style'
 import Images from '../assets/images/images'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { COLORS, SCREEN_WIDTH } from '../constants/constants'
-import { scaleFont } from '../utils/utils'
+import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
+import VideoSource from '../assets/videos/featured_restaurant.mp4'
+import { useVideoPlayer, VideoView } from 'expo-video'
 
 const LoginScreen = ({ navigation }) => {
+  const ref = useRef(null)
+  const [isPlaying, setIsPlaying] = useState(false)
+
+  const player = useVideoPlayer(VideoSource, (player) => {
+    player.loop = true
+    player.play()
+  })
+
+  useEffect(() => {
+    const videoSubscription = player.addListener('playingChange', (isPlaying) => {
+      setIsPlaying(isPlaying)
+    })
+
+    const onEndVideoSubscription = player.addListener('end', () => {
+      setIsPlaying(false)
+    })
+
+    return () => {
+      videoSubscription.remove()
+      onEndVideoSubscription.remove()
+    }
+  }, [player])
+
   return (
     <View style={Style.logInScreen.container}>
-      <Text
-        style={{
-          fontSize: scaleFont(35),
-          fontFamily: 'Poppins-ExtraBold',
-          letterSpacing: 1,
-        }}
-      >
-        Featured Restaurant
-      </Text>
-
-      <View
-        style={{
-          width: SCREEN_WIDTH * 0.95,
-          height: '40%',
-          borderColor: 'red',
-          borderWidth: 1,
-          marginBottom: 20,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Text>VIDEO</Text>
+      <View style={{ height: SCREEN_HEIGHT * 0.5, width: SCREEN_WIDTH }}>
+        <VideoView
+          ref={ref}
+          player={player}
+          style={{ width: '100%', height: '100%' }}
+          allowsFullscreen
+          contentFit="fill"
+          nativeControls={true}
+        />
       </View>
+      <TouchableOpacity>
+        <Text style={{ fontFamily: 'Poppins-ExtraBold', fontSize: 40, width: SCREEN_WIDTH * 0.9 }}>Elements Bar & Grill</Text>
+      </TouchableOpacity>
+
       <View style={Style.logInScreen.container.modal}>
         <Image
           source={Images.go_dutch_background}
           style={Style.logInScreen.container.modal.backgroundImage}
         />
+
         <View style={Style.logInScreen.container.modal.inputsContainer}>
           <Text style={Style.registrationScreen.inputLabels}>Username</Text>
           <TextInput style={Style.registrationScreen.textInput} />
@@ -57,7 +73,14 @@ const LoginScreen = ({ navigation }) => {
           </View>
         </View>
 
-        <PrimaryButton onPress={() => navigation.navigate('Tabs', { screen: 'Home' })}>Log In</PrimaryButton>
+        <PrimaryButton
+          onPress={() => {
+            player.pause()
+            navigation.navigate('Tabs', { screen: 'Home' })
+          }}
+        >
+          Log In
+        </PrimaryButton>
       </View>
     </View>
   )
