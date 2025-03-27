@@ -5,7 +5,7 @@ import SplashScreen from './screens/SplashScreen'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { Provider } from 'react-redux'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { navigationRef } from './utils/RootNavigation'
@@ -18,6 +18,7 @@ import HistoryScreen from './screens/HistoryScreen'
 import RegistrationScreen from './screens/RegistrationScreen'
 import WelcomeScreen from './screens/WelcomeScreen'
 import LoginScreen from './screens/LoginScreen'
+import * as Splash from 'expo-splash-screen'
 
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
@@ -91,8 +92,6 @@ const App = () => {
   }
 
   loadFonts()
-
-  console.log(fontsLoaded)
 
   return (
     <SafeAreaProvider>

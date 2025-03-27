@@ -20,8 +20,8 @@ const SplashScreen = ({ navigation }) => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.replace('Login')
-    }, 5000)
+      navigation.replace('Welcome')
+    }, 3000)
 
     rotateLogo() // Start rotation animation when the component mounts
 
@@ -39,7 +39,7 @@ const SplashScreen = ({ navigation }) => {
   return (
     <LogoScreenWrapper
       backgroundColor="black"
-      opacity={ 0.5}
+      opacity={0.5}
     >
       <Animated.Image
         source={Images.go_dutch_split_button}
