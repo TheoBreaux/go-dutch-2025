@@ -39,19 +39,20 @@ export default StyleSheet.create({
 
   // ====================================================================================================================================== SPLASH SCREEN
   splashScreen: {
-    logo: { marginTop: SCREEN_HEIGHT * 0.2, width: SCREEN_WIDTH * 0.6, height: SCREEN_WIDTH * 0.6, resizeMode: 'contain' },
+    logo: { marginTop: SCREEN_HEIGHT * 0.2, width: SCREEN_WIDTH * 0.6, height: SCREEN_HEIGHT * 0.325, resizeMode: 'contain' },
   },
 
   // ======================================================================================================================================= LOGO SCREEN WRAPPER
   logoScreenWrapper: {
     flex: 1,
+    backgroundColor: 'black',
     alignItems: 'center',
     imageBackground: {
       position: 'absolute',
       top: SCREEN_HEIGHT * 0.04,
       left: 0,
       width: '100%',
-      height: SCREEN_HEIGHT,
+      height: '100%',
       zIndex: 1,
       flex: 1,
       alignItems: 'center',

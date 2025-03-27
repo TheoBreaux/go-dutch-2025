@@ -28,8 +28,6 @@ import Style from './style'
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
 
-console.log(Style.tabBar.tabBarStyle)
-
 const Tabs = () => {
   //disable back button on android devices
   useDisableBackButton()

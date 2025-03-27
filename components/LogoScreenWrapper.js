@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import Images from '../assets/images/images'
 import Style from '../style'
 
-const LogoScreenWrapper = ({ children, backgroundColor = '#E9F0FAF2', opacity = 0.1 }) => {
+const LogoScreenWrapper = ({ children, backgroundColor = 'white', opacity = 0.1 }) => {
   return (
     <SafeAreaView style={Style.logoScreenWrapper}>
       <ImageBackground
