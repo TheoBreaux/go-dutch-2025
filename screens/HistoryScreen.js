@@ -1,9 +1,12 @@
-import { View, Text } from 'react-native'
-import React from 'react'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
+import ScrollPageHeader from '../components/ScrollPageHeader'
 
 const HistoryScreen = () => {
-  return <LogoScreenWrapper></LogoScreenWrapper>
+  return (
+    <LogoScreenWrapper>
+     <ScrollPageHeader>Tap Tile For Details</ScrollPageHeader>
+    </LogoScreenWrapper>
+  )
 }
 
 export default HistoryScreen

@@ -1,9 +1,12 @@
-import { View, Text } from 'react-native'
-import React from 'react'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
+import ScrollPageHeader from '../components/ScrollPageHeader'
 
 const RestaurantsScreen = () => {
-  return <LogoScreenWrapper></LogoScreenWrapper>
+  return (
+    <LogoScreenWrapper>
+      <ScrollPageHeader>Featured Restaurants</ScrollPageHeader>
+    </LogoScreenWrapper>
+  )
 }
 
 export default RestaurantsScreen

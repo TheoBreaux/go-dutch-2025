@@ -13,6 +13,23 @@ export default StyleSheet.create({
     tabBarLabelStyle: { color: 'white', marginTop: 5, fontFamily: 'Poppins-SemiBold', fontSize: scaleFont(12) },
   },
 
+  // ================================================================================================================================== SCROLL PAGE HEADER
+  scrollPageHeader: {
+    container: {
+      marginTop: SCREEN_HEIGHT * 0.05,
+      width: SCREEN_WIDTH * 0.9,
+      height: SCREEN_HEIGHT * 0.075,
+      borderBottomWidth: 5,
+      borderBlockEndColor: COLORS.goDutchBlue,
+      borderRadius: 10,
+      elevation: 10,
+      backgroundColor: 'white',
+      justifyContent: 'center',
+      alignItems: 'center',
+      text: { fontFamily: 'Poppins-SemiBold', fontSize: scaleFont(30), color: COLORS.goDutchRed, letterSpacing: 1 },
+    },
+  },
+
   // ================================================================================================================================== PRIMARY BUTTON
   primaryButton: {
     outterContainer: {
