@@ -8,6 +8,7 @@ export const COLORS = {
   inputBackground: '#e8ebf0',
   inputBorder: '#1a202c',
   logoScreenBackground: '#E9F0FAF2',
+  favoritesIconBackground: '#0000004D',
 }
 
 export const API_URL = 'http://mobileartslab.com:8000/api'

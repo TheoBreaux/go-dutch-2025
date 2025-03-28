@@ -7,6 +7,9 @@ const containerHeight = SCREEN_HEIGHT * 0.1 // 10% of screen height
 const containerBorderRadius = scaleFont(15)
 
 export default StyleSheet.create({
+  // ================================================================================================================================== FAVORITES ICON
+  favoritesIcon: { backgroundColor: COLORS.favoritesIconBackground, padding: 5, borderRadius: 30 },
+
   // ================================================================================================================================== TAB BAR
   tabBar: {
     tabBarStyle: { backgroundColor: COLORS.goDutchBlue, height: 65 },
@@ -227,7 +230,6 @@ export default StyleSheet.create({
       fontFamily: 'Poppins-Regular',
       fontSize: scaleFont(38),
       color: COLORS.goDutchBlue,
-      marginTop: 10,
     },
     welcomeMessage: {
       textAlign: 'center',

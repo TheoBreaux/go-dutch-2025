@@ -1,23 +1,29 @@
 import { View, Text, FlatList } from 'react-native'
 import { RESTAURANT_DATA } from '../constants/data'
 import SliderItem from './SliderItem'
+import Carousel from 'react-native-snap-carousel'
+import { SCREEN_WIDTH } from '../constants/constants'
 
 const Slider = () => {
-  return (
-    <View>
-      <FlatList
-        data={RESTAURANT_DATA}
-        renderItem={({ item, index }) => (
-          <SliderItem
-            {...item}
-            index={index}
-          />
-        )}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        pagingEnabled
+  const renderItem = ({ item }) => {
+    return (
+      <SliderItem
+        {...item}
+        key={item.id}
       />
-    </View>
+    )
+  }
+  return (
+    <Carousel
+      data={RESTAURANT_DATA}
+      renderItem={renderItem}
+      sliderWidth={SCREEN_WIDTH}
+      itemWidth={SCREEN_WIDTH}
+      layout="default"
+      autoplay={true}
+      autoplayInterval={2500}
+      loop={true}
+    />
   )
 }
 

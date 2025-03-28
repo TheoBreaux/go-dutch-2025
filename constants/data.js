@@ -2,6 +2,7 @@ import { RESTAURANT_IMAGES } from '../assets/images/images'
 
 export const RESTAURANT_DATA = [
   {
+    id: 1,
     restaurantName: 'Tasty',
     address: '7984 Santa Monica Blvd.',
     city: 'West Hollywoood',
@@ -11,6 +12,7 @@ export const RESTAURANT_DATA = [
     image: RESTAURANT_IMAGES.image1,
   },
   {
+    id: 2,
     restaurantName: 'Tasty',
     address: '7984 Santa Monica Blvd.',
     city: 'West Hollywoood',
@@ -20,6 +22,7 @@ export const RESTAURANT_DATA = [
     image: RESTAURANT_IMAGES.image1,
   },
   {
+    id: 3,
     restaurantName: 'Tasty',
     address: '7984 Santa Monica Blvd.',
     city: 'West Hollywoood',
@@ -29,6 +32,7 @@ export const RESTAURANT_DATA = [
     image: RESTAURANT_IMAGES.image1,
   },
   {
+    id: 4,
     restaurantName: 'Tasty',
     address: '7984 Santa Monica Blvd.',
     city: 'West Hollywoood',
@@ -38,6 +42,7 @@ export const RESTAURANT_DATA = [
     image: RESTAURANT_IMAGES.image1,
   },
   {
+    id: 5,
     restaurantName: 'Tasty',
     address: '7984 Santa Monica Blvd.',
     city: 'West Hollywoood',
