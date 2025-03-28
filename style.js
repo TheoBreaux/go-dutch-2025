@@ -227,7 +227,7 @@ export default StyleSheet.create({
       fontFamily: 'Poppins-Regular',
       fontSize: scaleFont(38),
       color: COLORS.goDutchBlue,
-      marginTop: 20,
+      marginTop: 10,
     },
     welcomeMessage: {
       textAlign: 'center',
@@ -244,16 +244,39 @@ export default StyleSheet.create({
 
   // ====================================================================================================================================== PROFILE SCREEN
   profileScreen: {
-    inputLabel: { fontFamily: 'Poppins-Regular', fontSize: scaleFont(16), marginTop: 5 },
-    textInput: {
-      height: 'auto',
-      fontFamily: 'Poppins-Regular',
-      fontSize: scaleFont(14),
-      backgroundColor: 'white',
-      borderBottomColor: COLORS.inputBorder,
-      borderBottomWidth: 3,
-      borderRadius: 5,
-      padding: 10,
+    scrollViewContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      bioContainer: { justifyContent: 'space-between', width: SCREEN_WIDTH * 0.9 },
+    },
+    inputContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      width: '100%',
+      paddingHorizontal: 20,
+      inputLabel: { fontFamily: 'Poppins-SemiBold', fontSize: scaleFont(16), marginTop: 5 },
+      textInput: {
+        height: 'auto',
+        fontFamily: 'Poppins-Regular',
+        fontSize: scaleFont(14),
+        backgroundColor: 'white',
+        borderBottomColor: COLORS.inputBorder,
+        borderBottomWidth: 3,
+        borderRadius: 5,
+        padding: 10,
+      },
+    },
+    buttonContainer: { flexDirection: 'row', width: SCREEN_WIDTH * 0.95, justifyContent: 'space-between' },
+  },
+
+  // ====================================================================================================================================== DINING DETAIL SCREEN
+  diningDetailsScreen: {
+    image: { width: SCREEN_WIDTH, height: SCREEN_HEIGHT * 0.45, marginTop: -SCREEN_HEIGHT * 0.025, marginBottom: SCREEN_HEIGHT * 0.04 },
+    container: {
+      width: SCREEN_WIDTH * 0.9,
+      marginBottom: SCREEN_HEIGHT * 0.025,
+      heading: { fontFamily: 'Poppins-SemiBold', fontSize: scaleFont(24), color: COLORS.goDutchBlue, marginBottom: SCREEN_HEIGHT * 0.015 },
+      label: { fontFamily: 'Poppins-Regular', fontSize: scaleFont(20) },
     },
   },
 })

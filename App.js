@@ -24,6 +24,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { FontAwesome } from '@expo/vector-icons'
 import GoDutchIcon from './components/GoDutchIcon'
 import Style from './style'
+import DiningDetailScreen from './screens/DiningDetailScreen'
 
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
@@ -115,7 +116,7 @@ const ScreensNavigator = () => {
     <Stack.Navigator screenOptions={() => ({ headerShown: false })}>
       <Stack.Screen
         name="Splash"
-        component={ProfileScreen}
+        component={HomeScreen}
       />
       <Stack.Screen
         name="Welcome"
@@ -130,8 +131,8 @@ const ScreensNavigator = () => {
         component={ProfileScreen}
       />
       <Stack.Screen
-        name="Login"
-        component={LoginScreen}
+        name="DiningDetail"
+        component={DiningDetailScreen}
       />
     </Stack.Navigator>
   )

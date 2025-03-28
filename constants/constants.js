@@ -7,6 +7,7 @@ export const COLORS = {
   goDutchBlue: '#273f81',
   inputBackground: '#e8ebf0',
   inputBorder: '#1a202c',
+  logoScreenBackground: '#E9F0FAF2',
 }
 
 export const API_URL = 'http://mobileartslab.com:8000/api'
