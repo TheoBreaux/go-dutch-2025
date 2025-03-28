@@ -29,6 +29,21 @@ export default StyleSheet.create({
       text: { fontFamily: 'Poppins-SemiBold', fontSize: scaleFont(30), color: COLORS.goDutchRed, letterSpacing: 1 },
     },
   },
+  // ================================================================================================================================== FAVORITES BUTTON
+  favoritesButton: {
+    container: {
+      backgroundColor: 'white',
+      width: '47%',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: SCREEN_HEIGHT * 0.075,
+      borderBottomWidth: 5,
+      borderBlockEndColor: COLORS.goDutchBlue,
+      borderRadius: 10,
+      elevation: 10,
+      text: { fontFamily: 'Poppins-SemiBold', fontSize: scaleFont(24), color: COLORS.goDutchRed, letterSpacing: 1 },
+    },
+  },
 
   // ================================================================================================================================== PRIMARY BUTTON
   primaryButton: {
@@ -220,6 +235,25 @@ export default StyleSheet.create({
       fontFamily: 'Poppins-Bold',
       fontSize: scaleFont(20),
       color: COLORS.goDutchBlue,
+    },
+  },
+  // ====================================================================================================================================== FAVORITES SCREEN
+  favoritesScreen: {
+    container: { flexDirection: 'row', justifyContent: 'space-between', marginTop: SCREEN_HEIGHT * 0.05, width: SCREEN_WIDTH * 0.9 },
+  },
+
+  // ====================================================================================================================================== PROFILE SCREEN
+  profileScreen: {
+    inputLabel: { fontFamily: 'Poppins-Regular', fontSize: scaleFont(16), marginTop: 5 },
+    textInput: {
+      height: 'auto',
+      fontFamily: 'Poppins-Regular',
+      fontSize: scaleFont(14),
+      backgroundColor: 'white',
+      borderBottomColor: COLORS.inputBorder,
+      borderBottomWidth: 3,
+      borderRadius: 5,
+      padding: 10,
     },
   },
 })
