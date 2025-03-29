@@ -25,6 +25,7 @@ import { FontAwesome } from '@expo/vector-icons'
 import GoDutchIcon from './components/GoDutchIcon'
 import Style from './style'
 import DiningDetailScreen from './screens/DiningDetailScreen'
+import DinerInputScreen from './screens/DinerInputScreen'
 
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
@@ -116,7 +117,7 @@ const ScreensNavigator = () => {
     <Stack.Navigator screenOptions={() => ({ headerShown: false })}>
       <Stack.Screen
         name="Splash"
-        component={HomeScreen}
+        component={DinerInputScreen}
       />
       <Stack.Screen
         name="Welcome"
@@ -133,6 +134,10 @@ const ScreensNavigator = () => {
       <Stack.Screen
         name="DiningDetail"
         component={DiningDetailScreen}
+      />
+      <Stack.Screen
+        name="LogIn"
+        component={LoginScreen}
       />
     </Stack.Navigator>
   )

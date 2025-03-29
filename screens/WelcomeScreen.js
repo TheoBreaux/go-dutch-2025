@@ -7,14 +7,19 @@ import Images from '../assets/images/images'
 const WelcomeScreen = ({ navigation }) => {
   return (
     <LogoScreenWrapper opacity={0.1}>
-      <Text style={Style.loginScreen.header} numberOfLines={2}>Would you like to Go Dutch?</Text>
+      <Text
+        style={Style.loginScreen.header}
+        numberOfLines={2}
+      >
+        Would you like to Go Dutch?
+      </Text>
       <Image
         source={Images.go_dutch_split_button}
         style={Style.loginScreen.icon}
       />
       <View style={Style.loginScreen.buttonContainer}>
         <PrimaryButton onPress={() => navigation.navigate('Registration')}>Sign Up</PrimaryButton>
-        <PrimaryButton onPress={() => navigation.navigate('Login')}>Log In</PrimaryButton>
+        <PrimaryButton onPress={() => navigation.navigate('LogIn')}>Log In</PrimaryButton>
       </View>
       <Image
         source={Images.go_dutch_background}
@@ -25,4 +30,3 @@ const WelcomeScreen = ({ navigation }) => {
 }
 
 export default WelcomeScreen
-

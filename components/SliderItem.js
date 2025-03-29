@@ -21,7 +21,7 @@ const SliderItem = ({ restaurantName, image, address, city, state, zip, rating, 
           <Text style={{ fontFamily: 'Poppins-Regular', fontSize: scaleFont(18) }}>{address}</Text>
           <Text style={{ fontFamily: 'Poppins-Regular', fontSize: scaleFont(18) }}>{`${city}, ${state} ${zip}`}</Text>
           <Text style={{ fontFamily: 'Poppins-Regular', fontSize: scaleFont(18) }}>{`Rating: ${rating} ⭐`}</Text>
-          <PrimaryButton>Reservation</PrimaryButton>
+          <PrimaryButton>Reserve</PrimaryButton>
         </View>
       </View>
     </View>
