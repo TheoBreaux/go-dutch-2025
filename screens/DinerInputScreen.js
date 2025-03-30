@@ -1,4 +1,4 @@
-import { View, Text, TextInput, ScrollView } from 'react-native'
+import { View, Text, TextInput, ScrollView, Image, TouchableOpacity } from 'react-native'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import PrimaryButton from '../components/PrimaryButton'
 import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
@@ -7,9 +7,9 @@ const DinerInputScreen = () => {
   return (
     <LogoScreenWrapper>
       <View style={{ alignItems: 'center' }}>
-        <Text></Text>
-        <Text></Text>
-        <Text></Text>
+        <Text>Event Name</Text>
+        <Text>Event Location</Text>
+        <Text>Primary Diner:</Text>
         <View
           style={{
             borderWidth: 1,
@@ -18,8 +18,48 @@ const DinerInputScreen = () => {
             width: SCREEN_WIDTH * 0.9,
             height: SCREEN_HEIGHT * 0.1,
             marginBottom: 30,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            paddingHorizontal: 10,
           }}
-        ></View>
+        >
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View
+              style={{ borderWidth: 1, borderColor: COLORS.goDutchRed, borderRadius: 10, width: 50, height: 50, borderRadius: 25, marginRight: 10 }}
+            >
+              <Image />
+            </View>
+
+            <View>
+              <Text>First Name</Text>
+              <Text>Username</Text>
+            </View>
+          </View>
+
+          <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center' }}>
+            <View
+              style={{
+                borderWidth: 3,
+                borderColor: COLORS.goDutchBlue,
+                borderRadius: 30,
+                width: 60,
+                height: 60,
+                position: 'absolute',
+              }}
+            />
+            <View
+              style={{
+                borderWidth: 1,
+                borderColor: COLORS.goDutchRed,
+                borderRadius: 25,
+                backgroundColor: COLORS.goDutchRed,
+                width: 50,
+                height: 50,
+              }}
+            />
+          </TouchableOpacity>
+        </View>
 
         <View style={{ borderWidth: 1, borderColor: COLORS.goDutchRed, borderRadius: 10, width: SCREEN_WIDTH * 0.9 }}>
           <TextInput placeholder="Input New Diner" />
