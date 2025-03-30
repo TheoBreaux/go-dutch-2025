@@ -3,7 +3,6 @@ import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import PrimaryButton from '../components/PrimaryButton'
 import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
-import Ionicons from '@expo/vector-icons/Ionicons'
 
 const DinerInputScreen = () => {
   return (
@@ -44,9 +43,9 @@ const DinerInputScreen = () => {
               style={{
                 borderWidth: 3,
                 borderColor: COLORS.goDutchBlue,
-                borderRadius: 30,
-                width: 60,
-                height: 60,
+                borderRadius: 25,
+                width: 50,
+                height: 50,
                 position: 'absolute',
               }}
             />
@@ -54,17 +53,17 @@ const DinerInputScreen = () => {
               style={{
                 borderWidth: 1,
                 borderColor: COLORS.goDutchRed,
-                borderRadius: 25,
+                borderRadius: 20,
                 backgroundColor: COLORS.goDutchRed,
-                width: 50,
-                height: 50,
+                width: 40,
+                height: 40,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
             >
-              <Ionicons
-                name="close-circle-outline"
-                size={40}
+              <FontAwesome
+                name="close"
+                size={24}
                 color="white"
               />
             </View>
