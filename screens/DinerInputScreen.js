@@ -2,6 +2,8 @@ import { View, Text, TextInput, ScrollView, Image, TouchableOpacity } from 'reac
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import PrimaryButton from '../components/PrimaryButton'
 import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
+import FontAwesome from '@expo/vector-icons/FontAwesome'
+import Ionicons from '@expo/vector-icons/Ionicons'
 
 const DinerInputScreen = () => {
   return (
@@ -56,8 +58,16 @@ const DinerInputScreen = () => {
                 backgroundColor: COLORS.goDutchRed,
                 width: 50,
                 height: 50,
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
-            />
+            >
+              <Ionicons
+                name="close-circle-outline"
+                size={40}
+                color="white"
+              />
+            </View>
           </TouchableOpacity>
         </View>
 
