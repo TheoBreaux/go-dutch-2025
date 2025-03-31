@@ -6,14 +6,72 @@ const containerWidth = SCREEN_WIDTH * 0.9 // 90% of screen width
 const containerHeight = SCREEN_HEIGHT * 0.1 // 10% of screen height
 const containerBorderRadius = scaleFont(15)
 
+// HEIGHT 836
+// WIDTH 411
+
 export default StyleSheet.create({
   // ================================================================================================================================== FAVORITES ICON
   favoritesIcon: { backgroundColor: COLORS.favoritesIconBackground, padding: 5, borderRadius: 30 },
 
-  // ================================================================================================================================== TAB BAR
+  // ========================================================================================================================================= TAB BAR
   tabBar: {
-    tabBarStyle: { backgroundColor: COLORS.goDutchBlue, height: 65 },
+    tabBarStyle: { backgroundColor: COLORS.goDutchBlue, height: SCREEN_HEIGHT * 0.077 },
     tabBarLabelStyle: { color: 'white', marginTop: 5, fontFamily: 'Poppins-SemiBold', fontSize: scaleFont(12) },
+  },
+  // ========================================================================================================================================= DINER TILE
+  dinerTile: {
+    container: {
+      backgroundColor: 'white',
+      elevation: 5,
+      borderRadius: 10,
+      width: SCREEN_WIDTH * 0.9,
+      height: SCREEN_HEIGHT * 0.1,
+      marginBottom: SCREEN_HEIGHT * 0.025,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingHorizontal: SCREEN_WIDTH * 0.035,
+      closeButtonContainer: {
+        text: {
+          primary: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(18), color: COLORS.goDutchRed, marginBottom: -5 },
+          name: { fontFamily: 'Poppins-Regular', fontSize: scaleFont(14), marginBottom: -5 },
+        },
+        alignItems: 'center',
+        justifyContent: 'center',
+        outter: {
+          borderWidth: 3,
+          borderColor: COLORS.goDutchBlue,
+          borderRadius: '50%',
+          width: SCREEN_WIDTH * 0.13,
+          height: SCREEN_HEIGHT * 0.065,
+          position: 'absolute',
+        },
+        inner: {
+          borderWidth: 1,
+          borderColor: COLORS.goDutchRed,
+          borderRadius: '50%',
+          backgroundColor: COLORS.goDutchRed,
+          width: SCREEN_WIDTH * 0.1,
+          height: SCREEN_HEIGHT * 0.05,
+          alignItems: 'center',
+          justifyContent: 'center',
+          text: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(14), color: 'white' },
+        },
+      },
+    },
+  },
+
+  // ========================================================================================================================================= PROFILE IMAGE MEDALLION
+  profileImageMedallion: {
+    container: {
+      elevation: 5,
+      borderRadius: 10,
+      marginRight: SCREEN_WIDTH * 0.025,
+      justifyContent: 'center',
+      alignItems: 'center',
+      overflow: 'hidden',
+      image: { resizeMode: 'cover' },
+    },
   },
 
   // ================================================================================================================================== SCROLL PAGE HEADER
@@ -279,6 +337,97 @@ export default StyleSheet.create({
       marginBottom: SCREEN_HEIGHT * 0.025,
       heading: { fontFamily: 'Poppins-SemiBold', fontSize: scaleFont(24), color: COLORS.goDutchBlue, marginBottom: SCREEN_HEIGHT * 0.015 },
       label: { fontFamily: 'Poppins-Regular', fontSize: scaleFont(20) },
+    },
+  },
+
+  // ====================================================================================================================================== DINER INPUT SCREEN
+  dinerInputScreen: {
+    text: {
+      event: { fontFamily: 'Poppins-SemiBold', fontSize: scaleFont(30), color: COLORS.goDutchRed, marginBottom: -SCREEN_HEIGHT * 0.015 },
+      location: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(24), color: COLORS.goDutchBlue },
+    },
+    inputContainer: {
+      borderWidth: 1,
+      borderColor: COLORS.goDutchRed,
+      borderRadius: 10,
+      width: SCREEN_WIDTH * 0.9,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      overflow: 'hidden',
+      input: { padding: SCREEN_WIDTH * 0.04, height: SCREEN_HEIGHT * 0.055 },
+      search: { borderLeftWidth: 1, borderLeftColor: COLORS.goDutchRed, width: 40, justifyContent: 'center', alignItems: 'center' },
+    },
+  },
+  // ====================================================================================================================================== ITEM CONFIRMATION SCREEN
+  itemConfirmationScreen: {
+    modalContainer: {
+      marginTop: 20,
+      padding: 10,
+      borderRadius: 10,
+      width: SCREEN_WIDTH * 0.9,
+      height: SCREEN_HEIGHT * 0.2,
+      backgroundColor: 'white',
+      elevation: 5,
+      alignItems: 'center',
+      text: { fontFamily: 'Poppins-Medium', fontSize: scaleFont(30), color: COLORS.goDutchRed },
+      buttonContainer: { flexDirection: 'row', width: SCREEN_WIDTH * 0.9, justifyContent: 'center' },
+      subtotal: { fontFamily: 'Poppins-Medium', fontSize: scaleFont(30), color: 'black', marginTop: 20 },
+    },
+  },
+  // ====================================================================================================================================== DINER ITEM ASSIGNMENT SCREEN
+  dinerItemAssignmentScreen: {
+    container: {
+      marginTop: 5,
+      alignItems: 'center',
+      text: {
+        fontFamily: 'Poppins-Bold',
+        fontSize: scaleFont(30),
+        color: COLORS.goDutchRed,
+        marginBottom: -10,
+        instruction: { fontFamily: 'Poppins-SemiBold', fontSize: scaleFont(20), color: 'black', marginBottom: 5 },
+      },
+    },
+    userName: { fontFamily: 'Poppins-SemiBold', fontSize: scaleFont(20), color: COLORS.goDutchRed, marginTop: 5 },
+  },
+
+  // ====================================================================================================================================== CONFIRM TOTAL SCREEN
+  confirmTotalsScreen: {
+    container: {
+      height: SCREEN_HEIGHT * 0.75,
+      width: SCREEN_WIDTH * 0.9,
+      backgroundColor: 'white',
+      elevation: 5,
+      marginTop: SCREEN_HEIGHT * 0.025,
+      alignItems: 'center',
+      text: { restaurantName: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(30), color: COLORS.goDutchRed, marginTop: SCREEN_HEIGHT * 0.025 } },
+      inputContainer: {
+        width: SCREEN_WIDTH * 0.8,
+        flexDirection: 'row',
+        textInput: {
+          fontFamily: 'Poppins-Regular',
+          fontSize: scaleFont(18),
+          backgroundColor: 'white',
+          borderBottomColor: COLORS.inputBorder,
+          borderBottomWidth: 3,
+          borderRadius: 5,
+          padding: 10,
+          marginRight: SCREEN_WIDTH * 0.05,
+          width: SCREEN_WIDTH * 0.65,
+          label: { fontFamily: 'Poppins-Medium', fontSize: scaleFont(20) },
+        },
+      },
+      tipButtonsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        width: SCREEN_WIDTH * 0.9,
+        tipButton: { marginRight: SCREEN_WIDTH * 0.075, alignItems: 'center' },
+        tipButtonLabel: {
+          marginTop: SCREEN_HEIGHT * 0.015,
+          fontFamily: 'Poppins-Bold',
+          fontSize: scaleFont(16),
+          marginBottom: SCREEN_HEIGHT * 0.075,
+        },
+      },
     },
   },
 })

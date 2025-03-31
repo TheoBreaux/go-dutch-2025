@@ -22,10 +22,14 @@ import { useDisableBackButton } from './utils/utils'
 import { COLORS } from './constants/constants'
 import { Ionicons } from '@expo/vector-icons'
 import { FontAwesome } from '@expo/vector-icons'
-import GoDutchIcon from './components/GoDutchIcon'
+import GoDutchIcon from './components/ui/GoDutchIcon'
 import Style from './style'
 import DiningDetailScreen from './screens/DiningDetailScreen'
 import DinerInputScreen from './screens/DinerInputScreen'
+import ItemConfirmationScreen from './screens/ItemConfirmationScreen'
+import DinerItemAssignmentScreen from './screens/DinerItemAssignmentScreen'
+import ConfirmTotalsScreen from './screens/ConfirmTotalsScreen'
+import CustomModal from './components/ui/CustomModal'
 
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
@@ -117,7 +121,7 @@ const ScreensNavigator = () => {
     <Stack.Navigator screenOptions={() => ({ headerShown: false })}>
       <Stack.Screen
         name="Splash"
-        component={DinerInputScreen}
+        component={CustomModal}
       />
       <Stack.Screen
         name="Welcome"
@@ -138,6 +142,22 @@ const ScreensNavigator = () => {
       <Stack.Screen
         name="LogIn"
         component={LoginScreen}
+      />
+      <Stack.Screen
+        name="ItemConfirmation"
+        component={ItemConfirmationScreen}
+      />
+      <Stack.Screen
+        name="ItemAssignment"
+        component={DinerItemAssignmentScreen}
+      />
+      <Stack.Screen
+        name="ConfirmTotals"
+        component={ConfirmTotalsScreen}
+      />
+      <Stack.Screen
+        name="DinerInput"
+        component={DinerInputScreen}
       />
     </Stack.Navigator>
   )

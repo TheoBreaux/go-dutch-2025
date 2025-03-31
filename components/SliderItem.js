@@ -1,8 +1,8 @@
 import { View, Text, Image } from 'react-native'
-import PrimaryButton from './PrimaryButton'
+import PrimaryButton from './ui/PrimaryButton'
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
 import { scaleFont } from '../utils/utils'
-import FavoritesIcon from './FavoritesIcon'
+import FavoritesIcon from '../components/ui/FavoritesIcon'
 
 const SliderItem = ({ restaurantName, image, address, city, state, zip, rating, index }) => {
   return (
@@ -15,7 +15,7 @@ const SliderItem = ({ restaurantName, image, address, city, state, zip, rating, 
         <View style={{ alignItems: 'flex-end', position: 'absolute', right: 10, top: 10 }}>
           <FavoritesIcon />
         </View>
-        
+
         <View style={{ alignItems: 'center' }}>
           <Text style={{ fontFamily: 'Poppins-Bold', fontSize: scaleFont(30) }}>{restaurantName}</Text>
           <Text style={{ fontFamily: 'Poppins-Regular', fontSize: scaleFont(18) }}>{address}</Text>

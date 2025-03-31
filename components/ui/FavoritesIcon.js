@@ -1,7 +1,7 @@
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { COLORS } from '../constants/constants'
-import Style from '../style'
+import { COLORS } from '../../constants/constants'
+import Style from '../../style'
 
 const FavoritesIcon = () => {
   return (

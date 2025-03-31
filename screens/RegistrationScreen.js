@@ -3,7 +3,7 @@ import React from 'react'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import Style from '../style'
 import { COLORS, SCREEN_WIDTH } from '../constants/constants'
-import PrimaryButton from '../components/PrimaryButton'
+import PrimaryButton from '../components/ui/PrimaryButton'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import Ionicons from '@expo/vector-icons/Ionicons'
 

@@ -3,7 +3,7 @@ import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import Style from '../style'
 import Images from '../assets/images/images'
 import { COLORS, SCREEN_WIDTH } from '../constants/constants'
-import PrimaryButton from '../components/PrimaryButton'
+import PrimaryButton from '../components/ui/PrimaryButton'
 
 const DiningDetailScreen = () => {
   return (

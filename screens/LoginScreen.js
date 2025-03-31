@@ -1,6 +1,6 @@
 import { View, Text, TextInput, Image, TouchableOpacity } from 'react-native'
 import React, { useRef, useState, useEffect } from 'react'
-import PrimaryButton from '../components/PrimaryButton'
+import PrimaryButton from '../components/ui/PrimaryButton'
 import Style from '../style'
 import Images from '../assets/images/images'
 import Ionicons from '@expo/vector-icons/Ionicons'

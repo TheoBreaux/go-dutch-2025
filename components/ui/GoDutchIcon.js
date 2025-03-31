@@ -1,5 +1,5 @@
 import { View, Image } from 'react-native'
-import Images from '../assets/images/images'
+import Images from '../../assets/images/images'
 
 const GoDutchIcon = ({ color, size }) => {
   return (

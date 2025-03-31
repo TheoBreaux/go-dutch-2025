@@ -1,6 +1,6 @@
 import { View, Text, Image } from 'react-native'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
-import PrimaryButton from '../components/PrimaryButton'
+import PrimaryButton from '../components/ui/PrimaryButton'
 import Style from '../style'
 import Images from '../assets/images/images'
 

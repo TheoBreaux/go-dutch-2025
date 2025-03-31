@@ -1,5 +1,5 @@
 import { TouchableOpacity, Text } from 'react-native'
-import Style from '../style'
+import Style from '../../style'
 
 const FavoritesButton = ({ children, onPress }) => {
   return (

@@ -1,3 +1,4 @@
+import { FlatList } from 'react-native'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import ScrollPageHeader from '../components/ScrollPageHeader'
 

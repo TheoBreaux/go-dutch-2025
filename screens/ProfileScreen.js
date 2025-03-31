@@ -3,9 +3,8 @@ import React from 'react'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import Style from '../style'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { COLORS} from '../constants/constants'
-import PrimaryButton from '../components/PrimaryButton'
-
+import { COLORS } from '../constants/constants'
+import PrimaryButton from '../components/ui/PrimaryButton'
 
 const ProfileScreen = () => {
   return (
