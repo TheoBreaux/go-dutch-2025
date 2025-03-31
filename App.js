@@ -29,7 +29,7 @@ import DinerInputScreen from './screens/DinerInputScreen'
 import ItemConfirmationScreen from './screens/ItemConfirmationScreen'
 import DinerItemAssignmentScreen from './screens/DinerItemAssignmentScreen'
 import ConfirmTotalsScreen from './screens/ConfirmTotalsScreen'
-import CustomModal from './components/ui/CustomModal'
+import DinerItemReviewModal from './components/ui/DinerItemReviewModal'
 
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
@@ -121,7 +121,7 @@ const ScreensNavigator = () => {
     <Stack.Navigator screenOptions={() => ({ headerShown: false })}>
       <Stack.Screen
         name="Splash"
-        component={CustomModal}
+        component={DinerItemReviewModal}
       />
       <Stack.Screen
         name="Welcome"

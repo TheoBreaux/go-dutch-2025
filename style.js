@@ -129,6 +129,29 @@ export default StyleSheet.create({
     },
     text: { color: 'whitesmoke', fontSize: scaleFont(18), fontFamily: 'Poppins-Bold' },
   },
+  // ================================================================================================================================== CUSTOM MODAL CONTAINER
+  customModalContainer: {
+    overlay: { flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.8)', justifyContent: 'center', alignItems: 'center' },
+    modalContainer: { width: SCREEN_WIDTH * 0.9, height: SCREEN_HEIGHT * 0.7, borderRadius: 10, overflow: 'hidden' },
+    imageBackground: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+    buttonsContainer: { flexDirection: 'row', width: SCREEN_WIDTH * 0.9, alignItems: 'center', justifyContent: 'center' },
+    text: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(16) },
+  },
+
+  // ================================================================================================================================== CELEBRATION MODAL
+  celebrationModal: {
+    content: { width: SCREEN_WIDTH * 0.7, height: SCREEN_HEIGHT * 0.4, borderRadius: 10, overflow: 'hidden', marginBottom: SCREEN_HEIGHT * 0.025 },
+    image: { width: '100%', height: '100%' },
+  },
+
+  // ================================================================================================================================== DINER ITEM REVIEW MODAL
+  dinerItemReviewModal: {
+    content: { alignItems: 'center', justifyContent: 'center', width: SCREEN_WIDTH * 0.9 },
+    text: {
+      header: { color: COLORS.goDutchBlue, fontSize: scaleFont(34), fontFamily: 'Poppins-Regular' },
+      instructions: { fontSize: scaleFont(16), fontFamily: 'Poppins-Medium', textAlign: 'center', color: COLORS.goDutchBlue },
+    },
+  },
 
   // ====================================================================================================================================== SPLASH SCREEN
   splashScreen: {
