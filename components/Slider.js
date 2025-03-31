@@ -1,4 +1,3 @@
-import { View, Text, FlatList } from 'react-native'
 import { RESTAURANT_DATA } from '../constants/data'
 import SliderItem from './SliderItem'
 import Carousel from 'react-native-snap-carousel'

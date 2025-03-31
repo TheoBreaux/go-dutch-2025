@@ -296,6 +296,27 @@ export default StyleSheet.create({
       fontSize: scaleFont(20),
       color: COLORS.goDutchBlue,
     },
+    sliderItem: {
+      container: {
+        alignItems: 'center',
+        width: SCREEN_WIDTH,
+        carouselContainer: {
+          borderWidth: 2,
+          borderColor: 'black',
+          borderRadius: 20,
+          overflow: 'hidden',
+          image: { width: SCREEN_WIDTH * 0.9, height: SCREEN_HEIGHT * 0.4 },
+          favoritesIconContainer: { alignItems: 'flex-end', position: 'absolute', right: 10, top: 10 },
+        },
+        restaurantInfoContainer: {
+          alignItems: 'center',
+          text: {
+            name: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(30) },
+            address: { fontFamily: 'Poppins-Regular', fontSize: scaleFont(18) },
+          },
+        },
+      },
+    },
   },
   // ====================================================================================================================================== FAVORITES SCREEN
   favoritesScreen: {

@@ -1,10 +1,6 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text } from 'react-native'
 import Style from '../style'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
-import { COLORS, SCREEN_WIDTH } from '../constants/constants'
-import { scaleFont } from '../utils/utils'
-import PrimaryButton from '../components/ui/PrimaryButton'
-import { RESTAURANT_IMAGES } from '../assets/images/images'
 import Slider from '../components/Slider'
 
 const HomeScreen = () => {
