@@ -7,6 +7,7 @@ import FavoritesIcon from '../components/ui/FavoritesIcon'
 import Images from '../assets/images/images'
 import Styles from '../style'
 import PrimaryButton from '../components/ui/PrimaryButton'
+import { handleCallRestaurant, handleExternalLink } from '../utils/utils'
 
 const RestaurantDetailsScreen = () => {
   return (
