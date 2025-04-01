@@ -8,7 +8,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 const SplitScreen = () => {
   return (
-    <LogoScreenWrapper>
+    <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
       <View style={Style.splitScreen.container}>
         <Text style={Style.splitScreen.container.heading}>Tap camera to upload your receipt and add an event title.</Text>
         <Image

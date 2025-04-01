@@ -7,7 +7,7 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../constants/constants'
 import CircularButton from './CircularButton'
 import FavoritesIcon from './FavoritesIcon'
 
-const DinerTile = ({ primaryDiner = false, favoritesTile = false, onPress }) => {
+const DinerTile = ({ primaryDiner = false, favoritesTile = false, onPress, name, username, location }) => {
   const Container = favoritesTile ? TouchableOpacity : View
 
   return (
@@ -20,9 +20,9 @@ const DinerTile = ({ primaryDiner = false, favoritesTile = false, onPress }) => 
         />
         <View>
           {primaryDiner && <Text style={Styles.dinerTile.container.closeButtonContainer.text.primary}>Primary Diner:</Text>}
-          <Text style={Styles.dinerTile.container.closeButtonContainer.text.name}>First Name</Text>
-          <Text style={Styles.dinerTile.container.closeButtonContainer.text.name}>Username</Text>
-          {favoritesTile && <Text style={Styles.dinerTile.container.closeButtonContainer.text.name}>Location</Text>}
+          <Text style={Styles.dinerTile.container.closeButtonContainer.text.name}>{name}</Text>
+          <Text style={Styles.dinerTile.container.closeButtonContainer.text.name}>{username}</Text>
+          {favoritesTile && <Text style={Styles.dinerTile.container.closeButtonContainer.text.name}>{location}</Text>}
         </View>
       </View>
 

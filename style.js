@@ -43,10 +43,11 @@ export default StyleSheet.create({
     container: {
       backgroundColor: 'white',
       elevation: 5,
-      borderRadius: 10,
+      borderRadius: 20,
       width: SCREEN_WIDTH * 0.9,
       height: SCREEN_HEIGHT * 0.1,
-      marginBottom: SCREEN_HEIGHT * 0.025,
+      marginTop: 10,
+      marginBottom: SCREEN_HEIGHT * 0.0025,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',

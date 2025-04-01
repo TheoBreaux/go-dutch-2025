@@ -3,11 +3,11 @@ import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import ScrollPageHeader from '../components/ScrollPageHeader'
 import { RESTAURANT_DATA } from '../constants/data'
 import RestaurantTile from '../components/ui/RestaurantTile'
-import { SCREEN_HEIGHT } from '../constants/constants'
+import { COLORS, SCREEN_HEIGHT } from '../constants/constants'
 
 const RestaurantsScreen = () => {
   return (
-    <LogoScreenWrapper>
+    <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
       <View style={{ marginTop: -SCREEN_HEIGHT * 0.025 }}>
         <ScrollPageHeader>Featured Restaurants</ScrollPageHeader>
       </View>
