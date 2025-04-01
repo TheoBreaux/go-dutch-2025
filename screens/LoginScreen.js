@@ -1,63 +1,26 @@
 import { View, Text, TextInput, Image, TouchableOpacity } from 'react-native'
-import React, { useRef, useState, useEffect } from 'react'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import Style from '../style'
 import Images from '../assets/images/images'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
-import VideoSource from '../assets/videos/featured_restaurant.mp4'
-import { useVideoPlayer, VideoView } from 'expo-video'
+import { COLORS } from '../constants/constants'
+import LogoScreenWrapper from '../components/LogoScreenWrapper'
+import { useState } from 'react'
 
 const LoginScreen = ({ navigation }) => {
-  const ref = useRef(null)
-  const [isPlaying, setIsPlaying] = useState(false)
-
-  const player = useVideoPlayer(VideoSource, (player) => {
-    player.loop = true
-    player.play()
-  })
-
-  useEffect(() => {
-    const videoSubscription = player.addListener('playingChange', (isPlaying) => {
-      setIsPlaying(isPlaying)
-    })
-
-    const onEndVideoSubscription = player.addListener('end', () => {
-      setIsPlaying(false)
-    })
-
-    return () => {
-      videoSubscription.remove()
-      onEndVideoSubscription.remove()
-    }
-  }, [player])
+  const [showPassword, setShowPassword] = useState(false)
 
   return (
-    <View style={Style.logInScreen.container}>
-      <View style={{ height: SCREEN_HEIGHT * 0.5, width: SCREEN_WIDTH }}>
-        <VideoView
-          ref={ref}
-          player={player}
-          style={{ width: '100%', height: '100%' }}
-          allowsFullscreen
-          contentFit="fill"
-          nativeControls={true}
-        />
-      </View>
-      <TouchableOpacity>
-        <Text style={{ fontFamily: 'Poppins-ExtraBold', fontSize: 40, width: SCREEN_WIDTH * 0.9 }}>Elements Bar & Grill</Text>
-      </TouchableOpacity>
-
-      <View style={Style.logInScreen.container.modal}>
+    <LogoScreenWrapper>
+      <View style={Style.logInScreen.container}>
         <Image
-          source={Images.go_dutch_background}
-          style={Style.logInScreen.container.modal.backgroundImage}
+          source={Images.go_dutch_split_button}
+          style={Style.logInScreen.container.logo}
         />
-
         <View style={Style.logInScreen.container.modal.inputsContainer}>
-          <Text style={Style.registrationScreen.inputLabels}>Username</Text>
+          <Text style={Style.registrationScreen.inputLabels}>Email</Text>
           <TextInput style={Style.registrationScreen.textInput} />
-          <Text style={Style.registrationScreen.inputLabels}>Password</Text>
+          <Text style={[Style.registrationScreen.inputLabels, { marginTop: 10 }]}>Password</Text>
           <View style={Style.logInScreen.container.modal.passwordInput}>
             <TextInput
               style={[Style.registrationScreen.textInput, { width: '100%' }]}
@@ -65,7 +28,7 @@ const LoginScreen = ({ navigation }) => {
             />
             <TouchableOpacity style={Style.logInScreen.container.modal.passwordInput.passwordIcon}>
               <Ionicons
-                name="eye-off-outline"
+                name={showPassword ? 'eye-outline' : 'eye-off-outline'}
                 size={24}
                 color={COLORS.goDutchRed}
               />
@@ -75,14 +38,13 @@ const LoginScreen = ({ navigation }) => {
 
         <PrimaryButton
           onPress={() => {
-            player.pause()
             navigation.navigate('Tabs', { screen: 'Home' })
           }}
         >
-          Log In
+          Submit
         </PrimaryButton>
       </View>
-    </View>
+    </LogoScreenWrapper>
   )
 }
 

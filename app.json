@@ -32,13 +32,6 @@
     },
     "owner": "theobreaux",
     "plugins": [
-      [
-        "expo-video",
-        {
-          "supportsBackgroundPlayback": true,
-          "supportsPictureInPicture": true
-        }
-      ]
     ]
   }
 }

@@ -20,7 +20,7 @@ const Slider = () => {
       itemWidth={SCREEN_WIDTH}
       layout="default"
       autoplay={true}
-      autoplayInterval={2500}
+      autoplayInterval={3000}
       loop={true}
     />
   )

@@ -8,22 +8,22 @@ const WelcomeScreen = ({ navigation }) => {
   return (
     <LogoScreenWrapper opacity={0.1}>
       <Text
-        style={Style.loginScreen.header}
+        style={Style.welcomeScreen.header}
         numberOfLines={2}
       >
         Would you like to Go Dutch?
       </Text>
       <Image
         source={Images.go_dutch_split_button}
-        style={Style.loginScreen.icon}
+        style={Style.welcomeScreen.icon}
       />
-      <View style={Style.loginScreen.buttonContainer}>
+      <View style={Style.welcomeScreen.buttonContainer}>
         <PrimaryButton onPress={() => navigation.navigate('Registration')}>Sign Up</PrimaryButton>
         <PrimaryButton onPress={() => navigation.navigate('LogIn')}>Log In</PrimaryButton>
       </View>
       <Image
         source={Images.go_dutch_background}
-        style={Style.loginScreen.patternImage}
+        style={Style.welcomeScreen.patternImage}
       />
     </LogoScreenWrapper>
   )

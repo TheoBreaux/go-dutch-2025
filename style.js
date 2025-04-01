@@ -12,6 +12,26 @@ const containerBorderRadius = scaleFont(15)
 export default StyleSheet.create({
   // ================================================================================================================================== FAVORITES ICON
   favoritesIcon: { backgroundColor: COLORS.favoritesIconBackground, padding: 5, borderRadius: 30 },
+  // ================================================================================================================================== RESTAURANT TILE
+  restaurantTile: {
+    container: {
+      padding: 10,
+      width: SCREEN_WIDTH * 0.9,
+      height: SCREEN_HEIGHT * 0.125,
+      elevation: 5,
+      backgroundColor: 'white',
+      borderRadius: 20,
+      marginTop: 10,
+      flexDirection: 'row',
+      imageContainer: { borderRadius: 20, overflow: 'hidden', marginRight: 10, image: { width: 100, height: '100%', resizeMode: 'contain' } },
+      textContainer: {
+        width: '50%',
+        marginRight: 10,
+        text: { name: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(18), marginBottom: -5 } },
+        info: { fontFamily: 'Poppins-Regular', fontSize: scaleFont(13), marginBottom: -5 },
+      },
+    },
+  },
 
   // ========================================================================================================================================= TAB BAR
   tabBar: {
@@ -74,7 +94,7 @@ export default StyleSheet.create({
     },
   },
 
-  // ================================================================================================================================== SCROLL PAGE HEADER
+  // ============================================================================================================================================ SCROLL PAGE HEADER
   scrollPageHeader: {
     container: {
       marginTop: SCREEN_HEIGHT * 0.05,
@@ -179,7 +199,7 @@ export default StyleSheet.create({
   },
 
   // ====================================================================================================================================== WELCOME SCREEN
-  loginScreen: {
+  welcomeScreen: {
     header: { fontFamily: 'Poppins-ExtraBold', fontSize: scaleFont(30), marginTop: SCREEN_HEIGHT * 0.05, textAlign: 'center' },
     icon: {
       marginTop: SCREEN_HEIGHT * 0.015,
@@ -249,27 +269,17 @@ export default StyleSheet.create({
   logInScreen: {
     container: {
       flexDirection: 'column',
-      backgroundColor: 'white',
       justifyContent: 'center',
       alignItems: 'center',
+      logo: {
+        marginTop: SCREEN_HEIGHT * 0.015,
+        width: SCREEN_WIDTH * 0.5,
+        height: SCREEN_HEIGHT * 0.25,
+        resizeMode: 'contain',
+        marginTop: SCREEN_HEIGHT * 0.125,
+      },
       modal: {
-        width: SCREEN_WIDTH,
-        height: SCREEN_HEIGHT * 0.55,
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'relative',
-        backgroundImage: {
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          width: '100%',
-          height: '100%',
-          opacity: 0.1,
-          backgroundColor: COLORS.goDutchRed,
-        },
-        inputsContainer: { width: '80%', padding: 20 },
+        inputsContainer: { width: '80%', marginBottom: SCREEN_HEIGHT * 0.02 },
         passwordInput: { flexDirection: 'row', alignItems: 'center', position: 'relative', passwordIcon: { position: 'absolute', right: 10 } },
       },
     },
@@ -315,6 +325,7 @@ export default StyleSheet.create({
     welcomeMessage: {
       textAlign: 'center',
       width: SCREEN_WIDTH * 0.9,
+      marginTop: -10,
       fontFamily: 'Poppins-Bold',
       fontSize: scaleFont(20),
       color: COLORS.goDutchBlue,
@@ -334,7 +345,7 @@ export default StyleSheet.create({
         restaurantInfoContainer: {
           alignItems: 'center',
           text: {
-            name: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(30) },
+            name: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(30), marginBottom: -10 },
             address: { fontFamily: 'Poppins-Regular', fontSize: scaleFont(18) },
           },
         },
@@ -343,7 +354,7 @@ export default StyleSheet.create({
   },
   // ====================================================================================================================================== FAVORITES SCREEN
   favoritesScreen: {
-    container: { flexDirection: 'row', justifyContent: 'space-between', marginTop: SCREEN_HEIGHT * 0.05, width: SCREEN_WIDTH * 0.9 },
+    container: { flexDirection: 'row', justifyContent: 'space-between', marginTop: SCREEN_HEIGHT * 0.025, width: SCREEN_WIDTH * 0.9 },
   },
 
   // ====================================================================================================================================== PROFILE SCREEN

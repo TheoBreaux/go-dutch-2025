@@ -1,20 +1,18 @@
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { COLORS } from '../../constants/constants'
 import Style from '../../style'
+import { COLORS } from '../../constants/constants'
 
-const FavoritesIcon = () => {
+const FavoritesIcon = ({ isFavorited = false }) => {
   return (
     <TouchableOpacity style={Style.favoritesIcon}>
       <Ionicons
-        name="heart-outline"
+        name={isFavorited ? 'heart-sharp' : 'heart-outline'}
         size={40}
-        color={'white'}
+        color={isFavorited ? COLORS.goDutchRed : 'white'}
       />
     </TouchableOpacity>
   )
 }
 
 export default FavoritesIcon
-
-const styles = StyleSheet.create({})
