@@ -1,7 +1,6 @@
 import { StyleSheet } from 'react-native'
 import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from './constants/constants'
 import { scaleFont } from './utils/utils'
-import { onPartialLoad } from 'deprecated-react-native-prop-types/DeprecatedImagePropType'
 
 const containerWidth = SCREEN_WIDTH * 0.9 // 90% of screen width
 const containerHeight = SCREEN_HEIGHT * 0.1 // 10% of screen height
@@ -16,9 +15,10 @@ export default StyleSheet.create({
   // ================================================================================================================================== RESTAURANT TILE
   restaurantTile: {
     container: {
+      info: { justifyContent: 'center', alignItems: 'center', flexDirection: 'row' },
       padding: 10,
       width: SCREEN_WIDTH * 0.9,
-      height: SCREEN_HEIGHT * 0.125,
+      height: SCREEN_HEIGHT * 0.135,
       elevation: 5,
       backgroundColor: 'white',
       borderRadius: 20,
@@ -36,7 +36,7 @@ export default StyleSheet.create({
 
   // ========================================================================================================================================= TAB BAR
   tabBar: {
-    tabBarStyle: { backgroundColor: COLORS.goDutchBlue, height: SCREEN_HEIGHT * 0.077 },
+    tabBarStyle: { backgroundColor: COLORS.goDutchBlue, height: SCREEN_HEIGHT * 0.08 },
     tabBarLabelStyle: { color: 'white', marginTop: 5, fontFamily: 'Poppins-SemiBold', fontSize: scaleFont(12) },
   },
   // ========================================================================================================================================= DINER TILE
@@ -245,6 +245,7 @@ export default StyleSheet.create({
       },
     },
     inputsScrollContainer: {
+      marginTop: SCREEN_HEIGHT * 0.025,
       justifyContent: 'center',
       alignItems: 'center',
       nameInputsContainer: {
@@ -339,8 +340,8 @@ export default StyleSheet.create({
         restaurantInfoContainer: {
           alignItems: 'center',
           text: {
-            name: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(30), marginBottom: -10 },
-            address: { fontFamily: 'Poppins-Regular', fontSize: scaleFont(18) },
+            name: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(30), marginBottom: -10, textAlign: 'center' },
+            address: { fontFamily: 'Poppins-Regular', fontSize: scaleFont(18), marginBottom: -5 },
           },
         },
       },
@@ -466,12 +467,13 @@ export default StyleSheet.create({
       left: SCREEN_WIDTH * 0.05,
       image: { width: SCREEN_WIDTH * 0.2, height: SCREEN_HEIGHT * 0.1, resizeMode: 'contain' },
     },
+    rating: { position: 'absolute', top: SCREEN_HEIGHT * 0.37, left: SCREEN_WIDTH * 0.3 },
     restaurantInfoContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
       text: {
-        name: { fontFamily: 'Poppins-ExtraBold', fontSize: scaleFont(25), marginBottom: -SCREEN_HEIGHT * 0.015 },
-        address: { fontFamily: 'Poppins-Medium', fontSize: scaleFont(16) },
+        name: { fontFamily: 'Poppins-ExtraBold', fontSize: scaleFont(25), marginTop: 5, marginBottom: -SCREEN_HEIGHT * 0.005 },
+        address: { fontFamily: 'Poppins-Medium', fontSize: scaleFont(15) },
       },
     },
     buttonsContainer: {

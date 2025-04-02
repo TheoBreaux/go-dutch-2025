@@ -8,7 +8,7 @@ import DiningTile from '../components/ui/DiningTile'
 const HistoryScreen = () => {
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
-      <View>
+      <View style={{marginTop: -SCREEN_HEIGHT * 0.025}}>
         <ScrollPageHeader>Tap Tile For Details</ScrollPageHeader>
       </View>
       <FlatList

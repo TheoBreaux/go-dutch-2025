@@ -11,5 +11,5 @@ export const COLORS = {
   favoritesIconBackground: '#0000004D',
 }
 
-export const API_URL = 'http://mobileartslab.com:8000/api'
-export const ASSET_URL = 'http://mobileartslab.com:8000/assets/'
+export const API_URL = 'http://192.168.1.198:8000'
+// export const ASSET_URL = 'http://mobileartslab.com:8000/assets/'

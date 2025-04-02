@@ -5,6 +5,10 @@ import { BackHandler, Linking } from 'react-native'
 //more balanced cross-platform approach → Use 390px
 const baseWidth = 390
 
+export const PRETTIFY = (data) => {
+  console.log(JSON.stringify(data, null, 2))
+}
+
 export const scaleFont = (fontSize) => (SCREEN_WIDTH / baseWidth) ** (2 / 3) * fontSize
 
 export const useDisableBackButton = () => {

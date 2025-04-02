@@ -1,5 +1,32 @@
 CREATE DATABASE godutch2025;
 
+-- OPTIMIZED
+CREATE TABLE featured_restaurants (
+    restaurant_id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    state VARCHAR(50) NOT NULL,
+    zip VARCHAR(10) NOT NULL,
+    website TEXT,
+    rating DECIMAL(2,1),
+    phone VARCHAR(20),
+    bio TEXT,
+    cuisine TEXT,
+    img_url TEXT,
+    is_favorited BOOLEAN DEFAULT FALSE
+);
+
+
+
+
+
+
+
+
+
+
+
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
     first_name VARCHAR(255),
@@ -48,22 +75,6 @@ CREATE TABLE favorite_diners (
     date_favorited DATE DEFAULT CURRENT_DATE,
     is_favorited BOOLEAN DEFAULT TRUE,
     notes VARCHAR(600)
-);
-
-CREATE TABLE featured_restaurants (
-    restaurant_id SERIAL PRIMARY KEY,
-    name VARCHAR(255),
-    address VARCHAR(255),
-    city VARCHAR(100),
-    state VARCHAR(50),
-    zip VARCHAR(50),
-    website VARCHAR(150),
-    rating VARCHAR(50),
-    phone VARCHAR(50),
-    bio TEXT,
-    cuisine TEXT,
-    img_url TEXT,
-    is_favorited BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE favorite_restaurants (

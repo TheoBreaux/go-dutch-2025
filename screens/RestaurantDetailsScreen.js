@@ -1,6 +1,6 @@
 import { View, Text, Image, TextInput, TouchableOpacity, ScrollView } from 'react-native'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
-import { COLORS, SCREEN_WIDTH } from '../constants/constants'
+import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
 import FavoritesIcon from '../components/ui/FavoritesIcon'
 import Images from '../assets/images/images'
 import Styles from '../style'
@@ -9,7 +9,7 @@ import { handleCallRestaurant, handleExternalLink } from '../utils/utils'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 
 const RestaurantDetailsScreen = ({ navigation, route }) => {
-  const { restaurantName, address, city, state, zip, phone, rating, cuisine, image, website } = route.params
+  const { name, address, city, state, zip, phone, rating, cuisine, bio, image, website } = route.params
 
   return (
     <LogoScreenWrapper
@@ -29,7 +29,7 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
         </TouchableOpacity>
 
         <Image
-          source={image}
+          source={image || Images.dining_detail}
           style={Styles.diningDetailsScreen.image}
         />
 
@@ -46,6 +46,9 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
             style={Styles.restaurantDetailsScreen.goDutchIcon.image}
           />
         </TouchableOpacity>
+        <View style={Styles.restaurantDetailsScreen.rating}>
+          <Text style={[Styles.restaurantDetailsScreen.restaurantInfoContainer.text.name, { fontSize: 20 }]}>{rating}/5.0 ⭐</Text>
+        </View>
       </View>
 
       <ScrollView
@@ -53,14 +56,10 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
         style={[Styles.diningDetailsScreen.container, { marginTop: 10 }]}
       >
         <View style={Styles.restaurantDetailsScreen.restaurantInfoContainer}>
-          <View>
-            <Text style={Styles.restaurantDetailsScreen.restaurantInfoContainer.text.name}>{restaurantName}</Text>
+          <View style={{ width: '75%' }}>
+            <Text style={Styles.restaurantDetailsScreen.restaurantInfoContainer.text.name}>{name}</Text>
             <Text style={[Styles.restaurantDetailsScreen.restaurantInfoContainer.text.address, { marginBottom: -5 }]}>{address}</Text>
             <Text style={Styles.restaurantDetailsScreen.restaurantInfoContainer.text.address}>{`${city}, ${state} ${zip}`}</Text>
-          </View>
-
-          <View>
-            <Text style={Styles.restaurantDetailsScreen.restaurantInfoContainer.text.name}>{rating}/5.0 ⭐</Text>
           </View>
         </View>
 
@@ -83,10 +82,7 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
             Reserve
           </PrimaryButton>
         </View>
-        <Text style={Styles.restaurantDetailsScreen.bio}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium soluta, ratione laboriosam labore blanditiis ab deserunt eveniet rem
-          minima, eaque debitis et fuga a veniam provident vitae sequi eum explicabo?
-        </Text>
+        <Text style={Styles.restaurantDetailsScreen.bio}>{bio}</Text>
 
         <TextInput
           multiline={true}

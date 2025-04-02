@@ -5,17 +5,10 @@ const images = {
   go_dutch_background: require('./go-dutch-pattern.png'),
   go_dutch_split_button: require('./go_dutch_split_button.png'),
   modal_background: require('./modal_background.png'),
+  restaurant_placeholder: require('./restaurant_placeholder.png'),
   splash_screen: require('./splash_screen.png'),
   split_screen_dining: require('./split_screen_dining.png'),
-  user_placeholder_image: require('./user_image.jpg'),
-}
-
-export const RESTAURANT_IMAGES = {
-  image1: require('./dining_detail.png'),
-  image2: require('./dining_detail.png'),
-  image3: require('./dining_detail.png'),
-  image4: require('./dining_detail.png'),
-  image5: require('./dining_detail.png'),
+  default_profile_image: require('./default_profile_image.jpg'),
 }
 
 export default images

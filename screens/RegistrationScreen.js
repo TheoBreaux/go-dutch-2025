@@ -2,26 +2,32 @@ import { View, Text, TextInput, ScrollView, Image, TouchableOpacity } from 'reac
 import React, { useState } from 'react'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import Style from '../style'
-import { COLORS, SCREEN_WIDTH } from '../constants/constants'
+import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import Ionicons from '@expo/vector-icons/Ionicons'
+import ProfileImageMedallion from '../components/ui/ProfileImageMedallion'
 
 const RegistrationScreen = ({ navigation }) => {
   const [showPassword, setShowPassword] = useState(false)
 
   return (
-    <LogoScreenWrapper>
-      <View style={Style.registrationScreen.imageContainer}>
-        <TouchableOpacity style={Style.registrationScreen.imageContainer.icon}>
-          <MaterialCommunityIcons
-            name="camera"
-            size={30}
-            color={COLORS.goDutchRed}
-          />
-        </TouchableOpacity>
-        <Image />
-      </View>
+    <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
+      <ProfileImageMedallion
+        height={SCREEN_HEIGHT * 0.25}
+        width={SCREEN_WIDTH * 0.5}
+        borderRadius={'50%'}
+      />
+
+      <TouchableOpacity style={Style.registrationScreen.imageContainer.icon}>
+        <MaterialCommunityIcons
+          name="camera"
+          size={30}
+          color={COLORS.goDutchRed}
+        />
+      </TouchableOpacity>
+
+      <Image />
 
       <ScrollView contentContainerStyle={Style.registrationScreen.inputsScrollContainer}>
         <View style={Style.registrationScreen.inputsScrollContainer.nameInputsContainer}>
@@ -69,7 +75,7 @@ const RegistrationScreen = ({ navigation }) => {
         </View>
         <PrimaryButton
           outterWidth={SCREEN_WIDTH * 0.9}
-          innerWidth={SCREEN_WIDTH * 0.85}
+          innerWidth={SCREEN_WIDTH * 0.88}
         >
           Submit
         </PrimaryButton>

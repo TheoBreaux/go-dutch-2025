@@ -1,9 +1,8 @@
-import { RESTAURANT_DATA } from '../../constants/data'
 import SliderItem from '../SliderItem'
 import Carousel from 'react-native-snap-carousel'
 import { SCREEN_WIDTH } from '../../constants/constants'
 
-const Slider = () => {
+const Slider = ({ featuredRestaurants }) => {
   const renderItem = ({ item }) => {
     return (
       <SliderItem
@@ -14,7 +13,7 @@ const Slider = () => {
   }
   return (
     <Carousel
-      data={RESTAURANT_DATA}
+      data={featuredRestaurants}
       renderItem={renderItem}
       sliderWidth={SCREEN_WIDTH}
       itemWidth={SCREEN_WIDTH}
