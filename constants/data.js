@@ -102,7 +102,7 @@ export const RESTAURANT_DATA = [
     phone: '(323) 883-1805',
     cuisine: 'Thai',
     image: RESTAURANT_IMAGES.image1,
-    website: 'www.theobreaux.com',
+    website: 'https://www.tastynoodlehouse.us/',
   },
   {
     id: 2,
@@ -115,7 +115,7 @@ export const RESTAURANT_DATA = [
     phone: '(323) 883-1805',
     cuisine: 'Vegan',
     image: RESTAURANT_IMAGES.image1,
-    website: 'www.theobreaux.com',
+    website: 'https://www.tastynoodlehouse.us/',
   },
   {
     id: 3,
@@ -128,7 +128,7 @@ export const RESTAURANT_DATA = [
     phone: '(323) 883-1805',
     cuisine: 'Vegan',
     image: RESTAURANT_IMAGES.image1,
-    website: 'www.theobreaux.com',
+    website: 'https://www.tastynoodlehouse.us/',
   },
   {
     id: 4,
@@ -141,7 +141,7 @@ export const RESTAURANT_DATA = [
     phone: '(323) 883-1805',
     cuisine: 'Thai',
     image: RESTAURANT_IMAGES.image1,
-    website: 'www.theobreaux.com',
+    website: 'https://www.tastynoodlehouse.us/',
   },
   {
     id: 5,
@@ -154,7 +154,7 @@ export const RESTAURANT_DATA = [
     phone: '(323) 883-1805',
     cuisine: 'Vegan',
     image: RESTAURANT_IMAGES.image1,
-    website: 'www.theobreaux.com',
+    website: 'https://www.tastynoodlehouse.us/',
   },
   {
     id: 6,
@@ -167,7 +167,7 @@ export const RESTAURANT_DATA = [
     phone: '(323) 883-1805',
     cuisine: 'Vegan',
     image: RESTAURANT_IMAGES.image1,
-    website: 'www.theobreaux.com',
+    website: 'https://www.tastynoodlehouse.us/',
   },
   {
     id: 7,
@@ -180,6 +180,6 @@ export const RESTAURANT_DATA = [
     phone: '(323) 883-1805',
     cuisine: 'Vegan',
     image: RESTAURANT_IMAGES.image1,
-    website: 'www.theobreaux.com',
+    website: 'https://www.tastynoodlehouse.us/',
   },
 ]

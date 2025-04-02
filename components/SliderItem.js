@@ -1,6 +1,6 @@
 import { View, Text, Image } from 'react-native'
 import PrimaryButton from './ui/PrimaryButton'
-import FavoritesIcon from '../components/ui/FavoritesIcon'
+import FavoritesIcon from './ui/FavoritesIcon'
 import Styles from '../style'
 
 const SliderItem = ({ restaurantName, image, address, city, state, zip, rating, index }) => {

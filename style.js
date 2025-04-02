@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native'
 import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from './constants/constants'
 import { scaleFont } from './utils/utils'
+import { onPartialLoad } from 'deprecated-react-native-prop-types/DeprecatedImagePropType'
 
 const containerWidth = SCREEN_WIDTH * 0.9 // 90% of screen width
 const containerHeight = SCREEN_HEIGHT * 0.1 // 10% of screen height
@@ -228,13 +229,6 @@ export default StyleSheet.create({
       padding: 10,
     },
     imageContainer: {
-      height: SCREEN_HEIGHT * 0.25,
-      width: SCREEN_WIDTH * 0.5,
-      borderRadius: SCREEN_WIDTH * 0.5,
-      marginBottom: SCREEN_HEIGHT * 0.015,
-      elevation: 5,
-      borderColor: 'black',
-      borderWidth: 1,
       icon: {
         backgroundColor: COLORS.inputBackground,
         zIndex: 1,
@@ -245,11 +239,10 @@ export default StyleSheet.create({
         borderRadius: SCREEN_WIDTH * 0.125,
         position: 'absolute',
         borderWidth: 2,
-        top: SCREEN_HEIGHT * 0.175,
+        top: SCREEN_HEIGHT * 0.3,
         borderColor: COLORS.goDutchBlue,
-        left: SCREEN_WIDTH * 0.4,
+        left: SCREEN_WIDTH * 0.6,
       },
-      image: {},
     },
     inputsScrollContainer: {
       justifyContent: 'center',
@@ -387,7 +380,7 @@ export default StyleSheet.create({
 
   // ====================================================================================================================================== DINING DETAIL SCREEN
   diningDetailsScreen: {
-    image: { width: SCREEN_WIDTH, height: SCREEN_HEIGHT * 0.45, marginTop: -SCREEN_HEIGHT * 0.025, marginBottom: SCREEN_HEIGHT * 0.04 },
+    image: { width: SCREEN_WIDTH, height: SCREEN_HEIGHT * 0.4, marginTop: -SCREEN_HEIGHT * 0.025, marginBottom: SCREEN_HEIGHT * 0.04 },
     container: {
       width: SCREEN_WIDTH * 0.9,
       marginBottom: SCREEN_HEIGHT * 0.025,
@@ -444,6 +437,63 @@ export default StyleSheet.create({
       },
     },
     userName: { fontFamily: 'Poppins-SemiBold', fontSize: scaleFont(20), color: COLORS.goDutchRed, marginTop: 5 },
+  },
+  // ====================================================================================================================================== RESTAURANT DETAILS SCREEN
+  restaurantDetailsScreen: {
+    backButton: {
+      zIndex: 200,
+      position: 'absolute',
+      left: SCREEN_WIDTH * 0.05,
+      backgroundColor: COLORS.goDutchBlue,
+      width: SCREEN_WIDTH * 0.1,
+      height: SCREEN_HEIGHT * 0.05,
+      borderRadius: '50%',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    favoritesIconContainer: { position: 'absolute', right: SCREEN_WIDTH * 0.05 },
+    goDutchIcon: {
+      width: SCREEN_WIDTH * 0.25,
+      height: SCREEN_HEIGHT * 0.125,
+      borderRadius: '50%',
+      borderColor: COLORS.logoScreenBackground,
+      borderWidth: 1,
+      backgroundColor: 'white',
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'absolute',
+      top: SCREEN_HEIGHT * 0.31,
+      left: SCREEN_WIDTH * 0.05,
+      image: { width: SCREEN_WIDTH * 0.2, height: SCREEN_HEIGHT * 0.1, resizeMode: 'contain' },
+    },
+    restaurantInfoContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      text: {
+        name: { fontFamily: 'Poppins-ExtraBold', fontSize: scaleFont(25), marginBottom: -SCREEN_HEIGHT * 0.015 },
+        address: { fontFamily: 'Poppins-Medium', fontSize: scaleFont(16) },
+      },
+    },
+    buttonsContainer: {
+      flexDirection: 'row',
+      width: SCREEN_WIDTH * 0.9,
+      justifyContent: 'space-between',
+      marginTop: -5,
+      marginLeft: -SCREEN_WIDTH * 0.025,
+    },
+    bio: { fontFamily: 'Poppins-Medium', fontSize: scaleFont(14), textAlign: 'justify' },
+    notesContainer: {
+      width: SCREEN_WIDTH * 0.9,
+      height: SCREEN_HEIGHT * 0.125,
+      borderWidth: 1,
+      borderColor: COLORS.inputBorder,
+      backgroundColor: COLORS.inputBackground,
+      borderRadius: 10,
+      padding: 10,
+      fontFamily: 'Poppins-Regular',
+      fontSize: scaleFont(14),
+      marginTop: 5,
+    },
   },
 
   // ====================================================================================================================================== CONFIRM TOTAL SCREEN

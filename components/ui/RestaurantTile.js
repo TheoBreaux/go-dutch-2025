@@ -12,7 +12,23 @@ const RestaurantTile = ({ restaurantName, address, city, state, zip, phone, rati
   return (
     <TouchableOpacity
       style={Styles.restaurantTile.container}
-      onPress={() => navigation.navigate("RestaurantDetails")}
+      onPress={() =>
+        navigation.navigate('Screens', {
+          screen: 'RestaurantDetails',
+          params: {
+            restaurantName,
+            address,
+            city,
+            state,
+            zip,
+            phone,
+            rating,
+            cuisine,
+            image,
+            website,
+          },
+        })
+      }
     >
       <View style={Styles.restaurantTile.container.imageContainer}>
         <Image

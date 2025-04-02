@@ -1,58 +1,109 @@
-import { View, Text, Image, TextInput } from 'react-native'
-import React from 'react'
+import { View, Text, Image, TextInput, TouchableOpacity, ScrollView } from 'react-native'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
-import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
-import FavoritesButton from '../components/ui/FavoritesButton'
+import { COLORS, SCREEN_WIDTH } from '../constants/constants'
 import FavoritesIcon from '../components/ui/FavoritesIcon'
 import Images from '../assets/images/images'
 import Styles from '../style'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import { handleCallRestaurant, handleExternalLink } from '../utils/utils'
+import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 
-const RestaurantDetailsScreen = () => {
+const RestaurantDetailsScreen = ({ navigation, route }) => {
+  const { restaurantName, address, city, state, zip, phone, rating, cuisine, image, website } = route.params
+
   return (
     <LogoScreenWrapper
       backgroundColor={COLORS.logoScreenBackground}
       useLogo={false}
     >
-      <Image
-        source={Images.dining_detail}
-        style={Styles.diningDetailsScreen.image}
-      />
-
-      <View style={Styles.diningDetailsScreen.container}>
-        <Text>Restaurant Name</Text>
-        {/* <Text style={Styles.diningDetailsScreen.container.heading}>Confirm dining details:</Text>
-        <View>
-          <Text style={Styles.diningDetailsScreen.container.label}>Date:</Text>
-          <TextInput
-            style={Styles.profileScreen.inputContainer.textInput}
-            placeholder="09/24/2025"
+      <View style={{ position: 'relative' }}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={Styles.restaurantDetailsScreen.backButton}
+        >
+          <MaterialIcons
+            name="arrow-back"
+            size={35}
+            color="white"
           />
+        </TouchableOpacity>
+
+        <Image
+          source={image}
+          style={Styles.diningDetailsScreen.image}
+        />
+
+        <View style={Styles.restaurantDetailsScreen.favoritesIconContainer}>
+          <FavoritesIcon />
         </View>
 
-        <View>
-          <Text style={[Styles.diningDetailsScreen.container.label, { marginTop: 5 }]}>Restaurant/Bar:</Text>
-          <TextInput
-            style={Styles.profileScreen.inputContainer.textInput}
-            placeholder="Outback Steakhouse"
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Tabs', { screen: 'Split' })}
+          style={Styles.restaurantDetailsScreen.goDutchIcon}
+        >
+          <Image
+            source={Images.go_dutch_split_button}
+            style={Styles.restaurantDetailsScreen.goDutchIcon.image}
           />
-        </View>
-
-        <View>
-          <Text style={[Styles.diningDetailsScreen.container.label, { marginTop: 5 }]}>Event Title:</Text>
-          <TextInput
-            style={Styles.profileScreen.inputContainer.textInput}
-            placeholder="Danni's Birthday Dinner"
-          />
-        </View> */}
+        </TouchableOpacity>
       </View>
-      <PrimaryButton
-        outterWidth={SCREEN_WIDTH * 0.75}
-        innerWidth={SCREEN_WIDTH * 0.7}
+
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={[Styles.diningDetailsScreen.container, { marginTop: 10 }]}
       >
-        Confirm Details
-      </PrimaryButton>
+        <View style={Styles.restaurantDetailsScreen.restaurantInfoContainer}>
+          <View>
+            <Text style={Styles.restaurantDetailsScreen.restaurantInfoContainer.text.name}>{restaurantName}</Text>
+            <Text style={[Styles.restaurantDetailsScreen.restaurantInfoContainer.text.address, { marginBottom: -5 }]}>{address}</Text>
+            <Text style={Styles.restaurantDetailsScreen.restaurantInfoContainer.text.address}>{`${city}, ${state} ${zip}`}</Text>
+          </View>
+
+          <View>
+            <Text style={Styles.restaurantDetailsScreen.restaurantInfoContainer.text.name}>{rating}/5.0 ⭐</Text>
+          </View>
+        </View>
+
+        <View style={Styles.restaurantDetailsScreen.buttonsContainer}>
+          <View style={{ marginRight: 20 }}>
+            <PrimaryButton
+              onPress={() => handleCallRestaurant(phone)}
+              outterWidth={SCREEN_WIDTH * 0.4}
+              innerWidth={SCREEN_WIDTH * 0.37}
+            >
+              Call
+            </PrimaryButton>
+          </View>
+
+          <PrimaryButton
+            onPress={() => handleExternalLink(website)}
+            outterWidth={SCREEN_WIDTH * 0.4}
+            innerWidth={SCREEN_WIDTH * 0.37}
+          >
+            Reserve
+          </PrimaryButton>
+        </View>
+        <Text style={Styles.restaurantDetailsScreen.bio}>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium soluta, ratione laboriosam labore blanditiis ab deserunt eveniet rem
+          minima, eaque debitis et fuga a veniam provident vitae sequi eum explicabo?
+        </Text>
+
+        <TextInput
+          multiline={true}
+          numberOfLines={4}
+          placeholder="Type your notes here..."
+          style={Styles.restaurantDetailsScreen.notesContainer}
+        />
+
+        <View style={{ alignItems: 'flex-end', marginRight: -SCREEN_WIDTH * 0.025 }}>
+          <PrimaryButton
+            outterWidth={SCREEN_WIDTH * 0.4}
+            innerWidth={SCREEN_WIDTH * 0.37}
+          >
+            Save
+          </PrimaryButton>
+        </View>
+      </ScrollView>
     </LogoScreenWrapper>
   )
 }

@@ -1,24 +1,29 @@
 import { View, Text, TouchableOpacity, Image, ScrollView, TextInput } from 'react-native'
-import React from 'react'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import Style from '../style'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { COLORS } from '../constants/constants'
+import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
 import PrimaryButton from '../components/ui/PrimaryButton'
+import ProfileImageMedallion from '../components/ui/ProfileImageMedallion'
 
 const ProfileScreen = () => {
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
-      <View style={Style.registrationScreen.imageContainer}>
-        <TouchableOpacity style={Style.registrationScreen.imageContainer.icon}>
-          <MaterialCommunityIcons
-            name="camera"
-            size={30}
-            color={COLORS.goDutchRed}
-          />
-        </TouchableOpacity>
-        <Image />
-      </View>
+      <ProfileImageMedallion
+        height={SCREEN_HEIGHT * 0.25}
+        width={SCREEN_WIDTH * 0.5}
+        borderRadius={'50%'}
+      />
+
+      <TouchableOpacity style={Style.registrationScreen.imageContainer.icon}>
+        <MaterialCommunityIcons
+          name="camera"
+          size={30}
+          color={COLORS.goDutchRed}
+        />
+      </TouchableOpacity>
+
+      <Image />
 
       <ScrollView contentContainerStyle={Style.profileScreen.scrollViewContainer}>
         <View style={Style.profileScreen.scrollViewContainer.bioContainer}>

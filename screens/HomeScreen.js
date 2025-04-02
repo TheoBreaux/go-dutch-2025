@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import Style from '../style'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
-import Slider from '../components/Slider'
+import Slider from '../components/ui/Slider'
 import { COLORS } from '../constants/constants'
 
 const HomeScreen = () => {
