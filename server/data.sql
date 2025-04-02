@@ -19,33 +19,32 @@ CREATE TABLE featured_restaurants (
 
 
 
-
-
-
-
-
-
-
-
 CREATE TABLE users (
-    user_id SERIAL PRIMARY KEY,
+    user_id BIGSERIAL PRIMARY KEY,
     first_name VARCHAR(255),
     last_name VARCHAR(255),
     email VARCHAR(255) UNIQUE NOT NULL,
     username VARCHAR(255) UNIQUE, -- Add UNIQUE constraint here
     location VARCHAR(200),
-    birthday VARCHAR(50),
+    birthday DATE,
     bio TEXT,
     favorite_cuisine VARCHAR(100),
     hashed_password VARCHAR(255),
-    primary_payment_source VARCHAR(255),
-    primary_payment_source_username VARCHAR(255),
-    secondary_payment_source VARCHAR(255),
-    secondary_payment_source_username VARCHAR(255),
-    profile_image_key VARCHAR(300),
     date_joined DATE DEFAULT CURRENT_DATE,
-    push_notification_token TEXT
 );
+
+
+--     primary_payment_source VARCHAR(255),
+--     primary_payment_source_username VARCHAR(255),
+--     secondary_payment_source VARCHAR(255),
+--     secondary_payment_source_username VARCHAR(255),
+--     profile_image_key VARCHAR(300), 
+--     push_notification_token TEXT
+
+
+
+
+
 
 CREATE TABLE dining_events (
     event_id SERIAL PRIMARY KEY,
