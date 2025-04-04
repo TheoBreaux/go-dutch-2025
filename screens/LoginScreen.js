@@ -3,7 +3,7 @@ import PrimaryButton from '../components/ui/PrimaryButton'
 import Style from '../style'
 import Images from '../assets/images/images'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { COLORS, SCREEN_WIDTH } from '../constants/constants'
+import { COLORS } from '../constants/constants'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import { useState } from 'react'
 import { ErrorMessage, Formik } from 'formik'
@@ -34,7 +34,6 @@ const LoginScreen = ({ navigation }) => {
   }
 
   const handleFormSubmit = async (values) => {
-
     const userInfo = {
       email: values.email,
       password: values.password,
@@ -126,11 +125,7 @@ const LoginScreen = ({ navigation }) => {
                 />
               </View>
 
-              <PrimaryButton
-                onPress={handleSubmit}
-              >
-                Submit
-              </PrimaryButton>
+              <PrimaryButton onPress={handleSubmit}>Submit</PrimaryButton>
             </>
           )}
         </Formik>

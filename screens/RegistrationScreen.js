@@ -6,7 +6,6 @@ import { COLORS, SCREEN_WIDTH } from '../constants/constants'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import EditProfileImageHeader from '../components/EditProfileImageHeader'
-import BouncyCheckBox from 'react-native-bouncy-checkbox'
 import { ErrorMessage, Formik } from 'formik'
 
 const RegistrationScreen = ({ navigation }) => {
