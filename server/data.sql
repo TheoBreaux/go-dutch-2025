@@ -18,22 +18,21 @@ CREATE TABLE featured_restaurants (
 );
 
 
-
+-- OPTIMIZED
 CREATE TABLE users (
     user_id BIGSERIAL PRIMARY KEY,
-    first_name VARCHAR(255),
-    last_name VARCHAR(255),
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
-    username VARCHAR(255) UNIQUE, -- Add UNIQUE constraint here
+    username VARCHAR(255) UNIQUE,
+    hashed_password VARCHAR(255) NOT NULL,
     location VARCHAR(200),
     birthday DATE,
     bio TEXT,
     favorite_cuisine VARCHAR(100),
-    hashed_password VARCHAR(255),
     date_joined DATE DEFAULT CURRENT_DATE,
+    img_url TEXT
 );
-
-
 --     primary_payment_source VARCHAR(255),
 --     primary_payment_source_username VARCHAR(255),
 --     secondary_payment_source VARCHAR(255),

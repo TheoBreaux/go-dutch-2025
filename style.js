@@ -227,7 +227,6 @@ export default StyleSheet.create({
       borderBottomWidth: 3,
       borderRadius: 5,
       padding: 10,
-      width: SCREEN_WIDTH * 0.9,
     },
     imageContainer: {
       icon: {
@@ -245,17 +244,16 @@ export default StyleSheet.create({
         left: SCREEN_WIDTH * 0.6,
       },
     },
+    formContainer: { alignItems: 'center', width: SCREEN_WIDTH * 0.9 },
     inputsScrollContainer: {
       marginTop: SCREEN_HEIGHT * 0.025,
       justifyContent: 'center',
-      alignItems: 'center',
       nameInputsContainer: {
+        width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: '100%',
-        paddingHorizontal: 20,
-        firstNameInput: { flex: 1, marginRight: 10 },
-        lastNameInput: { flex: 1 },
+        firstNameInput: { width: '48%', marginRight: 10, },
+        lastNameInput: { width: '48%' },
       },
       inputsContainer: { width: SCREEN_WIDTH * 0.9 },
     },
@@ -276,7 +274,12 @@ export default StyleSheet.create({
       },
       modal: {
         inputsContainer: { width: SCREEN_WIDTH * 0.9, marginBottom: SCREEN_HEIGHT * 0.02 },
-        passwordInput: { flexDirection: 'row', alignItems: 'center', position: 'relative', passwordIcon: { position: 'absolute', right: 10 } },
+        passwordInput: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          position: 'relative',
+          passwordIcon: { position: 'absolute', right: 10, bottom: SCREEN_HEIGHT *.02 },
+        },
       },
     },
   },
