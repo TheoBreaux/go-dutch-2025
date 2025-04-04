@@ -227,6 +227,7 @@ export default StyleSheet.create({
       borderBottomWidth: 3,
       borderRadius: 5,
       padding: 10,
+      width: SCREEN_WIDTH * 0.9,
     },
     imageContainer: {
       icon: {
@@ -274,7 +275,7 @@ export default StyleSheet.create({
         marginTop: SCREEN_HEIGHT * 0.125,
       },
       modal: {
-        inputsContainer: { width: '80%', marginBottom: SCREEN_HEIGHT * 0.02 },
+        inputsContainer: { width: SCREEN_WIDTH * 0.9, marginBottom: SCREEN_HEIGHT * 0.02 },
         passwordInput: { flexDirection: 'row', alignItems: 'center', position: 'relative', passwordIcon: { position: 'absolute', right: 10 } },
       },
     },
