@@ -51,10 +51,25 @@ app.post('/signUp', async (req, res) => {
   const salt = bcrypt.genSaltSync(10)
   const hashedPassword = bcrypt.hashSync(password, salt)
 
+  console.log('SERVER')
+
   try {
+    // 🔍 Check if email or username is already taken
+    const existingUser = await pool.query('SELECT * FROM users WHERE email = $1 OR username = $2', [email, username])
+
+    if (existingUser.rows.length > 0) {
+      const user = existingUser.rows[0]
+      let message = 'Email or username is already taken'
+      if (user.email === email) message = 'Email is already taken'
+      else if (user.username === username) message = 'Username is already taken'
+      return res.status(409).json({ success: false, message })
+    }
+
+    // ✅ Proceed with inserting the new user
     const newUser = await pool.query(
-      `INSERT INTO users(first_name, last_name, email, username, hashed_password) VALUES($1, $2, $3, $4, $5)
-    RETURNING user_id`,
+      `INSERT INTO users(first_name, last_name, email, username, hashed_password)
+       VALUES($1, $2, $3, $4, $5)
+       RETURNING user_id`,
       [firstName, lastName, email, username, hashedPassword]
     )
 
@@ -63,6 +78,7 @@ app.post('/signUp', async (req, res) => {
     const token = jwt.sign({ email, username, firstName, lastName, userId }, 'secret', {
       expiresIn: '1hr',
     })
+
     res.status(201).json({
       success: true,
       message: 'User registered successfully!',
@@ -77,9 +93,7 @@ app.post('/signUp', async (req, res) => {
     })
   } catch (error) {
     console.error(error)
-    if (error) {
-      res.json({ detail: error.detail })
-    }
+    res.status(500).json({ success: false, message: 'Server error', detail: error.detail })
   }
 })
 

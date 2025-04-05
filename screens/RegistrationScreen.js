@@ -85,6 +85,8 @@ const RegistrationScreen = ({ navigation }) => {
       const response = await API('POST', `${API_URL}/signUp`, newUser)
 
       if (response.success) {
+        navigation.navigate('Tabs', { screen: 'Home' })
+
         Toast.show({
           type: 'success',
           text1: 'Success 🎉',
@@ -92,10 +94,6 @@ const RegistrationScreen = ({ navigation }) => {
           position: 'top',
           visibilityTime: 3500,
         })
-        // Navigate after toast disappears
-        setTimeout(() => {
-          navigation.navigate('Tabs', { screen: 'Home' })
-        }, 1600)
       } else {
         setError(response.message || 'Registration failed')
       }
