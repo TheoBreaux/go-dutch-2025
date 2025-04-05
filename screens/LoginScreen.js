@@ -44,12 +44,8 @@ const LoginScreen = ({ navigation }) => {
       email: values.email.trim(),
       password: values.password.trim(),
     }
-
-    console.log("USER INFO: ", userInfo)
-
     try {
       const response = await API('POST', `${API_URL}/logIn`, userInfo)
-      console.log('RESPONSE: ', response)
     } catch (error) {
       setError('Failed to fetch data')
       console.error('Axios Error:', error.message)
@@ -91,19 +87,15 @@ const LoginScreen = ({ navigation }) => {
                 />
 
                 <Text style={[Style.registrationScreen.inputLabels, { marginTop: 10 }]}>Password</Text>
-                <TextInput
-                  style={Style.registrationScreen.textInput}
-                  onChangeText={handleChange('password')}
-                  onBlur={handleBlur('password')}
-                  value={values.password}
-                  secureTextEntry={!showPassword}
-                />
-                <ErrorMessage
-                  name="password"
-                  component={Text}
-                  style={{ color: COLORS.goDutchRed }}
-                />
-                <View style={Style.logInScreen.container.modal.passwordInput}>
+
+                <View style={{ justifyContent: 'center' }}>
+                  <TextInput
+                    style={Style.registrationScreen.textInput}
+                    onChangeText={handleChange('password')}
+                    onBlur={handleBlur('password')}
+                    value={values.password}
+                    secureTextEntry={!showPassword}
+                  />
                   <TouchableOpacity
                     style={Style.logInScreen.container.modal.passwordInput.passwordIcon}
                     onPress={() => setShowPassword(!showPassword)}
@@ -115,6 +107,12 @@ const LoginScreen = ({ navigation }) => {
                     />
                   </TouchableOpacity>
                 </View>
+
+                <ErrorMessage
+                  name="password"
+                  component={Text}
+                  style={{ color: COLORS.goDutchRed }}
+                />
               </View>
 
               <PrimaryButton onPress={handleSubmit}>Submit</PrimaryButton>

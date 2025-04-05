@@ -278,7 +278,7 @@ export default StyleSheet.create({
           flexDirection: 'row',
           alignItems: 'center',
           position: 'relative',
-          passwordIcon: { position: 'absolute', right: 10, bottom: SCREEN_HEIGHT *.02 },
+          passwordIcon: { position: 'absolute', right: 10 },
         },
       },
     },

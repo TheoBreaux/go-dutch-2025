@@ -1,5 +1,5 @@
 import { View, Text, TextInput, ScrollView, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import Styles from '../style'
 import { API_URL, COLORS, SCREEN_WIDTH } from '../constants/constants'
@@ -8,6 +8,7 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import EditProfileImageHeader from '../components/EditProfileImageHeader'
 import { ErrorMessage, Formik } from 'formik'
 import API from '../state/api'
+import Toast from 'react-native-toast-message'
 
 const RegistrationScreen = ({ navigation }) => {
   const [isFormValid, setIsFormValid] = useState(false)
@@ -69,7 +70,7 @@ const RegistrationScreen = ({ navigation }) => {
   }
 
   const handleRegistration = async (values, actions) => {
-    actions.resetForm()
+    // actions.resetForm()
     setLoading(true)
 
     const newUser = {
@@ -82,7 +83,22 @@ const RegistrationScreen = ({ navigation }) => {
 
     try {
       const response = await API('POST', `${API_URL}/signUp`, newUser)
-      
+
+      if (response.success) {
+        Toast.show({
+          type: 'success',
+          text1: 'Success 🎉',
+          text2: response.message || 'Registration successful!',
+          position: 'top',
+          visibilityTime: 3500,
+        })
+        // Navigate after toast disappears
+        setTimeout(() => {
+          navigation.navigate('Tabs', { screen: 'Home' })
+        }, 1600)
+      } else {
+        setError(response.message || 'Registration failed')
+      }
     } catch (error) {
       setError('Failed to fetch data')
       console.error('Axios Error:', error.message)
@@ -90,7 +106,6 @@ const RegistrationScreen = ({ navigation }) => {
       setLoading(false)
     }
   }
-
 
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>

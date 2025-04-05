@@ -30,6 +30,8 @@ import ItemConfirmationScreen from './screens/ItemConfirmationScreen'
 import DinerItemAssignmentScreen from './screens/DinerItemAssignmentScreen'
 import ConfirmTotalsScreen from './screens/ConfirmTotalsScreen'
 import RestaurantDetailsScreen from './screens/RestaurantDetailsScreen'
+import Toast from 'react-native-toast-message'
+import toastConfig from './config/toastConfig'
 
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
@@ -121,7 +123,7 @@ const ScreensNavigator = () => {
     <Stack.Navigator screenOptions={() => ({ headerShown: false })}>
       <Stack.Screen
         name="Splash"
-        component={LoginScreen}
+        component={RegistrationScreen}
       />
       <Stack.Screen
         name="Welcome"
@@ -203,6 +205,7 @@ const App = () => {
           />
         </Stack.Navigator>
       </NavigationContainer>
+      <Toast config={toastConfig} />
     </SafeAreaProvider>
   )
 }

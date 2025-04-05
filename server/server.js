@@ -63,15 +63,18 @@ app.post('/signUp', async (req, res) => {
     const token = jwt.sign({ email, username, firstName, lastName, userId }, 'secret', {
       expiresIn: '1hr',
     })
-    res.json({
-      userId,
-      email,
-      username,
-      firstName,
-      lastName,
-      token,
+    res.status(201).json({
+      success: true,
+      message: 'User registered successfully!',
+      user: {
+        userId,
+        email,
+        username,
+        firstName,
+        lastName,
+        token,
+      },
     })
-    navigation.navigate('Home')
   } catch (error) {
     console.error(error)
     if (error) {
@@ -82,36 +85,41 @@ app.post('/signUp', async (req, res) => {
 
 //LOG IN USER
 app.post('/logIn', async (req, res) => {
-  // const { email, password } = req.body
+  const { email, password } = req.body
+
   console.log('REQUEST:', req.body)
-  // try {
-  //   const user = await pool.query('SELECT * FROM users WHERE email = $1', [email])
 
-  //   if (!user.rows.length) return res.json({ detail: 'User does not exist!' })
+  try {
+    const user = await pool.query('SELECT * FROM users WHERE email = $1', [email])
 
-  //   const success = await bcrypt.compare(password, user.rows[0].hashed_password)
-  //   const token = jwt.sign({ email }, 'secret', {
-  //     expiresIn: '1hr',
-  //   })
-  //   if (success) {
-  //     res.json({
-  //       email: user.rows[0].email,
-  //       username: user.rows[0].username,
-  //       firstName: user.rows[0].first_name,
-  //       lastName: user.rows[0].last_name,
-  //       bio: user.rows[0].bio,
-  //       favoriteCuisine: user.rows[0].favorite_cuisine,
-  //       birthday: user.rows[0].birthday,
-  //       location: user.rows[0].location,
-  //       userId: user.rows[0].user_id,
-  //       dateJoined: user.rows[0].date_joined,
-  //       token,
-  //     })
-  //   } else {
-  //     res.json({ detail: 'Login failed' })
-  //   }
-  // } catch (error) {
-  //   console.error(error)
-  // }
-  
+    if (!user.rows.length)
+      return res.status.json({
+        success: false,
+        message: 'User does not exist!',
+      })
+
+    const success = await bcrypt.compare(password, user.rows[0].hashed_password)
+    const token = jwt.sign({ email }, 'secret', {
+      expiresIn: '1hr',
+    })
+    if (success) {
+      res.json({
+        email: user.rows[0].email,
+        username: user.rows[0].username,
+        firstName: user.rows[0].first_name,
+        lastName: user.rows[0].last_name,
+        bio: user.rows[0].bio,
+        favoriteCuisine: user.rows[0].favorite_cuisine,
+        birthday: user.rows[0].birthday,
+        location: user.rows[0].location,
+        userId: user.rows[0].user_id,
+        dateJoined: user.rows[0].date_joined,
+        token,
+      })
+    } else {
+      res.json({ detail: 'Login failed' })
+    }
+  } catch (error) {
+    console.error(error)
+  }
 })

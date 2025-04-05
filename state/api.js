@@ -14,7 +14,7 @@ const API = async (method, url, data = null) => {
 
   try {
     const response = await methods[method](url, data, { headers })
-    console.log('RESPONSE: ', response)
+    // console.log('RESPONSE: ', response)
     return response.data
   } catch (error) {
     console.error('API Axios Error:', error.response || error.message)
