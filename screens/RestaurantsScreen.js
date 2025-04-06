@@ -5,6 +5,7 @@ import RestaurantTile from '../components/ui/RestaurantTile'
 import { COLORS, SCREEN_HEIGHT, API_URL } from '../constants/constants'
 import { useEffect, useState } from 'react'
 import API from '../state/api'
+import Styles from '../style'
 
 const RestaurantsScreen = () => {
   const [featuredRestaurants, setFeaturedRestaurants] = useState([])
@@ -33,13 +34,17 @@ const RestaurantsScreen = () => {
         <ScrollPageHeader>Featured Restaurants</ScrollPageHeader>
       </View>
 
-      <FlatList
-        data={featuredRestaurants}
-        keyExtractor={(item) => item.restaurantId.toString()}
-        renderItem={({ item }) => <RestaurantTile {...item} />}
-        contentContainerStyle={{ paddingBottom: SCREEN_HEIGHT * 0.025 }}
-        showsVerticalScrollIndicator={false}
-      />
+      <View style={Styles.resturantsScreen.container}>
+        <FlatList
+          data={featuredRestaurants}
+          keyExtractor={(item) => item.restaurantId.toString()}
+          renderItem={({ item }) => <RestaurantTile {...item} />}
+          contentContainerStyle={{
+            paddingBottom: SCREEN_HEIGHT * 0.025,
+          }}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
     </LogoScreenWrapper>
   )
 }

@@ -14,6 +14,11 @@ const containerBorderRadius = scaleFont(15)
 export default StyleSheet.create({
   // ================================================================================================================================== FAVORITES ICON
   favoritesIcon: { backgroundColor: COLORS.favoritesIconBackground, padding: 5, borderRadius: 30 },
+  // ================================================================================================================================== RESTAURANTS SCREEN
+  resturantsScreen: {
+    container: { flex: 1, marginBottom: Platform.OS === 'ios' ? SCREEN_HEIGHT * 0.125 : SCREEN_HEIGHT * 0.08 },
+  },
+
   // ================================================================================================================================== RESTAURANT TILE
   restaurantTile: {
     container: {
