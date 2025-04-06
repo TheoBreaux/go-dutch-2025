@@ -35,13 +35,16 @@ const FavoritesScreen = () => {
         <FavoritesButton onPress={() => setActiveTab('restaurants')}>Restaurants</FavoritesButton>
         <FavoritesButton onPress={() => setActiveTab('diners')}>Diners</FavoritesButton>
       </View>
-      <FlatList
-        data={activeTab === 'restaurants' ? RESTAURANT_DATA : DINER_DATA}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={renderItem}
-        contentContainerStyle={{ paddingBottom: SCREEN_HEIGHT * 0.025 }}
-        showsVerticalScrollIndicator={false}
-      />
+
+      <View style={Styles.resturantsScreen.container}>
+        <FlatList
+          data={activeTab === 'restaurants' ? RESTAURANT_DATA : DINER_DATA}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderItem}
+          contentContainerStyle={{ paddingBottom: SCREEN_HEIGHT * 0.025 }}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
     </LogoScreenWrapper>
   )
 }
