@@ -9,10 +9,14 @@ const SliderItem = ({ name, image, address, city, state, zip, rating, website, p
   return (
     <View style={Styles.homeScreen.sliderItem.container}>
       <View style={Styles.homeScreen.sliderItem.container.carouselContainer}>
-        <Image
-          source={image || Images.dining_detail}
-          style={[Styles.homeScreen.sliderItem.container.carouselContainer.image]}
-        />
+
+      
+          <Image
+            source={image || Images.dining_detail}
+            style={[Styles.homeScreen.sliderItem.container.carouselContainer.image]}
+          />
+      
+
         <View style={Styles.homeScreen.sliderItem.container.carouselContainer.favoritesIconContainer}>
           <FavoritesIcon />
         </View>

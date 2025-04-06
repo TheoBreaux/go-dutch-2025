@@ -47,6 +47,7 @@ const Tabs = () => {
         tabBarStyle: Style.tabBar.tabBarStyle,
         tabBarLabelStyle: Style.tabBar.tabBarLabelStyle,
         tabBarActiveBackgroundColor: COLORS.goDutchRed,
+        tabBarItemStyle: Style.tabBar.tabBarItemStyle,
         tabBarIconStyle: { marginTop: 5 },
       }}
     >
@@ -123,7 +124,7 @@ const ScreensNavigator = () => {
     <Stack.Navigator screenOptions={() => ({ headerShown: false })}>
       <Stack.Screen
         name="Splash"
-        component={HomeScreen}
+        component={LoginScreen}
       />
       <Stack.Screen
         name="Welcome"

@@ -38,7 +38,7 @@ const RestaurantTile = ({ name, address, city, state, zip, phone, rating, cuisin
         </View>
 
         <View style={Styles.restaurantTile.container.textContainer}>
-          <Text style={Styles.restaurantTile.container.textContainer.text}>{name}</Text>
+          <Text style={Styles.restaurantTile.container.textContainer.text.name}>{name}</Text>
           <Text
             numberOfLines={1}
             style={Styles.restaurantTile.container.textContainer.info}
@@ -48,6 +48,7 @@ const RestaurantTile = ({ name, address, city, state, zip, phone, rating, cuisin
           <Text style={Styles.restaurantTile.container.textContainer.info}>{`${city}, ${state} ${zip}`}</Text>
           <Text style={Styles.restaurantTile.container.textContainer.info}>{phone}</Text>
           <Text style={Styles.restaurantTile.container.textContainer.info}>{`${rating}/5.0 ⭐ - ${cuisine}`}</Text>
+    
         </View>
         {!favoritesTile && (
           <View style={{ justifyContent: 'center' }}>

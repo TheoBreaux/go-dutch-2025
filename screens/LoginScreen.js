@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Image, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, TextInput, Image, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform } from 'react-native'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import Style from '../style'
 import Images from '../assets/images/images'
@@ -8,6 +8,7 @@ import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import { useState } from 'react'
 import { ErrorMessage, Formik } from 'formik'
 import API from '../state/api'
+import Toast from 'react-native-toast-message'
 
 const LoginScreen = ({ navigation }) => {
   const [isFormValid, setIsFormValid] = useState(false)
@@ -37,7 +38,7 @@ const LoginScreen = ({ navigation }) => {
   }
 
   const handleLogin = async (values, actions) => {
-    actions.resetForm()
+    // actions.resetForm()
     setLoading(true)
 
     const userInfo = {
@@ -46,9 +47,24 @@ const LoginScreen = ({ navigation }) => {
     }
     try {
       const response = await API('POST', `${API_URL}/logIn`, userInfo)
+
+      if (response.success) {
+        navigation.navigate('Tabs', { screen: 'Home' })
+      }
     } catch (error) {
-      setError('Failed to fetch data')
-      console.error('Axios Error:', error.message)
+      const message = error?.response?.data?.message || 'Something went wrong. Please try again.'
+
+      setError(message)
+
+      Toast.show({
+        type: 'error',
+        text1: 'Error 😞',
+        text2: message,
+        position: 'top',
+        visibilityTime: 3500,
+      })
+
+      console.error('Axios Error:', message)
     } finally {
       setLoading(false)
     }
@@ -56,70 +72,76 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <LogoScreenWrapper>
-      <ScrollView
-        contentContainerStyle={Style.logInScreen.container}
-        showsVerticalScrollIndicator={false}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}
       >
-        <Formik
-          initialValues={initialValues}
-          validate={validateForm}
-          onSubmit={handleLogin}
+        <ScrollView
+          contentContainerStyle={Style.logInScreen.container}
+          showsVerticalScrollIndicator={false}
         >
-          {({ handleChange, handleSubmit, handleBlur, values }) => (
-            <>
-              <Image
-                source={Images.go_dutch_split_button}
-                style={Style.logInScreen.container.logo}
-              />
-              <View style={Style.logInScreen.container.modal.inputsContainer}>
-                <Text style={Style.registrationScreen.inputLabels}>Email</Text>
-                <TextInput
-                  style={Style.registrationScreen.textInput}
-                  onChangeText={handleChange('email')}
-                  onBlur={handleBlur('email')}
-                  value={values.email}
-                  autoCapitalize="none"
+          <Formik
+            initialValues={initialValues}
+            validate={validateForm}
+            onSubmit={handleLogin}
+          >
+            {({ handleChange, handleSubmit, handleBlur, values }) => (
+              <>
+                <Image
+                  source={Images.go_dutch_split_button}
+                  style={Style.logInScreen.container.logo}
                 />
-                <ErrorMessage
-                  name="email"
-                  component={Text}
-                  style={{ color: COLORS.goDutchRed }}
-                />
-
-                <Text style={[Style.registrationScreen.inputLabels, { marginTop: 10 }]}>Password</Text>
-
-                <View style={{ justifyContent: 'center' }}>
+                <View style={Style.logInScreen.container.modal.inputsContainer}>
+                  <Text style={Style.registrationScreen.inputLabels}>Email</Text>
                   <TextInput
                     style={Style.registrationScreen.textInput}
-                    onChangeText={handleChange('password')}
-                    onBlur={handleBlur('password')}
-                    value={values.password}
-                    secureTextEntry={!showPassword}
+                    onChangeText={handleChange('email')}
+                    onBlur={handleBlur('email')}
+                    value={values.email}
+                    autoCapitalize="none"
                   />
-                  <TouchableOpacity
-                    style={Style.logInScreen.container.modal.passwordInput.passwordIcon}
-                    onPress={() => setShowPassword(!showPassword)}
-                  >
-                    <Ionicons
-                      name={showPassword ? 'eye-outline' : 'eye-off-outline'}
-                      size={24}
-                      color={COLORS.goDutchRed}
+                  <ErrorMessage
+                    name="email"
+                    component={Text}
+                    style={{ color: COLORS.goDutchRed }}
+                  />
+
+                  <Text style={[Style.registrationScreen.inputLabels, { marginTop: 10 }]}>Password</Text>
+
+                  <View style={{ justifyContent: 'center' }}>
+                    <TextInput
+                      style={Style.registrationScreen.textInput}
+                      onChangeText={handleChange('password')}
+                      onBlur={handleBlur('password')}
+                      value={values.password}
+                      secureTextEntry={!showPassword}
                     />
-                  </TouchableOpacity>
+                    <TouchableOpacity
+                      style={Style.logInScreen.container.modal.passwordInput.passwordIcon}
+                      onPress={() => setShowPassword(!showPassword)}
+                    >
+                      <Ionicons
+                        name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                        size={24}
+                        color={COLORS.goDutchRed}
+                      />
+                    </TouchableOpacity>
+                  </View>
+
+                  <ErrorMessage
+                    name="password"
+                    component={Text}
+                    style={{ color: COLORS.goDutchRed }}
+                  />
                 </View>
 
-                <ErrorMessage
-                  name="password"
-                  component={Text}
-                  style={{ color: COLORS.goDutchRed }}
-                />
-              </View>
-
-              <PrimaryButton onPress={handleSubmit}>Submit</PrimaryButton>
-            </>
-          )}
-        </Formik>
-      </ScrollView>
+                <PrimaryButton onPress={handleSubmit}>Submit</PrimaryButton>
+              </>
+            )}
+          </Formik>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </LogoScreenWrapper>
   )
 }

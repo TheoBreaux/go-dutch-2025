@@ -51,8 +51,6 @@ app.post('/signUp', async (req, res) => {
   const salt = bcrypt.genSaltSync(10)
   const hashedPassword = bcrypt.hashSync(password, salt)
 
-  console.log('SERVER')
-
   try {
     // 🔍 Check if email or username is already taken
     const existingUser = await pool.query('SELECT * FROM users WHERE email = $1 OR username = $2', [email, username])
@@ -60,8 +58,8 @@ app.post('/signUp', async (req, res) => {
     if (existingUser.rows.length > 0) {
       const user = existingUser.rows[0]
       let message = 'Email or username is already taken'
-      if (user.email === email) message = 'Email is already taken'
-      else if (user.username === username) message = 'Username is already taken'
+      if (user.email === email) message = 'Email already taken.'
+      else if (user.username === username) message = 'Username already taken.'
       return res.status(409).json({ success: false, message })
     }
 
@@ -101,39 +99,49 @@ app.post('/signUp', async (req, res) => {
 app.post('/logIn', async (req, res) => {
   const { email, password } = req.body
 
-  console.log('REQUEST:', req.body)
-
   try {
     const user = await pool.query('SELECT * FROM users WHERE email = $1', [email])
 
-    if (!user.rows.length)
-      return res.status.json({
+    if (!user.rows.length) {
+      return res.status(401).json({
         success: false,
-        message: 'User does not exist!',
+        message: 'User email does not exist.',
       })
+    }
 
-    const success = await bcrypt.compare(password, user.rows[0].hashed_password)
+    const validPassword = await bcrypt.compare(password, user.rows[0].hashed_password)
+
+    if (!validPassword) {
+      return res.status(401).json({
+        success: false,
+        message: 'Incorrect password.',
+      })
+    }
+
     const token = jwt.sign({ email }, 'secret', {
       expiresIn: '1hr',
     })
-    if (success) {
-      res.json({
-        email: user.rows[0].email,
-        username: user.rows[0].username,
-        firstName: user.rows[0].first_name,
-        lastName: user.rows[0].last_name,
-        bio: user.rows[0].bio,
-        favoriteCuisine: user.rows[0].favorite_cuisine,
-        birthday: user.rows[0].birthday,
-        location: user.rows[0].location,
-        userId: user.rows[0].user_id,
-        dateJoined: user.rows[0].date_joined,
-        token,
-      })
-    } else {
-      res.json({ detail: 'Login failed' })
-    }
+
+    res.status(200).json({
+      success: true,
+      message: `Welcome ${user.rows[0].first_name}!`,
+      email: user.rows[0].email,
+      username: user.rows[0].username,
+      firstName: user.rows[0].first_name,
+      lastName: user.rows[0].last_name,
+      bio: user.rows[0].bio,
+      favoriteCuisine: user.rows[0].favorite_cuisine,
+      birthday: user.rows[0].birthday,
+      location: user.rows[0].location,
+      userId: user.rows[0].user_id,
+      dateJoined: user.rows[0].date_joined,
+      token,
+    })
   } catch (error) {
-    console.error(error)
+    console.error('Login error:', error.stack || error.message)
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+    })
   }
 })

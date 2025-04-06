@@ -1,10 +1,12 @@
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from './constants/constants'
 import { scaleFont } from './utils/utils'
 
 const containerWidth = SCREEN_WIDTH * 0.9 // 90% of screen width
 const containerHeight = SCREEN_HEIGHT * 0.1 // 10% of screen height
 const containerBorderRadius = scaleFont(15)
+
+// console.log(SCREEN_WIDTH)
 
 // HEIGHT 836
 // WIDTH 411
@@ -18,8 +20,12 @@ export default StyleSheet.create({
       info: { justifyContent: 'center', alignItems: 'center', flexDirection: 'row' },
       padding: 10,
       width: SCREEN_WIDTH * 0.9,
-      height: SCREEN_HEIGHT * 0.135,
+      height: SCREEN_HEIGHT * 0.15,
       elevation: 5,
+      shadowColor: 'black',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
       backgroundColor: 'white',
       borderRadius: 20,
       marginTop: 10,
@@ -28,22 +34,27 @@ export default StyleSheet.create({
       textContainer: {
         width: '50%',
         marginRight: 10,
-        text: { name: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(18), marginBottom: -5 } },
-        info: { fontFamily: 'Poppins-Regular', fontSize: scaleFont(13), marginBottom: -5 },
+        text: { name: { fontFamily: 'Poppins-Bold', fontSize: SCREEN_WIDTH < 400 ? scaleFont(14) : scaleFont(15) } },
+        info: { fontFamily: 'Poppins-Regular', fontSize: SCREEN_WIDTH < 400 ? scaleFont(12) : scaleFont(14), marginBottom: -5 },
       },
     },
   },
 
   // ========================================================================================================================================= TAB BAR
   tabBar: {
-    tabBarStyle: { backgroundColor: COLORS.goDutchBlue, height: SCREEN_HEIGHT * 0.08 },
-    tabBarLabelStyle: { color: 'white', marginTop: 5, fontFamily: 'Poppins-SemiBold', fontSize: scaleFont(12) },
+    tabBarStyle: { backgroundColor: COLORS.goDutchBlue, height: Platform.OS === 'ios' ? SCREEN_HEIGHT * 0.09 : SCREEN_HEIGHT * 0.08 },
+    tabBarLabelStyle: { color: 'white', marginTop: 5, fontFamily: 'Poppins-SemiBold', fontSize: SCREEN_WIDTH < 400 ? scaleFont(10) : scaleFont(12) },
+    tabBarItemStyle: { height: Platform.OS === 'ios' ? SCREEN_HEIGHT * 0.1 : SCREEN_HEIGHT * 0.08 },
   },
   // ========================================================================================================================================= DINER TILE
   dinerTile: {
     container: {
       backgroundColor: 'white',
       elevation: 5,
+      shadowColor: 'black',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
       borderRadius: 20,
       width: SCREEN_WIDTH * 0.9,
       height: SCREEN_HEIGHT * 0.1,
@@ -109,7 +120,12 @@ export default StyleSheet.create({
       backgroundColor: 'white',
       justifyContent: 'center',
       alignItems: 'center',
-      text: { fontFamily: 'Poppins-SemiBold', fontSize: scaleFont(30), color: COLORS.goDutchRed, letterSpacing: 1 },
+      text: {
+        fontFamily: 'Poppins-SemiBold',
+        fontSize: SCREEN_WIDTH < 400 ? scaleFont(25) : scaleFont(30),
+        color: COLORS.goDutchRed,
+        letterSpacing: 1,
+      },
     },
   },
   // ================================================================================================================================== FAVORITES BUTTON
@@ -124,7 +140,12 @@ export default StyleSheet.create({
       borderBlockEndColor: COLORS.goDutchBlue,
       borderRadius: 10,
       elevation: 10,
-      text: { fontFamily: 'Poppins-SemiBold', fontSize: scaleFont(24), color: COLORS.goDutchRed, letterSpacing: 1 },
+      text: {
+        fontFamily: 'Poppins-SemiBold',
+        fontSize: SCREEN_WIDTH < 400 ? scaleFont(20) : scaleFont(24),
+        color: COLORS.goDutchRed,
+        letterSpacing: 1,
+      },
     },
   },
 
@@ -187,10 +208,10 @@ export default StyleSheet.create({
     alignItems: 'center',
     imageBackground: {
       position: 'absolute',
-      top: SCREEN_HEIGHT * 0.04,
+      top: SCREEN_HEIGHT * 0.05,
       left: 0,
       width: '100%',
-      height: '100%',
+      height: SCREEN_HEIGHT,
       zIndex: 1,
       flex: 1,
       alignItems: 'center',
@@ -202,12 +223,12 @@ export default StyleSheet.create({
 
   // ====================================================================================================================================== WELCOME SCREEN
   welcomeScreen: {
-    header: { fontFamily: 'Poppins-ExtraBold', fontSize: scaleFont(30), marginTop: SCREEN_HEIGHT * 0.05, textAlign: 'center' },
+    header: { fontFamily: 'Poppins-ExtraBold', fontSize: scaleFont(25), marginTop: SCREEN_HEIGHT * 0.05, textAlign: 'center' },
     icon: {
       marginTop: SCREEN_HEIGHT * 0.015,
       width: SCREEN_WIDTH * 0.5,
       height: SCREEN_HEIGHT * 0.25,
-      resizeMode: 'center',
+      resizeMode: 'contain',
     },
     buttonContainer: {
       flexDirection: 'row',
@@ -252,7 +273,7 @@ export default StyleSheet.create({
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        firstNameInput: { width: '48%', marginRight: 10, },
+        firstNameInput: { width: '48%', marginRight: 10 },
         lastNameInput: { width: '48%' },
       },
       inputsContainer: { width: SCREEN_WIDTH * 0.9 },
@@ -293,12 +314,12 @@ export default StyleSheet.create({
         marginVertical: 20,
         width: SCREEN_WIDTH * 0.9,
         fontFamily: 'Poppins-Bold',
-        fontSize: scaleFont(25),
+        fontSize: SCREEN_WIDTH < 400 ? scaleFont(20) : scaleFont(25),
         color: COLORS.goDutchBlue,
       },
       image: { width: SCREEN_WIDTH * 0.9, resizeMode: 'cover' },
       button: {
-        marginTop: 60,
+        marginTop: SCREEN_HEIGHT * 0.05,
         backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'center',
@@ -313,18 +334,16 @@ export default StyleSheet.create({
 
   // ====================================================================================================================================== HOME SCREEN
   homeScreen: {
-    container: {},
     heading: {
       textAlign: 'center',
       width: SCREEN_WIDTH * 0.9,
       fontFamily: 'Poppins-Regular',
-      fontSize: scaleFont(38),
+      fontSize: SCREEN_WIDTH < 400 ? scaleFont(30) : scaleFont(38),
       color: COLORS.goDutchBlue,
     },
     welcomeMessage: {
       textAlign: 'center',
       width: SCREEN_WIDTH * 0.9,
-      marginTop: -10,
       fontFamily: 'Poppins-Bold',
       fontSize: scaleFont(20),
       color: COLORS.goDutchBlue,
@@ -332,19 +351,24 @@ export default StyleSheet.create({
     sliderItem: {
       container: {
         alignItems: 'center',
-        width: SCREEN_WIDTH,
+        width: 'auto',
         carouselContainer: {
           borderWidth: 2,
           borderColor: 'black',
           borderRadius: 20,
           overflow: 'hidden',
-          image: { width: SCREEN_WIDTH * 0.9, height: SCREEN_HEIGHT * 0.4 },
+          image: { width: SCREEN_WIDTH * 0.9, height: SCREEN_HEIGHT * 0.4, resizeMode: 'cover' },
           favoritesIconContainer: { alignItems: 'flex-end', position: 'absolute', right: 10, top: 10 },
         },
         restaurantInfoContainer: {
           alignItems: 'center',
           text: {
-            name: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(30), marginBottom: -10, textAlign: 'center' },
+            name: {
+              fontFamily: 'Poppins-Bold',
+              fontSize: SCREEN_WIDTH < 400 ? scaleFont(20) : scaleFont(25),
+              marginBottom: -10,
+              textAlign: 'center',
+            },
             address: { fontFamily: 'Poppins-Regular', fontSize: scaleFont(18), marginBottom: -5 },
           },
         },
@@ -388,7 +412,7 @@ export default StyleSheet.create({
     image: { width: SCREEN_WIDTH, height: SCREEN_HEIGHT * 0.4, marginTop: -SCREEN_HEIGHT * 0.025, marginBottom: SCREEN_HEIGHT * 0.04 },
     container: {
       width: SCREEN_WIDTH * 0.9,
-      marginBottom: SCREEN_HEIGHT * 0.025,
+      marginBottom: SCREEN_HEIGHT < 830 ? SCREEN_HEIGHT * 0.05 : SCREEN_HEIGHT * 0.025,
       heading: { fontFamily: 'Poppins-SemiBold', fontSize: scaleFont(24), color: COLORS.goDutchBlue, marginBottom: SCREEN_HEIGHT * 0.015 },
       label: { fontFamily: 'Poppins-Regular', fontSize: scaleFont(20) },
     },
