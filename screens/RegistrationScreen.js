@@ -12,6 +12,7 @@ import Toast from 'react-native-toast-message'
 
 const RegistrationScreen = ({ navigation }) => {
   const [isFormValid, setIsFormValid] = useState(false)
+  const [image, setImage] = useState(null)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmedPassword, setShowConfirmedPassword] = useState(false)
   const [confirmedPassword, setConfirmedPassword] = useState(false)
