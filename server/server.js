@@ -1,14 +1,17 @@
 const PORT = process.env.PORT ?? 8000 //accesses secret variable
 const express = require('express')
-const app = express()
-app.use(express.json())
+const multer = require('multer')
 const pool = require('./db')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-// const cors = require('cors')
-// app.use(cors())
+const { uploadFileToS3 } = require('./s3')
 
-//just so i know the server is iup and running
+const app = express()
+const upload = multer({ dest: 'uploads/' })
+
+app.use(express.json())
+
+//just so i know the server is up and running
 pool
   .connect()
   .then(() => console.log('Connected to database'))
@@ -46,8 +49,10 @@ app.get('/featuredRestaurants', async (req, res) => {
 })
 
 //CREATE USER IN DATABASE
-app.post('/signUp', async (req, res) => {
+app.post('/signUp', upload.single('profileImage'), async (req, res) => {
   const { firstName, lastName, email, username, password } = req.body
+  const file = req.file
+
   const salt = bcrypt.genSaltSync(10)
   const hashedPassword = bcrypt.hashSync(password, salt)
 
@@ -63,12 +68,18 @@ app.post('/signUp', async (req, res) => {
       return res.status(409).json({ success: false, message })
     }
 
+    let imageUrl = null
+
+    if (file) {
+      imageUrl = await uploadFileToS3(file)
+    }
+
     // ✅ Proceed with inserting the new user
     const newUser = await pool.query(
       `INSERT INTO users(first_name, last_name, email, username, hashed_password)
-       VALUES($1, $2, $3, $4, $5)
+       VALUES($1, $2, $3, $4, $5, $6)
        RETURNING user_id`,
-      [firstName, lastName, email, username, hashedPassword]
+      [firstName, lastName, email, username, hashedPassword, img_url]
     )
 
     const userId = newUser.rows[0].user_id
@@ -87,6 +98,7 @@ app.post('/signUp', async (req, res) => {
         firstName,
         lastName,
         token,
+        profileImage: img_url,
       },
     })
   } catch (error) {
