@@ -1,19 +1,19 @@
 const PORT = process.env.PORT ?? 8000
 const express = require('express')
 const app = express()
+const cors = require('cors')
 app.use(express.json())
+app.use(cors())
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const Pool = require('pg').Pool
 require('dotenv').config()
 
-const fs = require('fs').promises
 const multer = require('multer')
+const storage = multer.memoryStorage()
 const upload = multer({ storage })
 
 const { uploadFileToS3 } = require('./s3')
-
-const storage = multer.memoryStorage()
 
 const pool = new Pool({
   user: process.env.DB_USER,
@@ -24,53 +24,21 @@ const pool = new Pool({
 })
 
 //just so i know the server is up and running
-Pool.connect()
+pool
+  .connect()
   .then(() => console.log('Connected to database'))
   .catch((err) => console.error('Connection error', err))
 
 app.listen(PORT, () => console.log(`SERVER running on PORT ${PORT}`))
 
-
-
-
-
-
-//GET FEATURED SPONSORED RESTAURANTS
-app.get('/featuredRestaurants', async (req, res) => {
-  try {
-    const result = await pool.query('SELECT * FROM featured_restaurants')
-
-    const featuredRestaurantData = result.rows.map(
-      ({ restaurant_id, name, address, city, state, zip, website, rating, phone, bio, cuisine, img_url, is_favorited }) => ({
-        restaurantId: restaurant_id,
-        name,
-        address,
-        city,
-        state,
-        zip,
-        website,
-        rating,
-        phone,
-        bio,
-        cuisine,
-        imgUrl: img_url,
-        isFavorited: is_favorited,
-      })
-    )
-    res.json(featuredRestaurantData)
-  } catch (error) {
-    console.error('Error fetching featured restaurants:', error.stack)
-    res.status(500).send('Internal Server Error')
-  }
-})
-
 //CREATE USER IN DATABASE
 app.post('/signUp', upload.single('profileImage'), async (req, res) => {
-  const { firstName, lastName, email, username, password, imgUrl } = req.body
-  const { file } = req.file
+  const { firstName, lastName, email, username, password } = req.body
+  const file = req.file
 
-  console.log(req.body)
-  console.log(req.file)
+  console.log('Raw request:', req) // Check the entire request
+  console.log('Headers:', req.headers) // Check content-type
+  console.log('File:', req.file) // Or here
 
   const salt = bcrypt.genSaltSync(10)
   const hashedPassword = bcrypt.hashSync(password, salt)
@@ -103,7 +71,7 @@ app.post('/signUp', upload.single('profileImage'), async (req, res) => {
 
     const userId = newUser.rows[0].user_id
 
-    const token = jwt.sign({ email, username, firstName, lastName, userId }, 'secret', {
+    const token = jwt.sign({ email, username, firstName, lastName, userId }, process.env.JWT_SECRET, {
       expiresIn: '1hr',
     })
 
@@ -123,6 +91,35 @@ app.post('/signUp', upload.single('profileImage'), async (req, res) => {
   } catch (error) {
     console.error(error)
     res.status(500).json({ success: false, message: 'Server error', detail: error.detail })
+  }
+})
+
+//GET FEATURED SPONSORED RESTAURANTS
+app.get('/featuredRestaurants', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM featured_restaurants')
+
+    const featuredRestaurantData = result.rows.map(
+      ({ restaurant_id, name, address, city, state, zip, website, rating, phone, bio, cuisine, img_url, is_favorited }) => ({
+        restaurantId: restaurant_id,
+        name,
+        address,
+        city,
+        state,
+        zip,
+        website,
+        rating,
+        phone,
+        bio,
+        cuisine,
+        imgUrl: img_url,
+        isFavorited: is_favorited,
+      })
+    )
+    res.json(featuredRestaurantData)
+  } catch (error) {
+    console.error('Error fetching featured restaurants:', error.stack)
+    res.status(500).send('Internal Server Error')
   }
 })
 
@@ -149,7 +146,7 @@ app.post('/logIn', async (req, res) => {
       })
     }
 
-    const token = jwt.sign({ email }, 'secret', {
+    const token = jwt.sign({ email }, process.env.JWT_SECRET, {
       expiresIn: '1hr',
     })
 

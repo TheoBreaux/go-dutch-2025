@@ -81,36 +81,48 @@ const RegistrationScreen = ({ navigation }) => {
     formData.append('email', values.email.toLowerCase().trim())
     formData.append('username', values.createUsername.toLowerCase().trim())
     formData.append('password', values.password.trim())
-    formData.append('profileImage', image)
+
+    if (image) {
+      // const imageUri = Platform.OS === 'android' ? image.replace('file://', '') : image
+
+      formData.append('profileImage', {
+        uri: image,
+        name: 'profile.jpg',
+        type: 'image/jpeg',
+      })
+    }
 
     try {
-      const response = await API('POST', `${API_URL}/signUp`, formData, { 'Content-Type': 'multipart/form-data' })
+      const response = await fetch(`${API_URL}/signUp`, { method: 'POST', body: formData })
 
-      if (response.success) {
-        navigation.navigate('Tabs', { screen: 'Home' })
-
-        Toast.show({
-          type: 'success',
-          text1: 'Success 🎉',
-          text2: response.message || 'Registration successful!',
-          position: 'top',
-          visibilityTime: 3500,
-        })
+      if (!response.ok) {
+        // If the response is not OK (status not in 200 range), throw an error
+        const errorData = await response.json()
+        throw new Error(errorData?.message || 'Something went wrong. Please try again.')
       }
-    } catch (error) {
-      const message = error?.response?.data?.message || 'Something went wrong. Please try again.'
 
-      setError(message)
+      const responseData = await response.json()
+      navigation.navigate('Tabs', { screen: 'Home' })
+
+      Toast.show({
+        type: 'success',
+        text1: 'Success 🎉',
+        text2: responseData?.message || 'Registration successful!',
+        position: 'top',
+        visibilityTime: 3500,
+      })
+    } catch (error) {
+      setError(error.message)
 
       Toast.show({
         type: 'error',
         text1: 'Error 😞',
-        text2: message,
+        text2: error.message,
         position: 'top',
         visibilityTime: 3500,
       })
 
-      console.error('Axios Error:', message)
+      console.error('Error:', error.message)
     } finally {
       setLoading(false)
     }

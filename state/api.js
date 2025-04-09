@@ -7,9 +7,11 @@ const methods = {
 }
 
 const API = async (method, url, data = null) => {
-  // Define headers, defaulting to 'application/json' for non-multipart requests
-  const headers = {
-    'Content-Type': 'application/json',
+  let headers = {}
+
+  // Only set Content-Type if it's NOT FormData (for file uploads)
+  if (!(data instanceof FormData)) {
+    headers['Content-Type'] = 'application/json'
   }
 
   try {
@@ -22,4 +24,3 @@ const API = async (method, url, data = null) => {
 }
 
 export default API
-
