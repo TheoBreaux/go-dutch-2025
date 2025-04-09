@@ -73,7 +73,7 @@ app.post('/signUp', upload.single('profileImage'), async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: 'User registered successfully!',
+      message: "User registered successfully!",
       user: {
         userId,
         email,

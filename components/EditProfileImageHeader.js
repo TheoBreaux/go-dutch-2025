@@ -32,7 +32,7 @@ const EditProfileImageHeader = ({ image, setImage }) => {
         mediaTypes: ['images'],
         allowsEditing: true,
         aspect: [4, 3],
-        quality: 0.8,
+        quality: 0.5,
       })
       setImageUploadModal(false)
     } else if (mode === 'camera') {
@@ -40,7 +40,7 @@ const EditProfileImageHeader = ({ image, setImage }) => {
         cameraType: ImagePicker.CameraType.front,
         allowsEditing: true,
         aspect: [1, 1],
-        quality: 0.8,
+        quality: 0.5,
       })
       setImageUploadModal(false)
     }
