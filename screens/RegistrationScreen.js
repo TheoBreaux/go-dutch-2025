@@ -9,6 +9,16 @@ import EditProfileImageHeader from '../components/EditProfileImageHeader'
 import { ErrorMessage, Formik } from 'formik'
 import Toast from 'react-native-toast-message'
 
+
+
+
+
+
+
+
+
+
+
 const RegistrationScreen = ({ navigation }) => {
   const [isFormValid, setIsFormValid] = useState(false)
   const [image, setImage] = useState()
