@@ -1,6 +1,7 @@
 const fs = require('fs').promises
 const AWS = require('aws-sdk')
 const mime = require('mime')
+const path = require('path')
 
 //Set AWS region
 AWS.config.update({ region: 'us-west-1' })
@@ -9,9 +10,8 @@ AWS.config.update({ region: 'us-west-1' })
 const BUCKET_NAME = 'go-dutch-bucket'
 
 const uploadFileToS3 = async (file) => {
-  const content = await fs.readFile(file.path)
-  const contentType = mime.getType(file.originalname)
-  const path = require('path')
+  const content = file.buffer // Get the buffer from multer
+  const contentType = mime.getType(file.originalname) // Detect MIME type from file extension
   const safeFilename = path.basename(file.originalname).replace(/[^a-zA-Z0-9.\-_]/g, '_')
   const s3Key = `profiles/${Date.now()}_${safeFilename}`
 
@@ -26,9 +26,7 @@ const uploadFileToS3 = async (file) => {
   const upload = new AWS.S3.ManagedUpload({ params })
   const result = await upload.promise()
 
-  // Optionally clean up local temp file
-  await fs.unlink(file.path)
-
+  console.log('RESULT LOCATION: ', result.Location)
   return result.Location // S3 URL
 }
 

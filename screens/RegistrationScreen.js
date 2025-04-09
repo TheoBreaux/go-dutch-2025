@@ -12,10 +12,10 @@ import Toast from 'react-native-toast-message'
 
 const RegistrationScreen = ({ navigation }) => {
   const [isFormValid, setIsFormValid] = useState(false)
-  const [image, setImage] = useState(null)
+  const [image, setImage] = useState()
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmedPassword, setShowConfirmedPassword] = useState(false)
-  const [confirmedPassword, setConfirmedPassword] = useState(false)
+  // const [confirmedPassword, setConfirmedPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
@@ -71,20 +71,20 @@ const RegistrationScreen = ({ navigation }) => {
   }
 
   const handleRegistration = async (values, actions) => {
-    //     actions.resetForm()
+    //actions.resetForm()
     setLoading(true)
 
-    const newUser = {
-      firstName: values.firstName.trim(),
-      lastName: values.lastName.trim(),
-      email: values.email.toLowerCase().trim(),
-      username: values.createUsername.toLowerCase().trim(),
-      password: values.password.trim(),
-      imgUrl: image,
-    }
+    const formData = new FormData()
+
+    formData.append('firstName', values.firstName.trim())
+    formData.append('lastName', values.lastName.trim())
+    formData.append('email', values.email.toLowerCase().trim())
+    formData.append('username', values.createUsername.toLowerCase().trim())
+    formData.append('password', values.password.trim())
+    formData.append('profileImage', image)
 
     try {
-      const response = await API('POST', `${API_URL}/signUp`, newUser)
+      const response = await API('POST', `${API_URL}/signUp`, formData, { 'Content-Type': 'multipart/form-data' })
 
       if (response.success) {
         navigation.navigate('Tabs', { screen: 'Home' })
@@ -118,7 +118,10 @@ const RegistrationScreen = ({ navigation }) => {
 
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
-      <EditProfileImageHeader />
+      <EditProfileImageHeader
+        image={image}
+        setImage={setImage}
+      />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}
@@ -238,7 +241,7 @@ const RegistrationScreen = ({ navigation }) => {
                         onPress={() => setShowConfirmedPassword(!showConfirmedPassword)}
                       >
                         <Ionicons
-                          name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                          name={showConfirmedPassword ? 'eye-off-outline' : 'eye-outline'}
                           size={24}
                           color={COLORS.goDutchRed}
                         />

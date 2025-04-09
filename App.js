@@ -124,7 +124,7 @@ const ScreensNavigator = () => {
     <Stack.Navigator screenOptions={() => ({ headerShown: false })}>
       <Stack.Screen
         name="Splash"
-        component={ProfileScreen}
+        component={RegistrationScreen}
       />
       <Stack.Screen
         name="Welcome"

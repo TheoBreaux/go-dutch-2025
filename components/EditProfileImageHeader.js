@@ -6,8 +6,7 @@ import ProfileImageMedallion from './ui/ProfileImageMedallion'
 import * as ImagePicker from 'expo-image-picker'
 import { useState } from 'react'
 
-const EditProfileImageHeader = () => {
-  const [image, setImage] = useState()
+const EditProfileImageHeader = ({ image, setImage }) => {
   const [imageUploadModal, setImageUploadModal] = useState(false)
 
   const checkPermissions = async () => {

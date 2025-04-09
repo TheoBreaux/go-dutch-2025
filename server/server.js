@@ -7,7 +7,9 @@ const jwt = require('jsonwebtoken')
 const { uploadFileToS3 } = require('./s3')
 
 const app = express()
-const upload = multer({ dest: 'uploads/' })
+
+const storage = multer.memoryStorage()
+const upload = multer({ storage })
 
 app.use(express.json())
 
@@ -51,9 +53,7 @@ app.get('/featuredRestaurants', async (req, res) => {
 //CREATE USER IN DATABASE
 app.post('/signUp', upload.single('profileImage'), async (req, res) => {
   const { firstName, lastName, email, username, password, imgUrl } = req.body
-  const file = req.file
 
-  console.log('THE FILE', file)
   const salt = bcrypt.genSaltSync(10)
   const hashedPassword = bcrypt.hashSync(password, salt)
 
@@ -71,16 +71,16 @@ app.post('/signUp', upload.single('profileImage'), async (req, res) => {
 
     let imageUrl = null
 
-    if (file) {
-      imageUrl = await uploadFileToS3(file)
-    }
+    // if (profileImage) {
+    //   imageUrl = await uploadFileToS3(profileImage)
+    // }
 
     // ✅ Proceed with inserting the new user
     const newUser = await pool.query(
       `INSERT INTO users(first_name, last_name, email, username, hashed_password, img_url)
        VALUES($1, $2, $3, $4, $5, $6)
        RETURNING user_id`,
-      [firstName, lastName, email, username, hashedPassword, imgUrl]
+      [firstName, lastName, email, username, hashedPassword, imageUrl]
     )
 
     const userId = newUser.rows[0].user_id
@@ -99,7 +99,7 @@ app.post('/signUp', upload.single('profileImage'), async (req, res) => {
         firstName,
         lastName,
         token,
-        profileImage: imgUrl,
+        profileImage: imageUrl,
       },
     })
   } catch (error) {

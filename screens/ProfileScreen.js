@@ -4,11 +4,16 @@ import Style from '../style'
 import { COLORS } from '../constants/constants'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import EditProfileImageHeader from '../components/EditProfileImageHeader'
+import { useState } from 'react'
 
 const ProfileScreen = () => {
+  const [image, setImage] = useState()
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
-      <EditProfileImageHeader />
+      <EditProfileImageHeader
+        image={image}
+        setImage={setImage}
+      />
 
       <ScrollView contentContainerStyle={Style.profileScreen.scrollViewContainer}>
         <View style={Style.profileScreen.scrollViewContainer.bioContainer}>
