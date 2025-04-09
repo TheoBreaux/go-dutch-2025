@@ -1,7 +1,6 @@
 const AWS = require('aws-sdk')
 const mime = require('mime-types')
 const path = require('path')
-const fs = require('fs').promises
 
 //Set AWS region
 AWS.config.update({
@@ -13,11 +12,11 @@ AWS.config.update({
 //My S3 bucket name
 const BUCKET_NAME = 'go-dutch-bucket'
 
-const uploadFileToS3 = async (file) => {
+const uploadFileToS3 = async (file, folder) => {
   const content = file.buffer // Get the buffer from multer
   const contentType = mime.contentType(file.originalname) // Detect MIME type from file extension
   const safeFilename = path.basename(file.originalname).replace(/[^a-zA-Z0-9.\-_]/g, '_')
-  const s3Key = `profileImages/${Date.now()}_${safeFilename}`
+  const s3Key = `${folder}/${Date.now()}_${safeFilename}`
 
   const params = {
     Bucket: BUCKET_NAME,

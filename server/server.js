@@ -31,14 +31,10 @@ pool
 
 app.listen(PORT, () => console.log(`SERVER running on PORT ${PORT}`))
 
-//CREATE USER IN DATABASE
+//REGISTER USER IN DATABASE
 app.post('/signUp', upload.single('profileImage'), async (req, res) => {
   const { firstName, lastName, email, username, password } = req.body
   const file = req.file
-
-  console.log('Raw request:', req) // Check the entire request
-  console.log('Headers:', req.headers) // Check content-type
-  console.log('File:', req.file) // Or here
 
   const salt = bcrypt.genSaltSync(10)
   const hashedPassword = bcrypt.hashSync(password, salt)
@@ -58,7 +54,7 @@ app.post('/signUp', upload.single('profileImage'), async (req, res) => {
     let imageUrl = null
 
     if (file) {
-      imageUrl = await uploadFileToS3(file)
+      imageUrl = await uploadFileToS3(file, 'profileImages')
     }
 
     // ✅ Proceed with inserting the new user
@@ -91,35 +87,6 @@ app.post('/signUp', upload.single('profileImage'), async (req, res) => {
   } catch (error) {
     console.error(error)
     res.status(500).json({ success: false, message: 'Server error', detail: error.detail })
-  }
-})
-
-//GET FEATURED SPONSORED RESTAURANTS
-app.get('/featuredRestaurants', async (req, res) => {
-  try {
-    const result = await pool.query('SELECT * FROM featured_restaurants')
-
-    const featuredRestaurantData = result.rows.map(
-      ({ restaurant_id, name, address, city, state, zip, website, rating, phone, bio, cuisine, img_url, is_favorited }) => ({
-        restaurantId: restaurant_id,
-        name,
-        address,
-        city,
-        state,
-        zip,
-        website,
-        rating,
-        phone,
-        bio,
-        cuisine,
-        imgUrl: img_url,
-        isFavorited: is_favorited,
-      })
-    )
-    res.json(featuredRestaurantData)
-  } catch (error) {
-    console.error('Error fetching featured restaurants:', error.stack)
-    res.status(500).send('Internal Server Error')
   }
 })
 
@@ -163,6 +130,7 @@ app.post('/logIn', async (req, res) => {
       location: user.rows[0].location,
       userId: user.rows[0].user_id,
       dateJoined: user.rows[0].date_joined,
+      imgUrl: user.rows[0].img_url,
       token,
     })
   } catch (error) {
@@ -171,5 +139,34 @@ app.post('/logIn', async (req, res) => {
       success: false,
       message: 'Internal server error',
     })
+  }
+})
+
+//GET FEATURED SPONSORED RESTAURANTS
+app.get('/featuredRestaurants', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM featured_restaurants')
+
+    const featuredRestaurantData = result.rows.map(
+      ({ restaurant_id, name, address, city, state, zip, website, rating, phone, bio, cuisine, img_url, is_favorited }) => ({
+        restaurantId: restaurant_id,
+        name,
+        address,
+        city,
+        state,
+        zip,
+        website,
+        rating,
+        phone,
+        bio,
+        cuisine,
+        imgUrl: img_url,
+        isFavorited: is_favorited,
+      })
+    )
+    res.json(featuredRestaurantData)
+  } catch (error) {
+    console.error('Error fetching featured restaurants:', error.stack)
+    res.status(500).send('Internal Server Error')
   }
 })

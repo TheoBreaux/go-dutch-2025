@@ -7,7 +7,6 @@ import PrimaryButton from '../components/ui/PrimaryButton'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import EditProfileImageHeader from '../components/EditProfileImageHeader'
 import { ErrorMessage, Formik } from 'formik'
-import API from '../state/api'
 import Toast from 'react-native-toast-message'
 
 const RegistrationScreen = ({ navigation }) => {
@@ -83,8 +82,6 @@ const RegistrationScreen = ({ navigation }) => {
     formData.append('password', values.password.trim())
 
     if (image) {
-      // const imageUri = Platform.OS === 'android' ? image.replace('file://', '') : image
-
       formData.append('profileImage', {
         uri: image,
         name: 'profile.jpg',

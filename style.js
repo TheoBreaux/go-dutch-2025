@@ -373,9 +373,10 @@ export default StyleSheet.create({
 
   // ====================================================================================================================================== HOME SCREEN
   homeScreen: {
+    headingContainer: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: SCREEN_WIDTH * 0.9 },
     heading: {
       textAlign: 'center',
-      width: SCREEN_WIDTH * 0.9,
+      marginRight: 10,
       fontFamily: 'Poppins-Regular',
       fontSize: SCREEN_WIDTH < 400 ? scaleFont(30) : scaleFont(38),
       color: COLORS.goDutchBlue,

@@ -7,7 +7,6 @@ import { API_URL, COLORS } from '../constants/constants'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import { useState } from 'react'
 import { ErrorMessage, Formik } from 'formik'
-import API from '../state/api'
 import Toast from 'react-native-toast-message'
 
 const LoginScreen = ({ navigation }) => {
@@ -46,25 +45,39 @@ const LoginScreen = ({ navigation }) => {
       password: values.password.trim(),
     }
     try {
-      const response = await API('POST', `${API_URL}/logIn`, userInfo)
+      const response = await fetch(`${API_URL}/logIn`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userInfo),
+      })
 
-      if (response.success) {
-        navigation.navigate('Tabs', { screen: 'Home' })
+      if (!response.ok) {
+        // If the response is not OK (status not in 200 range), throw an error
+        const errorData = await response.json()
+        throw new Error(errorData?.message || 'Something went wrong. Please try again.')
       }
-    } catch (error) {
-      const message = error?.response?.data?.message || 'Something went wrong. Please try again.'
 
-      setError(message)
+      const responseData = await response.json()
+      navigation.navigate('Tabs', { screen: 'Home' })
+
+      Toast.show({
+        type: 'success',
+        text1: 'Success 🎉',
+        text2: responseData?.message || 'Login successful!',
+        position: 'top',
+        visibilityTime: 3500,
+      })
+    } catch (error) {
+      setError(error)
 
       Toast.show({
         type: 'error',
         text1: 'Error 😞',
-        text2: message,
+        text2: error.message,
         position: 'top',
         visibilityTime: 3500,
       })
-
-      console.error('Axios Error:', message)
+      console.error('Error:', error)
     } finally {
       setLoading(false)
     }

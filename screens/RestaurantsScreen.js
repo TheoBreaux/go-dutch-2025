@@ -4,7 +4,6 @@ import ScrollPageHeader from '../components/ScrollPageHeader'
 import RestaurantTile from '../components/ui/RestaurantTile'
 import { COLORS, SCREEN_HEIGHT, API_URL } from '../constants/constants'
 import { useEffect, useState } from 'react'
-import API from '../state/api'
 import Styles from '../style'
 
 const RestaurantsScreen = () => {
@@ -14,11 +13,12 @@ const RestaurantsScreen = () => {
 
   const fetchData = async () => {
     try {
-      const data = await API('GET', `${API_URL}/featuredRestaurants`)
+      const response = await fetch(`${API_URL}/featuredRestaurants`, { method: 'GET' })
+      const data = await response.json()
       setFeaturedRestaurants(data)
     } catch (error) {
       setError('Failed to fetch data')
-      console.error('Axios Error:', error.message)
+      console.error('Error:', error.message)
     } finally {
       setLoading(false)
     }

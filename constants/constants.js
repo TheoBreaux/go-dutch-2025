@@ -12,4 +12,4 @@ export const COLORS = {
 }
 
 export const API_URL = 'http://192.168.1.198:8000'
-// export const ASSET_URL = 'http://mobileartslab.com:8000/assets/'
+export const ASSET_URL = 'https://go-dutch-bucket.s3.us-west-1.amazonaws.com/'
