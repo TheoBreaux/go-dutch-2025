@@ -1,25 +1,39 @@
-const PORT = process.env.PORT ?? 8000 //accesses secret variable
+const PORT = process.env.PORT ?? 8000
 const express = require('express')
-const multer = require('multer')
-const pool = require('./db')
+const app = express()
+app.use(express.json())
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const { uploadFileToS3 } = require('./s3')
+const Pool = require('pg').Pool
+require('dotenv').config()
 
-const app = express()
-
-const storage = multer.memoryStorage()
+const fs = require('fs').promises
+const multer = require('multer')
 const upload = multer({ storage })
 
-app.use(express.json())
+const { uploadFileToS3 } = require('./s3')
+
+const storage = multer.memoryStorage()
+
+const pool = new Pool({
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  host: process.env.HOST,
+  port: process.env.DB_PORT,
+  database: process.env.DB_NAME,
+})
 
 //just so i know the server is up and running
-pool
-  .connect()
+Pool.connect()
   .then(() => console.log('Connected to database'))
   .catch((err) => console.error('Connection error', err))
 
 app.listen(PORT, () => console.log(`SERVER running on PORT ${PORT}`))
+
+
+
+
+
 
 //GET FEATURED SPONSORED RESTAURANTS
 app.get('/featuredRestaurants', async (req, res) => {
@@ -53,6 +67,10 @@ app.get('/featuredRestaurants', async (req, res) => {
 //CREATE USER IN DATABASE
 app.post('/signUp', upload.single('profileImage'), async (req, res) => {
   const { firstName, lastName, email, username, password, imgUrl } = req.body
+  const { file } = req.file
+
+  console.log(req.body)
+  console.log(req.file)
 
   const salt = bcrypt.genSaltSync(10)
   const hashedPassword = bcrypt.hashSync(password, salt)
@@ -71,9 +89,9 @@ app.post('/signUp', upload.single('profileImage'), async (req, res) => {
 
     let imageUrl = null
 
-    // if (profileImage) {
-    //   imageUrl = await uploadFileToS3(profileImage)
-    // }
+    if (file) {
+      imageUrl = await uploadFileToS3(file)
+    }
 
     // ✅ Proceed with inserting the new user
     const newUser = await pool.query(

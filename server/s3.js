@@ -1,10 +1,12 @@
-const fs = require('fs').promises
 const AWS = require('aws-sdk')
 const mime = require('mime')
 const path = require('path')
+const cors = require('cors')
 
 //Set AWS region
-AWS.config.update({ region: 'us-west-1' })
+AWS.config.update({
+  region: 'us-west-1',
+})
 
 //My S3 bucket name
 const BUCKET_NAME = 'go-dutch-bucket'
