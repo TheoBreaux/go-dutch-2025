@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fs = require('fs').promises
 const AWS = require('aws-sdk')
 const mime = require('mime')
 
@@ -9,9 +9,11 @@ AWS.config.update({ region: 'us-west-1' })
 const BUCKET_NAME = 'go-dutch-bucket'
 
 const uploadFileToS3 = async (file) => {
-  const content = fs.readFileSync(file.path)
+  const content = await fs.readFile(file.path)
   const contentType = mime.getType(file.originalname)
-  const s3Key = `profiles/${Date.now()}_${file.originalname}`
+  const path = require('path')
+  const safeFilename = path.basename(file.originalname).replace(/[^a-zA-Z0-9.\-_]/g, '_')
+  const s3Key = `profiles/${Date.now()}_${safeFilename}`
 
   const params = {
     Bucket: BUCKET_NAME,
@@ -25,7 +27,7 @@ const uploadFileToS3 = async (file) => {
   const result = await upload.promise()
 
   // Optionally clean up local temp file
-  fs.unlinkSync(file.path)
+  await fs.unlink(file.path)
 
   return result.Location // S3 URL
 }

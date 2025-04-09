@@ -80,6 +80,7 @@ const RegistrationScreen = ({ navigation }) => {
       email: values.email.toLowerCase().trim(),
       username: values.createUsername.toLowerCase().trim(),
       password: values.password.trim(),
+      imgUrl: image,
     }
 
     try {

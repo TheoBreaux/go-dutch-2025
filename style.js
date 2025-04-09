@@ -177,6 +177,40 @@ export default StyleSheet.create({
     },
     text: { color: 'whitesmoke', fontSize: scaleFont(18), fontFamily: 'Poppins-Bold' },
   },
+
+  // ================================================================================================================================== EDIT PROFILE IMAGE HEADER
+  editProfileImageHeader: {
+    modalOverlay: {
+      flex: 1,
+      backgroundColor: 'rgba(0, 0, 0, 0.8)',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    modalContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      modalContent: {
+        backgroundColor: 'white',
+        padding: SCREEN_WIDTH * 0.05,
+        borderRadius: 10,
+        height: SCREEN_HEIGHT * 0.25,
+        width: SCREEN_WIDTH * 0.9,
+        text: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(30), textAlign: 'center', marginBottom: SCREEN_HEIGHT * 0.015 },
+        optionsContainer: { alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row' },
+        modalIconContainer: {
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: 'rgba(162, 164, 167, 0.563)',
+          padding: 10,
+          width: SCREEN_WIDTH * 0.225,
+          borderRadius: 10,
+          text: { fontFamily: 'Poppins-Medium', fontSize: scaleFont(14) },
+        },
+      },
+    },
+  },
+
   // ================================================================================================================================== CUSTOM MODAL CONTAINER
   customModalContainer: {
     overlay: { flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.8)', justifyContent: 'center', alignItems: 'center' },
