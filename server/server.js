@@ -51,10 +51,10 @@ app.post('/signUp', upload.single('profileImage'), async (req, res) => {
       return res.status(409).json({ success: false, message })
     }
 
-    let imageUrl = null
+    let imgUrl = null
 
     if (file) {
-      imageUrl = await uploadFileToS3(file, 'profileImages')
+      imgUrl = await uploadFileToS3(file, 'profileImages')
     }
 
     // ✅ Proceed with inserting the new user
@@ -62,7 +62,7 @@ app.post('/signUp', upload.single('profileImage'), async (req, res) => {
       `INSERT INTO users(first_name, last_name, email, username, hashed_password, img_url)
        VALUES($1, $2, $3, $4, $5, $6)
        RETURNING user_id`,
-      [firstName, lastName, email, username, hashedPassword, imageUrl]
+      [firstName, lastName, email, username, hashedPassword, imgUrl]
     )
 
     const userId = newUser.rows[0].user_id
@@ -73,16 +73,14 @@ app.post('/signUp', upload.single('profileImage'), async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: "User registered successfully!",
-      user: {
-        userId,
-        email,
-        username,
-        firstName,
-        lastName,
-        token,
-        profileImage: imageUrl,
-      },
+      message: 'User registered successfully!',
+      userId,
+      email,
+      username,
+      firstName,
+      lastName,
+      token,
+      imgUrl,
     })
   } catch (error) {
     console.error(error)

@@ -7,12 +7,12 @@ import { useEffect } from 'react'
 import ProfileImageMedallion from '../components/ui/ProfileImageMedallion'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchFeaturedRestaurants } from '../state/actions/actions'
-import { usePreventRemove } from '@react-navigation/native'
 
 const HomeScreen = () => {
   const dispatch = useDispatch()
 
   const user = useSelector((state) => state.app.user)
+  console.log("I AM USER: ", user)
   const featuredRestaurants = useSelector((state) => state.app.featuredRestaurants)
 
   useEffect(() => {
