@@ -28,7 +28,8 @@
     "extra": {
       "eas": {
         "projectId": "02aa5aa2-442b-4f50-a0b1-8ac82f008732"
-      }
+      },
+       "API_KEY": "AIzaSyCXB87rKoiCqEI_As-a_eytKZZRDADW_ig"
     },
     "owner": "theobreaux",
     "plugins": [

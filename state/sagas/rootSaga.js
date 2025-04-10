@@ -1,5 +1,4 @@
 //this is where we handle data fetching
-
 import { put, takeLatest, all, call } from 'redux-saga/effects'
 import { API_URL } from '../../constants/constants'
 import { FETCH_FEATURED_RESTAURANTS } from '../actions/actionTypes'

@@ -9,13 +9,14 @@ import { useState, useCallback } from 'react'
 import { ErrorMessage, Formik } from 'formik'
 import Toast from 'react-native-toast-message'
 import { useDispatch } from 'react-redux'
-// import { setCurrentCity, setUser } from '../store/store'
 import LocateRestaurants from '../components/LocateRestaurants'
 import { getCityFromCoordinates } from '../utils/utils'
-import { setUser } from '../state/actions/actions'
+import { setCurrentCity, setUser } from '../state/actions/actions'
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation, route }) => {
   const dispatch = useDispatch()
+  
+  const { API_KEY } = route.params
 
   const [isFormValid, setIsFormValid] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -51,8 +52,8 @@ const LoginScreen = ({ navigation }) => {
   })
 
   const handleLocationSearch = async () => {
-    const city = await getCityFromCoordinates(latitude, longitude, apiKey)
-    // dispatch(setCurrentCity(city))
+    const city = await getCityFromCoordinates(latitude, longitude, API_KEY)
+    dispatch(setCurrentCity(city))
   }
 
   const handleLogin = async (values, actions) => {
@@ -79,7 +80,6 @@ const LoginScreen = ({ navigation }) => {
       const responseData = await response.json()
 
       dispatch(setUser(responseData))
-
       handleLocationSearch()
       navigation.navigate('Tabs', { screen: 'Home' })
 

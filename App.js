@@ -18,7 +18,7 @@ import HistoryScreen from './screens/HistoryScreen'
 import RegistrationScreen from './screens/RegistrationScreen'
 import WelcomeScreen from './screens/WelcomeScreen'
 import LoginScreen from './screens/LoginScreen'
-import { useDisableBackButton } from './utils/utils'
+import { PRETTIFY, useDisableBackButton } from './utils/utils'
 import { COLORS } from './constants/constants'
 import { Ionicons } from '@expo/vector-icons'
 import { FontAwesome } from '@expo/vector-icons'
@@ -33,9 +33,11 @@ import RestaurantDetailsScreen from './screens/RestaurantDetailsScreen'
 import Toast from 'react-native-toast-message'
 import toastConfig from './config/toastConfig'
 import store from './state/store'
+import Constants from 'expo-constants'
 
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
+const API_KEY = Constants.expoConfig.extra.API_KEY
 
 // const store = configureStore()
 
@@ -136,6 +138,7 @@ const ScreensNavigator = () => {
       <Stack.Screen
         name="Registration"
         component={RegistrationScreen}
+        initialParams={{ API_KEY }}
       />
       <Stack.Screen
         name="Profile"
@@ -148,6 +151,7 @@ const ScreensNavigator = () => {
       <Stack.Screen
         name="LogIn"
         component={LoginScreen}
+        initialParams={{ API_KEY }}
       />
       <Stack.Screen
         name="ItemConfirmation"
@@ -191,6 +195,7 @@ const App = () => {
       'Poppins-Medium': require('./assets/fonts/Poppins-Medium.ttf'),
       'Poppins-Regular': require('./assets/fonts/Poppins-Regular.ttf'),
       'Poppins-SemiBold': require('./assets/fonts/Poppins-SemiBold.ttf'),
+      'Poppins-BlackItalic': require('.//assets/fonts/Poppins-BlackItalic.ttf'),
     })
     setFontsLoaded(true)
   }

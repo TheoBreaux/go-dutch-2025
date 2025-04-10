@@ -12,7 +12,7 @@ const HomeScreen = () => {
   const dispatch = useDispatch()
 
   const user = useSelector((state) => state.app.user)
-  console.log("I AM USER: ", user)
+  const app = useSelector((state) => state.app)
   const featuredRestaurants = useSelector((state) => state.app.featuredRestaurants)
 
   useEffect(() => {
@@ -33,7 +33,9 @@ const HomeScreen = () => {
         </TouchableOpacity>
       </View>
 
-      <Text style={Styles.homeScreen.welcomeMessage}>Find restaurants near {user.location}!</Text>
+      <Text style={Styles.homeScreen.welcomeMessage}>
+        Find restaurants near <Text style={{ fontFamily: 'Poppins-BlackItalic' }}>{app.currentCity}</Text>
+      </Text>
       <Slider featuredRestaurants={featuredRestaurants} />
     </LogoScreenWrapper>
   )

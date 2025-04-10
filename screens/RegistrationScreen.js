@@ -8,10 +8,10 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import EditProfileImageHeader from '../components/EditProfileImageHeader'
 import { ErrorMessage, Formik } from 'formik'
 import Toast from 'react-native-toast-message'
-import { setUser } from '../state/actions/actions'
+import { setCurrentCity, setUser } from '../state/actions/actions'
 import { useDispatch } from 'react-redux'
 
-const RegistrationScreen = ({ navigation }) => {
+const RegistrationScreen = ({ navigation, route }) => {
   const dispatch = useDispatch()
 
   const [isFormValid, setIsFormValid] = useState(false)
@@ -21,6 +21,10 @@ const RegistrationScreen = ({ navigation }) => {
   // const [confirmedPassword, setConfirmedPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
+
+  const { API_KEY } = route.params
 
   const initialValues = {
     firstName: '',
@@ -29,6 +33,16 @@ const RegistrationScreen = ({ navigation }) => {
     createUsername: '',
     password: '',
     confirmedPassword: '',
+  }
+
+  const handleLocationUpdate = useCallback((lat, long) => {
+    setLatitude(lat)
+    setLongitude(long)
+  })
+
+  const handleLocationSearch = async () => {
+    const city = await getCityFromCoordinates(latitude, longitude, API_KEY)
+    dispatch(setCurrentCity(city))
   }
 
   const validateForm = (values) => {
