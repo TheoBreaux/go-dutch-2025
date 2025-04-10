@@ -55,9 +55,9 @@ export const getCityFromCoordinates = async (latitude, longitude, apiKey) => {
     const data = await response.json()
 
     // Check if results are empty
-    if (data.results.length === 0) {
-      return { city: null, error: 'No address found for the given coordinates.' }
-    }
+    // if (data.results.length === 0) {
+    //   return { city: null, error: 'No address found for the given coordinates.' }
+    // }
 
     const addressComponents = data.results.length > 0 ? data.results[0].address_components : []
 
