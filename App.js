@@ -32,9 +32,12 @@ import ConfirmTotalsScreen from './screens/ConfirmTotalsScreen'
 import RestaurantDetailsScreen from './screens/RestaurantDetailsScreen'
 import Toast from 'react-native-toast-message'
 import toastConfig from './config/toastConfig'
+import store from './state/store'
 
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
+
+// const store = configureStore()
 
 const Tabs = () => {
   //disable back button on android devices
@@ -170,6 +173,14 @@ const ScreensNavigator = () => {
   )
 }
 
+export default function AppWrapper() {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  )
+}
+
 const App = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false)
 
@@ -210,5 +221,3 @@ const App = () => {
     </SafeAreaProvider>
   )
 }
-
-export default App

@@ -1,7 +1,7 @@
 import * as Location from 'expo-location'
 import { useCallback, useEffect, useState } from 'react'
-import { setRestaurantList } from '../store/store'
-import { useDispatch } from 'react-redux'
+// import { setRestaurantList } from '../store/store'
+// import { useDispatch } from 'react-redux'
 import Constants from 'expo-constants'
 
 const LocateRestaurants = ({ onLocationUpdate }) => {
@@ -9,7 +9,7 @@ const LocateRestaurants = ({ onLocationUpdate }) => {
   const [latitude, setLatitude] = useState(0)
   const [longitude, setLongitude] = useState(0)
 
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   const apiKey = Constants.expoConfig.extra.PG_API_KEY
 
   //get current location coordinates
@@ -54,7 +54,7 @@ const LocateRestaurants = ({ onLocationUpdate }) => {
         }
         const result = await response.json()
         const data = result.results
-        dispatch(setRestaurantList(data))
+        // dispatch(setRestaurantList(data))
         return data
       } catch (error) {
         console.error('Error fetching restaurant data:', error)

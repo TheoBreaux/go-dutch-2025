@@ -5,28 +5,22 @@ import Slider from '../components/ui/Slider'
 import { API_URL, COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
 import { useEffect, useState } from 'react'
 import ProfileImageMedallion from '../components/ui/ProfileImageMedallion'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchFeaturedRestaurants } from '../state/actions/actions'
 
 const HomeScreen = () => {
+  const dispatch = useDispatch()
+
+  // const { featuredRestaurants, loading, error } = useSelector((state) => state.app)
+
   const [featuredRestaurants, setFeaturedRestaurants] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch(`${API_URL}/featuredRestaurants`, { method: 'GET' })
-      const data = await response.json()
-      setFeaturedRestaurants(data)
-    } catch (error) {
-      setError('Failed to fetch data')
-      console.error('Error:', error.message)
-    } finally {
-      setLoading(false)
-    }
-  }
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    dispatch(fetchFeaturedRestaurants())
+  }, [dispatch])
 
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>

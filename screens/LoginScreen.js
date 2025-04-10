@@ -10,8 +10,8 @@ import { ErrorMessage, Formik } from 'formik'
 import Toast from 'react-native-toast-message'
 // import { useDispatch } from 'react-redux'
 // import { setCurrentCity, setUser } from '../store/store'
-import { getCityFromCoordinates } from '../utils'
-import LocateRestaurants from '../ui/LocateRestaurants'
+import LocateRestaurants from '../components/LocateRestaurants'
+import { getCityFromCoordinates } from '../utils/utils'
 
 const LoginScreen = ({ navigation }) => {
   const [isFormValid, setIsFormValid] = useState(false)
