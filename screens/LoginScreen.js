@@ -8,19 +8,21 @@ import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import { useState, useCallback } from 'react'
 import { ErrorMessage, Formik } from 'formik'
 import Toast from 'react-native-toast-message'
-// import { useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 // import { setCurrentCity, setUser } from '../store/store'
 import LocateRestaurants from '../components/LocateRestaurants'
 import { getCityFromCoordinates } from '../utils/utils'
+import { setUser } from '../state/actions/actions'
 
 const LoginScreen = ({ navigation }) => {
+  const dispatch = useDispatch()
+
   const [isFormValid, setIsFormValid] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [latitude, setLatitude] = useState(0)
   const [longitude, setLongitude] = useState(0)
-  // const dispatch = useDispatch()
 
   const initialValues = {
     email: '',
@@ -75,6 +77,9 @@ const LoginScreen = ({ navigation }) => {
       }
 
       const responseData = await response.json()
+
+      dispatch(setUser(responseData))
+
       handleLocationSearch()
       navigation.navigate('Tabs', { screen: 'Home' })
 

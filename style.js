@@ -378,7 +378,7 @@ export default StyleSheet.create({
       textAlign: 'center',
       marginRight: 10,
       fontFamily: 'Poppins-Regular',
-      fontSize: SCREEN_WIDTH < 400 ? scaleFont(30) : scaleFont(38),
+      fontSize: SCREEN_WIDTH < 400 ? scaleFont(30) : scaleFont(32),
       color: COLORS.goDutchBlue,
     },
     welcomeMessage: {
