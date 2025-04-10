@@ -26,10 +26,9 @@ const uploadFileToS3 = async (file, folder) => {
   }
 
   const upload = new AWS.S3.ManagedUpload({ params })
-  const result = await upload.promise()
+  await upload.promise()
 
-  console.log('RESULT LOCATION: ', result.Location)
-  return result.Location // S3 URL
+  return s3Key
 }
 
 module.exports = { uploadFileToS3 }

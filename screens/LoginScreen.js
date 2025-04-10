@@ -12,11 +12,12 @@ import { useDispatch } from 'react-redux'
 import LocateRestaurants from '../components/LocateRestaurants'
 import { getCityFromCoordinates } from '../utils/utils'
 import { setCurrentCity, setUser } from '../state/actions/actions'
+import Constants from 'expo-constants'
 
 const LoginScreen = ({ navigation, route }) => {
   const dispatch = useDispatch()
-  
-  const { API_KEY } = route.params
+
+  const API_KEY = Constants.expoConfig.extra.API_KEY
 
   const [isFormValid, setIsFormValid] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -30,6 +31,15 @@ const LoginScreen = ({ navigation, route }) => {
     password: '',
   }
 
+  const handleLocationUpdate = useCallback((lat, long) => {
+    setLatitude(lat)
+    setLongitude(long)
+  })
+
+  const handleLocationSearch = async () => {
+    const { city } = await getCityFromCoordinates(latitude, longitude, API_KEY)
+    dispatch(setCurrentCity(city))
+  }
   const validateForm = (values) => {
     const errors = {}
 
@@ -44,16 +54,6 @@ const LoginScreen = ({ navigation, route }) => {
     const isValid = Object.keys(errors).length === 0
     setIsFormValid(isValid)
     return errors
-  }
-
-  const handleLocationUpdate = useCallback((lat, long) => {
-    setLatitude(lat)
-    setLongitude(long)
-  })
-
-  const handleLocationSearch = async () => {
-    const city = await getCityFromCoordinates(latitude, longitude, API_KEY)
-    dispatch(setCurrentCity(city))
   }
 
   const handleLogin = async (values, actions) => {

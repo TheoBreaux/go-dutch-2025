@@ -53,7 +53,13 @@ export const getCityFromCoordinates = async (latitude, longitude, apiKey) => {
     }
 
     const data = await response.json()
-    const addressComponents = data.results[0].address_components
+
+    // Check if results are empty
+    if (data.results.length === 0) {
+      return { city: null, error: 'No address found for the given coordinates.' }
+    }
+
+    const addressComponents = data.results.length > 0 ? data.results[0].address_components : []
 
     // Find the city in the address components
     const cityComponent = addressComponents.find(
@@ -61,7 +67,7 @@ export const getCityFromCoordinates = async (latitude, longitude, apiKey) => {
     )
 
     const city = cityComponent ? cityComponent.long_name : 'City not found'
-    return city
+    return { city }
   } catch (error) {
     console.error('Error fetching city:', error)
     //find a better way to handle this

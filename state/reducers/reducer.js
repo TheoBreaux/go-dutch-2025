@@ -1,4 +1,3 @@
-import { PRETTIFY } from '../../utils/utils'
 import {
   FETCH_FEATURED_RESTAURANTS,
   FETCH_FEATURED_RESTAURANTS_FAILURE,
@@ -17,7 +16,7 @@ const initialState = {
 
 const AppReducer = (state = initialState, action) => {
   console.log('ACTION', action)
-  console.log('CURRENT STATE', PRETTIFY(state))
+  console.log('CURRENT STATE', state)
 
   switch (action.type) {
     case FETCH_FEATURED_RESTAURANTS:

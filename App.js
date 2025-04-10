@@ -33,11 +33,9 @@ import RestaurantDetailsScreen from './screens/RestaurantDetailsScreen'
 import Toast from 'react-native-toast-message'
 import toastConfig from './config/toastConfig'
 import store from './state/store'
-import Constants from 'expo-constants'
 
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
-const API_KEY = Constants.expoConfig.extra.API_KEY
 
 // const store = configureStore()
 
@@ -138,7 +136,6 @@ const ScreensNavigator = () => {
       <Stack.Screen
         name="Registration"
         component={RegistrationScreen}
-        initialParams={{ API_KEY }}
       />
       <Stack.Screen
         name="Profile"
@@ -151,7 +148,6 @@ const ScreensNavigator = () => {
       <Stack.Screen
         name="LogIn"
         component={LoginScreen}
-        initialParams={{ API_KEY }}
       />
       <Stack.Screen
         name="ItemConfirmation"
