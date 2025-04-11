@@ -17,6 +17,7 @@
     "dotenv": "^16.4.7",
     "expo": "~52.0.40",
     "expo-av": "~15.0.2",
+    "expo-camera": "^16.0.18",
     "expo-constants": "~17.0.8",
     "expo-dev-client": "~5.0.14",
     "expo-image-picker": "^16.0.6",
@@ -31,7 +32,8 @@
     "react-native-toast-message": "^2.2.1",
     "react-redux": "^9.2.0",
     "redux": "^5.0.1",
-    "redux-saga": "^1.3.0"
+    "redux-saga": "^1.3.0",
+    "expo-media-library": "~17.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

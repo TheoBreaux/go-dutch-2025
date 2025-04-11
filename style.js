@@ -226,11 +226,67 @@ export default StyleSheet.create({
     image: { width: '100%', height: '100%' },
   },
 
+  // ====================================================================================================================================== RECEIPT CAPTURE SCREEN
+  receiptCaptureScreen: {
+    cameraView: {
+      width: SCREEN_WIDTH,
+      height: SCREEN_HEIGHT,
+      alignItems: 'center',
+      header: { backgroundColor: '#00000066', height: SCREEN_HEIGHT * 0.1, width: SCREEN_WIDTH, alignItems: 'center' },
+      iconsContainer: { flexDirection: 'row', width: SCREEN_WIDTH, height: SCREEN_HEIGHT * 0.85 },
+      panel: { width: SCREEN_WIDTH * 0.025, backgroundColor: '#00000066', height: SCREEN_HEIGHT },
+    },
+    captureArea: {
+      flex: 1,
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      paddingHorizontal: SCREEN_WIDTH * 0.05,
+      container: { flexDirection: 'row', justifyContent: 'space-between' },
+    },
+    button: {
+      marginTop: SCREEN_HEIGHT * 0.05,
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: SCREEN_HEIGHT * 0.15,
+      width: SCREEN_WIDTH * 0.3,
+      borderRadius: (SCREEN_WIDTH * 0.3) / 2,
+      borderWidth: 3,
+      borderColor: COLORS.goDutchBlue,
+    },
+    capturedImageContainer: {
+      width: SCREEN_WIDTH * 0.95,
+      height: SCREEN_HEIGHT,
+      borderWidth: 2,
+      borderColor: COLORS.goDutchRed,
+      buttonContainer: {
+        position: 'absolute',
+        bottom: SCREEN_HEIGHT * 0.15,
+        alignSelf: 'center',
+        justifyContent: 'flex-end',
+        width: SCREEN_WIDTH * 0.95,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: SCREEN_WIDTH * 0.05,
+        iconContainer: {
+          width: SCREEN_WIDTH * 0.25,
+          height: SCREEN_HEIGHT * 0.125,
+          borderRadius: (SCREEN_WIDTH * 0.25) / 2,
+          borderColor: COLORS.goDutchBlue,
+          borderWidth: 3,
+          backgroundColor: '#00000066',
+          alignItems: 'center',
+          justifyContent: 'center',
+          text: { marginTop: 5, fontFamily: 'Poppins-Bold', color: 'white' },
+        },
+      },
+    },
+  },
+
   // ================================================================================================================================== DINER ITEM REVIEW MODAL
   dinerItemReviewModal: {
     content: { alignItems: 'center', justifyContent: 'center', width: SCREEN_WIDTH * 0.9 },
     text: {
-      header: { color: COLORS.goDutchBlue, fontSize: scaleFont(34), fontFamily: 'Poppins-Regular' },
+      header: { color: COLORS.goDutchBlue, fontSizre: scaleFont(34), fontFamily: 'Poppins-Regular' },
       instructions: { fontSize: scaleFont(16), fontFamily: 'Poppins-Medium', textAlign: 'center', color: COLORS.goDutchBlue },
     },
   },
@@ -357,17 +413,6 @@ export default StyleSheet.create({
         color: COLORS.goDutchBlue,
       },
       image: { width: SCREEN_WIDTH * 0.9, resizeMode: 'cover' },
-      button: {
-        marginTop: SCREEN_HEIGHT * 0.05,
-        backgroundColor: 'transparent',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: SCREEN_HEIGHT * 0.15,
-        width: SCREEN_WIDTH * 0.3,
-        borderRadius: '50%',
-        borderWidth: 3,
-        borderColor: COLORS.goDutchBlue,
-      },
     },
   },
 
@@ -385,7 +430,7 @@ export default StyleSheet.create({
       textAlign: 'center',
       width: SCREEN_WIDTH * 0.9,
       fontFamily: 'Poppins-Bold',
-      fontSize: scaleFont(20),
+      fontSize: SCREEN_WIDTH < 400 ? scaleFont(18) : scaleFont(20),
       color: COLORS.goDutchBlue,
     },
     sliderItem: {
