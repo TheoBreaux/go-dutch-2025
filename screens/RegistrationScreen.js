@@ -1,5 +1,5 @@
 import { View, Text, TextInput, ScrollView, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import Styles from '../style'
 import { API_URL, COLORS, SCREEN_WIDTH } from '../constants/constants'
@@ -8,26 +8,18 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import EditProfileImageHeader from '../components/EditProfileImageHeader'
 import { ErrorMessage, Formik } from 'formik'
 import Toast from 'react-native-toast-message'
-import { setCurrentCity, setUser } from '../state/actions/actions'
+import { setUser } from '../state/actions/actions'
 import { useDispatch } from 'react-redux'
-import { getCityFromCoordinates } from '../utils/utils'
-import LocateRestaurants from '../components/LocateRestaurants'
-import Constants from 'expo-constants'
 
-const RegistrationScreen = ({ navigation, route }) => {
+const RegistrationScreen = ({ navigation }) => {
   const dispatch = useDispatch()
-
-  const API_KEY = Constants.expoConfig.extra.API_KEY
 
   const [isFormValid, setIsFormValid] = useState(false)
   const [image, setImage] = useState()
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmedPassword, setShowConfirmedPassword] = useState(false)
-  // const [confirmedPassword, setConfirmedPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [latitude, setLatitude] = useState(0)
-  const [longitude, setLongitude] = useState(0)
 
   const initialValues = {
     firstName: '',
@@ -36,16 +28,6 @@ const RegistrationScreen = ({ navigation, route }) => {
     createUsername: '',
     password: '',
     confirmedPassword: '',
-  }
-
-  const handleLocationUpdate = useCallback((lat, long) => {
-    setLatitude(lat)
-    setLongitude(long)
-  })
-
-  const handleLocationSearch = async () => {
-    const { city } = await getCityFromCoordinates(latitude, longitude, API_KEY)
-    dispatch(setCurrentCity(city))
   }
 
   const validateForm = (values) => {
@@ -122,7 +104,6 @@ const RegistrationScreen = ({ navigation, route }) => {
       const responseData = await response.json()
 
       dispatch(setUser(responseData))
-      handleLocationSearch()
       navigation.navigate('Tabs', { screen: 'Home' })
 
       Toast.show({
@@ -150,159 +131,156 @@ const RegistrationScreen = ({ navigation, route }) => {
   }
 
   return (
-    <>
-      <LocateRestaurants onLocationUpdate={handleLocationUpdate} />
-      <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
-        <EditProfileImageHeader
-          image={image}
-          setImage={setImage}
-        />
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={{ flex: 1 }}
-          keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}
+    <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
+      <EditProfileImageHeader
+        image={image}
+        setImage={setImage}
+      />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}
+      >
+        <ScrollView
+          contentContainerStyle={Styles.registrationScreen.inputsScrollContainer}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
         >
-          <ScrollView
-            contentContainerStyle={Styles.registrationScreen.inputsScrollContainer}
-            keyboardShouldPersistTaps="handled"
-            showsVerticalScrollIndicator={false}
-          >
-            <View style={Styles.registrationScreen.formContainer}>
-              <Formik
-                initialValues={initialValues}
-                validate={validateForm}
-                onSubmit={handleRegistration}
-              >
-                {({ handleChange, handleSubmit, handleBlur, values }) => (
-                  <>
-                    <View style={Styles.registrationScreen.inputsScrollContainer.nameInputsContainer}>
-                      <View style={Styles.registrationScreen.inputsScrollContainer.nameInputsContainer.firstNameInput}>
-                        <Text style={Styles.registrationScreen.inputLabels}>First Name</Text>
-                        <TextInput
-                          style={[Styles.registrationScreen.textInput]}
-                          onChangeText={handleChange('firstName')}
-                          onBlur={handleBlur('firstName')}
-                          value={values.firstName}
-                        />
-                        <ErrorMessage
-                          name="firstName"
-                          component={Text}
-                          style={{ color: COLORS.goDutchRed }}
-                        />
-                      </View>
-
-                      <View style={Styles.registrationScreen.inputsScrollContainer.nameInputsContainer.lastNameInput}>
-                        <Text style={Styles.registrationScreen.inputLabels}>Last Name</Text>
-                        <TextInput
-                          style={Styles.registrationScreen.textInput}
-                          onChangeText={handleChange('lastName')}
-                          onBlur={handleBlur('lastName')}
-                          value={values.lastName}
-                        />
-                        <ErrorMessage
-                          name="lastName"
-                          component={Text}
-                          style={{ color: COLORS.goDutchRed }}
-                        />
-                      </View>
-                    </View>
-
-                    <View style={Styles.registrationScreen.inputsScrollContainer.inputsContainer}>
-                      <Text style={Styles.registrationScreen.inputLabels}>Email</Text>
+          <View style={Styles.registrationScreen.formContainer}>
+            <Formik
+              initialValues={initialValues}
+              validate={validateForm}
+              onSubmit={handleRegistration}
+            >
+              {({ handleChange, handleSubmit, handleBlur, values }) => (
+                <>
+                  <View style={Styles.registrationScreen.inputsScrollContainer.nameInputsContainer}>
+                    <View style={Styles.registrationScreen.inputsScrollContainer.nameInputsContainer.firstNameInput}>
+                      <Text style={Styles.registrationScreen.inputLabels}>First Name</Text>
                       <TextInput
-                        style={Styles.registrationScreen.textInput}
-                        onChangeText={handleChange('email')}
-                        onBlur={handleBlur('email')}
-                        value={values.email}
-                        autoCapitalize="none"
-                        autoComplete="email"
+                        style={[Styles.registrationScreen.textInput]}
+                        onChangeText={handleChange('firstName')}
+                        onBlur={handleBlur('firstName')}
+                        value={values.firstName}
                       />
                       <ErrorMessage
-                        name="email"
-                        component={Text}
-                        style={{ color: COLORS.goDutchRed }}
-                      />
-                      <Text style={Styles.registrationScreen.inputLabels}>Create Username</Text>
-                      <TextInput
-                        style={Styles.registrationScreen.textInput}
-                        onChangeText={handleChange('createUsername')}
-                        onBlur={handleBlur('createUsername')}
-                        value={values.createUsername}
-                        autoCapitalize="none"
-                      />
-                      <ErrorMessage
-                        name="createUsername"
-                        component={Text}
-                        style={{ color: COLORS.goDutchRed }}
-                      />
-
-                      <Text style={Styles.registrationScreen.inputLabels}>Password</Text>
-                      <View style={Styles.logInScreen.container.modal.passwordInput}>
-                        <TextInput
-                          style={[Styles.registrationScreen.textInput, { width: '100%' }]}
-                          onChangeText={handleChange('password')}
-                          onBlur={handleBlur('password')}
-                          value={values.password}
-                          secureTextEntry={!showPassword}
-                        />
-                        <TouchableOpacity
-                          style={Styles.logInScreen.container.modal.passwordInput.passwordIcon}
-                          onPress={() => setShowPassword(!showPassword)}
-                        >
-                          <Ionicons
-                            name={showPassword ? 'eye-off-outline' : 'eye-outline'}
-                            size={24}
-                            color={COLORS.goDutchRed}
-                          />
-                        </TouchableOpacity>
-                      </View>
-
-                      <ErrorMessage
-                        name="password"
-                        component={Text}
-                        style={{ color: COLORS.goDutchRed }}
-                      />
-                      <Text style={Styles.registrationScreen.inputLabels}>Confirm Password</Text>
-                      <View style={Styles.logInScreen.container.modal.passwordInput}>
-                        <TextInput
-                          style={[Styles.registrationScreen.textInput, { width: '100%' }]}
-                          onChangeText={handleChange('confirmedPassword')}
-                          onBlur={handleBlur('confirmedPassword')}
-                          value={values.confirmedPassword}
-                          secureTextEntry={!showConfirmedPassword}
-                        />
-                        <TouchableOpacity
-                          style={Styles.logInScreen.container.modal.passwordInput.passwordIcon}
-                          onPress={() => setShowConfirmedPassword(!showConfirmedPassword)}
-                        >
-                          <Ionicons
-                            name={showConfirmedPassword ? 'eye-off-outline' : 'eye-outline'}
-                            size={24}
-                            color={COLORS.goDutchRed}
-                          />
-                        </TouchableOpacity>
-                      </View>
-                      <ErrorMessage
-                        name="confirmedPassword"
+                        name="firstName"
                         component={Text}
                         style={{ color: COLORS.goDutchRed }}
                       />
                     </View>
-                    <PrimaryButton
-                      onPress={handleSubmit}
-                      outterWidth={SCREEN_WIDTH * 0.9}
-                      innerWidth={SCREEN_WIDTH * 0.88}
-                    >
-                      Submit
-                    </PrimaryButton>
-                  </>
-                )}
-              </Formik>
-            </View>
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </LogoScreenWrapper>
-    </>
+
+                    <View style={Styles.registrationScreen.inputsScrollContainer.nameInputsContainer.lastNameInput}>
+                      <Text style={Styles.registrationScreen.inputLabels}>Last Name</Text>
+                      <TextInput
+                        style={Styles.registrationScreen.textInput}
+                        onChangeText={handleChange('lastName')}
+                        onBlur={handleBlur('lastName')}
+                        value={values.lastName}
+                      />
+                      <ErrorMessage
+                        name="lastName"
+                        component={Text}
+                        style={{ color: COLORS.goDutchRed }}
+                      />
+                    </View>
+                  </View>
+
+                  <View style={Styles.registrationScreen.inputsScrollContainer.inputsContainer}>
+                    <Text style={Styles.registrationScreen.inputLabels}>Email</Text>
+                    <TextInput
+                      style={Styles.registrationScreen.textInput}
+                      onChangeText={handleChange('email')}
+                      onBlur={handleBlur('email')}
+                      value={values.email}
+                      autoCapitalize="none"
+                      autoComplete="email"
+                    />
+                    <ErrorMessage
+                      name="email"
+                      component={Text}
+                      style={{ color: COLORS.goDutchRed }}
+                    />
+                    <Text style={Styles.registrationScreen.inputLabels}>Create Username</Text>
+                    <TextInput
+                      style={Styles.registrationScreen.textInput}
+                      onChangeText={handleChange('createUsername')}
+                      onBlur={handleBlur('createUsername')}
+                      value={values.createUsername}
+                      autoCapitalize="none"
+                    />
+                    <ErrorMessage
+                      name="createUsername"
+                      component={Text}
+                      style={{ color: COLORS.goDutchRed }}
+                    />
+
+                    <Text style={Styles.registrationScreen.inputLabels}>Password</Text>
+                    <View style={Styles.logInScreen.container.modal.passwordInput}>
+                      <TextInput
+                        style={[Styles.registrationScreen.textInput, { width: '100%' }]}
+                        onChangeText={handleChange('password')}
+                        onBlur={handleBlur('password')}
+                        value={values.password}
+                        secureTextEntry={!showPassword}
+                      />
+                      <TouchableOpacity
+                        style={Styles.logInScreen.container.modal.passwordInput.passwordIcon}
+                        onPress={() => setShowPassword(!showPassword)}
+                      >
+                        <Ionicons
+                          name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                          size={24}
+                          color={COLORS.goDutchRed}
+                        />
+                      </TouchableOpacity>
+                    </View>
+
+                    <ErrorMessage
+                      name="password"
+                      component={Text}
+                      style={{ color: COLORS.goDutchRed }}
+                    />
+                    <Text style={Styles.registrationScreen.inputLabels}>Confirm Password</Text>
+                    <View style={Styles.logInScreen.container.modal.passwordInput}>
+                      <TextInput
+                        style={[Styles.registrationScreen.textInput, { width: '100%' }]}
+                        onChangeText={handleChange('confirmedPassword')}
+                        onBlur={handleBlur('confirmedPassword')}
+                        value={values.confirmedPassword}
+                        secureTextEntry={!showConfirmedPassword}
+                      />
+                      <TouchableOpacity
+                        style={Styles.logInScreen.container.modal.passwordInput.passwordIcon}
+                        onPress={() => setShowConfirmedPassword(!showConfirmedPassword)}
+                      >
+                        <Ionicons
+                          name={showConfirmedPassword ? 'eye-off-outline' : 'eye-outline'}
+                          size={24}
+                          color={COLORS.goDutchRed}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                    <ErrorMessage
+                      name="confirmedPassword"
+                      component={Text}
+                      style={{ color: COLORS.goDutchRed }}
+                    />
+                  </View>
+                  <PrimaryButton
+                    onPress={handleSubmit}
+                    outterWidth={SCREEN_WIDTH * 0.9}
+                    innerWidth={SCREEN_WIDTH * 0.88}
+                  >
+                    Submit
+                  </PrimaryButton>
+                </>
+              )}
+            </Formik>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </LogoScreenWrapper>
   )
 }
 

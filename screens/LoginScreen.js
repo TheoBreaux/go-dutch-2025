@@ -5,41 +5,25 @@ import Images from '../assets/images/images'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { API_URL, COLORS } from '../constants/constants'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import { ErrorMessage, Formik } from 'formik'
 import Toast from 'react-native-toast-message'
 import { useDispatch } from 'react-redux'
-import LocateRestaurants from '../components/LocateRestaurants'
-import { getCityFromCoordinates } from '../utils/utils'
-import { setCurrentCity, setUser } from '../state/actions/actions'
-import Constants from 'expo-constants'
+import { setUser } from '../state/actions/actions'
 
-const LoginScreen = ({ navigation, route }) => {
+const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch()
-
-  const API_KEY = Constants.expoConfig.extra.API_KEY
 
   const [isFormValid, setIsFormValid] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [latitude, setLatitude] = useState(0)
-  const [longitude, setLongitude] = useState(0)
 
   const initialValues = {
     email: '',
     password: '',
   }
 
-  const handleLocationUpdate = useCallback((lat, long) => {
-    setLatitude(lat)
-    setLongitude(long)
-  })
-
-  const handleLocationSearch = async () => {
-    const { city } = await getCityFromCoordinates(latitude, longitude, API_KEY)
-    dispatch(setCurrentCity(city))
-  }
   const validateForm = (values) => {
     const errors = {}
 
@@ -80,7 +64,6 @@ const LoginScreen = ({ navigation, route }) => {
       const responseData = await response.json()
 
       dispatch(setUser(responseData))
-      handleLocationSearch()
       navigation.navigate('Tabs', { screen: 'Home' })
 
       Toast.show({
@@ -107,81 +90,78 @@ const LoginScreen = ({ navigation, route }) => {
   }
 
   return (
-    <>
-      <LocateRestaurants onLocationUpdate={handleLocationUpdate} />
-      <LogoScreenWrapper>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={{ flex: 1 }}
-          keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}
+    <LogoScreenWrapper>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}
+      >
+        <ScrollView
+          contentContainerStyle={Style.logInScreen.container}
+          showsVerticalScrollIndicator={false}
         >
-          <ScrollView
-            contentContainerStyle={Style.logInScreen.container}
-            showsVerticalScrollIndicator={false}
+          <Formik
+            initialValues={initialValues}
+            validate={validateForm}
+            onSubmit={handleLogin}
           >
-            <Formik
-              initialValues={initialValues}
-              validate={validateForm}
-              onSubmit={handleLogin}
-            >
-              {({ handleChange, handleSubmit, handleBlur, values }) => (
-                <>
-                  <Image
-                    source={Images.go_dutch_split_button}
-                    style={Style.logInScreen.container.logo}
+            {({ handleChange, handleSubmit, handleBlur, values }) => (
+              <>
+                <Image
+                  source={Images.go_dutch_split_button}
+                  style={Style.logInScreen.container.logo}
+                />
+                <View style={Style.logInScreen.container.modal.inputsContainer}>
+                  <Text style={Style.registrationScreen.inputLabels}>Email</Text>
+                  <TextInput
+                    style={Style.registrationScreen.textInput}
+                    onChangeText={handleChange('email')}
+                    onBlur={handleBlur('email')}
+                    value={values.email}
+                    autoCapitalize="none"
                   />
-                  <View style={Style.logInScreen.container.modal.inputsContainer}>
-                    <Text style={Style.registrationScreen.inputLabels}>Email</Text>
+                  <ErrorMessage
+                    name="email"
+                    component={Text}
+                    style={{ color: COLORS.goDutchRed }}
+                  />
+
+                  <Text style={[Style.registrationScreen.inputLabels, { marginTop: 10 }]}>Password</Text>
+
+                  <View style={{ justifyContent: 'center' }}>
                     <TextInput
                       style={Style.registrationScreen.textInput}
-                      onChangeText={handleChange('email')}
-                      onBlur={handleBlur('email')}
-                      value={values.email}
-                      autoCapitalize="none"
+                      onChangeText={handleChange('password')}
+                      onBlur={handleBlur('password')}
+                      value={values.password}
+                      secureTextEntry={!showPassword}
                     />
-                    <ErrorMessage
-                      name="email"
-                      component={Text}
-                      style={{ color: COLORS.goDutchRed }}
-                    />
-
-                    <Text style={[Style.registrationScreen.inputLabels, { marginTop: 10 }]}>Password</Text>
-
-                    <View style={{ justifyContent: 'center' }}>
-                      <TextInput
-                        style={Style.registrationScreen.textInput}
-                        onChangeText={handleChange('password')}
-                        onBlur={handleBlur('password')}
-                        value={values.password}
-                        secureTextEntry={!showPassword}
+                    <TouchableOpacity
+                      style={Style.logInScreen.container.modal.passwordInput.passwordIcon}
+                      onPress={() => setShowPassword(!showPassword)}
+                    >
+                      <Ionicons
+                        name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                        size={24}
+                        color={COLORS.goDutchRed}
                       />
-                      <TouchableOpacity
-                        style={Style.logInScreen.container.modal.passwordInput.passwordIcon}
-                        onPress={() => setShowPassword(!showPassword)}
-                      >
-                        <Ionicons
-                          name={showPassword ? 'eye-off-outline' : 'eye-outline'}
-                          size={24}
-                          color={COLORS.goDutchRed}
-                        />
-                      </TouchableOpacity>
-                    </View>
-
-                    <ErrorMessage
-                      name="password"
-                      component={Text}
-                      style={{ color: COLORS.goDutchRed }}
-                    />
+                    </TouchableOpacity>
                   </View>
 
-                  <PrimaryButton onPress={handleSubmit}>Submit</PrimaryButton>
-                </>
-              )}
-            </Formik>
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </LogoScreenWrapper>
-    </>
+                  <ErrorMessage
+                    name="password"
+                    component={Text}
+                    style={{ color: COLORS.goDutchRed }}
+                  />
+                </View>
+
+                <PrimaryButton onPress={handleSubmit}>Submit</PrimaryButton>
+              </>
+            )}
+          </Formik>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </LogoScreenWrapper>
   )
 }
 

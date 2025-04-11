@@ -45,6 +45,8 @@ export const handleExternalLink = (url) => {
 export const getCityFromCoordinates = async (latitude, longitude, apiKey) => {
   const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`
 
+  console.log('Fetching city for:', latitude, longitude)
+
   try {
     const response = await fetch(apiUrl)
 
@@ -53,11 +55,12 @@ export const getCityFromCoordinates = async (latitude, longitude, apiKey) => {
     }
 
     const data = await response.json()
+    console.log('Geocoding API response:', data)
 
     // Check if results are empty
-    // if (data.results.length === 0) {
-    //   return { city: null, error: 'No address found for the given coordinates.' }
-    // }
+    if (data.results.length === 0) {
+      return { city: null, error: 'No address found for the given coordinates.' }
+    }
 
     const addressComponents = data.results.length > 0 ? data.results[0].address_components : []
 
