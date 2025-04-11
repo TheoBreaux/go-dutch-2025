@@ -36,7 +36,6 @@ const AppReducer = (state = initialState, action) => {
     case SET_LOCAL_RESTAURANTS:
       return { ...state, loading: true, error: null }
     case SET_LOCAL_RESTAURANTS_SUCCESS:
-      console.log('Payload in reducer:', action.payload)
       return { ...state, localRestaurants: action.payload, loading: false, error: null }
     case SET_LOCAL_RESTAURANTS_FAILURE:
       return { ...state, error: action.error, loading: false }
