@@ -1,6 +1,11 @@
 import { useEffect } from 'react'
 import { SCREEN_WIDTH } from '../constants/constants'
 import { BackHandler, Linking } from 'react-native'
+import Constants from 'expo-constants'
+import * as FileSystem from 'expo-file-system'
+
+const VERYFI_CLIENT_ID = Constants.expoConfig.extra.VERYFI_CLIENT_ID
+const VERYFI_ID = Constants.expoConfig.extra.VERYFI_ID
 
 //more balanced cross-platform approach → Use 390px
 const baseWidth = 390
@@ -78,5 +83,39 @@ export const getCityFromCoordinates = async (latitude, longitude, apiKey) => {
       city: null,
       error: 'Unable to retrieve current location',
     }
+  }
+}
+
+export const handleReceiptParse = async (imageUri) => {
+  const url = 'https://api.veryfi.com/api/v8/partner/documents/'
+
+  // Convert image file to base64 string
+  const base64Image = await FileSystem.readAsStringAsync(imageUri, {
+    encoding: FileSystem.EncodingType.Base64,
+  })
+
+  const payload = {
+    file_data: base64Image,
+    boost_mode: true,
+    external_id: 'optional_custom_id',
+    tags: ['godutch'],
+  }
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'CLIENT-ID': VERYFI_CLIENT_ID,
+        AUTHORIZATION: VERYFI_ID,
+      },
+      body: JSON.stringify(payload),
+    })
+
+    const data = await response.json()
+    return data
+  } catch (err) {
+    console.error('Upload failed:', err)
   }
 }

@@ -13,10 +13,7 @@ const SplitScreen = () => {
   return (
     <>
       {isCapturingReceipt ? (
-        <ReceiptCaptureScreen
-          isCapturingReceipt={isCapturingReceipt}
-          setIsCapturingReceipt={setIsCapturingReceipt}
-        />
+        <ReceiptCaptureScreen setIsCapturingReceipt={setIsCapturingReceipt} />
       ) : (
         <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
           <View style={Styles.splitScreen.container}>

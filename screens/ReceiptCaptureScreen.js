@@ -1,8 +1,6 @@
 import { View, Text, Button, TouchableOpacity, Image } from 'react-native'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { Camera, CameraView, useCameraPermissions } from 'expo-camera'
-import * as MediaLibrary from 'expo-media-library'
-import Spinner from '../components/ui/Spinner'
 import { COLORS, SCREEN_HEIGHT } from '../constants/constants'
 import { CameraType } from 'expo-image-picker'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
@@ -10,8 +8,10 @@ import AntDesign from '@expo/vector-icons/AntDesign'
 import Styles from '../style'
 import ReceiptCaptureButton from '../components/ui/ReceiptCaptureButton'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
+import { handleReceiptParse } from '../utils/utils'
+import ReceiptAnalyzingScreen from './ReceiptAnalyzingScreen'
 
-const ReceiptCaptureScreen = ({ setIsCapturingReceipt, isCapturingReceipt }) => {
+const ReceiptCaptureScreen = ({ setIsCapturingReceipt }) => {
   const [facing, setFacing] = useState(CameraType.back)
   const [permission, requestPermission] = useCameraPermissions()
   const [flashOn, setFlashOn] = useState(false)
@@ -49,7 +49,16 @@ const ReceiptCaptureScreen = ({ setIsCapturingReceipt, isCapturingReceipt }) => 
     }
   }
 
-  return (
+  const handleReceiptData = async () => {
+    setLoading(true)
+    const data = await handleReceiptParse(image)
+    console.log(data)
+    setLoading(false)
+  }
+
+  return loading ? (
+    <ReceiptAnalyzingScreen />
+  ) : (
     <CameraView
       style={Styles.receiptCaptureScreen.cameraView}
       facing={facing}
@@ -116,7 +125,7 @@ const ReceiptCaptureScreen = ({ setIsCapturingReceipt, isCapturingReceipt }) => 
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    onPress={() => {}} //parse receipt data
+                    onPress={handleReceiptData}
                     style={Styles.receiptCaptureScreen.capturedImageContainer.buttonContainer.iconContainer}
                   >
                     <FontAwesome

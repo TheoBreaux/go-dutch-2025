@@ -1,6 +1,7 @@
 import { Platform, StyleSheet } from 'react-native'
 import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from './constants/constants'
 import { scaleFont } from './utils/utils'
+import ReceiptAnalyzingScreen from './screens/ReceiptAnalyzingScreen'
 
 const containerWidth = SCREEN_WIDTH * 0.9 // 90% of screen width
 const containerHeight = SCREEN_HEIGHT * 0.1 // 10% of screen height
@@ -279,6 +280,16 @@ export default StyleSheet.create({
           text: { marginTop: 5, fontFamily: 'Poppins-Bold', color: 'white' },
         },
       },
+    },
+  },
+  // ====================================================================================================================================== RECEIPT ANALYZING SCREEN
+  receiptAnalyzingScreen: {
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      image: { width: SCREEN_WIDTH * 0.6, height: SCREEN_HEIGHT * 0.325, resizeMode: 'contain', marginBottom: 10 },
+      text: { fontFamily: 'Poppins-BlackItalic', fontSize: scaleFont(30), color: COLORS.goDutchRed },
     },
   },
 

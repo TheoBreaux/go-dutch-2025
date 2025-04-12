@@ -32,6 +32,8 @@ export default {
         projectId: '02aa5aa2-442b-4f50-a0b1-8ac82f008732',
       },
       API_KEY: process.env.API_KEY,
+      VERYFI_CLIENT_ID: process.env.VERYFI_CLIENT_ID,
+      VERYFI_ID: process.env.VERYFI_ID,
     },
     owner: 'theobreaux',
     plugins: [
