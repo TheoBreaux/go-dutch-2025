@@ -50,4 +50,3 @@ function* watchSetLocalRestaurants() {
 export default function* rootSaga() {
   yield all([watchFetchFeaturedRestaurants(), watchSetLocalRestaurants()])
 }
-

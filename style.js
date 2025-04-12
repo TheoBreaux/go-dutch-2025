@@ -535,17 +535,24 @@ export default StyleSheet.create({
   // ====================================================================================================================================== ITEM CONFIRMATION SCREEN
   itemConfirmationScreen: {
     modalContainer: {
-      marginTop: 20,
-      padding: 10,
+      marginTop: SCREEN_HEIGHT * 0.02,
       borderRadius: 10,
       width: SCREEN_WIDTH * 0.9,
-      height: SCREEN_HEIGHT * 0.2,
+      height: 'auto',
       backgroundColor: 'white',
       elevation: 5,
       alignItems: 'center',
-      text: { fontFamily: 'Poppins-Medium', fontSize: scaleFont(30), color: COLORS.goDutchRed },
-      buttonContainer: { flexDirection: 'row', width: SCREEN_WIDTH * 0.9, justifyContent: 'center' },
-      subtotal: { fontFamily: 'Poppins-Medium', fontSize: scaleFont(30), color: 'black', marginTop: 20 },
+      text: {
+        name: {
+          fontFamily: 'Poppins-BlackItalic',
+          fontSize: SCREEN_HEIGHT < 400 ? scaleFont(20) : scaleFont(30),
+          color: COLORS.goDutchRed,
+          marginBottom: -5,
+        },
+        confirm: { fontFamily: 'Poppins-Medium', fontSize: scaleFont(20), color: 'black', marginBottom: 10 },
+        subtotal: { fontFamily: 'Poppins-ExtraBold', fontSize: scaleFont(30), color: 'black', marginTop: SCREEN_HEIGHT * 0.025 },
+      },
+      buttonContainer: { flexDirection: 'row', width: SCREEN_WIDTH * 0.9, justifyContent: 'space-around' },
     },
   },
   // ====================================================================================================================================== DINER ITEM ASSIGNMENT SCREEN

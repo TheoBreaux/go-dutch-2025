@@ -1,6 +1,6 @@
 import { View, Text, Button, TouchableOpacity, Image } from 'react-native'
 import { useState, useRef } from 'react'
-import { Camera, CameraView, useCameraPermissions } from 'expo-camera'
+import { CameraView, useCameraPermissions } from 'expo-camera'
 import { COLORS, SCREEN_HEIGHT } from '../constants/constants'
 import { CameraType } from 'expo-image-picker'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
@@ -10,6 +10,9 @@ import ReceiptCaptureButton from '../components/ui/ReceiptCaptureButton'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { handleReceiptParse } from '../utils/utils'
 import ReceiptAnalyzingScreen from './ReceiptAnalyzingScreen'
+import { useNavigation } from '@react-navigation/native'
+import { useDispatch } from 'react-redux'
+import { setReceiptDataSuccess } from '../state/actions/actions'
 
 const ReceiptCaptureScreen = ({ setIsCapturingReceipt }) => {
   const [facing, setFacing] = useState(CameraType.back)
@@ -18,6 +21,8 @@ const ReceiptCaptureScreen = ({ setIsCapturingReceipt }) => {
   const [loading, setLoading] = useState(false)
   const [image, setImage] = useState(null)
 
+  const navigation = useNavigation()
+  const dispatch = useDispatch()
   const cameraRef = useRef(null)
 
   if (!permission) {
@@ -50,10 +55,15 @@ const ReceiptCaptureScreen = ({ setIsCapturingReceipt }) => {
   }
 
   const handleReceiptData = async () => {
-    setLoading(true)
-    const data = await handleReceiptParse(image)
-    console.log(data)
-    setLoading(false)
+    try {
+      setLoading(true)
+      const data = await handleReceiptParse(image)
+      dispatch(setReceiptDataSuccess(data))
+      setLoading(false)
+      navigation.navigate('Screens', { screen: 'ItemConfirmation' })
+    } catch (error) {
+      console.error('Receipt parsing failed:', error)
+    }
   }
 
   return loading ? (

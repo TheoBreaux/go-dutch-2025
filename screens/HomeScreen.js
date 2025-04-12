@@ -14,6 +14,8 @@ import LocateUser from '../components/LocateUser'
 const HomeScreen = () => {
   const dispatch = useDispatch()
 
+  const [loadingLocation, setLoadingLocation] = useState(false)
+
   const user = useSelector((state) => state.app.user)
   const currentCity = useSelector((state) => state.app.currentCity)
   const featuredRestaurants = useSelector((state) => state.app.featuredRestaurants)
@@ -39,9 +41,15 @@ const HomeScreen = () => {
   }, [])
 
   const handleLocationSearch = async (lat, long) => {
-    const { city } = await getCityFromCoordinates(lat, long, API_KEY)
-    dispatch(setCurrentCity(city))
-    dispatch(setLocalRestaurants({ longitude: long, latitude: lat }))
+    setLoadingLocation(true)
+    try {
+      const { city } = await getCityFromCoordinates(lat, long, API_KEY)
+      dispatch(setCurrentCity(city))
+      dispatch(setLocalRestaurants({ longitude: long, latitude: lat }))
+      setLoadingLocation(false)
+    } catch (error) {
+      console.error('Failed to get city from coordinates:', error)
+    }
   }
 
   return (
@@ -60,9 +68,14 @@ const HomeScreen = () => {
           </TouchableOpacity>
         </View>
 
-        <Text style={Styles.homeScreen.welcomeMessage}>
-          Find restaurants near <Text style={{ fontFamily: 'Poppins-BlackItalic' }}>{currentCity}!</Text>
-        </Text>
+        {loadingLocation ? (
+          <Text style={Styles.homeScreen.welcomeMessage}>Locating your city...</Text>
+        ) : (
+          <Text style={Styles.homeScreen.welcomeMessage}>
+            Find restaurants near <Text style={{ fontFamily: 'Poppins-BlackItalic' }}>{currentCity}!</Text>
+          </Text>
+        )}
+
         <Slider featuredRestaurants={featuredRestaurants} />
       </LogoScreenWrapper>
     </>
