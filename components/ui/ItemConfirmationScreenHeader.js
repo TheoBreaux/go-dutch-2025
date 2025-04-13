@@ -3,8 +3,11 @@ import Styles from '../../style'
 import Entypo from '@expo/vector-icons/Entypo'
 import { COLORS } from '../../constants/constants'
 import CircularButton from './CircularButton'
+import { useNavigation } from '@react-navigation/native'
 
-const ItemConfirmationScreenHeader = ({ subtotal, restaurantName }) => {
+const ItemConfirmationScreenHeader = ({ subtotal, restaurantName, setAddingNewItem }) => {
+  const navigation = useNavigation()
+
   return (
     <View style={Styles.itemConfirmationScreen.modalContainer}>
       <Text style={Styles.itemConfirmationScreen.modalContainer.text.name}>{restaurantName}</Text>
@@ -12,6 +15,7 @@ const ItemConfirmationScreenHeader = ({ subtotal, restaurantName }) => {
       <View style={Styles.itemConfirmationScreen.modalContainer.buttonContainer}>
         <View style={{ marginHorizontal: 15 }}>
           <CircularButton
+            onPress={() => navigation.navigate('Screens', { screen: 'ItemAssignment' })}
             icon={
               <Entypo
                 name="check"
@@ -23,6 +27,7 @@ const ItemConfirmationScreenHeader = ({ subtotal, restaurantName }) => {
         </View>
         <View style={{ marginHorizontal: 15 }}>
           <CircularButton
+            onPress={() => setAddingNewItem(true)}
             icon={
               <Entypo
                 name="plus"

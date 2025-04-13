@@ -1,11 +1,10 @@
 import { Platform, StyleSheet } from 'react-native'
-import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from './constants/constants'
+import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH, CIRCLE_SIZE } from './constants/constants'
 import { scaleFont } from './utils/utils'
 
 const containerWidth = SCREEN_WIDTH * 0.9 // 90% of screen width
 const containerHeight = SCREEN_HEIGHT * 0.1 // 10% of screen height
 const containerBorderRadius = scaleFont(15)
-const CIRCLE_SIZE = Math.min(SCREEN_WIDTH, SCREEN_HEIGHT)
 
 // console.log(SCREEN_WIDTH)
 // console.log(SCREEN_HEIGHT)
@@ -586,7 +585,7 @@ export default StyleSheet.create({
     },
   },
   // ====================================================================================================================================== DINER ITEM ASSIGNMENT SCREEN
-  dinerItemAssignmentScreen: {
+  dinnerItemAssignmentScreen: {
     container: {
       marginTop: 5,
       alignItems: 'center',

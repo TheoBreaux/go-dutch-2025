@@ -1,10 +1,7 @@
 import { Text, View, TouchableOpacity } from 'react-native'
 import Styles from '../../style'
-import { useNavigation } from '@react-navigation/native'
 
 const ConfirmableDinnerItemTile = ({ name, price, id, removeItem }) => {
-  const navigation = useNavigation()
-
   return (
     <View style={Styles.confirmableDinnerItemTile.container}>
       <TouchableOpacity onPress={() => removeItem(id)}>

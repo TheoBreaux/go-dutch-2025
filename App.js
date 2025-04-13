@@ -27,7 +27,7 @@ import Style from './style'
 import DiningDetailScreen from './screens/DiningDetailScreen'
 import DinerInputScreen from './screens/DinerInputScreen'
 import ItemConfirmationScreen from './screens/ItemConfirmationScreen'
-import DinerItemAssignmentScreen from './screens/DinerItemAssignmentScreen'
+import DinnerItemAssignmentScreen from './screens/DinnerItemAssignmentScreen'
 import ConfirmTotalsScreen from './screens/ConfirmTotalsScreen'
 import RestaurantDetailsScreen from './screens/RestaurantDetailsScreen'
 import Toast from 'react-native-toast-message'
@@ -156,7 +156,7 @@ const ScreensNavigator = () => {
       />
       <Stack.Screen
         name="ItemAssignment"
-        component={DinerItemAssignmentScreen}
+        component={DinnerItemAssignmentScreen}
       />
       <Stack.Screen
         name="ConfirmTotals"
