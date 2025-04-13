@@ -6,6 +6,7 @@ import ItemConfirmationScreenHeader from '../components/ui/ItemConfirmationScree
 import { useState } from 'react'
 import AddDinnerItemModal from '../components/ui/AddDinnerItemModal'
 
+
 const ItemConfirmationScreen = ({ route }) => {
   const { eventData } = route.params
   const items = eventData.items.map((item) => ({ id: item.id, name: item.description, price: item.total }))

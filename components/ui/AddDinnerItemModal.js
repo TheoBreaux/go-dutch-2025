@@ -40,15 +40,15 @@ const AddDinnerItemModal = ({ setNewItemName, setNewItemPrice, newItemName, newI
               <Text style={{ fontFamily: 'Poppins-Medium', fontSize: scaleFont(20) }}>Price:</Text>
               <TextInput
                 style={{
-                    width: SCREEN_WIDTH * 0.75,
-                    height: SCREEN_HEIGHT * 0.06,
-                    borderColor: COLORS.inputBorder,
-                    borderWidth: 1,
-                    marginBottom: 5,
-                    padding: 5,
-                    textAlign: 'center',
-                    fontFamily: 'Poppins-Medium',
-                    fontSize: 25,
+                  width: SCREEN_WIDTH * 0.75,
+                  height: SCREEN_HEIGHT * 0.06,
+                  borderColor: COLORS.inputBorder,
+                  borderWidth: 1,
+                  marginBottom: 5,
+                  padding: 5,
+                  textAlign: 'center',
+                  fontFamily: 'Poppins-Medium',
+                  fontSize: 25,
                 }}
                 value={newItemPrice}
                 onChangeText={(text) => setNewItemPrice(text)}

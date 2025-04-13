@@ -4,9 +4,17 @@ import Entypo from '@expo/vector-icons/Entypo'
 import { COLORS } from '../../constants/constants'
 import CircularButton from './CircularButton'
 import { useNavigation } from '@react-navigation/native'
+import { useDispatch } from 'react-redux'
+import { setReceiptDataSuccess } from '../state/actions/actions'
 
 const ItemConfirmationScreenHeader = ({ subtotal, restaurantName, setAddingNewItem }) => {
+  const dispatch = useDispatch()
   const navigation = useNavigation()
+
+  const handleItemAssigment = () => {
+    dispatch(setReceiptDataSuccess())
+    navigation.navigate('Screens', { screen: 'ItemAssignment' })
+  }
 
   return (
     <View style={Styles.itemConfirmationScreen.modalContainer}>
@@ -15,7 +23,7 @@ const ItemConfirmationScreenHeader = ({ subtotal, restaurantName, setAddingNewIt
       <View style={Styles.itemConfirmationScreen.modalContainer.buttonContainer}>
         <View style={{ marginHorizontal: 15 }}>
           <CircularButton
-            onPress={() => navigation.navigate('Screens', { screen: 'ItemAssignment' })}
+            onPress={handleItemAssigment}
             icon={
               <Entypo
                 name="check"
