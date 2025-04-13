@@ -33,6 +33,7 @@ import RestaurantDetailsScreen from './screens/RestaurantDetailsScreen'
 import Toast from 'react-native-toast-message'
 import toastConfig from './config/toastConfig'
 import store from './state/store'
+import ReceiptCaptureScreen from './screens/ReceiptCaptureScreen'
 
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
@@ -127,7 +128,7 @@ const ScreensNavigator = () => {
     <Stack.Navigator screenOptions={() => ({ headerShown: false })}>
       <Stack.Screen
         name="Splash"
-        component={SplashScreen}
+        component={ReceiptCaptureScreen}
       />
       <Stack.Screen
         name="Welcome"
@@ -168,6 +169,10 @@ const ScreensNavigator = () => {
       <Stack.Screen
         name="RestaurantDetails"
         component={RestaurantDetailsScreen}
+      />
+      <Stack.Screen
+        name="ReceiptCapture"
+        component={ReceiptCaptureScreen}
       />
     </Stack.Navigator>
   )

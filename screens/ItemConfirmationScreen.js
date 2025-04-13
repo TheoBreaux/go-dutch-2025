@@ -1,64 +1,53 @@
-import { View, Text, FlatList } from 'react-native'
+import { View, FlatList, Platform } from 'react-native'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
-import Styles from '../style'
-import CircularButton from '../components/ui/CircularButton'
-import Entypo from '@expo/vector-icons/Entypo'
-import { COLORS } from '../constants/constants'
+import { COLORS, SCREEN_HEIGHT } from '../constants/constants'
 import { useSelector } from 'react-redux'
+import ConfirmableDinnerItemTile from '../components/ui/ConfirmableDinnerItemTile'
+import ItemConfirmationScreenHeader from '../components/ui/ItemConfirmationScreenHeader'
+import { useState } from 'react'
 
-const ItemConfirmationScreen = () => {
-  const receiptData = useSelector((state) => state.app.receiptData)
+const ItemConfirmationScreen = ({ route }) => {
+  const { eventData } = route.params
+  const items = eventData.items.map((item) => ({ id: item.id, name: item.description, price: item.total }))
 
-  const date = receiptData.date
-  const items = receiptData.line_items
-  const subtotal = receiptData.subtotal
-  const tax = receiptData.tax
-  const vendor = receiptData.vendor
-  const restaurantName = receiptData.vendor.name
-  const restaurantAddress = receiptData.vendor.address
+  const [newItemName, setNewItemName] = useState(null)
+  const [newItemPrice, setNewItemPrice] = useState(null)
+  const [receiptItems, setReceiptItems] = useState(items)
+  const [subtotal, setSubtotal] = useState(eventData.subtotal)
 
-  console.log(date)
-  console.log(items)
-  console.log(subtotal)
-  console.log(tax)
-  console.log(vendor)
-  console.log(restaurantName)
-  console.log(restaurantAddress)
+  console.log('RECEIPT ITEMS BEFORE: ', receiptItems)
+
+  const removeItem = (itemId) => {
+    const updatedItems = receiptItems.filter((item) => item.id !== itemId)
+    setReceiptItems(updatedItems)
+  }
+
+  console.log('RECEIPT ITEMS AFTER: ', receiptItems)
+
+  const addItem = () => {}
+
+  const renderItem = ({ item }) => (
+    <ConfirmableDinnerItemTile
+      {...item}
+      removeItem={removeItem}
+    />
+  )
 
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
-      <View style={Styles.itemConfirmationScreen.modalContainer}>
-        <Text style={Styles.itemConfirmationScreen.modalContainer.text.name}>{restaurantName}</Text>
-        <Text style={Styles.itemConfirmationScreen.modalContainer.text.confirm}>Confirm or add any missing items!</Text>
-        <View style={Styles.itemConfirmationScreen.modalContainer.buttonContainer}>
-          <View style={{ marginHorizontal: 15 }}>
-            <CircularButton
-              icon={
-                <Entypo
-                  name="check"
-                  size={25}
-                  color="white"
-                />
-              }
-            />
-          </View>
-          <View style={{ marginHorizontal: 15 }}>
-            <CircularButton
-              icon={
-                <Entypo
-                  name="plus"
-                  size={25}
-                  color="white"
-                />
-              }
-            />
-          </View>
-        </View>
-        <Text style={Styles.itemConfirmationScreen.modalContainer.text.subtotal}>
-          SUBTOTAL: <Text style={{ color: COLORS.goDutchRed }}>${subtotal.toFixed(2)}</Text>
-        </Text>
+      <View style={{ marginBottom: SCREEN_HEIGHT * 0.025 }}>
+        <ItemConfirmationScreenHeader
+          subtotal={eventData.subtotal}
+          restaurantName={eventData.restaurantName}
+        />
       </View>
-      <FlatList />
+
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        data={receiptItems}
+        renderItem={renderItem}
+        contentContainerStyle={{ paddingBottom: Platform.OS === 'ios' ? SCREEN_HEIGHT * 0.075 : SCREEN_HEIGHT * 0.05 }}
+      />
     </LogoScreenWrapper>
   )
 }

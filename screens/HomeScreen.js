@@ -72,7 +72,7 @@ const HomeScreen = () => {
           <Text style={Styles.homeScreen.welcomeMessage}>Locating your city...</Text>
         ) : (
           <Text style={Styles.homeScreen.welcomeMessage}>
-            Find restaurants near <Text style={{ fontFamily: 'Poppins-BlackItalic' }}>{currentCity}!</Text>
+            Find restaurants <Text style={{ fontFamily: 'Poppins-BlackItalic' }}>{currentCity}!</Text>
           </Text>
         )}
 

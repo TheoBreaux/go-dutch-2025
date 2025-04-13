@@ -10,19 +10,15 @@ import ReceiptCaptureButton from '../components/ui/ReceiptCaptureButton'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { handleReceiptParse } from '../utils/utils'
 import ReceiptAnalyzingScreen from './ReceiptAnalyzingScreen'
-import { useNavigation } from '@react-navigation/native'
-import { useDispatch } from 'react-redux'
-import { setReceiptDataSuccess } from '../state/actions/actions'
 
-const ReceiptCaptureScreen = ({ setIsCapturingReceipt }) => {
+const ReceiptCaptureScreen = ({ navigation }) => {
   const [facing, setFacing] = useState(CameraType.back)
   const [permission, requestPermission] = useCameraPermissions()
   const [flashOn, setFlashOn] = useState(false)
   const [loading, setLoading] = useState(false)
   const [image, setImage] = useState(null)
+  const [eventData, setEventData] = useState(null)
 
-  const navigation = useNavigation()
-  const dispatch = useDispatch()
   const cameraRef = useRef(null)
 
   if (!permission) {
@@ -54,13 +50,30 @@ const ReceiptCaptureScreen = ({ setIsCapturingReceipt }) => {
     }
   }
 
+  const configureReceiptData = (data) => {
+    return {
+      eventId: data.id,
+      date: data.date,
+      items: data.line_items,
+      tax: data.tax,
+      subtotal: data.subtotal,
+      total: data.total,
+      restaurantName: data.vendor.name,
+      address: data.vendor.address,
+      website: data.vendor.web,
+      phone: data.vendor.phone_number,
+    }
+  }
+
   const handleReceiptData = async () => {
     try {
       setLoading(true)
       const data = await handleReceiptParse(image)
-      dispatch(setReceiptDataSuccess(data))
+      //get data and parse for what I need
+      const configuredEventData = configureReceiptData(data)
+      setEventData(configuredEventData)
       setLoading(false)
-      navigation.navigate('Screens', { screen: 'ItemConfirmation' })
+      navigation.navigate('Screens', { screen: 'ItemConfirmation', params: { eventData: configuredEventData } })
     } catch (error) {
       console.error('Receipt parsing failed:', error)
     }
@@ -75,14 +88,14 @@ const ReceiptCaptureScreen = ({ setIsCapturingReceipt }) => {
       ref={cameraRef}
       enableTorch={flashOn}
     >
-      <View style={Styles.receiptCaptureScreen.cameraView.header} />
+      <View style={[Styles.receiptCaptureScreen.cameraView.header, { height: image ? null : SCREEN_HEIGHT * 0.1 }]} />
       <View style={Styles.receiptCaptureScreen.cameraView.iconsContainer}>
         <View style={Styles.receiptCaptureScreen.cameraView.panel} />
 
         <View style={[Styles.receiptCaptureScreen.captureArea, { paddingVertical: !image ? SCREEN_HEIGHT * 0.025 : null }]}>
           {!image && (
             <View style={Styles.receiptCaptureScreen.captureArea.container}>
-              <TouchableOpacity onPress={() => setIsCapturingReceipt(false)}>
+              <TouchableOpacity onPress={() => navigation.goBack()}>
                 <AntDesign
                   name="closecircle"
                   size={40}
@@ -128,7 +141,7 @@ const ReceiptCaptureScreen = ({ setIsCapturingReceipt }) => {
                   >
                     <FontAwesome
                       name="thumbs-down"
-                      size={50}
+                      size={40}
                       color={COLORS.goDutchRed}
                     />
                     <Text style={Styles.receiptCaptureScreen.capturedImageContainer.buttonContainer.iconContainer.text}>Retake</Text>
@@ -140,7 +153,7 @@ const ReceiptCaptureScreen = ({ setIsCapturingReceipt }) => {
                   >
                     <FontAwesome
                       name="thumbs-up"
-                      size={50}
+                      size={40}
                       color={COLORS.goDutchRed}
                     />
                     <Text style={Styles.receiptCaptureScreen.capturedImageContainer.buttonContainer.iconContainer.text}>Save</Text>
@@ -149,6 +162,7 @@ const ReceiptCaptureScreen = ({ setIsCapturingReceipt }) => {
               </View>
             ) : (
               <ReceiptCaptureButton
+                size={60}
                 onPress={captureReceipt}
                 backgroundColor="#00000066"
               />

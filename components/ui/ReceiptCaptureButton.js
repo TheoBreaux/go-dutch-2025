@@ -3,7 +3,7 @@ import Styles from '../../style'
 import { TouchableOpacity } from 'react-native'
 import { COLORS } from '../../constants/constants'
 
-const ReceiptCaptureButton = ({ onPress, backgroundColor = 'transparent' }) => {
+const ReceiptCaptureButton = ({ onPress, backgroundColor = 'transparent', size }) => {
   return (
     <TouchableOpacity
       style={[Styles.receiptCaptureScreen.button, { backgroundColor }]}
@@ -11,7 +11,7 @@ const ReceiptCaptureButton = ({ onPress, backgroundColor = 'transparent' }) => {
     >
       <MaterialCommunityIcons
         name="camera"
-        size={70}
+        size={size}
         color={COLORS.goDutchRed}
       />
     </TouchableOpacity>

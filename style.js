@@ -1,13 +1,14 @@
 import { Platform, StyleSheet } from 'react-native'
 import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from './constants/constants'
 import { scaleFont } from './utils/utils'
-import ReceiptAnalyzingScreen from './screens/ReceiptAnalyzingScreen'
 
 const containerWidth = SCREEN_WIDTH * 0.9 // 90% of screen width
 const containerHeight = SCREEN_HEIGHT * 0.1 // 10% of screen height
 const containerBorderRadius = scaleFont(15)
+const CIRCLE_SIZE = Math.min(SCREEN_WIDTH, SCREEN_HEIGHT)
 
 // console.log(SCREEN_WIDTH)
+// console.log(SCREEN_HEIGHT)
 
 // HEIGHT 836
 // WIDTH 411
@@ -18,6 +19,27 @@ export default StyleSheet.create({
   // ================================================================================================================================== RESTAURANTS SCREEN
   resturantsScreen: {
     container: { flex: 1, marginBottom: Platform.OS === 'ios' ? SCREEN_HEIGHT * 0.125 : SCREEN_HEIGHT * 0.08 },
+  },
+
+  // ================================================================================================================================== CONFIRMABLE DINNER ITEM TILE
+  confirmableDinnerItemTile: {
+    container: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      padding: 5,
+      borderRadius: 10,
+      backgroundColor: COLORS.goDutchRed,
+      marginBottom: 5,
+      width: SCREEN_WIDTH * 0.9,
+      height: SCREEN_HEIGHT * 0.07,
+      elevation: 5,
+      shadowColor: 'black',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
+      text: { fontFamily: 'Poppins-ExtraBold', color: 'white', fontSize: scaleFont(18) },
+    },
   },
 
   // ================================================================================================================================== RESTAURANT TILE
@@ -80,18 +102,18 @@ export default StyleSheet.create({
         outter: {
           borderWidth: 3,
           borderColor: COLORS.goDutchBlue,
-          borderRadius: '50%',
-          width: SCREEN_WIDTH * 0.13,
-          height: SCREEN_HEIGHT * 0.065,
+          borderRadius: CIRCLE_SIZE / 2,
+          width: CIRCLE_SIZE * 0.125,
+          height: CIRCLE_SIZE * 0.125,
           position: 'absolute',
         },
         inner: {
           borderWidth: 1,
           borderColor: COLORS.goDutchRed,
-          borderRadius: '50%',
+          borderRadius: CIRCLE_SIZE / 2,
           backgroundColor: COLORS.goDutchRed,
-          width: SCREEN_WIDTH * 0.1,
-          height: SCREEN_HEIGHT * 0.05,
+          width: CIRCLE_SIZE * 0.1,
+          height: CIRCLE_SIZE * 0.1,
           alignItems: 'center',
           justifyContent: 'center',
           text: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(14), color: 'white' },
@@ -233,7 +255,7 @@ export default StyleSheet.create({
       width: SCREEN_WIDTH,
       height: SCREEN_HEIGHT,
       alignItems: 'center',
-      header: { backgroundColor: '#00000066', height: SCREEN_HEIGHT * 0.1, width: SCREEN_WIDTH, alignItems: 'center' },
+      header: { backgroundColor: '#00000066', width: SCREEN_WIDTH, alignItems: 'center' },
       iconsContainer: { flexDirection: 'row', width: SCREEN_WIDTH, height: SCREEN_HEIGHT * 0.85 },
       panel: { width: SCREEN_WIDTH * 0.025, backgroundColor: '#00000066', height: SCREEN_HEIGHT },
     },
@@ -248,30 +270,28 @@ export default StyleSheet.create({
       marginTop: SCREEN_HEIGHT * 0.05,
       justifyContent: 'center',
       alignItems: 'center',
-      height: SCREEN_HEIGHT * 0.15,
-      width: SCREEN_WIDTH * 0.3,
-      borderRadius: (SCREEN_WIDTH * 0.3) / 2,
+      height: CIRCLE_SIZE * 0.25,
+      width: CIRCLE_SIZE * 0.25,
+      borderRadius: CIRCLE_SIZE / 2,
       borderWidth: 3,
       borderColor: COLORS.goDutchBlue,
     },
     capturedImageContainer: {
-      width: SCREEN_WIDTH * 0.95,
+      width: SCREEN_WIDTH,
       height: SCREEN_HEIGHT,
-      borderWidth: 2,
-      borderColor: COLORS.goDutchRed,
       buttonContainer: {
         position: 'absolute',
-        bottom: SCREEN_HEIGHT * 0.15,
+        bottom: SCREEN_HEIGHT * 0.1,
         alignSelf: 'center',
         justifyContent: 'flex-end',
-        width: SCREEN_WIDTH * 0.95,
+        width: SCREEN_WIDTH,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingHorizontal: SCREEN_WIDTH * 0.05,
+        paddingHorizontal: SCREEN_WIDTH * 0.15,
         iconContainer: {
-          width: SCREEN_WIDTH * 0.25,
-          height: SCREEN_HEIGHT * 0.125,
-          borderRadius: (SCREEN_WIDTH * 0.25) / 2,
+          width: CIRCLE_SIZE * 0.2,
+          height: CIRCLE_SIZE * 0.2,
+          borderRadius: CIRCLE_SIZE / 2,
           borderColor: COLORS.goDutchBlue,
           borderWidth: 3,
           backgroundColor: '#00000066',
@@ -541,6 +561,10 @@ export default StyleSheet.create({
       height: 'auto',
       backgroundColor: 'white',
       elevation: 5,
+      shadowColor: 'black',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
       alignItems: 'center',
       text: {
         name: {
@@ -549,10 +573,16 @@ export default StyleSheet.create({
           color: COLORS.goDutchRed,
           marginBottom: -5,
         },
-        confirm: { fontFamily: 'Poppins-Medium', fontSize: scaleFont(20), color: 'black', marginBottom: 10 },
+        confirm: {
+          fontFamily: 'Poppins-Medium',
+          fontSize: SCREEN_WIDTH < 400 ? scaleFont(18) : scaleFont(20),
+          color: 'black',
+          marginBottom: 10,
+          textAlign: 'center',
+        },
         subtotal: { fontFamily: 'Poppins-ExtraBold', fontSize: scaleFont(30), color: 'black', marginTop: SCREEN_HEIGHT * 0.025 },
       },
-      buttonContainer: { flexDirection: 'row', width: SCREEN_WIDTH * 0.9, justifyContent: 'space-around' },
+      buttonContainer: { flexDirection: 'row', width: SCREEN_WIDTH * 0.9, justifyContent: 'space-evenly' },
     },
   },
   // ====================================================================================================================================== DINER ITEM ASSIGNMENT SCREEN
