@@ -4,8 +4,17 @@ import Styles from '../style'
 import ProfileImageMedallion from '../components/ui/ProfileImageMedallion'
 import { CIRCLE_SIZE, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
 import PrimaryButton from '../components/ui/PrimaryButton'
+import { useSelector } from 'react-redux'
+import { useState } from 'react'
+import { PRETTIFY } from '../utils/utils'
 
 const DinnerItemAssignmentScreen = () => {
+
+  const state = useSelector((state) => state.app)
+  
+  console.log("STATE IN ASSIGNMENT: ", state)
+  PRETTIFY(state)
+
   return (
     <LogoScreenWrapper>
       <View style={Styles.dinnerItemAssignmentScreen.container}>

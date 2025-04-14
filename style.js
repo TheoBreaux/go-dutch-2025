@@ -37,7 +37,7 @@ export default StyleSheet.create({
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.2,
       shadowRadius: 4,
-      text: { fontFamily: 'Poppins-ExtraBold', color: 'white', fontSize: scaleFont(18) },
+      text: { fontFamily: 'Poppins-ExtraBold', color: 'white', fontSize: SCREEN_WIDTH < 400 ? scaleFont(14) : scaleFont(18) },
     },
   },
 
@@ -233,6 +233,7 @@ export default StyleSheet.create({
     },
   },
   // ================================================================================================================================== ADD DINNER ITEM MODAL
+  
 
   // ================================================================================================================================== CUSTOM MODAL CONTAINER
   customModalContainer: {
@@ -591,11 +592,18 @@ export default StyleSheet.create({
       marginTop: 5,
       alignItems: 'center',
       text: {
+        textAlign: 'center',
         fontFamily: 'Poppins-Bold',
-        fontSize: scaleFont(30),
+        fontSize: SCREEN_WIDTH < 400 ? scaleFont(25) : scaleFont(30),
         color: COLORS.goDutchRed,
-        marginBottom: -10,
-        instruction: { fontFamily: 'Poppins-SemiBold', fontSize: scaleFont(20), color: 'black', marginBottom: 5 },
+        marginBottom: -SCREEN_HEIGHT * 0.005,
+        instruction: {
+          fontFamily: 'Poppins-SemiBold',
+          fontSize: SCREEN_WIDTH < 400 ? scaleFont(16) : scaleFont(20),
+          color: 'black',
+          marginBottom: 5,
+          textAlign: 'center',
+        },
       },
     },
     userName: { fontFamily: 'Poppins-SemiBold', fontSize: scaleFont(20), color: COLORS.goDutchRed, marginTop: 5 },

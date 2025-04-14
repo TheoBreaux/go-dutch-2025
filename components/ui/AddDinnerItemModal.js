@@ -5,7 +5,7 @@ import Images from '../../assets/images/images'
 import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../../constants/constants'
 import { scaleFont } from '../../utils/utils'
 
-const AddDinnerItemModal = ({ setNewItemName, setNewItemPrice, newItemName, newItemPrice, setAddingNewItem }) => {
+const AddDinnerItemModal = ({ setNewItemName, setNewItemPrice, newItemName, newItemPrice, setAddingNewItem, addItem }) => {
   return (
     <Modal
       animationType="slide"
@@ -66,7 +66,7 @@ const AddDinnerItemModal = ({ setNewItemName, setNewItemPrice, newItemName, newI
                 <PrimaryButton
                   outterWidth={SCREEN_WIDTH * 0.37}
                   innerWidth={SCREEN_WIDTH * 0.35}
-                  onPress={() => {}}
+                  onPress={addItem}
                 >
                   Submit
                 </PrimaryButton>

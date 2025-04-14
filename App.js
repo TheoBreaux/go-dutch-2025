@@ -128,7 +128,7 @@ const ScreensNavigator = () => {
     <Stack.Navigator screenOptions={() => ({ headerShown: false })}>
       <Stack.Screen
         name="Splash"
-        component={ReceiptCaptureScreen}
+        component={ItemConfirmationScreen}
       />
       <Stack.Screen
         name="Welcome"

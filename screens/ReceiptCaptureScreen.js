@@ -10,6 +10,7 @@ import ReceiptCaptureButton from '../components/ui/ReceiptCaptureButton'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { handleReceiptParse } from '../utils/utils'
 import ReceiptAnalyzingScreen from './ReceiptAnalyzingScreen'
+import * as ImageManipulator from 'expo-image-manipulator'
 
 const ReceiptCaptureScreen = ({ navigation }) => {
   const [facing, setFacing] = useState(CameraType.back)
@@ -40,12 +41,18 @@ const ReceiptCaptureScreen = ({ navigation }) => {
   }
 
   const captureReceipt = async () => {
-    if (cameraRef) {
+    if (cameraRef.current) {
       try {
         const data = await cameraRef.current.takePictureAsync()
-        setImage(data.uri)
+
+        const manipulated = await ImageManipulator.manipulateAsync(
+          data.uri,
+          [], // no operations, just re-save to fix orientation
+          { compress: 0.5, format: ImageManipulator.SaveFormat.JPEG }
+        )
+        setImage(manipulated.uri)
       } catch (error) {
-        console.error(error)
+        console.error('Error capturing image:', error)
       }
     }
   }

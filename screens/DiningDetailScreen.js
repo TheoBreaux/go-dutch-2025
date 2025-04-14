@@ -4,8 +4,13 @@ import Style from '../style'
 import Images from '../assets/images/images'
 import { COLORS, SCREEN_WIDTH } from '../constants/constants'
 import PrimaryButton from '../components/ui/PrimaryButton'
+import { useSelector } from 'react-redux'
 
 const DiningDetailScreen = () => {
+  const eventData = useSelector((state) => state.app.receiptData)
+
+  console.log("Event DATA: ", eventData)
+
   return (
     <LogoScreenWrapper
       backgroundColor={COLORS.logoScreenBackground}

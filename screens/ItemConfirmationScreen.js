@@ -5,52 +5,58 @@ import ConfirmableDinnerItemTile from '../components/ui/ConfirmableDinnerItemTil
 import ItemConfirmationScreenHeader from '../components/ui/ItemConfirmationScreenHeader'
 import { useState } from 'react'
 import AddDinnerItemModal from '../components/ui/AddDinnerItemModal'
-
+import { nanoid } from 'nanoid/non-secure'
+import { DUMMY_RECEIPT_EVENT_DATA } from '../constants/data'
 
 const ItemConfirmationScreen = ({ route }) => {
-  const { eventData } = route.params
-  const items = eventData.items.map((item) => ({ id: item.id, name: item.description, price: item.total }))
+  // const { eventData } = route.params
+
+  const items = DUMMY_RECEIPT_EVENT_DATA.items.map((item) => ({ id: item.id, name: item.description, price: item.total }))
+
   const [addingNewItem, setAddingNewItem] = useState(false)
-  const [newItemName, setNewItemName] = useState(null)
-  const [newItemPrice, setNewItemPrice] = useState(null)
-  const [receiptItems, setReceiptItems] = useState(items)
-  const [subtotal, setSubtotal] = useState(eventData.subtotal)
+  const [newItemName, setNewItemName] = useState('')
+  const [newItemPrice, setNewItemPrice] = useState(0)
+  const [receiptData, setreceiptData] = useState(items)
+  const [subtotal, setSubtotal] = useState(DUMMY_RECEIPT_EVENT_DATA.subtotal)
 
   const removeItem = (itemId) => {
-    const updatedItems = receiptItems.filter((item) => item.id !== itemId)
-    const removedItem = receiptItems.filter((item) => item.id === itemId)
+    const updatedItems = receiptData.filter((item) => item.id !== itemId)
+    const removedItem = receiptData.filter((item) => item.id === itemId)
     console.log('REMOVED ITEM: ', removedItem)
-    setReceiptItems(updatedItems)
+    setreceiptData(updatedItems)
     setSubtotal((prevSubtotal) => prevSubtotal - Number(removedItem[0].price))
   }
 
   const addItem = () => {
+    //check if trying to submmit with no new data and if so return to screen
     if (newItemName === '' || newItemPrice === '') {
-      return setShowAddItemsModal(false)
+      //reset inputs
+      setNewItemName('')
+      setNewItemPrice('')
+      setAddingNewItem(false)
+      return
     }
 
     const newItem = {
       name: newItemName,
       price: parseFloat(newItemPrice),
-      id: nanoid(8),
+      id: nanoid(10),
     }
 
     // Add the new item to the existing array
-    const updatedItems = [...separatedDinnerItems, newItem]
-
+    const updatedItems = [...receiptData, newItem]
     // Recalculate the subtotal after adding the new item
     const newSubtotal = updatedItems.reduce((total, item) => total + item.price, 0)
 
     // Add the new item to the existing array
-    setSeparatedDinnerItems((prevItems) => [...prevItems, newItem])
+    setreceiptData(updatedItems)
     setSubtotal(newSubtotal)
 
-    // Optionally, you can reset the input fields
+    //reset inputs
     setNewItemName('')
     setNewItemPrice('')
-
     // Close the modal
-    setShowAddItemsModal(false)
+    setAddingNewItem(false)
   }
 
   const renderItem = ({ item }) => (
@@ -69,19 +75,21 @@ const ItemConfirmationScreen = ({ route }) => {
           newItemName={newItemName}
           newItemPrice={newItemPrice}
           setAddingNewItem={setAddingNewItem}
+          addItem={addItem}
         />
       )}
       <View style={{ marginBottom: SCREEN_HEIGHT * 0.025 }}>
         <ItemConfirmationScreenHeader
+          {...DUMMY_RECEIPT_EVENT_DATA}
           subtotal={subtotal}
-          restaurantName={eventData.restaurantName}
           setAddingNewItem={setAddingNewItem}
+          receiptData={receiptData}
         />
       </View>
 
       <FlatList
         showsVerticalScrollIndicator={false}
-        data={receiptItems}
+        data={receiptData}
         renderItem={renderItem}
         contentContainerStyle={{ paddingBottom: Platform.OS === 'ios' ? SCREEN_HEIGHT * 0.075 : SCREEN_HEIGHT * 0.05 }}
       />
