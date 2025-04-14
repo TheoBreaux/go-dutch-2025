@@ -233,7 +233,34 @@ export default StyleSheet.create({
     },
   },
   // ================================================================================================================================== ADD DINNER ITEM MODAL
-  
+  addDinnerItemModal: {
+    container: {
+      width: SCREEN_WIDTH * 0.9,
+      height: SCREEN_HEIGHT * 0.45,
+      borderRadius: 10,
+      overflow: 'hidden',
+      header: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(20) },
+      inputsContainer: {
+        alignItems: 'center',
+        width: SCREEN_WIDTH * 0.9,
+        label: {
+          fontFamily: 'Poppins-Medium',
+          fontSize: scaleFont(20),
+        },
+        input: {
+          width: SCREEN_WIDTH * 0.75,
+          height: SCREEN_HEIGHT * 0.06,
+          borderColor: COLORS.inputBorder,
+          borderWidth: 1,
+          marginBottom: 5,
+          padding: 5,
+          textAlign: 'center',
+          fontFamily: 'Poppins-Medium',
+          fontSize: 25,
+        },
+      },
+    },
+  },
 
   // ================================================================================================================================== CUSTOM MODAL CONTAINER
   customModalContainer: {
@@ -526,11 +553,11 @@ export default StyleSheet.create({
 
   // ====================================================================================================================================== DINING DETAIL SCREEN
   diningDetailsScreen: {
-    image: { width: SCREEN_WIDTH, height: SCREEN_HEIGHT * 0.4, marginTop: -SCREEN_HEIGHT * 0.025, marginBottom: SCREEN_HEIGHT * 0.04 },
+    image: { width: SCREEN_WIDTH, height: SCREEN_HEIGHT * 0.4, marginTop: -SCREEN_HEIGHT * 0.025, marginBottom: SCREEN_HEIGHT * 0.01 },
     container: {
       width: SCREEN_WIDTH * 0.9,
       marginBottom: SCREEN_HEIGHT < 830 ? SCREEN_HEIGHT * 0.05 : SCREEN_HEIGHT * 0.025,
-      heading: { fontFamily: 'Poppins-SemiBold', fontSize: scaleFont(24), color: COLORS.goDutchBlue, marginBottom: SCREEN_HEIGHT * 0.015 },
+      heading: { fontFamily: 'Poppins-SemiBold', fontSize: scaleFont(24), color: COLORS.goDutchBlue },
       label: { fontFamily: 'Poppins-Regular', fontSize: scaleFont(20) },
     },
   },

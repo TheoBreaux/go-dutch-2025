@@ -5,11 +5,16 @@ import Images from '../assets/images/images'
 import { COLORS, SCREEN_WIDTH } from '../constants/constants'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import { useSelector } from 'react-redux'
+import { useState } from 'react'
+import { formatReceiptDate } from '../utils/utils'
 
 const DiningDetailScreen = () => {
   const eventData = useSelector((state) => state.app.receiptData)
 
-  console.log("Event DATA: ", eventData)
+  const [eventDate, setEventDate] = useState(eventData.date)
+  const [eventLocation, setEventLocation] = useState(eventData.restaurantName)
+  const [eventTitle, setEventTitle] = useState('')
+  const [primaryDiner, setPrimaryDiner] = useState('')
 
   return (
     <LogoScreenWrapper
@@ -24,10 +29,17 @@ const DiningDetailScreen = () => {
       <View style={Style.diningDetailsScreen.container}>
         <Text style={Style.diningDetailsScreen.container.heading}>Confirm dining details:</Text>
         <View>
+          <Text style={[Style.diningDetailsScreen.container.label, { marginTop: 5 }]}>Primary Diner:</Text>
+          <TextInput
+            style={Style.profileScreen.inputContainer.textInput}
+          />
+        </View>
+        <View>
           <Text style={Style.diningDetailsScreen.container.label}>Date:</Text>
           <TextInput
             style={Style.profileScreen.inputContainer.textInput}
             placeholder="09/24/2025"
+            value={formatReceiptDate(eventDate)}
           />
         </View>
 
@@ -36,6 +48,7 @@ const DiningDetailScreen = () => {
           <TextInput
             style={Style.profileScreen.inputContainer.textInput}
             placeholder="Outback Steakhouse"
+            value={eventLocation}
           />
         </View>
 
@@ -43,10 +56,10 @@ const DiningDetailScreen = () => {
           <Text style={[Style.diningDetailsScreen.container.label, { marginTop: 5 }]}>Event Title:</Text>
           <TextInput
             style={Style.profileScreen.inputContainer.textInput}
-            placeholder="Danni's Birthday Dinner"
           />
         </View>
       </View>
+
       <PrimaryButton
         outterWidth={SCREEN_WIDTH * 0.75}
         innerWidth={SCREEN_WIDTH * 0.7}

@@ -119,3 +119,16 @@ export const handleReceiptParse = async (imageUri) => {
     console.error('Upload failed:', err)
   }
 }
+
+export const formatReceiptDate = (rawDateStr) => {
+  try {
+    // Extract just the date part (first 10 characters)
+    const datePart = rawDateStr.slice(0, 10) // '2024-07-15'
+
+    const [year, month, day] = datePart.split('-')
+    return `${month}-${day}-${year.slice(2)}`
+  } catch (err) {
+    console.warn('Invalid date format:', rawDateStr)
+    return ''
+  }
+}
