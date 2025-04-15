@@ -151,17 +151,3 @@ export  const checkIfDinerExistsInDatabase = async (username) => {
     return false;
   }
 };
-
-export const autoCompleteDiner = async () => {
-  try {
-    const response = await fetch(
-      `https://5574-76-32-124-165.ngrok-free.app/additionaldiners/suggestions?input=${inputValue}`
-    );
-    const data = await response.json();
-    setSuggestions(
-      data.sort((a, b) => a.username.localeCompare(b.username))
-    );
-  } catch (error) {
-    throw error;
-  }
-};

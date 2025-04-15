@@ -1,32 +1,33 @@
 import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet } from 'react-native'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import PrimaryButton from '../components/ui/PrimaryButton'
-import { COLORS, SCREEN_WIDTH } from '../constants/constants'
+import { ASSET_URL, COLORS, SCREEN_WIDTH } from '../constants/constants'
 import Styles from '../style'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import DinerTile from '../components/ui/DinerTile'
 import { useState, useEffect } from 'react'
 import ProfileImageMedallion from '../components/ui/ProfileImageMedallion'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { autoCompleteDiner } from '../state/actions/actions'
 
 const DinerInputScreen = ({ route }) => {
+  const dispatch = useDispatch()
+  const suggestions = useSelector((state) => state.app.suggestions.sort((a, b) => a.username.localeCompare(b.username)))
+
   const [inputValue, setInputValue] = useState('')
   const [showSuggestions, setShowSuggestions] = useState(false)
-  const [suggestions, setSuggestions] = useState([])
   const [showDiners, setShowDiners] = useState(true)
   const [additionalDiners, setAdditionalDiners] = useState([])
 
   const { primaryDiner, eventTitle, eventLocation } = route.params
-  const dispatch = useDispatch()
 
   useEffect(() => {
     if (inputValue.trim().length > 1) {
       dispatch(autoCompleteDiner(inputValue))
-    } else {
-      setSuggestions([]) // Clear suggestions if input is too short
     }
   }, [inputValue])
+
+  console.log('SUGGESTIONS: ', suggestions)
 
   const handleInputChange = (text) => {
     setInputValue(text)
@@ -35,15 +36,12 @@ const DinerInputScreen = ({ route }) => {
   }
 
   const renderSuggestionsItem = ({ item, index }) => (
-    // console.log("ITEM: ", item)
-    <Text>{item.username}</Text>
+    <DinerTile />
     // <ProfileImageMedallion
-    //   key={index}
-    //   userFullName={`${item.firstName} ${item.lastName}`}
-    //   username={item.username}
-    //   onPress={handleSelectUsername}
-    //   profileImageKey={item.profileImageKey}
-    //   item={item}
+    //   image={ASSET_URL + item.imgUrl}
+    //   height={60}
+    //   width={60}
+    //   borderRadius={30}
     // />
   )
 
@@ -126,13 +124,13 @@ const DinerInputScreen = ({ route }) => {
           renderItem={renderSuggestionsItem}
         />
       )}
-      {/* <FlatList data={additionalDiners} /> */}
-      <PrimaryButton
+
+      {/* <PrimaryButton
         outterWidth={SCREEN_WIDTH * 0.75}
         innerWidth={SCREEN_WIDTH * 0.7}
       >
         Confirm All Diners
-      </PrimaryButton>
+      </PrimaryButton> */}
     </LogoScreenWrapper>
   )
 }

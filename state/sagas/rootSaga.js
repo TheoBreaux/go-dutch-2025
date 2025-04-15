@@ -1,5 +1,5 @@
 //this is where we handle data fetching
-import { put, takeLatest, all, call } from 'redux-saga/effects'
+import { put, takeLatest, all, call, debounce } from 'redux-saga/effects'
 import { API_URL } from '../../constants/constants'
 import Constants from 'expo-constants'
 import { FETCH_FEATURED_RESTAURANTS, SET_LOCAL_RESTAURANTS, AUTO_COMPLETE_DINER } from '../actions/actionTypes'
@@ -26,7 +26,7 @@ function* autoCompleteDiner(action) {
   }
 }
 function* watchAutoCompleteDiner() {
-  yield takeLatest(AUTO_COMPLETE_DINER, autoCompleteDiner)
+  yield debounce(300, AUTO_COMPLETE_DINER, autoCompleteDiner)
 }
 
 function* fetchFeaturedRestaurants() {
