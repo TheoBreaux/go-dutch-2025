@@ -1,5 +1,5 @@
 import { TouchableOpacity, Modal, View, Text } from 'react-native'
-import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
+import { CIRCLE_SIZE, COLORS } from '../constants/constants'
 import Styles from '../style'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import ProfileImageMedallion from './ui/ProfileImageMedallion'
@@ -119,10 +119,10 @@ const EditProfileImageHeader = ({ image, setImage }) => {
         </Modal>
       )}
       <ProfileImageMedallion
-        height={SCREEN_HEIGHT * 0.25}
-        width={SCREEN_WIDTH * 0.5}
-        borderRadius={(SCREEN_WIDTH * 0.5) / 2}
-        image={image}
+        height={CIRCLE_SIZE * 0.5}
+        width={CIRCLE_SIZE * 0.5}
+        borderRadius={(CIRCLE_SIZE * 0.5) / 2}
+        imageUrl={image}
       />
       <TouchableOpacity
         style={Styles.registrationScreen.imageContainer.icon}

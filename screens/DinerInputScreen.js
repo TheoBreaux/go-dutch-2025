@@ -1,17 +1,17 @@
 import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet } from 'react-native'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import PrimaryButton from '../components/ui/PrimaryButton'
-import { ASSET_URL, COLORS, SCREEN_WIDTH } from '../constants/constants'
+import { COLORS, SCREEN_WIDTH } from '../constants/constants'
 import Styles from '../style'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import DinerTile from '../components/ui/DinerTile'
 import { useState, useEffect } from 'react'
-import ProfileImageMedallion from '../components/ui/ProfileImageMedallion'
 import { useDispatch, useSelector } from 'react-redux'
 import { autoCompleteDiner } from '../state/actions/actions'
 
 const DinerInputScreen = ({ route }) => {
   const dispatch = useDispatch()
+  const user = useSelector((state) => state.app.user)
   const suggestions = useSelector((state) => state.app.suggestions.sort((a, b) => a.username.localeCompare(b.username)))
 
   const [inputValue, setInputValue] = useState('')
@@ -27,8 +27,6 @@ const DinerInputScreen = ({ route }) => {
     }
   }, [inputValue])
 
-  console.log('SUGGESTIONS: ', suggestions)
-
   const handleInputChange = (text) => {
     setInputValue(text)
     setShowSuggestions(true)
@@ -36,13 +34,10 @@ const DinerInputScreen = ({ route }) => {
   }
 
   const renderSuggestionsItem = ({ item, index }) => (
-    <DinerTile />
-    // <ProfileImageMedallion
-    //   image={ASSET_URL + item.imgUrl}
-    //   height={60}
-    //   width={60}
-    //   borderRadius={30}
-    // />
+    <DinerTile
+      imgUrl={item.imgUrl}
+      username={item.username}
+    />
   )
 
   return (
@@ -54,6 +49,7 @@ const DinerInputScreen = ({ route }) => {
           <DinerTile
             primaryDiner={true}
             username={primaryDiner}
+            imgUrl={user.imgUrl}
           />
         </View>
 
@@ -64,6 +60,7 @@ const DinerInputScreen = ({ route }) => {
             placeholder="Search diner name, username..."
             value={inputValue}
           />
+
           <TouchableOpacity style={Styles.dinerInputScreen.inputContainer.search}>
             <FontAwesome5
               name="search"
@@ -72,65 +69,24 @@ const DinerInputScreen = ({ route }) => {
             />
           </TouchableOpacity>
         </View>
+        {showSuggestions && inputValue.trim().length > 1 && suggestions.length > 0 && (
+          <FlatList
+            style={styles.showSuggestionsContainer}
+            data={suggestions}
+            renderItem={renderSuggestionsItem}
+            keyExtractor={(item) => item.id?.toString() || item.username}
+          />
+        )}
 
         <PrimaryButton>Add Diner</PrimaryButton>
       </View>
 
-      {showDiners && (
-        <>
-          {/* rendering all diners to the screen */}
-          <FlatList
-            // data={diners}
-            renderItem={({ item }) => (
-              <DinerTile
-                key={item.id}
-                name={''}
-                username={''}
-                primaryDiner={false}
-              />
-            )}
-          />
-
-          {/* modal to confirm all diners added */}
-          {/* {showMiniModal && (
-            <View style={styles.miniModalContent}>
-              <View>
-                <Text style={[styles.miniModalText, { textAlign: 'center', marginTop: 5 }]}>All diners added?</Text>
-              </View>
-              <View
-                style={{
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                }}
-              >
-                <PrimaryButton
-                  width={150}
-                  height={50}
-                  onPress={allDinersAddedHandler}
-                >
-                  Confirm
-                </PrimaryButton>
-              </View>
-            </View>
-          )} */}
-        </>
-      )}
-
-      {showSuggestions && (
-        <FlatList
-          style={styles.showSuggestionsContainer}
-          data={suggestions}
-          renderItem={renderSuggestionsItem}
-        />
-      )}
-
-      {/* <PrimaryButton
+      <PrimaryButton
         outterWidth={SCREEN_WIDTH * 0.75}
         innerWidth={SCREEN_WIDTH * 0.7}
       >
         Confirm All Diners
-      </PrimaryButton> */}
+      </PrimaryButton>
     </LogoScreenWrapper>
   )
 }
@@ -239,4 +195,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   showSuggestionsContainer: { padding: 5 },
+  dropdown: {
+    position: 'absolute',
+    top: 60, // adjust based on your input height
+    width: '100%',
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    maxHeight: 200,
+    zIndex: 999,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
+  },
 })

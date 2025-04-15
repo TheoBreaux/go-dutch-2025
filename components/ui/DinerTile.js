@@ -8,10 +8,8 @@ import FavoritesIcon from './FavoritesIcon'
 import { useSelector } from 'react-redux'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 
-const DinerTile = ({ primaryDiner = false, favoritesTile = false, onPress, name, username, location }) => {
+const DinerTile = ({ primaryDiner = false, favoritesTile = false, onPress, name, username, location, imgUrl}) => {
   const Container = favoritesTile ? TouchableOpacity : View
-
-  const imgUrl = useSelector((state) => state.app.user.imgUrl)
 
   return (
     <Container style={Styles.dinerTile.container}>
@@ -20,7 +18,7 @@ const DinerTile = ({ primaryDiner = false, favoritesTile = false, onPress, name,
           width={CIRCLE_SIZE * 0.15}
           height={CIRCLE_SIZE * 0.15}
           borderRadius={(CIRCLE_SIZE * 0.15) / 2}
-          image={`${ASSET_URL}${imgUrl} `}
+          imageUrl={ASSET_URL + imgUrl}
         />
         <View>
           {primaryDiner && <Text style={Styles.dinerTile.container.closeButtonContainer.text.primary}>Primary Diner:</Text>}

@@ -64,8 +64,8 @@ const LoginScreen = ({ navigation }) => {
       const responseData = await response.json()
 
       dispatch(setUser(responseData))
-      // navigation.navigate('Screens', {screen: 'ItemConfirmation'}) //WILL CHANGE BACK WHEN WORKING AGAIN RECEIPT PARSE ELEMENT
-      navigation.navigate('Tabs', { screen: 'Home' })
+      navigation.navigate('Screens', { screen: 'ItemConfirmation' }) //WILL CHANGE BACK WHEN WORKING AGAIN RECEIPT PARSE ELEMENT
+      // navigation.navigate('Tabs', { screen: 'Home' })
 
       Toast.show({
         type: 'success',

@@ -3,7 +3,7 @@ import React from 'react'
 import CustomModalContainer from './CustomModalContainer'
 import Styles from '../../style'
 import ProfileImageMedallion from './ProfileImageMedallion'
-import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../../constants/constants'
+import { CIRCLE_SIZE, COLORS, SCREEN_WIDTH } from '../../constants/constants'
 
 const DinerItemReviewModal = () => {
   return (
@@ -14,11 +14,11 @@ const DinerItemReviewModal = () => {
       <View style={Styles.dinerItemReviewModal.content}>
         <Text style={Styles.dinerItemReviewModal.text.header}>Review items for</Text>
         <ProfileImageMedallion
-          height={SCREEN_HEIGHT * 0.2}
-          width={SCREEN_WIDTH * 0.4}
-          borderRadius={'50%'}
+          height={CIRCLE_SIZE * 0.4}
+          width={CIRCLE_SIZE * 0.4}
+          borderRadius={(CIRCLE_SIZE * 0.4) / 2}
         />
-        <Text style={[Styles.dinerItemAssignmentScreen.userName, { color: COLORS.goDutchBlue }]}>@username</Text>
+        <Text style={[Styles.dinnerItemAssignmentScreen.userName, { color: COLORS.goDutchBlue }]}>@username</Text>
 
         <View style={{ width: SCREEN_WIDTH * 0.8 }}>
           <Text style={Styles.dinerItemReviewModal.text.instructions}>

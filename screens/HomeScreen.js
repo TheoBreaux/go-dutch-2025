@@ -63,7 +63,7 @@ const HomeScreen = () => {
               height={CIRCLE_SIZE * 0.15}
               width={CIRCLE_SIZE * 0.15}
               borderRadius={(CIRCLE_SIZE * 0.15) / 2}
-              image={ASSET_URL + user.imgUrl}
+              imageUrl={ASSET_URL + user.imgUrl}
             />
           </TouchableOpacity>
         </View>
@@ -72,7 +72,7 @@ const HomeScreen = () => {
           <Text style={Styles.homeScreen.welcomeMessage}>Locating your city...</Text>
         ) : (
           <Text style={Styles.homeScreen.welcomeMessage}>
-            Find restaurants <Text style={{ fontFamily: 'Poppins-BlackItalic' }}>{currentCity}!</Text>
+            Find restaurants in <Text style={{ fontFamily: 'Poppins-BlackItalic' }}>{currentCity}!</Text>
           </Text>
         )}
 
