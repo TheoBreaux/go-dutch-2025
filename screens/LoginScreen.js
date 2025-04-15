@@ -1,6 +1,6 @@
 import { View, Text, TextInput, Image, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform } from 'react-native'
 import PrimaryButton from '../components/ui/PrimaryButton'
-import Style from '../style'
+import Styles from '../style'
 import Images from '../assets/images/images'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { API_URL, COLORS } from '../constants/constants'
@@ -98,7 +98,7 @@ const LoginScreen = ({ navigation }) => {
         keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}
       >
         <ScrollView
-          contentContainerStyle={Style.logInScreen.container}
+          contentContainerStyle={Styles.logInScreen.container}
           showsVerticalScrollIndicator={false}
         >
           <Formik
@@ -110,12 +110,12 @@ const LoginScreen = ({ navigation }) => {
               <>
                 <Image
                   source={Images.go_dutch_split_button}
-                  style={Style.logInScreen.container.logo}
+                  style={Styles.logInScreen.container.logo}
                 />
-                <View style={Style.logInScreen.container.modal.inputsContainer}>
-                  <Text style={Style.registrationScreen.inputLabels}>Email</Text>
+                <View style={Styles.logInScreen.container.modal.inputsContainer}>
+                  <Text style={Styles.registrationScreen.inputLabels}>Email</Text>
                   <TextInput
-                    style={Style.registrationScreen.textInput}
+                    style={Styles.registrationScreen.textInput}
                     onChangeText={handleChange('email')}
                     onBlur={handleBlur('email')}
                     value={values.email}
@@ -127,18 +127,18 @@ const LoginScreen = ({ navigation }) => {
                     style={{ color: COLORS.goDutchRed }}
                   />
 
-                  <Text style={[Style.registrationScreen.inputLabels, { marginTop: 10 }]}>Password</Text>
+                  <Text style={[Styles.registrationScreen.inputLabels, { marginTop: 10 }]}>Password</Text>
 
                   <View style={{ justifyContent: 'center' }}>
                     <TextInput
-                      style={Style.registrationScreen.textInput}
+                      style={Styles.registrationScreen.textInput}
                       onChangeText={handleChange('password')}
                       onBlur={handleBlur('password')}
                       value={values.password}
                       secureTextEntry={!showPassword}
                     />
                     <TouchableOpacity
-                      style={Style.logInScreen.container.modal.passwordInput.passwordIcon}
+                      style={Styles.logInScreen.container.modal.passwordInput.passwordIcon}
                       onPress={() => setShowPassword(!showPassword)}
                     >
                       <Ionicons

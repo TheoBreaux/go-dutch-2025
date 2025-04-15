@@ -2,11 +2,11 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
 import ProfileImageMedallion from './ProfileImageMedallion'
 import Styles from '../../style'
-import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { ASSET_URL, CIRCLE_SIZE } from '../../constants/constants'
 import CircularButton from './CircularButton'
 import FavoritesIcon from './FavoritesIcon'
 import { useSelector } from 'react-redux'
+import FontAwesome from '@expo/vector-icons/FontAwesome'
 
 const DinerTile = ({ primaryDiner = false, favoritesTile = false, onPress, name, username, location }) => {
   const Container = favoritesTile ? TouchableOpacity : View
@@ -24,7 +24,7 @@ const DinerTile = ({ primaryDiner = false, favoritesTile = false, onPress, name,
         />
         <View>
           {primaryDiner && <Text style={Styles.dinerTile.container.closeButtonContainer.text.primary}>Primary Diner:</Text>}
-          <Text style={Styles.dinerTile.container.closeButtonContainer.text.name}>{name}</Text>
+          <Text style={Styles.dinerTile.container.closeButtonContainer.text.name}>{'@' + username}</Text>
           {favoritesTile && <Text style={Styles.dinerTile.container.closeButtonContainer.text.name}>{location}</Text>}
         </View>
       </View>

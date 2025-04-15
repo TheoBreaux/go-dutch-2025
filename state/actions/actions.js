@@ -1,5 +1,8 @@
 // actions.js
 import {
+  AUTO_COMPLETE_DINER,
+  AUTO_COMPLETE_DINER_FAILURE,
+  AUTO_COMPLETE_DINER_SUCCESS,
   FETCH_FEATURED_RESTAURANTS,
   FETCH_FEATURED_RESTAURANTS_FAILURE,
   FETCH_FEATURED_RESTAURANTS_SUCCESS,
@@ -11,6 +14,21 @@ import {
   SET_LOCAL_RESTAURANTS_SUCCESS,
   SET_USER_SUCCESS,
 } from './actionTypes'
+
+export const autoCompleteDiner = (query) => ({
+  type: AUTO_COMPLETE_DINER,
+  payload: query,
+})
+
+export const autoCompleteDinerFailure = (error) => ({
+  type: AUTO_COMPLETE_DINER_FAILURE,
+  error,
+})
+
+export const autoCompleteDinerSuccess = (data) => ({
+  type: AUTO_COMPLETE_DINER_SUCCESS,
+  payload: data,
+})
 
 export const fetchFeaturedRestaurants = () => ({
   type: FETCH_FEATURED_RESTAURANTS,

@@ -168,3 +168,55 @@ app.get('/featuredRestaurants', async (req, res) => {
     res.status(500).send('Internal Server Error')
   }
 })
+
+
+
+
+
+// AUTOCOMPLETE TO SEE IF DINER IS ALREADY IN DATABASE
+app.get("/diners/suggestions", async (req, res) => {
+  const userInput = req.query.input;
+  console.log("USER INPUT: ", userInput)
+
+  try {
+    const autoCompleteDiner = await pool.query(
+      `SELECT * FROM users WHERE username ILIKE $1 OR first_name ILIKE $1 LIMIT 10;`,
+      [`%${userInput}%`]
+    );
+    const suggestions = autoCompleteDiner.rows.map((row) => ({
+      username: row.username,
+      firstName: row.first_name,
+      lastName: row.last_name,
+      bio: row.bio,
+      location: row.location,
+      birthday: row.birthday,
+      favoriteCuisine: row.favorite_cuisine,
+      dateJoined: row.date_joined,
+    }));
+    res.json(suggestions);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+
+
+
+
+
+// CONFIRM THAT USER EXISTS IN DB SO CAN BE ADDED AS DINER
+app.get("/users/:username", async (req, res) => {
+  const { username } = req.params;
+
+  try {
+    const userExists = await pool.query(
+      `SELECT EXISTS (SELECT 1 FROM users WHERE username = $1)`,
+      [username]
+    );
+    res.json(userExists.rows[0].exists);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});

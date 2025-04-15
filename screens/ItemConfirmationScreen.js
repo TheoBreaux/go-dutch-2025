@@ -11,7 +11,7 @@ import { DUMMY_RECEIPT_EVENT_DATA } from '../constants/data'
 const ItemConfirmationScreen = ({ route }) => {
   // const { eventData } = route.params
 
-  const items = DUMMY_RECEIPT_EVENT_DATA.items.map((item) => ({ id: item.id, name: item.description, price: item.total }))
+  const items = DUMMY_RECEIPT_EVENT_DATA.items.map((item) => ({ id: item.id, name: item.description, price: item.total, isShared: null }))
 
   const [addingNewItem, setAddingNewItem] = useState(false)
   const [newItemName, setNewItemName] = useState('')

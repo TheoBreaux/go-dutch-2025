@@ -1,4 +1,7 @@
 import {
+  AUTO_COMPLETE_DINER,
+  AUTO_COMPLETE_DINER_FAILURE,
+  AUTO_COMPLETE_DINER_SUCCESS,
   FETCH_FEATURED_RESTAURANTS,
   FETCH_FEATURED_RESTAURANTS_FAILURE,
   FETCH_FEATURED_RESTAURANTS_SUCCESS,
@@ -14,6 +17,7 @@ import {
 const initialState = {
   user: {},
   currentCity: null,
+  suggestions: [],
   featuredRestaurants: [],
   localRestaurants: [],
   receiptData: null,
@@ -23,9 +27,15 @@ const initialState = {
 
 const AppReducer = (state = initialState, action) => {
   console.log('ACTION IN REDUCER', action)
-  console.log('CURRENT STATE', state)
+  // console.log('CURRENT STATE', state)
 
   switch (action.type) {
+    case AUTO_COMPLETE_DINER:
+      return { ...state, loading: true, error: null }
+    case AUTO_COMPLETE_DINER_SUCCESS:
+      return { ...state, suggestions: action.payload, loading: false, error: null }
+    case AUTO_COMPLETE_DINER_FAILURE:
+      return { ...state, error: action.error, loading: false }
     case FETCH_FEATURED_RESTAURANTS:
       return { ...state, loading: true, error: null }
     case FETCH_FEATURED_RESTAURANTS_SUCCESS:

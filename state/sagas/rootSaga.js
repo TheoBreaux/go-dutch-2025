@@ -2,15 +2,32 @@
 import { put, takeLatest, all, call } from 'redux-saga/effects'
 import { API_URL } from '../../constants/constants'
 import Constants from 'expo-constants'
-import { FETCH_FEATURED_RESTAURANTS, SET_LOCAL_RESTAURANTS } from '../actions/actionTypes'
+import { FETCH_FEATURED_RESTAURANTS, SET_LOCAL_RESTAURANTS, AUTO_COMPLETE_DINER } from '../actions/actionTypes'
 import {
   fetchFeaturedRestaurantsFailure,
   fetchFeaturedRestaurantsSuccess,
   setLocalRestaurantsFailure,
   setLocalRestaurantsSuccess,
+  autoCompleteDinerFailure,
+  autoCompleteDinerSuccess,
 } from '../actions/actions'
 
 const API_KEY = Constants.expoConfig.extra.API_KEY
+
+function* autoCompleteDiner(action) {
+  const inputValue = action.payload
+
+  try {
+    const response = yield call(fetch, `${API_URL}/diners/suggestions?input=${inputValue}`, { method: 'GET' })
+    const data = yield response.json()
+    yield put(autoCompleteDinerSuccess(data))
+  } catch (error) {
+    yield put(autoCompleteDinerFailure(error.message))
+  }
+}
+function* watchAutoCompleteDiner() {
+  yield takeLatest(AUTO_COMPLETE_DINER, autoCompleteDiner)
+}
 
 function* fetchFeaturedRestaurants() {
   try {
@@ -48,5 +65,5 @@ function* watchSetLocalRestaurants() {
 }
 
 export default function* rootSaga() {
-  yield all([watchFetchFeaturedRestaurants(), watchSetLocalRestaurants()])
+  yield all([watchFetchFeaturedRestaurants(), watchSetLocalRestaurants(), watchAutoCompleteDiner()])
 }
