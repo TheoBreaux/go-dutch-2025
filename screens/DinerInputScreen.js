@@ -16,7 +16,7 @@ const DinerInputScreen = ({ route }) => {
 
   const [inputValue, setInputValue] = useState('')
   const [showSuggestions, setShowSuggestions] = useState(false)
-  const [showDiners, setShowDiners] = useState(true)
+  const [showAllDiners, setShowAllDiners] = useState(true)
   const [additionalDiners, setAdditionalDiners] = useState([])
 
   const { primaryDiner, eventTitle, eventLocation } = route.params
@@ -30,13 +30,20 @@ const DinerInputScreen = ({ route }) => {
   const handleInputChange = (text) => {
     setInputValue(text)
     setShowSuggestions(true)
-    setShowDiners(false)
+    setShowAllDiners(false) //the flatlist of already selected Diners
   }
+
+  console.log('SHOW SUGGESTIONS: ', showSuggestions)
+  console.log('SHOW ALL DINERS: ', showAllDiners)
+  console.log('ADDITIONAL DINERS: ', additionalDiners)
+
+  //NEED FUNCTION TO ADD DINER TO ADDITIONAL DINERS ARRAY AND HAVE THEM SHOW IN UI
 
   const renderSuggestionsItem = ({ item, index }) => (
     <DinerTile
       imgUrl={item.imgUrl}
       username={item.username}
+      additionalDiner={true}
     />
   )
 
@@ -75,6 +82,13 @@ const DinerInputScreen = ({ route }) => {
             data={suggestions}
             renderItem={renderSuggestionsItem}
             keyExtractor={(item) => item.id?.toString() || item.username}
+          />
+        )}
+        {showAllDiners && (
+          <FlatList
+            style={{}}
+            data={additionalDiners}
+            renderItem={() => {}}
           />
         )}
 
