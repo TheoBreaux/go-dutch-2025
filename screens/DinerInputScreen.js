@@ -6,13 +6,20 @@ import Styles from '../style'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import DinerTile from '../components/ui/DinerTile'
 
-const DinerInputScreen = () => {
+const DinerInputScreen = ({ route }) => {
+  const { primaryDiner, eventTitle, eventLocation } = route.params
+
   return (
-    <LogoScreenWrapper>
+    <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
       <View style={{ alignItems: 'center' }}>
-        <Text style={Styles.dinerInputScreen.text.event}>Event Name</Text>
-        <Text style={Styles.dinerInputScreen.text.location}>Event Location</Text>
-        <DinerTile />
+        <Text style={Styles.dinerInputScreen.text.event}>{eventTitle}</Text>
+        <Text style={Styles.dinerInputScreen.text.location}>{eventLocation}</Text>
+        <View style={{ marginBottom: 10 }}>
+          <DinerTile
+            primaryDiner={true}
+            name={primaryDiner}
+          />
+        </View>
 
         <View style={Styles.dinerInputScreen.inputContainer}>
           <TextInput
@@ -27,9 +34,10 @@ const DinerInputScreen = () => {
             />
           </TouchableOpacity>
         </View>
+
         <PrimaryButton>Add Diner</PrimaryButton>
       </View>
-      <FlatList />
+      {/* <FlatList /> */}
       <PrimaryButton
         outterWidth={SCREEN_WIDTH * 0.75}
         innerWidth={SCREEN_WIDTH * 0.7}

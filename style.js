@@ -125,12 +125,18 @@ export default StyleSheet.create({
   profileImageMedallion: {
     container: {
       elevation: 5,
+      shadowColor: 'black',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
       borderRadius: 10,
       marginRight: SCREEN_WIDTH * 0.025,
       justifyContent: 'center',
       alignItems: 'center',
-      overflow: 'hidden',
-      image: { resizeMode: 'cover' },
+      overflow: Platform.OS === 'android' ? 'hidden' : 'visible', // or undefined
+    },
+    image: {
+      resizeMode: 'cover',
     },
   },
 
@@ -557,16 +563,22 @@ export default StyleSheet.create({
     container: {
       width: SCREEN_WIDTH * 0.9,
       marginBottom: SCREEN_HEIGHT < 830 ? SCREEN_HEIGHT * 0.05 : SCREEN_HEIGHT * 0.025,
-      heading: { fontFamily: 'Poppins-SemiBold', fontSize: scaleFont(24), color: COLORS.goDutchBlue },
-      label: { fontFamily: 'Poppins-Regular', fontSize: scaleFont(20) },
+      heading: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(26), color: COLORS.goDutchBlue },
+      label: { fontFamily: 'Poppins-BlackItalic', fontSize: scaleFont(20) },
     },
   },
 
   // ====================================================================================================================================== DINER INPUT SCREEN
   dinerInputScreen: {
     text: {
-      event: { fontFamily: 'Poppins-SemiBold', fontSize: scaleFont(30), color: COLORS.goDutchRed, marginBottom: -SCREEN_HEIGHT * 0.015 },
-      location: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(24), color: COLORS.goDutchBlue },
+      event: {
+        fontFamily: 'Poppins-ExtraBold',
+        fontSize: scaleFont(30),
+        color: COLORS.goDutchRed,
+        marginBottom: -SCREEN_HEIGHT * 0.015,
+        letterSpacing: 1,
+      },
+      location: { fontFamily: 'Poppins-BlackItalic', fontSize: scaleFont(24), color: COLORS.goDutchBlue, letterSpacing: 1 },
     },
     inputContainer: {
       borderWidth: 1,

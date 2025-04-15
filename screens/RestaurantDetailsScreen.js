@@ -11,8 +11,6 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 const RestaurantDetailsScreen = ({ navigation, route }) => {
   const { name, address, city, state, zip, phone, rating, cuisine, bio, image, website } = route.params
 
-console.log(SCREEN_HEIGHT)
-
   return (
     <LogoScreenWrapper
       backgroundColor={COLORS.logoScreenBackground}

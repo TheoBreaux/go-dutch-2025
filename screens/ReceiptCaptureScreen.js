@@ -76,7 +76,7 @@ const ReceiptCaptureScreen = ({ navigation }) => {
     try {
       setLoading(true)
       const data = await handleReceiptParse(image)
-      //get data and parse for what I need
+      //get data and parse for what I needr
       const configuredEventData = configureReceiptData(data)
       setEventData(configuredEventData)
       setLoading(false)

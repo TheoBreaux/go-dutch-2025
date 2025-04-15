@@ -7,7 +7,7 @@ const ProfileImageMedallion = ({ width, height, borderRadius, image }) => {
     <View style={[Styles.profileImageMedallion.container, { width, height, borderRadius }]}>
       <Image
         source={image ? { uri: image } : Images.default_profile_image}
-        style={[Styles.profileImageMedallion.container.image, { width, height }]}
+        style={[Styles.profileImageMedallion.image, { width, height, borderRadius }]}
       />
     </View>
   )
