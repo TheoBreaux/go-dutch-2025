@@ -7,6 +7,7 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import DinerTile from '../components/ui/DinerTile'
 
 const DinerInputScreen = ({ route }) => {
+  const [additionalDiners, setAdditionalDiners] = useState([])
   const { primaryDiner, eventTitle, eventLocation } = route.params
 
   return (
@@ -37,7 +38,7 @@ const DinerInputScreen = ({ route }) => {
 
         <PrimaryButton>Add Diner</PrimaryButton>
       </View>
-      {/* <FlatList /> */}
+      {/* <FlatList data={additionalDiners} /> */}
       <PrimaryButton
         outterWidth={SCREEN_WIDTH * 0.75}
         innerWidth={SCREEN_WIDTH * 0.7}
