@@ -2,20 +2,16 @@ import { View, Text, FlatList } from 'react-native'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import Styles from '../style'
 import ProfileImageMedallion from '../components/ui/ProfileImageMedallion'
-import { CIRCLE_SIZE, SCREEN_WIDTH } from '../constants/constants'
+import { CIRCLE_SIZE, COLORS, SCREEN_WIDTH } from '../constants/constants'
 import PrimaryButton from '../components/ui/PrimaryButton'
-import { useSelector } from 'react-redux'
-import { useState } from 'react'
-import { PRETTIFY } from '../utils/utils'
 
-const DinnerItemAssignmentScreen = () => {
-  const state = useSelector((state) => state.app)
 
-  console.log('STATE IN ASSIGNMENT: ', state)
-  PRETTIFY(state)
+const DinnerItemAssignmentScreen = ({ route }) => {
+
+  const { diners } = route.params
 
   return (
-    <LogoScreenWrapper>
+    <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
       <View style={Styles.dinnerItemAssignmentScreen.container}>
         <Text style={Styles.dinnerItemAssignmentScreen.container.text}>What did this diner have?</Text>
         <Text style={Styles.dinnerItemAssignmentScreen.container.text.instruction}>Drag diner items to diner icon & review!</Text>

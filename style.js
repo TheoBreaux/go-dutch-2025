@@ -85,8 +85,7 @@ export default StyleSheet.create({
       borderRadius: 20,
       width: SCREEN_WIDTH * 0.9,
       height: SCREEN_HEIGHT * 0.1,
-      marginTop: 10,
-      marginBottom: SCREEN_HEIGHT * 0.0025,
+      marginTop: SCREEN_HEIGHT * 0.0025,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
@@ -297,7 +296,7 @@ export default StyleSheet.create({
     modalContainer: { width: SCREEN_WIDTH * 0.9, height: SCREEN_HEIGHT * 0.7, borderRadius: 10, overflow: 'hidden' },
     imageBackground: { flex: 1, justifyContent: 'center', alignItems: 'center' },
     buttonsContainer: { flexDirection: 'row', width: SCREEN_WIDTH * 0.9, alignItems: 'center', justifyContent: 'center' },
-    text: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(16) },
+    text: { fontFamily: 'Poppins-ExtraBold', fontSize: scaleFont(20) },
   },
 
   // ================================================================================================================================== CELEBRATION MODAL
@@ -607,13 +606,14 @@ export default StyleSheet.create({
 
   // ====================================================================================================================================== DINER INPUT SCREEN
   dinerInputScreen: {
+    container: { alignItems: 'center', marginBottom: Platform.OS === 'ios' ? SCREEN_HEIGHT * 0.1 : SCREEN_HEIGHT * 0.04, flex: 1 },
     text: {
       event: {
         fontFamily: 'Poppins-ExtraBold',
         fontSize: scaleFont(30),
         color: COLORS.goDutchRed,
         marginBottom: -SCREEN_HEIGHT * 0.015,
-        marginTop: -SCREEN_HEIGHT * 0.015,
+        marginTop: -SCREEN_HEIGHT * 0.005,
         letterSpacing: 1,
       },
       location: { fontFamily: 'Poppins-BlackItalic', fontSize: scaleFont(24), color: COLORS.goDutchBlue, letterSpacing: 1 },
@@ -626,6 +626,7 @@ export default StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'space-between',
       overflow: 'hidden',
+      marginBottom: SCREEN_HEIGHT * 0.01,
       input: {
         fontFamily: 'Poppins-Regular',
         fontSize: scaleFont(16),
@@ -637,6 +638,22 @@ export default StyleSheet.create({
         width: SCREEN_WIDTH,
       },
       search: { width: 40, justifyContent: 'center', alignItems: 'center', position: 'absolute', right: 10 },
+    },
+    miniModal: {
+      text: { fontFamily: 'Poppins-ExtraBold', fontSize: scaleFont(25) },
+      width: SCREEN_WIDTH * 0.9,
+      height: SCREEN_HEIGHT * 0.2,
+      borderWidth: 1,
+      borderColor: COLORS.goDutchBlue,
+      backgroundColor: 'white',
+      borderRadius: 10,
+      elevation: 5,
+      shadowColor: 'black',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   },
   // ====================================================================================================================================== ITEM CONFIRMATION SCREEN

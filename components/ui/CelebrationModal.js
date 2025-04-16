@@ -3,16 +3,18 @@ import CustomModalContainer from './CustomModalContainer'
 import Styles from '../../style'
 import Images from '../../assets/images/images'
 
-const CelebrationModal = () => {
+const CelebrationModal = ({ onPress1, onPress2 }) => {
   return (
     <CustomModalContainer
       buttonText1={'Yes'}
       buttonText2={'No'}
+      onPress1={onPress1}
+      onPress2={onPress2}
     >
       <View style={Styles.celebrationModal.content}>
         <Image
           style={Styles.celebrationModal.image}
-          source={Images.glass_clanking}
+          source={Images.birthday_cake}
           resizeMode="cover"
         />
       </View>

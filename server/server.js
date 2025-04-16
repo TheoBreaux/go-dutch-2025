@@ -116,6 +116,7 @@ app.post('/logIn', async (req, res) => {
     })
 
     res.status(200).json({
+      availableSplits: user.rows[0].available_splits,
       success: true,
       message: `Welcome ${user.rows[0].first_name}!`,
       email: user.rows[0].email,
@@ -182,6 +183,7 @@ app.get('/diners/suggestions', async (req, res) => {
       lastName: row.last_name,
       birthday: row.birthday,
       imgUrl: row.img_url,
+      isPrimaryDiner: false,
     }))
     res.json(suggestions)
   } catch (error) {

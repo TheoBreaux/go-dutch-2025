@@ -1,4 +1,4 @@
-import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, Alert } from 'react-native'
+import { View, Text, TextInput, FlatList } from 'react-native'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
@@ -10,8 +10,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { autoCompleteDiner } from '../state/actions/actions'
 import SuggestionItem from '../components/ui/SuggestionItem'
 import Toast from 'react-native-toast-message'
+import CelebrationModal from '../components/ui/CelebrationModal'
+import CelebrationSelectionModal from '../components/ui/CelebrationSelectionModal'
 
-const DinerInputScreen = ({ route }) => {
+const DinerInputScreen = ({ route, navigation }) => {
   const { primaryDiner, eventTitle, eventLocation } = route.params
 
   const dispatch = useDispatch()
@@ -20,6 +22,8 @@ const DinerInputScreen = ({ route }) => {
   const [inputValue, setInputValue] = useState('')
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [showAllDiners, setShowAllDiners] = useState(true)
+  const [showCelebrationModal, setShowCelebrationModal] = useState(false)
+  const [showSelectionModal, setShowSelectionModal] = useState(false)
   const [diners, setDiners] = useState([])
 
   useEffect(() => {
@@ -52,7 +56,16 @@ const DinerInputScreen = ({ route }) => {
     }
   }
 
-  const handleRemoveDiner = (dinerId) => {}
+  const handleRemoveDiner = (dinerId) => {
+    const updatedDiners = diners.filter((diner) => diner.userId !== dinerId)
+    setDiners(updatedDiners)
+  }
+
+  const handleDinersConfirmed = () => {
+    const finalUpdatedDiners = [...diners, primaryDiner]
+    setDiners(finalUpdatedDiners)
+    setShowCelebrationModal(true)
+  }
 
   const renderSuggestionsItem = ({ item, index }) => (
     <SuggestionItem
@@ -79,7 +92,14 @@ const DinerInputScreen = ({ route }) => {
 
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
-      <View style={{ alignItems: 'center' }}>
+      {showCelebrationModal && (
+        <CelebrationModal
+          onPress1={() => console.log('PRESSING 1')} //yes show selection Modal
+          onPress2={() => navigation.navigate('Screens', { screen: 'ItemAssignment', params: { diners } })} //no
+        />
+      )}
+      {showSelectionModal && <CelebrationSelectionModal />}
+      <View style={Styles.dinerInputScreen.container}>
         <Text style={Styles.dinerInputScreen.text.event}>{eventTitle}</Text>
         <Text style={Styles.dinerInputScreen.text.location}>{eventLocation}</Text>
         <View style={{ marginBottom: 10 }}>
@@ -89,6 +109,7 @@ const DinerInputScreen = ({ route }) => {
             lastName={primaryDiner.lastName}
             username={primaryDiner.username}
             imgUrl={primaryDiner.imgUrl}
+            onPress={() => navigation.goBack()}
           />
         </View>
 
@@ -100,13 +121,13 @@ const DinerInputScreen = ({ route }) => {
             value={inputValue}
           />
 
-          <TouchableOpacity style={Styles.dinerInputScreen.inputContainer.search}>
+          <View style={Styles.dinerInputScreen.inputContainer.search}>
             <FontAwesome5
               name="search"
               size={24}
               color={COLORS.goDutchRed}
             />
-          </TouchableOpacity>
+          </View>
         </View>
 
         {showSuggestions && inputValue.trim().length > 1 && suggestions.length > 0 && (
@@ -122,25 +143,24 @@ const DinerInputScreen = ({ route }) => {
 
         {showAllDiners && (
           <FlatList
-            style={{ height: SCREEN_HEIGHT * 0.75 }}
+            style={{ height: SCREEN_HEIGHT * 0.25 }}
             data={diners}
             renderItem={renderDiner}
             showsVerticalScrollIndicator={false}
           />
         )}
-      </View>
 
-      {!showSuggestions && (
-        <View>
-          <PrimaryButton>Add Diner</PrimaryButton>
+        <View style={Styles.dinerInputScreen.miniModal}>
+          <Text style={Styles.dinerInputScreen.miniModal.text}>All diners added?</Text>
           <PrimaryButton
-            outterWidth={SCREEN_WIDTH * 0.75}
-            innerWidth={SCREEN_WIDTH * 0.7}
+            outterWidth={SCREEN_WIDTH * 0.45}
+            innerWidth={SCREEN_WIDTH * 0.42}
+            onPress={handleDinersConfirmed}
           >
-            Confirm All Diners
+            Confirm
           </PrimaryButton>
         </View>
-      )}
+      </View>
     </LogoScreenWrapper>
   )
 }

@@ -1,4 +1,5 @@
 const images = {
+  birthday_cake: require('./birthday_cake.png'),
   dining_detail: require('./dining_detail.png'),
   glass_clanking: require('./glass_clanking.png'),
   go_dutch_logo: require('./go_dutch_logo.png'),

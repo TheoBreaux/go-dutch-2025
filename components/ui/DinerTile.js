@@ -42,7 +42,7 @@ const DinerTile = ({
         <FavoritesIcon />
       ) : (
         <CircularButton
-          onPress={() => {}}
+          onPress={onPress}
           icon={
             <FontAwesome
               name="close"

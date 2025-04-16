@@ -14,12 +14,13 @@ import { Picker } from '@react-native-picker/picker'
 const DiningDetailScreen = ({ navigation }) => {
   const eventData = useSelector((state) => state.app.receiptData)
   const loggedInUser = useSelector((state) => state.app.user)
+  const updatedLoggedInUser = { ...loggedInUser, isPrimaryDiner: true }
   const localRestaurants = useSelector((state) => state.app.localRestaurants.slice().sort((a, b) => a.name.localeCompare(b.name)))
 
   const [eventDate, setEventDate] = useState(eventData.date)
   const [eventLocation, setEventLocation] = useState(eventData.restaurantName)
   const [eventTitle, setEventTitle] = useState('')
-  const [primaryDiner, setPrimaryDiner] = useState(loggedInUser) //this will eventually be searchable through database
+  const [primaryDiner, setPrimaryDiner] = useState(updatedLoggedInUser) //this will eventually be searchable through database
 
   const handleConfirmDetails = () => {
     let missingFields = {}
@@ -57,7 +58,6 @@ const DiningDetailScreen = ({ navigation }) => {
     })
   }
 
-
   return (
     <LogoScreenWrapper
       backgroundColor={COLORS.logoScreenBackground}
@@ -89,15 +89,6 @@ const DiningDetailScreen = ({ navigation }) => {
               value={'@' + primaryDiner.username}
               onChangeText={setPrimaryDiner}
             />
-            {/* <View style={Styles.diningDetailsScreen.container.inputContainer.closeIcon}>
-              <TouchableOpacity onPress={() => setPrimaryDiner('')}>
-                <FontAwesome
-                  name="close"
-                  size={24}
-                  color={COLORS.goDutchRed}
-                />
-              </TouchableOpacity>
-            </View> */}
           </View>
 
           <Text style={[Styles.diningDetailsScreen.container.label, { marginTop: 5 }]}>Date :</Text>
@@ -109,15 +100,6 @@ const DiningDetailScreen = ({ navigation }) => {
               value={formatReceiptDate(eventDate)}
               onChangeText={setEventDate}
             />
-            {/* <View style={Styles.diningDetailsScreen.container.inputContainer.closeIcon}>
-              <TouchableOpacity onPress={() => setEventDate('')}>
-                <FontAwesome
-                  name="close"
-                  size={24}
-                  color={COLORS.goDutchRed}
-                />
-              </TouchableOpacity>
-            </View> */}
           </View>
 
           <Text style={[Styles.diningDetailsScreen.container.label, { marginTop: 5 }]}>Restaurant/Bar :</Text>

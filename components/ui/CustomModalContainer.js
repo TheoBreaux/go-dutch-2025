@@ -21,14 +21,14 @@ const CustomModalContainer = ({ animationType, transparent, visible, onPress1, o
             <View style={Styles.customModalContainer.buttonsContainer}>
               <PrimaryButton
                 outterWidth={SCREEN_WIDTH * 0.3}
-                innerWidth={SCREEN_WIDTH * 0.25}
+                innerWidth={SCREEN_WIDTH * 0.28}
                 onPress={onPress1}
               >
                 {buttonText1}
               </PrimaryButton>
               <PrimaryButton
                 outterWidth={SCREEN_WIDTH * 0.3}
-                innerWidth={SCREEN_WIDTH * 0.25}
+                innerWidth={SCREEN_WIDTH * 0.28}
                 onPress={onPress2}
               >
                 {buttonText2}
