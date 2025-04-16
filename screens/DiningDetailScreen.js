@@ -6,20 +6,15 @@ import { COLORS, SCREEN_WIDTH } from '../constants/constants'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import { useSelector } from 'react-redux'
 import { useState } from 'react'
-import { formatReceiptDate, scaleFont } from '../utils/utils'
+import { formatReceiptDate } from '../utils/utils'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import Toast from 'react-native-toast-message'
 import { Picker } from '@react-native-picker/picker'
 
 const DiningDetailScreen = ({ navigation }) => {
   const eventData = useSelector((state) => state.app.receiptData)
-  const loggedInUser = useSelector((state) => state.app.user.username)
-  const localRestaurants = useSelector((state) => state.app.localRestaurants)
-
-  const sortedLocalRestaurants = localRestaurants.slice().sort((a, b) => a.name.localeCompare(b.name))
-
-  console.log(localRestaurants) //item.name, item.vicinity
-  console.log(sortedLocalRestaurants)
+  const loggedInUser = useSelector((state) => state.app.user)
+  const localRestaurants = useSelector((state) => state.app.localRestaurants.slice().sort((a, b) => a.name.localeCompare(b.name)))
 
   const [eventDate, setEventDate] = useState(eventData.date)
   const [eventLocation, setEventLocation] = useState(eventData.restaurantName)
@@ -62,6 +57,7 @@ const DiningDetailScreen = ({ navigation }) => {
     })
   }
 
+
   return (
     <LogoScreenWrapper
       backgroundColor={COLORS.logoScreenBackground}
@@ -84,15 +80,16 @@ const DiningDetailScreen = ({ navigation }) => {
         >
           <Text style={Styles.diningDetailsScreen.container.heading}>Confirm dining details:</Text>
 
-          <Text style={[Styles.diningDetailsScreen.container.label, { marginTop: 5 }]}>Primary Diner:</Text>
+          <Text style={[Styles.diningDetailsScreen.container.label, { marginTop: 5 }]}>Primary Diner :</Text>
 
           <View style={Styles.diningDetailsScreen.container.inputContainer}>
             <TextInput
+              editable={false}
               style={[Styles.profileScreen.inputContainer.textInput, { width: '100%' }]}
-              value={'@' + primaryDiner}
+              value={'@' + primaryDiner.username}
               onChangeText={setPrimaryDiner}
             />
-            <View style={Styles.diningDetailsScreen.container.inputContainer.closeIcon}>
+            {/* <View style={Styles.diningDetailsScreen.container.inputContainer.closeIcon}>
               <TouchableOpacity onPress={() => setPrimaryDiner('')}>
                 <FontAwesome
                   name="close"
@@ -100,18 +97,19 @@ const DiningDetailScreen = ({ navigation }) => {
                   color={COLORS.goDutchRed}
                 />
               </TouchableOpacity>
-            </View>
+            </View> */}
           </View>
 
-          <Text style={[Styles.diningDetailsScreen.container.label, { marginTop: 5 }]}>Date:</Text>
+          <Text style={[Styles.diningDetailsScreen.container.label, { marginTop: 5 }]}>Date :</Text>
 
           <View style={Styles.diningDetailsScreen.container.inputContainer}>
             <TextInput
+              editable={false}
               style={[Styles.profileScreen.inputContainer.textInput, { width: '100%' }]}
               value={formatReceiptDate(eventDate)}
               onChangeText={setEventDate}
             />
-            <View style={Styles.diningDetailsScreen.container.inputContainer.closeIcon}>
+            {/* <View style={Styles.diningDetailsScreen.container.inputContainer.closeIcon}>
               <TouchableOpacity onPress={() => setEventDate('')}>
                 <FontAwesome
                   name="close"
@@ -119,36 +117,54 @@ const DiningDetailScreen = ({ navigation }) => {
                   color={COLORS.goDutchRed}
                 />
               </TouchableOpacity>
-            </View>
+            </View> */}
           </View>
 
-          <Text style={[Styles.diningDetailsScreen.container.label, { marginTop: 5 }]}>Restaurant/Bar:</Text>
+          <Text style={[Styles.diningDetailsScreen.container.label, { marginTop: 5 }]}>Restaurant/Bar :</Text>
 
           <View style={Styles.diningDetailsScreen.container.inputContainer}>
-            <View
-              style={Styles.diningDetailsScreen.container.picker}
-            >
-              <Picker
-                style={{ color: COLORS.goDutchRed }}
-                selectedValue={eventLocation}
-                onValueChange={(itemValue, itemIndex) => setEventLocation(itemValue)}
-              >
-                <Picker.Item
-                  label={eventLocation}
-                  value={eventLocation}
-                />
-                {sortedLocalRestaurants.map((restaurant) => (
-                  <Picker.Item
-                    key={restaurant.place_id}
-                    label={restaurant.name + ', ' + restaurant.vicinity}
-                    value={restaurant.name}
+            <View style={Styles.diningDetailsScreen.container.picker}>
+              {Platform.OS === 'ios' ? (
+                <View style={{ justifyContent: 'center' }}>
+                  <TextInput
+                    style={[Styles.profileScreen.inputContainer.textInput, { width: '100%', color: COLORS.goDutchRed }]}
+                    value={eventLocation}
+                    onChangeText={setEventLocation}
                   />
-                ))}
-              </Picker>
+
+                  <View style={Styles.diningDetailsScreen.container.inputContainer.closeIcon}>
+                    <TouchableOpacity onPress={() => setEventLocation('')}>
+                      <FontAwesome
+                        name="close"
+                        size={24}
+                        color={COLORS.goDutchRed}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              ) : (
+                <Picker
+                  style={{ color: COLORS.goDutchRed }}
+                  selectedValue={eventLocation}
+                  onValueChange={(itemValue, itemIndex) => setEventLocation(itemValue)}
+                >
+                  <Picker.Item
+                    label={eventLocation}
+                    value={eventLocation}
+                  />
+                  {localRestaurants.map((restaurant) => (
+                    <Picker.Item
+                      key={restaurant.place_id}
+                      label={restaurant.name + ', ' + restaurant.vicinity}
+                      value={restaurant.name}
+                    />
+                  ))}
+                </Picker>
+              )}
             </View>
           </View>
 
-          <Text style={[Styles.diningDetailsScreen.container.label, { marginTop: 5 }]}>Event Title:</Text>
+          <Text style={[Styles.diningDetailsScreen.container.label, { marginTop: 5 }]}>Event Title :</Text>
 
           <View style={Styles.diningDetailsScreen.container.inputContainer}>
             <TextInput
@@ -183,22 +199,3 @@ const DiningDetailScreen = ({ navigation }) => {
 }
 
 export default DiningDetailScreen
-
-{
-  /* <TextInput
-              style={[Styles.profileScreen.inputContainer.textInput, { width: '100%' }]}
-              value={eventLocation}
-              onChangeText={setEventLocation}
-            /> */
-}
-{
-  /* <View style={Styles.diningDetailsScreen.container.inputContainer.closeIcon}>
-              <TouchableOpacity onPress={() => setEventLocation('')}>
-                <FontAwesome
-                  name="close"
-                  size={24}
-                  color={COLORS.goDutchRed}
-                />
-              </TouchableOpacity>
-            </View> */
-}

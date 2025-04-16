@@ -176,6 +176,7 @@ app.get('/diners/suggestions', async (req, res) => {
   try {
     const autoCompleteDiner = await pool.query(`SELECT * FROM users WHERE username ILIKE $1 OR first_name ILIKE $1 LIMIT 10;`, [`%${userInput}%`])
     const suggestions = autoCompleteDiner.rows.map((row) => ({
+      userId: row.user_id,
       username: row.username,
       firstName: row.first_name,
       lastName: row.last_name,

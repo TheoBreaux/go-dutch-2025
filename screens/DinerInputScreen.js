@@ -1,25 +1,26 @@
-import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, Alert } from 'react-native'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import PrimaryButton from '../components/ui/PrimaryButton'
-import { COLORS, SCREEN_WIDTH } from '../constants/constants'
+import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
 import Styles from '../style'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import DinerTile from '../components/ui/DinerTile'
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { autoCompleteDiner } from '../state/actions/actions'
+import SuggestionItem from '../components/ui/SuggestionItem'
+import Toast from 'react-native-toast-message'
 
 const DinerInputScreen = ({ route }) => {
+  const { primaryDiner, eventTitle, eventLocation } = route.params
+
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.app.user)
   const suggestions = useSelector((state) => state.app.suggestions.sort((a, b) => a.username.localeCompare(b.username)))
 
   const [inputValue, setInputValue] = useState('')
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [showAllDiners, setShowAllDiners] = useState(true)
-  const [additionalDiners, setAdditionalDiners] = useState([])
-
-  const { primaryDiner, eventTitle, eventLocation } = route.params
+  const [diners, setDiners] = useState([])
 
   useEffect(() => {
     if (inputValue.trim().length > 1) {
@@ -30,22 +31,51 @@ const DinerInputScreen = ({ route }) => {
   const handleInputChange = (text) => {
     setInputValue(text)
     setShowSuggestions(true)
-    setShowAllDiners(false) //the flatlist of already selected Diners
   }
 
-  console.log('SHOW SUGGESTIONS: ', showSuggestions)
-  console.log('SHOW ALL DINERS: ', showAllDiners)
-  console.log('ADDITIONAL DINERS: ', additionalDiners)
+  const handleAddDiner = (dinerId) => {
+    setInputValue('')
+    const doesDinerExist = diners.some((diner) => diner.userId === dinerId)
+    const isPrimaryDiner = dinerId === primaryDiner.userId
 
-  //NEED FUNCTION TO ADD DINER TO ADDITIONAL DINERS ARRAY AND HAVE THEM SHOW IN UI
+    if (doesDinerExist || isPrimaryDiner) {
+      Toast.show({
+        type: 'error',
+        text1: 'Diner already exists.',
+        position: 'top',
+        visibilityTime: 2500,
+      })
+      setShowSuggestions(false)
+    } else {
+      const newDiner = suggestions[0]
+      setDiners((prev) => [...prev, newDiner])
+    }
+  }
+
+  const handleRemoveDiner = (dinerId) => {}
 
   const renderSuggestionsItem = ({ item, index }) => (
-    <DinerTile
+    <SuggestionItem
       imgUrl={item.imgUrl}
+      firstName={item.firstName}
+      lastName={item.lastName}
       username={item.username}
-      additionalDiner={true}
+      onPress={() => handleAddDiner(item.userId)}
     />
   )
+
+  const renderDiner = ({ item }) => {
+    return (
+      <DinerTile
+        additionalDiner={true}
+        firstName={item.firstName}
+        lastName={item.lastName}
+        username={item.username}
+        imgUrl={item.imgUrl}
+        onPress={() => handleRemoveDiner(item.userId)}
+      />
+    )
+  }
 
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
@@ -55,8 +85,10 @@ const DinerInputScreen = ({ route }) => {
         <View style={{ marginBottom: 10 }}>
           <DinerTile
             primaryDiner={true}
-            username={primaryDiner}
-            imgUrl={user.imgUrl}
+            firstName={primaryDiner.firstName}
+            lastName={primaryDiner.lastName}
+            username={primaryDiner.username}
+            imgUrl={primaryDiner.imgUrl}
           />
         </View>
 
@@ -76,151 +108,41 @@ const DinerInputScreen = ({ route }) => {
             />
           </TouchableOpacity>
         </View>
+
         {showSuggestions && inputValue.trim().length > 1 && suggestions.length > 0 && (
-          <FlatList
-            style={styles.showSuggestionsContainer}
-            data={suggestions}
-            renderItem={renderSuggestionsItem}
-            keyExtractor={(item) => item.id?.toString() || item.username}
-          />
+          <View>
+            <FlatList
+              data={suggestions}
+              renderItem={renderSuggestionsItem}
+              keyExtractor={(item) => item.id?.toString() || item.username}
+              showsVerticalScrollIndicator={false}
+            />
+          </View>
         )}
+
         {showAllDiners && (
           <FlatList
-            style={{}}
-            data={additionalDiners}
-            renderItem={() => {}}
+            style={{ height: SCREEN_HEIGHT * 0.75 }}
+            data={diners}
+            renderItem={renderDiner}
+            showsVerticalScrollIndicator={false}
           />
         )}
-
-        <PrimaryButton>Add Diner</PrimaryButton>
       </View>
 
-      <PrimaryButton
-        outterWidth={SCREEN_WIDTH * 0.75}
-        innerWidth={SCREEN_WIDTH * 0.7}
-      >
-        Confirm All Diners
-      </PrimaryButton>
+      {!showSuggestions && (
+        <View>
+          <PrimaryButton>Add Diner</PrimaryButton>
+          <PrimaryButton
+            outterWidth={SCREEN_WIDTH * 0.75}
+            innerWidth={SCREEN_WIDTH * 0.7}
+          >
+            Confirm All Diners
+          </PrimaryButton>
+        </View>
+      )}
     </LogoScreenWrapper>
   )
 }
 
 export default DinerInputScreen
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 16,
-  },
-  overlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContent: {
-    backgroundColor: 'white',
-    paddingVertical: 50,
-    paddingHorizontal: 20,
-    borderRadius: 10,
-    height: 600,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalImage: {
-    width: 300,
-    height: 300,
-    resizeMode: 'center',
-  },
-  modalText: {
-    fontFamily: 'red-hat-normal',
-    fontSize: 20,
-    textAlign: 'center',
-  },
-  buttonsContainer: {
-    flexDirection: 'row',
-  },
-  birthdayCake: {
-    marginTop: 250,
-  },
-  birthdaySelects: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  birthdayButtonContainer: {
-    marginBottom: 245,
-  },
-  eventTitle: {
-    textAlign: 'center',
-    fontFamily: 'red-hat-bold',
-    color: COLORS.goDutchRed,
-    fontSize: 25,
-    marginBottom: 5,
-  },
-  eventLocation: {
-    textAlign: 'center',
-    fontFamily: 'red-hat-bold',
-    fontSize: 25,
-    marginTop: -10,
-    color: COLORS.goDutchBlue,
-  },
-  addDinersContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
-  iconImage: {
-    width: 30,
-    height: 30,
-    resizeMode: 'center',
-    position: 'absolute',
-    zIndex: 1,
-    marginLeft: 5,
-  },
-  textInput: {
-    backgroundColor: COLORS.inputBackground,
-    borderBottomColor: COLORS.inputBorder,
-    borderBottomWidth: 2,
-    borderRadius: 5,
-    padding: 14,
-    paddingLeft: 50,
-    width: '60%',
-  },
-  miniModalContent: {
-    backgroundColor: 'white',
-    borderRadius: 10,
-    height: 150,
-    marginBottom: 10,
-    elevation: 5,
-    marginTop: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  miniModalText: {
-    fontFamily: 'red-hat-normal',
-    fontSize: 25,
-    textAlign: 'center',
-  },
-  showSuggestionsContainer: { padding: 5 },
-  dropdown: {
-    position: 'absolute',
-    top: 60, // adjust based on your input height
-    width: '100%',
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    maxHeight: 200,
-    zIndex: 999,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    elevation: 5,
-  },
-})

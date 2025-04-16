@@ -120,6 +120,29 @@ export default StyleSheet.create({
       },
     },
   },
+  // ========================================================================================================================================= SUGGESTION ITEM
+  suggestionItem: {
+    container: {
+      backgroundColor: 'white',
+      elevation: 5,
+      shadowColor: 'black',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
+      width: SCREEN_WIDTH * 0.9,
+      height: SCREEN_HEIGHT * 0.07,
+      marginTop: 5,
+      marginBottom: SCREEN_HEIGHT * 0.0025,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingHorizontal: SCREEN_WIDTH * 0.035,
+      text: {
+        username: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(18), color: COLORS.goDutchBlue, marginBottom: -5 },
+        name: { fontFamily: 'Poppins-Medium', fontSize: scaleFont(14), color: COLORS.goDutchBlue, marginBottom: -5 },
+      },
+    },
+  },
 
   // ========================================================================================================================================= PROFILE IMAGE MEDALLION
   profileImageMedallion: {
@@ -575,7 +598,7 @@ export default StyleSheet.create({
         height: 'auto',
         backgroundColor: 'white',
         borderBottomColor: COLORS.inputBorder,
-        borderBottomWidth: 3,
+        borderBottomWidth: Platform.OS === 'ios' ? null : 3,
         borderRadius: 5,
         width: '100%',
       },
