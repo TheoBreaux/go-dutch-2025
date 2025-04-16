@@ -571,6 +571,14 @@ export default StyleSheet.create({
         alignItems: 'center',
         closeIcon: { position: 'absolute', right: SCREEN_WIDTH * 0.025 },
       },
+      picker: {
+        height: 'auto',
+        backgroundColor: 'white',
+        borderBottomColor: COLORS.inputBorder,
+        borderBottomWidth: 3,
+        borderRadius: 5,
+        width: '100%',
+      },
     },
   },
 

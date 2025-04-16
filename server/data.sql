@@ -31,8 +31,20 @@ CREATE TABLE users (
     bio TEXT,
     favorite_cuisine VARCHAR(100),
     date_joined DATE DEFAULT CURRENT_DATE,
-    img_url TEXT
+    img_url TEXT,
+    available_splits INTEGER DEFAULT 1
 );
+
+CREATE TABLE split_purchases (
+    id SERIAL PRIMARY KEY,
+    user_id BIGINT REFERENCES users(user_id) ON DELETE CASCADE,
+    splits_purchased INTEGER NOT NULL,
+    amount_paid DECIMAL(10, 2) NOT NULL,
+    purchased_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
 --     primary_payment_source VARCHAR(255),
 --     primary_payment_source_username VARCHAR(255),
 --     secondary_payment_source VARCHAR(255),

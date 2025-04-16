@@ -26,7 +26,7 @@ const initialState = {
 }
 
 const AppReducer = (state = initialState, action) => {
-  console.log('ACTION IN REDUCER', action)
+  // console.log('ACTION IN REDUCER', action)
   // console.log('CURRENT STATE', state)
 
   switch (action.type) {

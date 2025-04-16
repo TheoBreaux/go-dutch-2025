@@ -6,13 +6,20 @@ import { COLORS, SCREEN_WIDTH } from '../constants/constants'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import { useSelector } from 'react-redux'
 import { useState } from 'react'
-import { formatReceiptDate } from '../utils/utils'
+import { formatReceiptDate, scaleFont } from '../utils/utils'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import Toast from 'react-native-toast-message'
+import { Picker } from '@react-native-picker/picker'
 
 const DiningDetailScreen = ({ navigation }) => {
   const eventData = useSelector((state) => state.app.receiptData)
   const loggedInUser = useSelector((state) => state.app.user.username)
+  const localRestaurants = useSelector((state) => state.app.localRestaurants)
+
+  const sortedLocalRestaurants = localRestaurants.slice().sort((a, b) => a.name.localeCompare(b.name))
+
+  console.log(localRestaurants) //item.name, item.vicinity
+  console.log(sortedLocalRestaurants)
 
   const [eventDate, setEventDate] = useState(eventData.date)
   const [eventLocation, setEventLocation] = useState(eventData.restaurantName)
@@ -21,7 +28,7 @@ const DiningDetailScreen = ({ navigation }) => {
 
   const handleConfirmDetails = () => {
     let missingFields = {}
-  
+
     if (eventDate === '') {
       missingFields.eventDate = 'Date'
     }
@@ -34,9 +41,9 @@ const DiningDetailScreen = ({ navigation }) => {
     if (primaryDiner === '') {
       missingFields.primaryDiner = 'Primary Diner'
     }
-  
+
     const missingKeys = Object.values(missingFields)
-  
+
     if (missingKeys.length > 0) {
       Toast.show({
         type: 'error',
@@ -45,13 +52,13 @@ const DiningDetailScreen = ({ navigation }) => {
         position: 'top',
         visibilityTime: 3000,
       })
-  
+
       return
     }
-  
+
     navigation.navigate('Screens', {
       screen: 'DinerInput',
-      params: { primaryDiner, eventTitle, eventLocation }
+      params: { primaryDiner, eventTitle, eventLocation },
     })
   }
 
@@ -118,19 +125,26 @@ const DiningDetailScreen = ({ navigation }) => {
           <Text style={[Styles.diningDetailsScreen.container.label, { marginTop: 5 }]}>Restaurant/Bar:</Text>
 
           <View style={Styles.diningDetailsScreen.container.inputContainer}>
-            <TextInput
-              style={[Styles.profileScreen.inputContainer.textInput, { width: '100%' }]}
-              value={eventLocation}
-              onChangeText={setEventLocation}
-            />
-            <View style={Styles.diningDetailsScreen.container.inputContainer.closeIcon}>
-              <TouchableOpacity onPress={() => setEventLocation('')}>
-                <FontAwesome
-                  name="close"
-                  size={24}
-                  color={COLORS.goDutchRed}
+            <View
+              style={Styles.diningDetailsScreen.container.picker}
+            >
+              <Picker
+                style={{ color: COLORS.goDutchRed }}
+                selectedValue={eventLocation}
+                onValueChange={(itemValue, itemIndex) => setEventLocation(itemValue)}
+              >
+                <Picker.Item
+                  label={eventLocation}
+                  value={eventLocation}
                 />
-              </TouchableOpacity>
+                {sortedLocalRestaurants.map((restaurant) => (
+                  <Picker.Item
+                    key={restaurant.place_id}
+                    label={restaurant.name + ', ' + restaurant.vicinity}
+                    value={restaurant.name}
+                  />
+                ))}
+              </Picker>
             </View>
           </View>
 
@@ -169,3 +183,22 @@ const DiningDetailScreen = ({ navigation }) => {
 }
 
 export default DiningDetailScreen
+
+{
+  /* <TextInput
+              style={[Styles.profileScreen.inputContainer.textInput, { width: '100%' }]}
+              value={eventLocation}
+              onChangeText={setEventLocation}
+            /> */
+}
+{
+  /* <View style={Styles.diningDetailsScreen.container.inputContainer.closeIcon}>
+              <TouchableOpacity onPress={() => setEventLocation('')}>
+                <FontAwesome
+                  name="close"
+                  size={24}
+                  color={COLORS.goDutchRed}
+                />
+              </TouchableOpacity>
+            </View> */
+}
