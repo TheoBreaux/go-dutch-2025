@@ -94,11 +94,18 @@ const DinerInputScreen = ({ route, navigation }) => {
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
       {showCelebrationModal && (
         <CelebrationModal
-          onPress1={() => console.log('PRESSING 1')} //yes show selection Modal
-          onPress2={() => navigation.navigate('Screens', { screen: 'ItemAssignment', params: { diners } })} //no
+          onPress1={() => setShowSelectionModal(true)}
+          onPress2={() => navigation.navigate('Screens', { screen: 'ItemAssignment', params: { diners } })}
         />
       )}
-      {showSelectionModal && <CelebrationSelectionModal />}
+      {showSelectionModal && (
+        <CelebrationSelectionModal
+          diners={diners}
+          setShowSelectionModal={setShowSelectionModal}
+          setShowCelebrationModal={setShowCelebrationModal}
+        />
+      )}
+
       <View style={Styles.dinerInputScreen.container}>
         <Text style={Styles.dinerInputScreen.text.event}>{eventTitle}</Text>
         <Text style={Styles.dinerInputScreen.text.location}>{eventLocation}</Text>

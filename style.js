@@ -40,6 +40,31 @@ export default StyleSheet.create({
       text: { fontFamily: 'Poppins-ExtraBold', color: 'white', fontSize: SCREEN_WIDTH < 400 ? scaleFont(14) : scaleFont(18) },
     },
   },
+  // ================================================================================================================================== CELEBRATED DINER SWITCH
+  celebratedDinerSwitch: {
+    container: {
+      width: SCREEN_WIDTH * 0.75,
+      borderRadius: 5,
+      marginBottom: 10,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      elevation: 5,
+      shadowColor: 'black',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
+      backgroundColor: 'white',
+      text: {
+        name: { fontFamily: 'Poppins-BlackItalic', fontSize: scaleFont(16) },
+        username: { fontFamily: 'Poppins-Regular', fontSize: scaleFont(14), color: COLORS.goDutchBlue },
+      },
+      switch: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        text: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(16) },
+      },
+    },
+  },
 
   // ================================================================================================================================== RESTAURANT TILE
   restaurantTile: {
@@ -86,6 +111,7 @@ export default StyleSheet.create({
       width: SCREEN_WIDTH * 0.9,
       height: SCREEN_HEIGHT * 0.1,
       marginTop: SCREEN_HEIGHT * 0.0025,
+      marginBottom: SCREEN_HEIGHT * 0.0040,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
@@ -293,7 +319,7 @@ export default StyleSheet.create({
   // ================================================================================================================================== CUSTOM MODAL CONTAINER
   customModalContainer: {
     overlay: { flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.8)', justifyContent: 'center', alignItems: 'center' },
-    modalContainer: { width: SCREEN_WIDTH * 0.9, height: SCREEN_HEIGHT * 0.7, borderRadius: 10, overflow: 'hidden' },
+    modalContainer: { width: SCREEN_WIDTH * 0.9, height: SCREEN_HEIGHT * 0.6, borderRadius: 10, overflow: 'hidden' },
     imageBackground: { flex: 1, justifyContent: 'center', alignItems: 'center' },
     buttonsContainer: { flexDirection: 'row', width: SCREEN_WIDTH * 0.9, alignItems: 'center', justifyContent: 'center' },
     text: { fontFamily: 'Poppins-ExtraBold', fontSize: scaleFont(20) },
@@ -609,7 +635,7 @@ export default StyleSheet.create({
     container: { alignItems: 'center', marginBottom: Platform.OS === 'ios' ? SCREEN_HEIGHT * 0.1 : SCREEN_HEIGHT * 0.04, flex: 1 },
     text: {
       event: {
-        fontFamily: 'Poppins-ExtraBold',
+        fontFamily: 'Poppins-BlackItalic',
         fontSize: scaleFont(30),
         color: COLORS.goDutchRed,
         marginBottom: -SCREEN_HEIGHT * 0.015,

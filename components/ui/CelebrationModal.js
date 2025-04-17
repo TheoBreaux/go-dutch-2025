@@ -6,6 +6,7 @@ import Images from '../../assets/images/images'
 const CelebrationModal = ({ onPress1, onPress2 }) => {
   return (
     <CustomModalContainer
+      animationType="fade"
       buttonText1={'Yes'}
       buttonText2={'No'}
       onPress1={onPress1}

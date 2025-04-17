@@ -4,7 +4,7 @@ import Images from '../../assets/images/images'
 import Styles from '../../style'
 import { SCREEN_WIDTH } from '../../constants/constants'
 
-const CustomModalContainer = ({ animationType, transparent, visible, onPress1, onPress2, buttonText1, buttonText2, children }) => {
+const CustomModalContainer = ({ animationType, transparent, visible, onPress1, onPress2, buttonText1, buttonText2, children, buttons = true }) => {
   return (
     <Modal
       animationType={animationType}
@@ -18,7 +18,7 @@ const CustomModalContainer = ({ animationType, transparent, visible, onPress1, o
             style={Styles.customModalContainer.imageBackground}
           >
             {children}
-            <View style={Styles.customModalContainer.buttonsContainer}>
+            { buttons && <View style={Styles.customModalContainer.buttonsContainer}>
               <PrimaryButton
                 outterWidth={SCREEN_WIDTH * 0.3}
                 innerWidth={SCREEN_WIDTH * 0.28}
@@ -33,7 +33,7 @@ const CustomModalContainer = ({ animationType, transparent, visible, onPress1, o
               >
                 {buttonText2}
               </PrimaryButton>
-            </View>
+            </View>}
           </ImageBackground>
         </View>
       </View>

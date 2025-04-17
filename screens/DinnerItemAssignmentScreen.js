@@ -4,11 +4,17 @@ import Styles from '../style'
 import ProfileImageMedallion from '../components/ui/ProfileImageMedallion'
 import { CIRCLE_SIZE, COLORS, SCREEN_WIDTH } from '../constants/constants'
 import PrimaryButton from '../components/ui/PrimaryButton'
-
+import { PRETTIFY } from '../utils/utils'
+import DinnerItemDropArea from '../components/DinnerItemDropArea'
 
 const DinnerItemAssignmentScreen = ({ route }) => {
+  const { diners, selectedCelebrants } = route.params
 
-  const { diners } = route.params
+  console.log('DINERS') //ALL DINERS
+  PRETTIFY(diners)
+
+  console.log('CELEBRANTS') //BIRTHDAY DINERS
+  PRETTIFY(selectedCelebrants)
 
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>

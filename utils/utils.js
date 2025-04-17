@@ -137,17 +137,17 @@ export const formatReceiptDate = (rawDateStr) => {
 
 
 
-export  const checkIfDinerExistsInDatabase = async (username) => {
-  let isDinerInDatabase;
-  try {
-    const response = await fetch(
-      `https://5574-76-32-124-165.ngrok-free.app/users/${username}`
-    );
-    const data = await response.json();
-    isDinerInDatabase = data;
-    return data;
-  } catch (error) {
-    console.error("User does not exist in database", error);
-    return false;
-  }
-};
+// export  const checkIfDinerExistsInDatabase = async (username) => {
+//   let isDinerInDatabase;
+//   try {
+//     const response = await fetch(
+//       `https://5574-76-32-124-165.ngrok-free.app/users/${username}`
+//     );
+//     const data = await response.json();
+//     isDinerInDatabase = data;
+//     return data;
+//   } catch (error) {
+//     console.error("User does not exist in database", error);
+//     return false;
+//   }
+// };
