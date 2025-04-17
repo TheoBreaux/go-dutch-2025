@@ -1,7 +1,8 @@
 import { View, Text, Switch, PanResponder, Animated, Image } from 'react-native'
 import Styles from '../../style'
 import Images from '../../assets/images/images'
-import { COLORS } from '../../constants/constants'
+import { scaleFont } from '../../utils/utils'
+import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../../constants/constants'
 import { useRef, useState } from 'react'
 import { Easing } from 'react-native-reanimated'
 import { Ionicons } from '@expo/vector-icons'
@@ -148,6 +149,7 @@ const DinnerItem = ({ price, name, isShared, id, onToggle }) => {
         </Animated.View>
       )}
 
+      {/* Hand image overlay */}
       {isDragging && (
         <Animated.View
           style={[
@@ -155,8 +157,8 @@ const DinnerItem = ({ price, name, isShared, id, onToggle }) => {
             {
               transform: [
                 ...pan.getTranslateTransform(),
-                { translateX: 90 }, // tweak these to position the hand just right
-                { translateY: -5 },
+                { translateX: 0 }, // tweak these to position the hand just right
+                { translateY: -50 },
               ],
             },
           ]}

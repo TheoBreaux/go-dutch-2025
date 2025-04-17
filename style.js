@@ -70,7 +70,11 @@ export default StyleSheet.create({
         name: { fontFamily: 'Poppins-Medium', color: 'white', fontSize: SCREEN_WIDTH < 400 ? scaleFont(12) : scaleFont(16) },
         price: { fontFamily: 'Poppins-ExtraBold', color: 'white', fontSize: SCREEN_WIDTH < 400 ? scaleFont(14) : scaleFont(16) },
       },
-      handOverlay: { position: 'absolute', zIndex: 999, hand: { width: SCREEN_WIDTH * 0.12, height: SCREEN_HEIGHT * 0.12, resizeMode: 'cover' } },
+      handOverlay: {
+        position: 'relative',
+        zIndex: 999,
+        hand: { position: 'absolute', width: SCREEN_WIDTH * 0.12, height: SCREEN_HEIGHT * 0.12, resizeMode: 'cover' },
+      },
     },
   },
 
@@ -768,14 +772,6 @@ export default StyleSheet.create({
         },
       },
       userName: { fontFamily: 'Poppins-BlackItalic', fontSize: scaleFont(20), color: COLORS.goDutchRed, marginTop: 5 },
-      scrollButtonsContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: SCREEN_WIDTH * 0.9,
-        button: { flexDirection: 'row', alignItems: 'center' },
-        text: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(16), color: COLORS.goDutchBlue },
-      },
-      flatList: { paddingBottom: SCREEN_HEIGHT * 0.025, paddingTop: 5 },
     },
   },
   // ====================================================================================================================================== RESTAURANT DETAILS SCREEN
