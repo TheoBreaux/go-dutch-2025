@@ -40,6 +40,40 @@ export default StyleSheet.create({
       text: { fontFamily: 'Poppins-ExtraBold', color: 'white', fontSize: SCREEN_WIDTH < 400 ? scaleFont(14) : scaleFont(18) },
     },
   },
+  // ================================================================================================================================== DINNER ITEM
+  dinnerItem: {
+    animatedContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      padding: 5,
+      marginVertical: 2,
+      borderRadius: 10,
+      width: SCREEN_WIDTH * 0.95,
+      height: SCREEN_HEIGHT * 0.05,
+    },
+    container: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      padding: 5,
+      borderRadius: 10,
+      width: SCREEN_WIDTH * 0.9,
+      height: SCREEN_HEIGHT * 0.05,
+      switchContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        color: 'white',
+        text: { fontFamily: 'Poppins-Bold', color: 'white', fontSize: SCREEN_WIDTH < 400 ? scaleFont(12) : scaleFont(14) },
+      },
+      text: {
+        name: { fontFamily: 'Poppins-Medium', color: 'white', fontSize: SCREEN_WIDTH < 400 ? scaleFont(12) : scaleFont(16) },
+        price: { fontFamily: 'Poppins-ExtraBold', color: 'white', fontSize: SCREEN_WIDTH < 400 ? scaleFont(14) : scaleFont(16) },
+      },
+      handOverlay: { position: 'absolute', zIndex: 999, hand: { width: SCREEN_WIDTH * 0.12, height: SCREEN_HEIGHT * 0.12, resizeMode: 'cover' } },
+    },
+  },
+
   // ================================================================================================================================== CELEBRATED DINER SWITCH
   celebratedDinerSwitch: {
     container: {
@@ -111,7 +145,7 @@ export default StyleSheet.create({
       width: SCREEN_WIDTH * 0.9,
       height: SCREEN_HEIGHT * 0.1,
       marginTop: SCREEN_HEIGHT * 0.0025,
-      marginBottom: SCREEN_HEIGHT * 0.0040,
+      marginBottom: SCREEN_HEIGHT * 0.004,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
@@ -718,24 +752,31 @@ export default StyleSheet.create({
   // ====================================================================================================================================== DINER ITEM ASSIGNMENT SCREEN
   dinnerItemAssignmentScreen: {
     container: {
-      marginTop: 5,
       alignItems: 'center',
       text: {
         textAlign: 'center',
         fontFamily: 'Poppins-Bold',
-        fontSize: SCREEN_WIDTH < 400 ? scaleFont(25) : scaleFont(30),
+        fontSize: SCREEN_WIDTH < 400 ? scaleFont(20) : scaleFont(25),
         color: COLORS.goDutchRed,
         marginBottom: -SCREEN_HEIGHT * 0.005,
         instruction: {
           fontFamily: 'Poppins-SemiBold',
-          fontSize: SCREEN_WIDTH < 400 ? scaleFont(16) : scaleFont(20),
+          fontSize: SCREEN_WIDTH < 400 ? scaleFont(16) : scaleFont(18),
           color: 'black',
           marginBottom: 5,
           textAlign: 'center',
         },
       },
+      userName: { fontFamily: 'Poppins-BlackItalic', fontSize: scaleFont(20), color: COLORS.goDutchRed, marginTop: 5 },
+      scrollButtonsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: SCREEN_WIDTH * 0.9,
+        button: { flexDirection: 'row', alignItems: 'center' },
+        text: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(16), color: COLORS.goDutchBlue },
+      },
+      flatList: { paddingBottom: SCREEN_HEIGHT * 0.025, paddingTop: 5 },
     },
-    userName: { fontFamily: 'Poppins-SemiBold', fontSize: scaleFont(20), color: COLORS.goDutchRed, marginTop: 5 },
   },
   // ====================================================================================================================================== RESTAURANT DETAILS SCREEN
   restaurantDetailsScreen: {

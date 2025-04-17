@@ -22,7 +22,6 @@ const ItemConfirmationScreen = ({ route }) => {
   const removeItem = (itemId) => {
     const updatedItems = receiptData.filter((item) => item.id !== itemId)
     const removedItem = receiptData.filter((item) => item.id === itemId)
-    console.log('REMOVED ITEM: ', removedItem)
     setreceiptData(updatedItems)
     setSubtotal((prevSubtotal) => prevSubtotal - Number(removedItem[0].price))
   }
@@ -83,7 +82,7 @@ const ItemConfirmationScreen = ({ route }) => {
           {...DUMMY_RECEIPT_EVENT_DATA}
           subtotal={subtotal}
           setAddingNewItem={setAddingNewItem}
-          receiptData={receiptData}
+          receiptItems={receiptData}
         />
       </View>
 

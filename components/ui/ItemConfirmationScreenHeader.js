@@ -7,12 +7,12 @@ import { useNavigation } from '@react-navigation/native'
 import { useDispatch } from 'react-redux'
 import { setReceiptDataSuccess } from '../../state/actions/actions'
 
-const ItemConfirmationScreenHeader = ({ subtotal, restaurantName, setAddingNewItem, receiptData, address, eventId, total, tax, date }) => {
+const ItemConfirmationScreenHeader = ({ subtotal, restaurantName, setAddingNewItem, receiptItems, address, eventId, total, tax, date }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
 
   const handleItemAssigment = () => {
-    dispatch(setReceiptDataSuccess({ restaurantName, eventId, address, receiptData, subtotal, total, tax, date }))
+    dispatch(setReceiptDataSuccess({ restaurantName, eventId, address, receiptItems, subtotal, total, tax, date }))
     navigation.navigate('Screens', { screen: 'DiningDetail' })
   }
 
