@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux'
 import DinerItemReviewModal from '../components/ui/DinerItemReviewModal'
 import { useNavigation } from '@react-navigation/native'
 
-const DinnerItemDropArea = ({ diners, selectedCelebrants }) => {
+const DinnerItemDropArea = ({ diners }) => {
   const [showReviewModal, setShowReviewModal] = useState(false)
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const [dinerReviewedItems, setDinerReviewedItems] = useState([])
@@ -20,7 +20,8 @@ const DinnerItemDropArea = ({ diners, selectedCelebrants }) => {
   const navigation = useNavigation()
 
   const currentDiner = diners[currentDinerIndex].username
-  const currentDinerItems = diners[currentDinerIndex].items
+
+  console.log(currentDiner)
 
   useEffect(() => {
     // Force re-render when diner changes

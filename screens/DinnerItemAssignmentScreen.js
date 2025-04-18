@@ -9,11 +9,19 @@ import { useSelector } from 'react-redux'
 import { useState } from 'react'
 
 const DinnerItemAssignmentScreen = ({ route }) => {
+  const { diners, selectedCelebrants } = route.params
+
   const [receiptItems, setReceiptItems] = useState(useSelector((state) => state.app.receiptData.receiptItems))
   const [assignmentComplete, setAssigmentComplete] = useState(false)
+  const [finalDiners, setFinalDiners] = useState(diners)
+  const [currentDinerIndex, setCurrentDinerIndex] = useState(0)
+  const [currentDinerId, setCurrentDinerId] = useState(diners[currentDinerIndex].userId)
 
-  const { diners, selectedCelebrants } = route.params
   const finalDiner = diners[diners.length - 1].username
+
+  console.log('FINAL DINERS: ', finalDiners)
+  console.log('CURRENT DINER ID: ', currentDinerId)
+  console.log('FINAL DINER: ', finalDiner)
 
   const toggleSharedItem = (item) => {
     if (!item.isShared) {
@@ -31,12 +39,26 @@ const DinnerItemAssignmentScreen = ({ route }) => {
     }
   }
 
+  const handleDrop = (item, dinerId) => {
+    console.log('*************************')
+    console.log(item)
+    console.log(dinerId)
+    console.log('*************************')
+    setFinalDiners((prev) =>
+      prev.map((diner) => {
+        // Check if the diner matches the dinerId
+        if (currentDinerId === dinerId) {
+          // Add the item to the diner’s items array
+          return { ...diner, items: [...(diner.items || []), item] }
+        }
+        return diner // Return unchanged diner if it doesn't match dinerId
+      })
+    )
+  }
+
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
-      <DinnerItemDropArea
-        diners={diners}
-        selectedCelebrants={selectedCelebrants}
-      />
+      <DinnerItemDropArea diners={diners} />
 
       {assignmentComplete ? (
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -74,6 +96,7 @@ const DinnerItemAssignmentScreen = ({ route }) => {
               {...item}
               key={item.id}
               onToggle={() => toggleSharedItem(item)}
+              onDrop={(item) => handleDrop(item, currentDinerId)}
             />
           )
         })

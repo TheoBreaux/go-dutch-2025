@@ -1,20 +1,19 @@
 import { View, Text, Switch, PanResponder, Animated, Image } from 'react-native'
 import Styles from '../../style'
 import Images from '../../assets/images/images'
-import { scaleFont } from '../../utils/utils'
-import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../../constants/constants'
+import { COLORS } from '../../constants/constants'
 import { useRef, useState } from 'react'
 import { Easing } from 'react-native-reanimated'
 import { Ionicons } from '@expo/vector-icons'
 
-const DinnerItem = ({ price, name, isShared, id, onToggle }) => {
+const DinnerItem = ({ price, name, isShared, id, onToggle, onDrop }) => {
   const [showDinnerItem, setShowDinnerItem] = useState(true)
   const [isDragging, setIsDragging] = useState(false)
 
   const pan = useRef(new Animated.ValueXY()).current
   const scaleValue = useRef(new Animated.Value(1)).current
   const rotation = useRef(new Animated.Value(0)).current
-  const isDropArea = (gesture) => gesture.moveY < 300
+  const isDropArea = (gesture) => gesture.moveY < 400
 
   let val = { x: 0, y: 0 }
   pan.addListener((value) => (val = value))
@@ -74,7 +73,8 @@ const DinnerItem = ({ price, name, isShared, id, onToggle }) => {
           ]),
         ]).start(() => {
           setShowDinnerItem(false)
-          //   dispatch(assignAndRemoveFoodItem({ item, dinerId }))
+          const dinnerItem = { price, name, isShared, id }
+          onDrop(dinnerItem)
         })
       } else {
         Animated.spring(pan, {
