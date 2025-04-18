@@ -160,7 +160,7 @@ const DinerInputScreen = ({ route, navigation }) => {
         <View style={Styles.dinerInputScreen.miniModal}>
           <Text style={Styles.dinerInputScreen.miniModal.text}>All diners added?</Text>
           <PrimaryButton
-            outterWidth={SCREEN_WIDTH * 0.45}
+            outerWidth={SCREEN_WIDTH * 0.45}
             innerWidth={SCREEN_WIDTH * 0.42}
             onPress={handleDinersConfirmed}
           >

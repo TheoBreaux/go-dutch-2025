@@ -7,36 +7,26 @@ import { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 
 const CelebrationSelectionModal = ({ diners, setShowSelectionModal, setShowCelebrationModal }) => {
-  const [selectedCelebrants, setSelectedCelebrants] = useState([])
+  const [updatedDiners, setUpdatedDiners] = useState(diners.map((diner) => ({ ...diner, isCelebrating: false })))
 
   const navigation = useNavigation()
 
-  const toggleCelebrant = (diner) => {
-    setSelectedCelebrants((prev) => {
-      const exists = prev.find((d) => d.username === diner.username)
-
-      if (exists) {
-        // Remove if already selected
-        return prev.filter((d) => d.username !== diner.username)
-      } else {
-        // Add full diner object
-        return [...prev, { ...diner, isCelebrating: true }]
-      }
-    })
+  const toggleCelebrationStatus = (dinerId) => {
+    setUpdatedDiners((prev) => prev.map((diner) => (diner.userId === dinerId ? { ...diner, isCelebrating: !diner.isCelebrating } : diner)))
   }
 
   const renderItem = ({ item }) => (
     <CelebratedDinerSwitch
       {...item}
-      isChecked={selectedCelebrants.some((d) => d.username === item.username)}
-      onToggle={() => toggleCelebrant(item)}
+      isChecked={item.isCelebrating}
+      onToggle={() => toggleCelebrationStatus(item.userId)}
     />
   )
 
   const handleConfirm = () => {
     setShowCelebrationModal(false)
     setShowSelectionModal(false)
-    navigation.navigate('Screens', { screen: 'ItemAssignment', params: { diners, selectedCelebrants } })
+    navigation.navigate('Screens', { screen: 'ItemAssignment', params: { updatedDiners } })
   }
 
   return (
@@ -53,7 +43,7 @@ const CelebrationSelectionModal = ({ diners, setShowSelectionModal, setShowCeleb
 
       <FlatList
         showsVerticalScrollIndicator={false}
-        data={diners}
+        data={updatedDiners}
         renderItem={renderItem}
       />
     </CustomModalContainer>

@@ -269,7 +269,7 @@ const RegistrationScreen = ({ navigation }) => {
                   </View>
                   <PrimaryButton
                     onPress={handleSubmit}
-                    outterWidth={SCREEN_WIDTH * 0.9}
+                    outerWidth={SCREEN_WIDTH * 0.9}
                     innerWidth={SCREEN_WIDTH * 0.88}
                   >
                     Submit

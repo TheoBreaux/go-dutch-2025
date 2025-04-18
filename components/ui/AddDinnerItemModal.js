@@ -36,14 +36,14 @@ const AddDinnerItemModal = ({ setNewItemName, setNewItemPrice, newItemName, newI
 
               <View style={{ flexDirection: 'row' }}>
                 <PrimaryButton
-                  outterWidth={SCREEN_WIDTH * 0.37}
+                  outerWidth={SCREEN_WIDTH * 0.37}
                   innerWidth={SCREEN_WIDTH * 0.35}
                   onPress={() => setAddingNewItem(false)}
                 >
                   Close
                 </PrimaryButton>
                 <PrimaryButton
-                  outterWidth={SCREEN_WIDTH * 0.37}
+                  outerWidth={SCREEN_WIDTH * 0.37}
                   innerWidth={SCREEN_WIDTH * 0.35}
                   onPress={addItem}
                 >

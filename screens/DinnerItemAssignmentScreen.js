@@ -1,27 +1,25 @@
-import { View, Text, Alert, Image } from 'react-native'
+import { View, Text, Alert, Image, ScrollView } from 'react-native'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import Styles from '../style'
 import Images from '../assets/images/images'
-import { COLORS } from '../constants/constants'
+import { COLORS, SCREEN_HEIGHT } from '../constants/constants'
 import DinnerItemDropArea from '../components/DinnerItemDropArea'
 import DinnerItem from '../components/ui/DinnerItem'
 import { useSelector } from 'react-redux'
 import { useState } from 'react'
 
 const DinnerItemAssignmentScreen = ({ route }) => {
-  const { diners, selectedCelebrants } = route.params
+  const { updatedDiners } = route.params
 
   const [receiptItems, setReceiptItems] = useState(useSelector((state) => state.app.receiptData.receiptItems))
   const [assignmentComplete, setAssigmentComplete] = useState(false)
-  const [finalDiners, setFinalDiners] = useState(diners)
+  const [finalDiners, setFinalDiners] = useState(updatedDiners)
+
   const [currentDinerIndex, setCurrentDinerIndex] = useState(0)
-  const [currentDinerId, setCurrentDinerId] = useState(diners[currentDinerIndex].userId)
+  const [currentDinerId, setCurrentDinerId] = useState(finalDiners[currentDinerIndex].userId)
 
-  const finalDiner = diners[diners.length - 1].username
-
-  console.log('FINAL DINERS: ', finalDiners)
-  console.log('CURRENT DINER ID: ', currentDinerId)
-  console.log('FINAL DINER: ', finalDiner)
+  const finalDinerId = updatedDiners[updatedDiners.length - 1].userId
+  //BE SURE TO ALSO CONFIRM SHARED ITEMS AT AFTER LAST DINER ITEMS ARE CONFIRMED POSSIBLY
 
   const toggleSharedItem = (item) => {
     if (!item.isShared) {
@@ -40,67 +38,71 @@ const DinnerItemAssignmentScreen = ({ route }) => {
   }
 
   const handleDrop = (item, dinerId) => {
-    console.log('*************************')
-    console.log(item)
-    console.log(dinerId)
-    console.log('*************************')
-    setFinalDiners((prev) =>
-      prev.map((diner) => {
-        // Check if the diner matches the dinerId
-        if (currentDinerId === dinerId) {
-          // Add the item to the diner’s items array
-          return { ...diner, items: [...(diner.items || []), item] }
-        }
-        return diner // Return unchanged diner if it doesn't match dinerId
-      })
-    )
+    // Remove item from receiptItems
+    setReceiptItems((prev) => prev.filter((receiptItem) => receiptItem.id !== item.id))
+
+    // Assign to diner
+    setFinalDiners((prev) => prev.map((diner) => (diner.userId === dinerId ? { ...diner, items: [...(diner.items || []), item] } : diner)))
   }
 
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
-      <DinnerItemDropArea diners={diners} />
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ marginBottom: SCREEN_HEIGHT * 0.025 }}
+      >
+        <DinnerItemDropArea
+          finalDiners={finalDiners}
+          currentDinerIndex={currentDinerIndex}
+          receiptItems={receiptItems}
+          setReceiptItems={setReceiptItems}
+          setFinalDiners={setFinalDiners}
+        />
 
-      {assignmentComplete ? (
-        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <View style={{ flexDirection: 'row' }}>
-            <Image source={Images.up_arrow} />
-            <Image source={Images.up_arrow} />
-            <Image source={Images.up_arrow} />
+        {assignmentComplete ? (
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ flexDirection: 'row' }}>
+              <Image source={Images.up_arrow} />
+              <Image source={Images.up_arrow} />
+              <Image source={Images.up_arrow} />
+            </View>
+
+            <Text
+              style={{
+                marginTop: 10,
+                letterSpacing: 5,
+                fontFamily: 'Poppins-BlackItalic',
+                color: COLORS.goDutchRed,
+                fontSize: 55,
+                textAlign: 'center',
+                borderWidth: 5,
+                elevation: 5,
+                backgroundColor: 'white',
+                padding: 15,
+                borderColor: COLORS.goDutchRed,
+              }}
+            >
+              REVIEW!
+            </Text>
+            <Text style={{ fontFamily: 'red-hat-normal', fontSize: 20, marginTop: 10, textAlign: 'center' }}>
+              Please review the final bill for <Text style={{ fontFamily: 'red-hat-bold' }}>@{finalDiner}</Text>
+            </Text>
           </View>
-
-          <Text
-            style={{
-              marginTop: 10,
-              letterSpacing: 5,
-              fontFamily: 'Poppins-BlackItalic',
-              color: COLORS.goDutchRed,
-              fontSize: 55,
-              textAlign: 'center',
-              borderWidth: 5,
-              elevation: 5,
-              backgroundColor: 'white',
-              padding: 15,
-              borderColor: COLORS.goDutchRed,
-            }}
-          >
-            REVIEW!
-          </Text>
-          <Text style={{ fontFamily: 'red-hat-normal', fontSize: 20, marginTop: 10, textAlign: 'center' }}>
-            Please review the final bill for <Text style={{ fontFamily: 'red-hat-bold' }}>@{finalDiner}</Text>
-          </Text>
-        </View>
-      ) : (
-        receiptItems.map((item) => {
-          return (
-            <DinnerItem
-              {...item}
-              key={item.id}
-              onToggle={() => toggleSharedItem(item)}
-              onDrop={(item) => handleDrop(item, currentDinerId)}
-            />
-          )
-        })
-      )}
+        ) : (
+          receiptItems
+            .filter((item) => !item.isShared) // 👈 only show items that are not shared
+            .map((item) => {
+              return (
+                <DinnerItem
+                  {...item}
+                  key={item.id}
+                  onToggle={() => toggleSharedItem(item)}
+                  onDrop={(item) => handleDrop(item, currentDinerId)}
+                />
+              )
+            })
+        )}
+      </ScrollView>
     </LogoScreenWrapper>
   )
 }

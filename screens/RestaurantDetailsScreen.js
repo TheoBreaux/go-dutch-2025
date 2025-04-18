@@ -67,7 +67,7 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
           <View style={{ marginRight: 20 }}>
             <PrimaryButton
               onPress={() => handleCallRestaurant(phone)}
-              outterWidth={SCREEN_WIDTH * 0.4}
+              outerWidth={SCREEN_WIDTH * 0.4}
               innerWidth={SCREEN_WIDTH * 0.37}
             >
               Call
@@ -76,7 +76,7 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
 
           <PrimaryButton
             onPress={() => handleExternalLink(website)}
-            outterWidth={SCREEN_WIDTH * 0.4}
+            outerWidth={SCREEN_WIDTH * 0.4}
             innerWidth={SCREEN_WIDTH * 0.37}
           >
             Reserve
@@ -93,7 +93,7 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
 
         <View style={{ alignItems: 'flex-end', marginRight: -SCREEN_WIDTH * 0.025 }}>
           <PrimaryButton
-            outterWidth={SCREEN_WIDTH * 0.4}
+            outerWidth={SCREEN_WIDTH * 0.4}
             innerWidth={SCREEN_WIDTH * 0.37}
           >
             Save

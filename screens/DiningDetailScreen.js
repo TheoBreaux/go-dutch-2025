@@ -168,7 +168,7 @@ const DiningDetailScreen = ({ navigation }) => {
           <View style={{ alignSelf: 'center' }}>
             <PrimaryButton
               onPress={handleConfirmDetails}
-              outterWidth={SCREEN_WIDTH * 0.75}
+              outerWidth={SCREEN_WIDTH * 0.75}
               innerWidth={SCREEN_WIDTH * 0.72}
             >
               Confirm Details

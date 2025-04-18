@@ -29,14 +29,14 @@ export default StyleSheet.create({
       padding: 5,
       borderRadius: 10,
       backgroundColor: COLORS.goDutchRed,
-      marginBottom: 5,
+      marginBottom: 2,
       width: SCREEN_WIDTH * 0.9,
       height: SCREEN_HEIGHT * 0.07,
-      elevation: 5,
-      shadowColor: 'black',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.2,
-      shadowRadius: 4,
+      // elevation: 5,
+      // shadowColor: 'black',
+      // shadowOffset: { width: 0, height: 2 },
+      // shadowOpacity: 0.2,
+      // shadowRadius: 4,
       text: { fontFamily: 'Poppins-ExtraBold', color: 'white', fontSize: SCREEN_WIDTH < 400 ? scaleFont(14) : scaleFont(18) },
     },
   },
@@ -270,7 +270,7 @@ export default StyleSheet.create({
 
   // ================================================================================================================================== PRIMARY BUTTON
   primaryButton: {
-    outterContainer: {
+    outerContainer: {
       height: SCREEN_HEIGHT * 0.075,
       borderRadius: 5,
       borderWidth: 2,
@@ -357,7 +357,7 @@ export default StyleSheet.create({
   // ================================================================================================================================== CUSTOM MODAL CONTAINER
   customModalContainer: {
     overlay: { flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.8)', justifyContent: 'center', alignItems: 'center' },
-    modalContainer: { width: SCREEN_WIDTH * 0.9, height: SCREEN_HEIGHT * 0.6, borderRadius: 10, overflow: 'hidden' },
+    modalContainer: { width: SCREEN_WIDTH * 0.9, borderRadius: 10, overflow: 'hidden' },
     imageBackground: { flex: 1, justifyContent: 'center', alignItems: 'center' },
     buttonsContainer: { flexDirection: 'row', width: SCREEN_WIDTH * 0.9, alignItems: 'center', justifyContent: 'center' },
     text: { fontFamily: 'Poppins-ExtraBold', fontSize: scaleFont(20) },
@@ -437,7 +437,8 @@ export default StyleSheet.create({
   dinerItemReviewModal: {
     content: { alignItems: 'center', justifyContent: 'center', width: SCREEN_WIDTH * 0.9 },
     text: {
-      header: { color: COLORS.goDutchBlue, fontSizre: scaleFont(34), fontFamily: 'Poppins-Regular' },
+      header: { color: COLORS.goDutchBlue, fontSize: scaleFont(34), fontFamily: 'Poppins-ExtraBold' },
+      username: { color: COLORS.goDutchBlue, fontFamily: 'Poppins-BlackItalic', fontSize: scaleFont(25) },
       instructions: { fontSize: scaleFont(16), fontFamily: 'Poppins-Medium', textAlign: 'center', color: COLORS.goDutchBlue },
     },
   },
