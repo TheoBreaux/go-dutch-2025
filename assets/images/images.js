@@ -2,7 +2,6 @@ const images = {
   birthday_cake: require('./birthday_cake.png'),
   default_profile_image: require('./default_profile_image.jpg'),
   dining_detail: require('./dining_detail.png'),
-  down_arrow: require('./down_arrow.png'),
   draggable_hand: require('./draggable_hand.png'),
   glass_clanking: require('./glass_clanking.png'),
   go_dutch_logo: require('./go_dutch_logo.png'),

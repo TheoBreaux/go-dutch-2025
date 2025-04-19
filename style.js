@@ -773,6 +773,7 @@ export default StyleSheet.create({
         },
       },
       username: { fontFamily: 'Poppins-BlackItalic', fontSize: scaleFont(25), color: COLORS.goDutchRed, marginTop: 5 },
+      swipeHint: { position: 'absolute', top: SCREEN_HEIGHT * 0.2, left: -SCREEN_WIDTH * 0.25, alignItems: 'center' },
     },
     reviewStamp: {
       marginTop: SCREEN_HEIGHT * 0.025,

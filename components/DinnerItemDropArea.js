@@ -1,32 +1,27 @@
-import { View, Text, Image, Animated } from 'react-native'
+import { View, Text, Animated } from 'react-native'
 import Styles from '../style'
-import Images from '../assets/images/images'
 import ProfileImageMedallion from '../components/ui/ProfileImageMedallion'
-import { ASSET_URL, CIRCLE_SIZE, COLORS, SCREEN_WIDTH } from '../constants/constants'
+import { ASSET_URL, CIRCLE_SIZE, COLORS, SCREEN_WIDTH, SCREEN_HEIGHT } from '../constants/constants'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import { scaleFont } from '../utils/utils'
 import { useEffect, useState } from 'react'
 import DinerItemReviewModal from '../components/ui/DinerItemReviewModal'
-import { useNavigation } from '@react-navigation/native'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 
 const DinnerItemDropArea = ({ finalDiners, setCurrentDinerIndex, currentDinerIndex, setReceiptItems, setFinalDiners, receiptItems }) => {
   const [showReviewModal, setShowReviewModal] = useState(false)
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const [dinerItemsToReview, setDinerItemsToReview] = useState([])
-  const [notSure, setNotSure] = useState(false)
   const swipeAnim = useState(new Animated.Value(0))[0] // Y-position
   const fadeAnim = useState(new Animated.Value(1))[0] // Opacity
   const [showSwipeHint, setShowSwipeHint] = useState(true)
 
-  const navigation = useNavigation()
   const currentDiner = finalDiners[currentDinerIndex]
 
   useEffect(() => {
     if (receiptItems.length) {
       // Phase 1: quick upward movement
       Animated.timing(swipeAnim, {
-        toValue: -120,
+        toValue: -SCREEN_HEIGHT * 0.25,
         duration: 800,
         useNativeDriver: true,
       }).start(() => {
@@ -76,14 +71,13 @@ const DinnerItemDropArea = ({ finalDiners, setCurrentDinerIndex, currentDinerInd
         <View style={{ position: 'relative' }}>
           {showSwipeHint && (
             <Animated.View
-              style={{
-                position: 'absolute',
-                top: 150,
-                left: -100,
-                alignItems: 'center',
-                opacity: fadeAnim,
-                transform: [{ translateY: swipeAnim }],
-              }}
+              style={[
+                Styles.dinnerItemAssignmentScreen.container.swipeHint,
+                {
+                  opacity: fadeAnim,
+                  transform: [{ translateY: swipeAnim }],
+                },
+              ]}
             >
               <MaterialIcons
                 name="swipe-up"
@@ -104,14 +98,6 @@ const DinnerItemDropArea = ({ finalDiners, setCurrentDinerIndex, currentDinerInd
 
         <View style={{ alignItems: 'center' }}>
           <Text style={Styles.dinnerItemAssignmentScreen.container.username}>@{currentDiner.username}</Text>
-          {notSure && (
-            <View style={{ flexDirection: 'row', marginBottom: 10 }}>
-              <Image source={Images.down_arrow} />
-              <Image source={Images.down_arrow} />
-              <Image source={Images.down_arrow} />
-            </View>
-          )}
-
           <PrimaryButton
             outerWidth={SCREEN_WIDTH * 0.4}
             innerWidth={SCREEN_WIDTH * 0.38}
