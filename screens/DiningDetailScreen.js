@@ -15,7 +15,8 @@ const DiningDetailScreen = ({ navigation }) => {
   const eventData = useSelector((state) => state.app.receiptData)
   const loggedInUser = useSelector((state) => state.app.user)
   const updatedLoggedInUser = { ...loggedInUser, isPrimaryDiner: true }
-  const localRestaurants = useSelector((state) => state.app.localRestaurants.slice().sort((a, b) => a.name.localeCompare(b.name)))
+  const localRestaurants = useSelector((state) => state.app.localRestaurants)
+  const sortedLocalRestaurants = (localRestaurants || []).slice().sort((a, b) => a.name.localeCompare(b.name))
 
   const [eventDate, setEventDate] = useState(eventData.date)
   const [eventLocation, setEventLocation] = useState(eventData.restaurantName)
@@ -134,7 +135,7 @@ const DiningDetailScreen = ({ navigation }) => {
                     label={eventLocation}
                     value={eventLocation}
                   />
-                  {localRestaurants.map((restaurant) => (
+                  {sortedLocalRestaurants.map((restaurant) => (
                     <Picker.Item
                       key={restaurant.place_id}
                       label={restaurant.name + ', ' + restaurant.vicinity}

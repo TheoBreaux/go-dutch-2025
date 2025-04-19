@@ -2,16 +2,15 @@ import { View, Text, Image, Animated } from 'react-native'
 import Styles from '../style'
 import Images from '../assets/images/images'
 import ProfileImageMedallion from '../components/ui/ProfileImageMedallion'
-import { ASSET_URL, CIRCLE_SIZE, COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
+import { ASSET_URL, CIRCLE_SIZE, COLORS, SCREEN_WIDTH } from '../constants/constants'
 import PrimaryButton from '../components/ui/PrimaryButton'
-import { PRETTIFY, scaleFont } from '../utils/utils'
+import { scaleFont } from '../utils/utils'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import DinerItemReviewModal from '../components/ui/DinerItemReviewModal'
 import { useNavigation } from '@react-navigation/native'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 
-const DinnerItemDropArea = ({ finalDiners, currentDinerIndex, setReceiptItems, setFinalDiners, receiptItems }) => {
+const DinnerItemDropArea = ({ finalDiners, setCurrentDinerIndex, currentDinerIndex, setReceiptItems, setFinalDiners, receiptItems }) => {
   const [showReviewModal, setShowReviewModal] = useState(false)
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const [dinerItemsToReview, setDinerItemsToReview] = useState([])
@@ -24,7 +23,7 @@ const DinnerItemDropArea = ({ finalDiners, currentDinerIndex, setReceiptItems, s
   const currentDiner = finalDiners[currentDinerIndex]
 
   useEffect(() => {
-    if (receiptItems.length > 5) {
+    if (receiptItems.length) {
       // Phase 1: quick upward movement
       Animated.timing(swipeAnim, {
         toValue: -120,
@@ -35,7 +34,7 @@ const DinnerItemDropArea = ({ finalDiners, currentDinerIndex, setReceiptItems, s
 
         Animated.timing(fadeAnim, {
           toValue: 0,
-          duration: 700, // ⏳ longer fade duration
+          duration: 800, // ⏳ longer fade duration
           useNativeDriver: true,
         }).start(() => {
           setShowSwipeHint(false)
@@ -49,31 +48,14 @@ const DinnerItemDropArea = ({ finalDiners, currentDinerIndex, setReceiptItems, s
     setShowReviewModal(true)
   }
 
-  // console.log(finalDiners, 'IN DINNER ITEM DROP AREA')
-
-  // useEffect(() => {
-  //   // Force re-render when diner changes
-  // }, [finalDiners[currentDinerIndex].imgUrl])
-
-  // const handleNextDiner = () => {
-  //   setNotSure(false)
-  //   const currentDiner = dinersUpdated[currentDinerIndex]
-  //   const currentDinerId = currentDiner.id
-  //   setShowConfirmationModal(false)
-  // }
-
-  // const handleNoConfirmation = () => {
-  //   setNotSure(true)
-  //   setShowConfirmationModal(false)
-  //   setCurrentDinerIndex((prevIndex) => prevIndex - 1) // Move back to the previous diner
-  //   setDinerReviewedItems([]) // Reset reviewed items
-  // }
-
   return (
     <>
       {showReviewModal && (
         <DinerItemReviewModal
+          finalDiners={finalDiners}
           currentDiner={currentDiner}
+          currentDinerIndex={currentDinerIndex}
+          setCurrentDinerIndex={setCurrentDinerIndex}
           setShowReviewModal={setShowReviewModal}
           dinerItemsToReview={dinerItemsToReview}
           setDinerItemsToReview={setDinerItemsToReview}
@@ -86,6 +68,7 @@ const DinnerItemDropArea = ({ finalDiners, currentDinerIndex, setReceiptItems, s
           }}
         />
       )}
+      {}
       <View style={Styles.dinnerItemAssignmentScreen.container}>
         <Text style={Styles.dinnerItemAssignmentScreen.container.text}>What did this diner have?</Text>
         <Text style={Styles.dinnerItemAssignmentScreen.container.text.instruction}>Press and drag items to diner!</Text>
@@ -120,7 +103,7 @@ const DinnerItemDropArea = ({ finalDiners, currentDinerIndex, setReceiptItems, s
         </View>
 
         <View style={{ alignItems: 'center' }}>
-          <Text style={Styles.dinnerItemAssignmentScreen.container.userName}>@{currentDiner.username}</Text>
+          <Text style={Styles.dinnerItemAssignmentScreen.container.username}>@{currentDiner.username}</Text>
           {notSure && (
             <View style={{ flexDirection: 'row', marginBottom: 10 }}>
               <Image source={Images.down_arrow} />

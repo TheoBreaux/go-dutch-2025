@@ -90,6 +90,8 @@ const DinerInputScreen = ({ route, navigation }) => {
     )
   }
 
+  console.log(diners)
+
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
       {showCelebrationModal && (

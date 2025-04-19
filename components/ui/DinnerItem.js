@@ -13,7 +13,7 @@ const DinnerItem = ({ price, name, isShared, id, onToggle, onDrop }) => {
   const pan = useRef(new Animated.ValueXY()).current
   const scaleValue = useRef(new Animated.Value(1)).current
   const rotation = useRef(new Animated.Value(0)).current
-  const isDropArea = (gesture) => gesture.moveY < 400
+  const isDropArea = (gesture) => gesture.moveY < 350
 
   let val = { x: 0, y: 0 }
   pan.addListener((value) => (val = value))

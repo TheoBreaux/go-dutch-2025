@@ -9,6 +9,7 @@ const images = {
   go_dutch_background: require('./go-dutch-pattern.png'),
   go_dutch_split_button: require('./go_dutch_split_button.png'),
   modal_background: require('./modal_background.png'),
+  celebration_emoji: require('./celebration_emoji.png'),
   restaurant_placeholder: require('./restaurant_placeholder.png'),
   splash_screen: require('./splash_screen.png'),
   split_screen_dining: require('./split_screen_dining.png'),

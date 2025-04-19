@@ -1,4 +1,4 @@
-import { View, Text, Alert, Image, ScrollView } from 'react-native'
+import { View, Text, Alert, Image, ScrollView, TouchableOpacity, Animated, Easing } from 'react-native'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import Styles from '../style'
 import Images from '../assets/images/images'
@@ -6,20 +6,36 @@ import { COLORS, SCREEN_HEIGHT } from '../constants/constants'
 import DinnerItemDropArea from '../components/DinnerItemDropArea'
 import DinnerItem from '../components/ui/DinnerItem'
 import { useSelector } from 'react-redux'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const DinnerItemAssignmentScreen = ({ route }) => {
-  const { updatedDiners } = route.params
+  const { diners } = route.params
 
   const [receiptItems, setReceiptItems] = useState(useSelector((state) => state.app.receiptData.receiptItems))
-  const [assignmentComplete, setAssigmentComplete] = useState(false)
-  const [finalDiners, setFinalDiners] = useState(updatedDiners)
-
+  const [finalDiners, setFinalDiners] = useState(diners)
   const [currentDinerIndex, setCurrentDinerIndex] = useState(0)
-  const [currentDinerId, setCurrentDinerId] = useState(finalDiners[currentDinerIndex].userId)
+  const currentDinerId = finalDiners[currentDinerIndex]?.userId
 
-  const finalDinerId = updatedDiners[updatedDiners.length - 1].userId
-  //BE SURE TO ALSO CONFIRM SHARED ITEMS AT AFTER LAST DINER ITEMS ARE CONFIRMED POSSIBLY
+  const opacity = useRef(new Animated.Value(1)).current
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(opacity, {
+          toValue: 0.2,
+          duration: 600,
+          useNativeDriver: true,
+          easing: Easing.inOut(Easing.ease),
+        }),
+        Animated.timing(opacity, {
+          toValue: 1,
+          duration: 600,
+          useNativeDriver: true,
+          easing: Easing.inOut(Easing.ease),
+        }),
+      ])
+    ).start()
+  }, [])
 
   const toggleSharedItem = (item) => {
     if (!item.isShared) {
@@ -45,6 +61,8 @@ const DinnerItemAssignmentScreen = ({ route }) => {
     setFinalDiners((prev) => prev.map((diner) => (diner.userId === dinerId ? { ...diner, items: [...(diner.items || []), item] } : diner)))
   }
 
+  console.log(finalDiners)
+
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
       <ScrollView
@@ -57,9 +75,22 @@ const DinnerItemAssignmentScreen = ({ route }) => {
           receiptItems={receiptItems}
           setReceiptItems={setReceiptItems}
           setFinalDiners={setFinalDiners}
+          setCurrentDinerIndex={setCurrentDinerIndex}
         />
 
-        {assignmentComplete ? (
+        {receiptItems.filter((item) => !item.isShared).length ? (
+          // Show assignable items
+          receiptItems
+            .filter((item) => !item.isShared)
+            .map((item) => (
+              <DinnerItem
+                {...item}
+                key={item.id}
+                onToggle={() => toggleSharedItem(item)}
+                onDrop={(item) => handleDrop(item, currentDinerId)}
+              />
+            ))
+        ) : (
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <View style={{ flexDirection: 'row' }}>
               <Image source={Images.up_arrow} />
@@ -67,40 +98,14 @@ const DinnerItemAssignmentScreen = ({ route }) => {
               <Image source={Images.up_arrow} />
             </View>
 
-            <Text
-              style={{
-                marginTop: 10,
-                letterSpacing: 5,
-                fontFamily: 'Poppins-BlackItalic',
-                color: COLORS.goDutchRed,
-                fontSize: 55,
-                textAlign: 'center',
-                borderWidth: 5,
-                elevation: 5,
-                backgroundColor: 'white',
-                padding: 15,
-                borderColor: COLORS.goDutchRed,
-              }}
-            >
-              REVIEW!
-            </Text>
-            <Text style={{ fontFamily: 'red-hat-normal', fontSize: 20, marginTop: 10, textAlign: 'center' }}>
-              Please review the final bill for <Text style={{ fontFamily: 'red-hat-bold' }}>@{finalDiner}</Text>
+            <TouchableOpacity>
+              <Animated.Text style={[Styles.dinnerItemAssignmentScreen.reviewStamp, { opacity }]}>REVIEW!</Animated.Text>
+            </TouchableOpacity>
+
+            <Text style={[Styles.dinnerItemAssignmentScreen.container.text.instruction, { marginTop: SCREEN_HEIGHT * 0.025, fontSize: 22 }]}>
+              Please review items for final diner.
             </Text>
           </View>
-        ) : (
-          receiptItems
-            .filter((item) => !item.isShared) // 👈 only show items that are not shared
-            .map((item) => {
-              return (
-                <DinnerItem
-                  {...item}
-                  key={item.id}
-                  onToggle={() => toggleSharedItem(item)}
-                  onDrop={(item) => handleDrop(item, currentDinerId)}
-                />
-              )
-            })
         )}
       </ScrollView>
     </LogoScreenWrapper>

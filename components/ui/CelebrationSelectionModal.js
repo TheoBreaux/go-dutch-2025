@@ -26,7 +26,7 @@ const CelebrationSelectionModal = ({ diners, setShowSelectionModal, setShowCeleb
   const handleConfirm = () => {
     setShowCelebrationModal(false)
     setShowSelectionModal(false)
-    navigation.navigate('Screens', { screen: 'ItemAssignment', params: { updatedDiners } })
+    navigation.navigate('Screens', { screen: 'ItemAssignment', params: { diners: updatedDiners } })
   }
 
   return (

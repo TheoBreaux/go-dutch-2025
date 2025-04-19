@@ -1,13 +1,28 @@
-import { View, Text, FlatList, TouchableOpacity } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native'
 import React, { useState } from 'react'
 import CustomModalContainer from './CustomModalContainer'
 import Styles from '../../style'
+import Images from '../../assets/images/images'
 import ProfileImageMedallion from './ProfileImageMedallion'
 import { ASSET_URL, CIRCLE_SIZE, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../constants/constants'
 import { scaleFont } from '../../utils/utils'
+import { useNavigation } from '@react-navigation/native'
 
-const DinerItemReviewModal = ({ currentDiner, setShowReviewModal, dinerItemsToReview, setReceiptItems, updateFinalDinerItems }) => {
+const DinerItemReviewModal = ({
+  currentDiner,
+  currentDinerIndex,
+  setCurrentDinerIndex,
+  setShowReviewModal,
+  finalDiners,
+  dinerItemsToReview,
+  setReceiptItems,
+  updateFinalDinerItems,
+}) => {
   const [finalDinerItems, setFinalDinerItems] = useState(dinerItemsToReview)
+  const [finalDinerConfirmed, setFinalDinerConfirmed] = useState(false)
+
+  const navigation = useNavigation()
+  const celebratedDinersPresent = finalDiners.some((diner) => diner.isCelebrating)
 
   const handleDeleteItem = (itemToRemove) => {
     const updatedDinerItems = finalDinerItems.filter((item) => item.id !== itemToRemove.id)
@@ -16,6 +31,36 @@ const DinerItemReviewModal = ({ currentDiner, setShowReviewModal, dinerItemsToRe
       const alreadyExists = prev.some((item) => item.id === itemToRemove.id)
       return alreadyExists ? prev : [...prev, itemToRemove]
     })
+  }
+
+  const handleResetDinerItems = () => {
+    updateFinalDinerItems(finalDinerItems)
+    setShowReviewModal(false)
+  }
+
+  const handleNextDiner = () => {
+    //if the index in the array of the current diner is less than the length of the array of final diners
+    if (currentDinerIndex < finalDiners.length - 1) {
+      setCurrentDinerIndex((prevIndex) => prevIndex + 1)
+      setShowReviewModal(false)
+      //else statement will move us on to finalizing bill
+    } else if (currentDinerIndex === finalDiners.length - 1) {
+      if (celebratedDinersPresent) {
+        setFinalDinerConfirmed(true)
+      } else {
+        navigation.navigate('Screens', { screen: 'ConfirmTotals' })
+      }
+    }
+  }
+
+  const handleYesOnCelebratedDiners = () => {
+    //here i need to do the math for celebrated diners not paying
+    navigation.navigate('Screens', { screen: 'ConfirmTotals' })
+  }
+
+  const handleNoOnCelebratedDiners = () => {
+    //do math for everyone paying their own//i should do a tip percentage portion too if someone orders one thing
+    navigation.navigate('Screens', { screen: 'ConfirmTotals' })
   }
 
   const renderItem = ({ item }) => {
@@ -39,44 +84,53 @@ const DinerItemReviewModal = ({ currentDiner, setShowReviewModal, dinerItemsToRe
     <CustomModalContainer
       animationType="fade"
       height={SCREEN_HEIGHT * 0.7}
-      buttonText1={'Return'}
-      buttonText2={'Confirm'}
-      onPress1={() => {
-        updateFinalDinerItems(finalDinerItems)
-        setShowReviewModal(false)
-      }} //return to asignment screen and return items to array of currentUser
-      onPress2={() => console.log('CONFIRM')} //go to next diner in array
+      buttonText1={finalDinerConfirmed ? 'Yes' : 'Return'}
+      buttonText2={finalDinerConfirmed ? 'No' : 'Confirm'}
+      onPress1={finalDinerConfirmed ? handleYesOnCelebratedDiners : handleResetDinerItems} //yes
+      onPress2={finalDinerConfirmed ? handleNoOnCelebratedDiners : handleNextDiner} //no
     >
-      <View style={Styles.dinerItemReviewModal.content}>
-        <Text style={Styles.dinerItemReviewModal.text.header}>Review items for</Text>
-        <ProfileImageMedallion
-          height={CIRCLE_SIZE * 0.3}
-          width={CIRCLE_SIZE * 0.3}
-          borderRadius={(CIRCLE_SIZE * 0.3) / 2}
-          imageUrl={ASSET_URL + currentDiner.imgUrl}
-        />
-        <Text style={Styles.dinerItemReviewModal.text.username}>@{currentDiner.username}</Text>
-
-        <View style={{ width: SCREEN_WIDTH * 0.8 }}>
-          <Text style={Styles.dinerItemReviewModal.text.instructions}>
-            Press DELETE to remove an item. RETURN to go back. CONFIRM to save and continue to the next diner.
+      {finalDinerConfirmed ? (
+        <View style={{ alignItems: 'center' }}>
+          <Image
+            source={Images.celebration_emoji}
+            style={{ height: SCREEN_HEIGHT * 0.3, resizeMode: 'contain' }}
+          />
+          <Text style={[Styles.dinerItemReviewModal.text.username, { fontSize: scaleFont(20), marginTop: 10, textAlign: 'center' }]}>
+            Taking care of celebrated diner(s)?
           </Text>
         </View>
-        {finalDinerItems.length ? (
-          <FlatList
-            style={{ height: SCREEN_HEIGHT * 0.2 }}
-            data={finalDinerItems}
-            renderItem={renderItem}
-            showsVerticalScrollIndicator={false}
+      ) : (
+        <View style={Styles.dinerItemReviewModal.content}>
+          <Text style={Styles.dinerItemReviewModal.text.header}>Review items for</Text>
+          <ProfileImageMedallion
+            height={CIRCLE_SIZE * 0.3}
+            width={CIRCLE_SIZE * 0.3}
+            borderRadius={(CIRCLE_SIZE * 0.3) / 2}
+            imageUrl={ASSET_URL + currentDiner.imgUrl}
           />
-        ) : (
-          <View style={{ marginTop: SCREEN_HEIGHT * 0.025 }}>
-            <Text style={[Styles.dinerItemReviewModal.text.instructions, { fontSize: scaleFont(20), fontFamily: 'Poppins-ExtraBold' }]}>
-              Please add items.
+          <Text style={Styles.dinerItemReviewModal.text.username}>@{currentDiner.username}</Text>
+
+          <View style={{ width: SCREEN_WIDTH * 0.8 }}>
+            <Text style={Styles.dinerItemReviewModal.text.instructions}>
+              Press DELETE to remove an item. RETURN to go back. CONFIRM to save and continue to the next diner.
             </Text>
           </View>
-        )}
-      </View>
+          {finalDinerItems.length ? (
+            <FlatList
+              style={{ height: SCREEN_HEIGHT * 0.2 }}
+              data={finalDinerItems}
+              renderItem={renderItem}
+              showsVerticalScrollIndicator={false}
+            />
+          ) : (
+            <View style={{ marginTop: SCREEN_HEIGHT * 0.025 }}>
+              <Text style={[Styles.dinerItemReviewModal.text.instructions, { fontSize: scaleFont(20), fontFamily: 'Poppins-ExtraBold' }]}>
+                Please add items.
+              </Text>
+            </View>
+          )}
+        </View>
+      )}
     </CustomModalContainer>
   )
 }
