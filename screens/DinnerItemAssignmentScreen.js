@@ -61,7 +61,7 @@ const DinnerItemAssignmentScreen = ({ route }) => {
     setFinalDiners((prev) => prev.map((diner) => (diner.userId === dinerId ? { ...diner, items: [...(diner.items || []), item] } : diner)))
   }
 
-  console.log(finalDiners)
+console.log(finalDiners)
 
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
