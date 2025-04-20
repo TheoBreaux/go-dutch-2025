@@ -38,7 +38,29 @@ const DinnerItemDropArea = ({ finalDiners, setCurrentDinerIndex, currentDinerInd
     }
   }, [])
 
+  console.log('CURRENT DINER:', currentDiner)
+  console.log('LAST:', finalDiners[finalDiners.length - 1])
+
   const handleAssignedItemsReview = () => {
+    //if there are items in teh receipt items and we are at the last diner, do not let progress alert about items left and no one to cover them
+    if (receiptItems.length && finalDiners[finalDiners.length - 1].userId === currentDiner.userId) {
+      Alert.alert(
+        'Are you sure?',
+        'This action cannot be undone.',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {
+            text: 'OK',
+            onPress: () => console.log('OK Pressed'),
+          },
+        ],
+        { cancelable: true }
+      )
+    }
     setDinerItemsToReview(currentDiner.items)
     setShowReviewModal(true)
   }

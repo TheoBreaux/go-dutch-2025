@@ -61,6 +61,8 @@ const DinnerItemAssignmentScreen = ({ route }) => {
     setFinalDiners((prev) => prev.map((diner) => (diner.userId === dinerId ? { ...diner, items: [...(diner.items || []), item] } : diner)))
   }
 
+
+
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
       <ScrollView
