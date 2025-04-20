@@ -7,6 +7,7 @@ import ProfileImageMedallion from './ProfileImageMedallion'
 import { ASSET_URL, CIRCLE_SIZE, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../constants/constants'
 import { scaleFont } from '../../utils/utils'
 import { useNavigation } from '@react-navigation/native'
+import { useSelector } from 'react-redux'
 
 const DinerItemReviewModal = ({
   currentDiner,
@@ -24,6 +25,9 @@ const DinerItemReviewModal = ({
   const navigation = useNavigation()
   const celebratedDinersPresent = finalDiners.some((diner) => diner.isCelebrating)
 
+  const subtotal = useSelector((state) => state.app.receiptData.subtotal)
+  const tax = useSelector((state) => state.app.receiptData.tax)
+
   const handleDeleteItem = (itemToRemove) => {
     const updatedDinerItems = finalDinerItems.filter((item) => item.id !== itemToRemove.id)
     setFinalDinerItems(updatedDinerItems)
@@ -39,6 +43,14 @@ const DinerItemReviewModal = ({
   }
 
   const handleNextDiner = () => {
+    const tip = subtotal * 0.2
+    const totals = { subtotal, tax, tip } //subtotal, tax, tip
+
+    const dinersWithTotals = finalDiners.map((diner) => {
+      const total = (diner.items || []).reduce((sum, item) => sum + item.price, 0)
+      return { id: diner.userId, username: diner.username, total: total }
+    })
+
     //if the index in the array of the current diner is less than the length of the array of final diners
     if (currentDinerIndex < finalDiners.length - 1) {
       setCurrentDinerIndex((prevIndex) => prevIndex + 1)
@@ -48,18 +60,22 @@ const DinerItemReviewModal = ({
       if (celebratedDinersPresent) {
         setFinalDinerConfirmed(true)
       } else {
-        navigation.navigate('Screens', { screen: 'ConfirmTotals' })
+        navigation.navigate('Screens', { screen: 'ConfirmTotals', params: { totals, dinersWithTotals } })
       }
     }
   }
 
-  const handleYesOnCelebratedDiners = () => {
-    //here i need to do the math for celebrated diners not paying
-    navigation.navigate('Screens', { screen: 'ConfirmTotals' })
+  const handleNoOnCelebratedDiners = () => {
+    console.log('NOT CELEBRATING DINER')
+    //do math for everyone paying their own//i should do a tip percentage portion too if someone orders one thing
+    const totals = { subtotal, tax, total } //subtotal, tax, tip
+
+    navigation.navigate('Screens', { screen: 'ConfirmTotals', params: totals })
   }
 
-  const handleNoOnCelebratedDiners = () => {
-    //do math for everyone paying their own//i should do a tip percentage portion too if someone orders one thing
+  const handleYesOnCelebratedDiners = () => {
+    console.log('CELEBRATING DINER')
+    //here i need to do the math for celebrated diners not paying
     navigation.navigate('Screens', { screen: 'ConfirmTotals' })
   }
 
