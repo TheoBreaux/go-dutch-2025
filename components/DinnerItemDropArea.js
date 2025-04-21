@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 import DinerItemReviewModal from '../components/ui/DinerItemReviewModal'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 
-const DinnerItemDropArea = ({ finalDiners, setCurrentDinerIndex, currentDinerIndex, setReceiptItems, setFinalDiners, receiptItems }) => {
+const DinnerItemDropArea = ({ finalDiners, setCurrentDinerIndex, currentDinerIndex, setReceiptItems, setFinalDiners, receiptItems, eventTitle }) => {
   const [showReviewModal, setShowReviewModal] = useState(false)
   const [dinerItemsToReview, setDinerItemsToReview] = useState([])
   const swipeAnim = useState(new Animated.Value(0))[0] // Y-position
@@ -42,7 +42,7 @@ const DinnerItemDropArea = ({ finalDiners, setCurrentDinerIndex, currentDinerInd
     //if there are items in teh receipt items and we are at the last diner, do not let progress alert about items left and no one to cover them
     if (receiptItems.length && finalDiners[finalDiners.length - 1].userId === currentDiner.userId) {
       Alert.alert(
-        'Items remainin!',
+        'Items remaining!',
         `Please assign remaining items to @${finalDiners[finalDiners.length - 1].username} to proceed.`,
         [
           {
@@ -61,6 +61,7 @@ const DinnerItemDropArea = ({ finalDiners, setCurrentDinerIndex, currentDinerInd
     <>
       {showReviewModal && (
         <DinerItemReviewModal
+          eventTitle={eventTitle}
           finalDiners={finalDiners}
           currentDiner={currentDiner}
           currentDinerIndex={currentDinerIndex}

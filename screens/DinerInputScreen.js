@@ -1,4 +1,4 @@
-import { View, Text, TextInput, FlatList } from 'react-native'
+import { View, Text, TextInput, FlatList, Alert } from 'react-native'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
@@ -62,9 +62,22 @@ const DinerInputScreen = ({ route, navigation }) => {
   }
 
   const handleDinersConfirmed = () => {
-    const finalUpdatedDiners = [...diners, primaryDiner]
-    setDiners(finalUpdatedDiners)
-    setShowCelebrationModal(true)
+    if (diners.length) {
+      const finalUpdatedDiners = [...diners, primaryDiner]
+      setDiners(finalUpdatedDiners)
+      setShowCelebrationModal(true)
+    } else {
+      Alert.alert(
+        'No additional diners.',
+        `Please add additional diners to proceed.`,
+        [
+          {
+            text: 'OK',
+          },
+        ],
+        { cancelable: true }
+      )
+    }
   }
 
   const renderSuggestionsItem = ({ item, index }) => (
@@ -95,7 +108,7 @@ const DinerInputScreen = ({ route, navigation }) => {
       {showCelebrationModal && (
         <CelebrationModal
           onPress1={() => setShowSelectionModal(true)}
-          onPress2={() => navigation.navigate('Screens', { screen: 'ItemAssignment', params: { diners } })}
+          onPress2={() => navigation.navigate('Screens', { screen: 'ItemAssignment', params: { diners, eventTitle } })}
         />
       )}
       {showSelectionModal && (

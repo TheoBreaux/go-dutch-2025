@@ -18,6 +18,7 @@ const DinerItemReviewModal = ({
   dinerItemsToReview,
   setReceiptItems,
   updateFinalDinerItems,
+  eventTitle
 }) => {
   const [finalDinerItems, setFinalDinerItems] = useState(dinerItemsToReview)
   const [finalDinerConfirmed, setFinalDinerConfirmed] = useState(false)
@@ -60,7 +61,7 @@ const DinerItemReviewModal = ({
       if (celebratedDinersPresent) {
         setFinalDinerConfirmed(true)
       } else {
-        navigation.navigate('Screens', { screen: 'ConfirmTotals', params: { totals, dinersWithTotals } })
+        navigation.navigate('Screens', { screen: 'ConfirmTotals', params: { totals, dinersWithTotals, eventTitle } })
       }
     }
   }

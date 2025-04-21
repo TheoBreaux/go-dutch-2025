@@ -4,7 +4,7 @@ import Styles from '../../style'
 import CircularButton from './CircularButton'
 import { SCREEN_HEIGHT } from '../../constants/constants'
 
-const TotalsInput = ({ children, value, onChangeText, onPress }) => {
+const TotalsInput = ({ fee, value, onChangeText, onPress }) => {
   return (
     <View style={Styles.confirmTotalsScreen.container.inputContainer}>
       <View style={{ flexDirection: 'column' }}>
@@ -14,7 +14,7 @@ const TotalsInput = ({ children, value, onChangeText, onPress }) => {
           keyboardType="numeric"
           value={value}
         />
-        <Text style={Styles.confirmTotalsScreen.container.inputContainer.textInput.label}>{children}</Text>
+        <Text style={Styles.confirmTotalsScreen.container.inputContainer.textInput.label}>${fee}</Text>
       </View>
       <View style={{ marginBottom: SCREEN_HEIGHT * 0.035 }}>
         <CircularButton

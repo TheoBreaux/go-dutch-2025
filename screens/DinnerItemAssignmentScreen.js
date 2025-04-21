@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux'
 import { useEffect, useRef, useState } from 'react'
 
 const DinnerItemAssignmentScreen = ({ route }) => {
-  const { diners } = route.params
+  const { diners, eventTitle } = route.params
 
   const [receiptItems, setReceiptItems] = useState(useSelector((state) => state.app.receiptData.receiptItems))
   const [finalDiners, setFinalDiners] = useState(diners)
@@ -61,8 +61,6 @@ const DinnerItemAssignmentScreen = ({ route }) => {
     setFinalDiners((prev) => prev.map((diner) => (diner.userId === dinerId ? { ...diner, items: [...(diner.items || []), item] } : diner)))
   }
 
-
-
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
       <ScrollView
@@ -76,6 +74,7 @@ const DinnerItemAssignmentScreen = ({ route }) => {
           setReceiptItems={setReceiptItems}
           setFinalDiners={setFinalDiners}
           setCurrentDinerIndex={setCurrentDinerIndex}
+          eventTitle={eventTitle}
         />
 
         {receiptItems.filter((item) => !item.isShared).length ? (
