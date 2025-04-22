@@ -856,7 +856,9 @@ export default StyleSheet.create({
   // ====================================================================================================================================== CONFIRM TOTAL SCREEN
   confirmTotalsScreen: {
     container: {
-      height: SCREEN_HEIGHT * 0.75,
+      borderWidth: 3,
+      borderColor: 'black',
+      height: 'auto',
       width: SCREEN_WIDTH * 0.9,
       backgroundColor: 'white',
       elevation: 5,
@@ -871,6 +873,7 @@ export default StyleSheet.create({
         width: SCREEN_WIDTH * 0.8,
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'space-around',
         textInput: {
           fontFamily: 'Poppins-Medium',
           color: COLORS.goDutchRed,
@@ -879,7 +882,7 @@ export default StyleSheet.create({
           borderBottomColor: COLORS.inputBorder,
           borderBottomWidth: 3,
           borderRadius: 5,
-          marginRight: SCREEN_WIDTH * 0.025,
+          // marginRight: SCREEN_WIDTH * 0.025,
           width: SCREEN_WIDTH * 0.65,
           label: { fontFamily: 'Poppins-Medium', fontSize: scaleFont(16) },
         },
@@ -891,7 +894,6 @@ export default StyleSheet.create({
         width: SCREEN_WIDTH * 0.9,
         tipButton: { alignItems: 'center' },
         tipButtonLabel: {
-          marginTop: SCREEN_HEIGHT * 0.015,
           fontFamily: 'Poppins-Bold',
           fontSize: scaleFont(16),
           marginBottom: SCREEN_HEIGHT * 0.005,

@@ -71,7 +71,7 @@ const LoginScreen = ({ navigation }) => {
         text1: 'Success 🎉',
         text2: responseData?.message || 'Login successful!',
         position: 'top',
-        visibilityTime: 3000,
+        visibilityTime: 2000,
       })
     } catch (error) {
       setError(error)
@@ -81,7 +81,7 @@ const LoginScreen = ({ navigation }) => {
         text1: 'Error 😞',
         text2: error.message,
         position: 'top',
-        visibilityTime: 3000,
+        visibilityTime: 2000,
       })
       console.error('Error:', error)
     } finally {

@@ -13,7 +13,7 @@ const DinnerItem = ({ price, name, isShared, id, onToggle, onDrop }) => {
   const pan = useRef(new Animated.ValueXY()).current
   const scaleValue = useRef(new Animated.Value(1)).current
   const rotation = useRef(new Animated.Value(0)).current
-  const isDropArea = (gesture) => gesture.moveY < 350
+  const isDropArea = (gesture) => gesture.moveY < 300
 
   let val = { x: 0, y: 0 }
   pan.addListener((value) => (val = value))
@@ -157,7 +157,7 @@ const DinnerItem = ({ price, name, isShared, id, onToggle, onDrop }) => {
             {
               transform: [
                 ...pan.getTranslateTransform(),
-                { translateX: 0 }, // tweak these to position the hand just right
+                { translateX: 100 }, // tweak these to position the hand just right
                 { translateY: -50 },
               ],
             },

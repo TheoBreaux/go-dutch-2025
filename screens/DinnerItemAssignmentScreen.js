@@ -23,13 +23,13 @@ const DinnerItemAssignmentScreen = ({ route }) => {
       Animated.sequence([
         Animated.timing(opacity, {
           toValue: 0.2,
-          duration: 600,
+          duration: 5000,
           useNativeDriver: true,
           easing: Easing.inOut(Easing.ease),
         }),
         Animated.timing(opacity, {
           toValue: 1,
-          duration: 600,
+          duration: 5000,
           useNativeDriver: true,
           easing: Easing.inOut(Easing.ease),
         }),
@@ -54,6 +54,12 @@ const DinnerItemAssignmentScreen = ({ route }) => {
   }
 
   const handleDrop = (item, dinerId) => {
+    //confirm the item is assigned to a diner
+    if (!dinerId) {
+      console.warn('handleDrop: No dinerId provided for item:', item)
+      return
+    }
+
     // Remove item from receiptItems
     setReceiptItems((prev) => prev.filter((receiptItem) => receiptItem.id !== item.id))
 
@@ -78,7 +84,6 @@ const DinnerItemAssignmentScreen = ({ route }) => {
         />
 
         {receiptItems.filter((item) => !item.isShared).length ? (
-          // Show assignable items
           receiptItems
             .filter((item) => !item.isShared)
             .map((item) => (

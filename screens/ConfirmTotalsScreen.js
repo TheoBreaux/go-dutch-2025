@@ -4,23 +4,22 @@ import Styles from '../style'
 import TotalsInput from '../components/ui/TotalsInput'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import CircularButton from '../components/ui/CircularButton'
-import { useState } from 'react'
-import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
+import { useEffect, useState } from 'react'
+import { COLORS, SCREEN_WIDTH } from '../constants/constants'
 import { useSelector } from 'react-redux'
 import { scaleFont } from '../utils/utils'
+import AddMissingFeesModal from '../components/ui/AddMissingFeesModal'
 
-const ConfirmTotalsScreen = ({ route }) => {
+const ConfirmTotalsScreen = ({ route, navigation }) => {
   const restaurantName = useSelector((state) => state.app.receiptData.restaurantName)
 
   const { totals, dinersWithTotals, eventTitle } = route.params
 
   const [finalSubtotal, setFinalSubtotal] = useState(totals.subtotal)
-  const [subtotalInputText, setSubtotalInputText] = useState(finalSubtotal.toFixed(2))
-  const [finalTax, setFinalTax] = useState(totals.tax)
-  const [taxInputText, setTaxInputText] = useState(finalTax.toFixed(2))
-  const [finalTip, setFinalTip] = useState(totals.tip)
-  const [tipInputText, setTipInputText] = useState(finalTip.toFixed(2))
-  const [additionalFees, setAdditionalFees] = useState(0)
+  const [showMissingFeesModal, setShowMissingFeesModal] = useState(false)
+  const [newFeeName, setNewFeeName] = useState('')
+  const [newFeePrice, setNewFeePrice] = useState(0)
+
   const [totalsArray, setTotalsArray] = useState(
     Object.entries(totals).map(([key, amount]) => ({
       fee: key,
@@ -28,10 +27,18 @@ const ConfirmTotalsScreen = ({ route }) => {
       text: amount.toFixed(2),
     }))
   )
+
+  const [sharedTotal, setSharedTotal] = useState(
+    totalsArray.filter(({ fee }) => fee.toLowerCase() !== 'subtotal').reduce((sum, { amount }) => sum + amount, 0)
+  )
+
   const grandTotal = totalsArray.reduce((sum, item) => sum + item.amount, 0)
 
-  console.log('TOTALS ARRAY:', totalsArray)
-  console.log(totals, dinersWithTotals, grandTotal)
+  //update shared totals as needed
+  useEffect(() => {
+    const updatedSharedTotal = totalsArray.filter(({ fee }) => fee.toLowerCase() !== 'subtotal').reduce((sum, { amount }) => sum + amount, 0)
+    setSharedTotal(updatedSharedTotal)
+  }, [totalsArray])
 
   const renderItem = ({ item, index }) => {
     const capitalizedFee = item.fee.charAt(0).toUpperCase() + item.fee.slice(1)
@@ -63,15 +70,39 @@ const ConfirmTotalsScreen = ({ route }) => {
     )
   }
 
+  const handleAddFee = () => {
+    const newFee = {
+      fee: newFeeName,
+      amount: parseFloat(newFeePrice),
+      text: newFeePrice.toString(),
+    }
+
+    setTotalsArray((prev) => [...prev, newFee])
+  }
+
+  console.log('Shared Total: ', sharedTotal)
+  console.log('Grand Total: ', grandTotal)
+  console.log('Diners With Totals: ', dinersWithTotals)
+  console.log('Totals: ', totalsArray)
+
   return (
     <LogoScreenWrapper
       opacity={0.2}
       backgroundColor={COLORS.logoScreenBackground}
     >
+      {showMissingFeesModal && (
+        <AddMissingFeesModal
+          setShowMissingFeesModal={setShowMissingFeesModal}
+          handleAddFee={handleAddFee}
+          newFeeName={newFeeName}
+          newFeePrice={newFeePrice}
+          setNewFeeName={setNewFeeName}
+          setNewFeePrice={setNewFeePrice}
+        />
+      )}
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}
-        keyboardVerticalOffset={100} // Adjust based on your header/nav height
       >
         <View style={Styles.confirmTotalsScreen.container}>
           <Text style={[Styles.confirmTotalsScreen.container.text.restaurantName, { marginTop: 0 }]}>{restaurantName}</Text>
@@ -81,7 +112,6 @@ const ConfirmTotalsScreen = ({ route }) => {
             keyExtractor={(item, index) => `${item.fee}-${index}`}
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
-            // contentContainerStyle={{ paddingBottom: 50 }}
           />
 
           <View style={Styles.confirmTotalsScreen.container.tipButtonsContainer}>
@@ -127,15 +157,17 @@ const ConfirmTotalsScreen = ({ route }) => {
               <Text style={Styles.confirmTotalsScreen.container.tipButtonsContainer.tipButtonLabel}>Wow!</Text>
             </View>
           </View>
-          <Text style={Styles.confirmTotalsScreen.container.text.restaurantName}>Missing fees?</Text>
+          <Text style={[Styles.confirmTotalsScreen.container.text.restaurantName, { marginTop: 0 }]}>Missing fees?</Text>
           <View style={{ flexDirection: 'row' }}>
             <PrimaryButton
+              onPress={() => setShowMissingFeesModal(true)} //add to flatlist additional fee
               outerWidth={SCREEN_WIDTH * 0.38}
               innerWidth={SCREEN_WIDTH * 0.36}
             >
               Yes, add fees!
             </PrimaryButton>
             <PrimaryButton
+              onPress={() => navigation.navigate('Screens', { screen: 'CheckClose' })} //navigate to next screen
               outerWidth={SCREEN_WIDTH * 0.38}
               innerWidth={SCREEN_WIDTH * 0.36}
             >

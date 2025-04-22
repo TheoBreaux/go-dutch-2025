@@ -34,6 +34,7 @@ import Toast from 'react-native-toast-message'
 import toastConfig from './config/toastConfig'
 import store from './state/store'
 import ReceiptCaptureScreen from './screens/ReceiptCaptureScreen'
+import CheckCloseOutDetailsScreen from './screens/CheckCloseOutDetailsScreen'
 
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
@@ -173,6 +174,10 @@ const ScreensNavigator = () => {
       <Stack.Screen
         name="ReceiptCapture"
         component={ReceiptCaptureScreen}
+      />
+      <Stack.Screen
+        name="CheckClose"
+        component={CheckCloseOutDetailsScreen}
       />
     </Stack.Navigator>
   )
