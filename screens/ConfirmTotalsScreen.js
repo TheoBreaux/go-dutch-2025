@@ -13,7 +13,7 @@ import AddMissingFeesModal from '../components/ui/AddMissingFeesModal'
 const ConfirmTotalsScreen = ({ route, navigation }) => {
   const restaurantName = useSelector((state) => state.app.receiptData.restaurantName)
 
-  const { totals, dinersWithTotals, eventTitle } = route.params
+  const { totals, dinersWithTotals, eventTitle, celebratedDinersTotal } = route.params
 
   const [finalSubtotal, setFinalSubtotal] = useState(totals.subtotal)
   const [showMissingFeesModal, setShowMissingFeesModal] = useState(false)
@@ -80,10 +80,12 @@ const ConfirmTotalsScreen = ({ route, navigation }) => {
     setTotalsArray((prev) => [...prev, newFee])
   }
 
+  console.log('Totals: ', totals)
+  console.log('Celebrated Diners Totals To Share:', celebratedDinersTotal)
   console.log('Shared Total: ', sharedTotal)
   console.log('Grand Total: ', grandTotal)
   console.log('Diners With Totals: ', dinersWithTotals)
-  console.log('Totals: ', totalsArray)
+
 
   return (
     <LogoScreenWrapper

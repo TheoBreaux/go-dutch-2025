@@ -78,7 +78,6 @@ const DinnerItemDropArea = ({ finalDiners, setCurrentDinerIndex, currentDinerInd
           }}
         />
       )}
-      {}
       <View style={Styles.dinnerItemAssignmentScreen.container}>
         <Text style={Styles.dinnerItemAssignmentScreen.container.text}>What did this diner have?</Text>
         <Text style={Styles.dinnerItemAssignmentScreen.container.text.instruction}>Press and drag items to diner!</Text>

@@ -18,7 +18,7 @@ const DinerItemReviewModal = ({
   dinerItemsToReview,
   setReceiptItems,
   updateFinalDinerItems,
-  eventTitle
+  eventTitle,
 }) => {
   const [finalDinerItems, setFinalDinerItems] = useState(dinerItemsToReview)
   const [finalDinerConfirmed, setFinalDinerConfirmed] = useState(false)
@@ -66,18 +66,37 @@ const DinerItemReviewModal = ({
     }
   }
 
-  const handleNoOnCelebratedDiners = () => {
-    console.log('NOT CELEBRATING DINER')
-    //do math for everyone paying their own//i should do a tip percentage portion too if someone orders one thing
-    const totals = { subtotal, tax, total } //subtotal, tax, tip
+  // DONT FORGET SHARED ITEMS
 
-    navigation.navigate('Screens', { screen: 'ConfirmTotals', params: totals })
+  const handleNoOnCelebratedDiners = () => {
+    //do math for everyone paying their own
+    const tip = subtotal * 0.2
+    const totals = { subtotal, tax, tip } //subtotal, tax, tip
+
+    const dinersWithTotals = finalDiners.map((diner) => {
+      const total = (diner.items || []).reduce((sum, item) => sum + item.price, 0)
+      return { id: diner.userId, username: diner.username, total: total }
+    })
+
+    navigation.navigate('Screens', { screen: 'ConfirmTotals', params: { totals, dinersWithTotals, eventTitle } })
   }
 
   const handleYesOnCelebratedDiners = () => {
-    console.log('CELEBRATING DINER')
-    //here i need to do the math for celebrated diners not paying
-    navigation.navigate('Screens', { screen: 'ConfirmTotals' })
+    const tip = subtotal * 0.2
+    const totals = { subtotal, tax, tip } //subtotal, tax, tip
+
+    const dinersWithTotals = finalDiners.map((diner) => {
+      const total = (diner.items || []).reduce((sum, item) => sum + item.price, 0)
+      return { id: diner.userId, username: diner.username, total: total }
+    })
+
+    const celebratedDiners = finalDiners.filter((diner) => diner.isCelebrating)
+
+    const celebratedDinersTotal = celebratedDiners.reduce((sum, celebratingDiner) => {
+      const match = dinersWithTotals.find((diner) => diner.id === celebratingDiner.userId)
+      return sum + (match?.total || 0)
+    }, 0)
+    navigation.navigate('Screens', { screen: 'ConfirmTotals', params: { totals, dinersWithTotals, eventTitle, celebratedDinersTotal } })
   }
 
   const renderItem = ({ item }) => {
