@@ -14,6 +14,7 @@ const DinnerItemAssignmentScreen = ({ route }) => {
   const [receiptItems, setReceiptItems] = useState(useSelector((state) => state.app.receiptData.receiptItems))
   const [finalDiners, setFinalDiners] = useState(diners)
   const [currentDinerIndex, setCurrentDinerIndex] = useState(0)
+  const [sharedItems, setSharedItems] = useState([])
   const currentDinerId = finalDiners[currentDinerIndex]?.userId
 
   const opacity = useRef(new Animated.Value(1)).current
@@ -39,17 +40,19 @@ const DinnerItemAssignmentScreen = ({ route }) => {
 
   const toggleSharedItem = (item) => {
     if (!item.isShared) {
-      Alert.alert('Split this with your crew? 🍱', `Are you sure you want to share "${item.name} with all diners"?`, [
+      Alert.alert('Split this with your crew? 🍱', `Are you sure you want to share "${item.name}" with all diners?`, [
         { text: 'Cancel', style: 'cancel' },
         {
           text: 'Share',
           onPress: () => {
-            setReceiptItems((prev) => prev.map((receiptItem) => (receiptItem.id === item.id ? { ...receiptItem, isShared: true } : receiptItem)))
+            setReceiptItems((prev) => prev.filter((receiptItem) => receiptItem.id !== item.id))
+            setSharedItems((prev) => [...prev, { ...item, isShared: true }])
           },
         },
       ])
     } else {
-      setReceiptItems((prev) => prev.map((receiptItem) => (receiptItem.id === item.id ? { ...receiptItem, isShared: false } : receiptItem)))
+      // If unsharing, add it back into receiptItems
+      setReceiptItems((prev) => [...prev, { ...item, isShared: false }])
     }
   }
 
@@ -81,6 +84,7 @@ const DinnerItemAssignmentScreen = ({ route }) => {
           setFinalDiners={setFinalDiners}
           setCurrentDinerIndex={setCurrentDinerIndex}
           eventTitle={eventTitle}
+          sharedItems={sharedItems}
         />
 
         {receiptItems.filter((item) => !item.isShared).length ? (

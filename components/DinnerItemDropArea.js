@@ -8,7 +8,16 @@ import { useEffect, useState } from 'react'
 import DinerItemReviewModal from '../components/ui/DinerItemReviewModal'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 
-const DinnerItemDropArea = ({ finalDiners, setCurrentDinerIndex, currentDinerIndex, setReceiptItems, setFinalDiners, receiptItems, eventTitle }) => {
+const DinnerItemDropArea = ({
+  finalDiners,
+  setCurrentDinerIndex,
+  currentDinerIndex,
+  setReceiptItems,
+  setFinalDiners,
+  receiptItems,
+  eventTitle,
+  sharedItems,
+}) => {
   const [showReviewModal, setShowReviewModal] = useState(false)
   const [dinerItemsToReview, setDinerItemsToReview] = useState([])
   const swipeAnim = useState(new Animated.Value(0))[0] // Y-position
@@ -70,6 +79,7 @@ const DinnerItemDropArea = ({ finalDiners, setCurrentDinerIndex, currentDinerInd
           dinerItemsToReview={dinerItemsToReview}
           setDinerItemsToReview={setDinerItemsToReview}
           setReceiptItems={setReceiptItems}
+          sharedItems={sharedItems}
           updateFinalDinerItems={(newItems) => {
             // Update the actual diner's items in finalDiners
             const updated = finalDiners.map((diner, index) => (index === currentDinerIndex ? { ...diner, items: newItems } : diner))

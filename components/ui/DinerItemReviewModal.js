@@ -19,6 +19,7 @@ const DinerItemReviewModal = ({
   setReceiptItems,
   updateFinalDinerItems,
   eventTitle,
+  sharedItems,
 }) => {
   const [finalDinerItems, setFinalDinerItems] = useState(dinerItemsToReview)
   const [finalDinerConfirmed, setFinalDinerConfirmed] = useState(false)
@@ -28,6 +29,10 @@ const DinerItemReviewModal = ({
 
   const subtotal = useSelector((state) => state.app.receiptData.subtotal)
   const tax = useSelector((state) => state.app.receiptData.tax)
+
+  console.log('SHARED ITEMS IN REVIEW MODAL: ', sharedItems)
+
+  // const sharedItemsTotal = 
 
   const handleDeleteItem = (itemToRemove) => {
     const updatedDinerItems = finalDinerItems.filter((item) => item.id !== itemToRemove.id)
@@ -66,7 +71,7 @@ const DinerItemReviewModal = ({
     }
   }
 
-  // DONT FORGET SHARED ITEMS
+
 
   const handleNoOnCelebratedDiners = () => {
     //do math for everyone paying their own
