@@ -16,6 +16,7 @@ export default {
     },
     ios: {
       supportsTablet: true,
+      bundleIdentifier: 'com.theobreaux.godutch2025',
     },
     android: {
       adaptiveIcon: {
