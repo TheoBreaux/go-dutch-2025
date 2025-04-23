@@ -13,7 +13,7 @@ import AddMissingFeesModal from '../components/ui/AddMissingFeesModal'
 const ConfirmTotalsScreen = ({ route, navigation }) => {
   const restaurantName = useSelector((state) => state.app.receiptData.restaurantName)
 
-  const { totals, dinersWithTotals, eventTitle, celebratedDinersTotal } = route.params
+  const { totals, dinersWithTotals, eventTitle, celebratedDinersTotal, sharedDinerItemsTotal } = route.params
 
   const [finalSubtotal, setFinalSubtotal] = useState(totals.subtotal)
   const [showMissingFeesModal, setShowMissingFeesModal] = useState(false)
@@ -32,6 +32,7 @@ const ConfirmTotalsScreen = ({ route, navigation }) => {
     totalsArray.filter(({ fee }) => fee.toLowerCase() !== 'subtotal').reduce((sum, { amount }) => sum + amount, 0)
   )
 
+  const finalSharedTotal = sharedTotal + sharedDinerItemsTotal
   const grandTotal = totalsArray.reduce((sum, item) => sum + item.amount, 0)
 
   //update shared totals as needed
@@ -80,12 +81,20 @@ const ConfirmTotalsScreen = ({ route, navigation }) => {
     setTotalsArray((prev) => [...prev, newFee])
   }
 
+  //final diners totals result
+  const finalBill = dinersWithTotals.map((diner) => ({
+    ...diner,
+    total: (diner.total + finalSharedTotal / dinersWithTotals.length).toFixed(2),
+  }))
+
   console.log('Totals: ', totals)
   console.log('Celebrated Diners Totals To Share:', celebratedDinersTotal)
   console.log('Shared Total: ', sharedTotal)
+  console.log('Shared Food Items Between Diners: ', sharedDinerItemsTotal)
+  console.log('Final Shared Total:', finalSharedTotal)
   console.log('Grand Total: ', grandTotal)
   console.log('Diners With Totals: ', dinersWithTotals)
-
+  console.log('Final Bill: ', finalBill)
 
   return (
     <LogoScreenWrapper

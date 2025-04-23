@@ -118,7 +118,7 @@ app.post('/logIn', async (req, res) => {
     res.status(200).json({
       availableSplits: user.rows[0].available_splits,
       success: true,
-      message: `Welcome ${user.rows[0].first_name}!`,
+      message: `Welcome, ${user.rows[0].first_name}!`,
       email: user.rows[0].email,
       username: user.rows[0].username,
       firstName: user.rows[0].first_name,

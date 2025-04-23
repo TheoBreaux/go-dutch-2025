@@ -24,13 +24,13 @@ const DinnerItemAssignmentScreen = ({ route }) => {
       Animated.sequence([
         Animated.timing(opacity, {
           toValue: 0.2,
-          duration: 5000,
+          duration: 7000,
           useNativeDriver: true,
           easing: Easing.inOut(Easing.ease),
         }),
         Animated.timing(opacity, {
           toValue: 1,
-          duration: 5000,
+          duration: 7000,
           useNativeDriver: true,
           easing: Easing.inOut(Easing.ease),
         }),
@@ -40,18 +40,29 @@ const DinnerItemAssignmentScreen = ({ route }) => {
 
   const toggleSharedItem = (item) => {
     if (!item.isShared) {
+      // Optimistically update state
+      setReceiptItems((prev) => prev.map((receiptItem) => (receiptItem.id === item.id ? { ...receiptItem, isShared: true } : receiptItem)))
+
       Alert.alert('Split this with your crew? 🍱', `Are you sure you want to share "${item.name}" with all diners?`, [
-        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Cancel',
+          style: 'cancel',
+          onPress: () => {
+            // Revert the optimistic update
+            setReceiptItems((prev) => prev.map((receiptItem) => (receiptItem.id === item.id ? { ...receiptItem, isShared: false } : receiptItem)))
+          },
+        },
         {
           text: 'Share',
           onPress: () => {
-            setReceiptItems((prev) => prev.filter((receiptItem) => receiptItem.id !== item.id))
+            setReceiptItems((prev) => prev.filter((i) => i.id !== item.id))
             setSharedItems((prev) => [...prev, { ...item, isShared: true }])
           },
         },
       ])
     } else {
-      // If unsharing, add it back into receiptItems
+      // Unsharing item: move it back to receiptItems
+      setSharedItems((prev) => prev.filter((i) => i.id !== item.id))
       setReceiptItems((prev) => [...prev, { ...item, isShared: false }])
     }
   }
