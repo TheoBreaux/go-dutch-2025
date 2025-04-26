@@ -78,7 +78,65 @@ const DinerItemReviewModal = ({
     }
   }
 
+  const handleYesOnCelebratedDiners = () => {
+    console.log('HANDLE YES ON CELBRATED DINERS')
+
+    const tip = subtotal * 0.2
+    const totals = { subtotal, tax, tip }
+
+    const celebratedDiners = finalDiners.filter((diner) => diner.isCelebrating)
+
+    const baseDinerTotals = finalDiners.map((diner) => {
+      const total = (diner.items || []).reduce((sum, item) => sum + item.price, 0)
+      return { ...diner, total }
+    })
+
+    const celebratedDinersTotal = baseDinerTotals.filter((diner) => diner.isCelebrating).reduce((sum, diner) => sum + diner.total, 0)
+
+    const numNonCelebrating = finalDiners.length - celebratedDiners.length
+    const sharedExpensesForCelebratedDiners = numNonCelebrating > 0 ? celebratedDinersTotal / numNonCelebrating : 0
+    const sharedTax = numNonCelebrating > 0 ? tax / numNonCelebrating : 0
+    const sharedTip = numNonCelebrating > 0 ? tip / numNonCelebrating : 0
+    const sharedDinerItems = numNonCelebrating > 0 ? sharedDinerItemsTotal / numNonCelebrating : 0
+
+    const dinersWithTotals = baseDinerTotals.map((diner) => {
+      if (diner.isCelebrating) {
+        return {
+          id: diner.userId,
+          username: diner.username,
+          firstName: diner.firstName,
+          isCelebrating: diner.isCelebrating,
+          total: 0,
+          isPrimaryDiner: diner.isPrimaryDiner,
+        }
+      } else {
+        return {
+          id: diner.userId,
+          username: diner.username,
+          firstName: diner.firstName,
+          isCelebrating: diner.isCelebrating,
+          total: diner.total + sharedExpensesForCelebratedDiners + sharedTax + sharedTip + sharedDinerItems,
+          isPrimaryDiner: diner.isPrimaryDiner,
+        }
+      }
+    })
+
+    console.log('SHARED EXPENSES FOR CELEBRATED DINERS: ', sharedExpensesForCelebratedDiners)
+
+    console.log('Totals: ', totals)
+    console.log('Diners With Totals: ', dinersWithTotals)
+    console.log('Celebrated Diners Totals: ', celebratedDinersTotal)
+    console.log('Shared Diner Items Total: ', sharedDinerItemsTotal)
+    console.log('Celebrated Diners:', celebratedDiners)
+
+    navigation.navigate('Screens', {
+      screen: 'ConfirmTotals',
+      params: { totals, dinersWithTotals, eventTitle, celebratedDinersTotal, sharedDinerItemsTotal },
+    })
+  }
+
   const handleNoOnCelebratedDiners = () => {
+    console.log('HANDLE NO ON CELBRATED DINERS')
     //do math for everyone paying their own
     const tip = subtotal * 0.2
     const totals = { subtotal, tax, tip } //subtotal, tax, tip
@@ -91,40 +149,11 @@ const DinerItemReviewModal = ({
         firstName: diner.firstName,
         isCelebrating: diner.isCelebrating || null,
         total: total,
-        isPrimaryDiner: diner.isPrimaary,
+        isPrimaryDiner: diner.isPrimaaryDiner,
       }
     })
 
     navigation.navigate('Screens', { screen: 'ConfirmTotals', params: { totals, dinersWithTotals, eventTitle, sharedDinerItemsTotal } })
-  }
-
-  const handleYesOnCelebratedDiners = () => {
-    const tip = subtotal * 0.2
-    const totals = { subtotal, tax, tip } //subtotal, tax, tip
-
-    const dinersWithTotals = finalDiners.map((diner) => {
-      const total = (diner.items || []).reduce((sum, item) => sum + item.price, 0)
-      return {
-        id: diner.userId,
-        username: diner.username,
-        firstName: diner.firstName,
-        isCelebrating: diner.isCelebrating || null,
-        total: total,
-        isPrimaryDiner: diner.isPrimaary,
-      }
-    })
-
-    const celebratedDiners = finalDiners.filter((diner) => diner.isCelebrating)
-
-    const celebratedDinersTotal = celebratedDiners.reduce((sum, celebratingDiner) => {
-      const match = dinersWithTotals.find((diner) => diner.id === celebratingDiner.userId)
-      return sum + (match?.total || 0)
-    }, 0)
-
-    navigation.navigate('Screens', {
-      screen: 'ConfirmTotals',
-      params: { totals, dinersWithTotals, eventTitle, celebratedDinersTotal, sharedDinerItemsTotal },
-    })
   }
 
   const renderItem = ({ item }) => {
