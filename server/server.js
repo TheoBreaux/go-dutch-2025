@@ -192,15 +192,38 @@ app.get('/diners/suggestions', async (req, res) => {
   }
 })
 
-// CONFIRM THAT USER EXISTS IN DB SO CAN BE ADDED AS DINER
-app.get('/users/:username', async (req, res) => {
-  const { username } = req.params
+
+
+
+
+// SEND NEW DINING EVENTS TO DATABASE
+app.post('/diningevents', async (req, res) => {
+  const { diningDate, restaurantBar, title, primaryDinerUsername, tax, tip, totalMealCost, receiptImageKey } = req.body
 
   try {
-    const userExists = await pool.query(`SELECT EXISTS (SELECT 1 FROM users WHERE username = $1)`, [username])
-    res.json(userExists.rows[0].exists)
+    const newDiningEvent = await pool.query(
+      `INSERT INTO dining_events(dining_date, restaurant_bar, title, primary_diner_username, tax, tip, total_meal_cost, receipt_image_key) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING event_id`,
+      [diningDate, restaurantBar, title, primaryDinerUsername, tax, tip, totalMealCost, receiptImageKey]
+    )
+    const eventId = newDiningEvent.rows[0].event_id
+    res.json({ eventId: eventId })
   } catch (error) {
     console.error(error)
-    res.status(500).send('Internal Server Error')
   }
 })
+
+
+
+
+// CONFIRM THAT USER EXISTS IN DB SO CAN BE ADDED AS DINER
+// app.get('/users/:username', async (req, res) => {
+//   const { username } = req.params
+
+//   try {
+//     const userExists = await pool.query(`SELECT EXISTS (SELECT 1 FROM users WHERE username = $1)`, [username])
+//     res.json(userExists.rows[0].exists)
+//   } catch (error) {
+//     console.error(error)
+//     res.status(500).send('Internal Server Error')
+//   }
+// })
