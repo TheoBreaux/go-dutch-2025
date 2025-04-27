@@ -48,23 +48,31 @@ const DinnerItemDropArea = ({
   }, [])
 
   const handleAssignedItemsReview = () => {
-    //if there are items in teh receipt items and we are at the last diner, do not let progress alert about items left and no one to cover them
+    // Ensure currentDiner and currentDiner.items exist
+    if (!currentDiner || !currentDiner.items || !currentDiner.items.length) {
+      Alert.alert(
+        'No items assigned.',
+        `Please assign items to current diner.`,
+        [{ text: 'OK' }],
+        { cancelable: true }
+      );
+      return;
+    }
+  
+    // Ensure receiptItems exists and is not empty
     if (receiptItems.length && finalDiners[finalDiners.length - 1].userId === currentDiner.userId) {
       Alert.alert(
         'Items remaining!',
         `Please assign remaining items to @${finalDiners[finalDiners.length - 1].username} to proceed.`,
-        [
-          {
-            text: 'OK',
-          },
-        ],
+        [{ text: 'OK' }],
         { cancelable: true }
-      )
+      );
     } else {
-      setDinerItemsToReview(currentDiner.items)
-      setShowReviewModal(true)
+      setDinerItemsToReview(currentDiner.items);
+      setShowReviewModal(true);
     }
   }
+  
 
   return (
     <>

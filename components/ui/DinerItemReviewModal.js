@@ -49,21 +49,6 @@ const DinerItemReviewModal = ({
   }
 
   const handleNextDiner = () => {
-    const tip = subtotal * 0.2
-    const totals = { subtotal, tax, tip } //subtotal, tax, tip
-
-    const dinersWithTotals = finalDiners.map((diner) => {
-      const total = (diner.items || []).reduce((sum, item) => sum + item.price, 0)
-      return {
-        id: diner.userId,
-        username: diner.username,
-        firstName: diner.firstName,
-        isCelebrating: diner.isCelebrating || null,
-        total: total,
-        isPrimaryDiner: diner.isPrimaryDiner,
-      }
-    })
-
     //if the index in the array of the current diner is less than the length of the array of final diners
     if (currentDinerIndex < finalDiners.length - 1) {
       setCurrentDinerIndex((prevIndex) => prevIndex + 1)
@@ -73,7 +58,7 @@ const DinerItemReviewModal = ({
       if (celebratedDinersPresent) {
         setFinalDinerConfirmed(true)
       } else {
-        navigation.navigate('Screens', { screen: 'ConfirmTotals', params: { totals, dinersWithTotals, sharedDinerItemsTotal, eventTitle } })
+        handleCelebratedDiners('no')
       }
     }
   }
@@ -90,53 +75,40 @@ const DinerItemReviewModal = ({
     })
 
     const celebratedDinersTotal = baseDinerTotals.filter((diner) => diner.isCelebrating).reduce((sum, diner) => sum + diner.total, 0)
-
     const numNonCelebrating = finalDiners.length - celebratedDiners.length
     const sharedExpensesForCelebratedDiners = numNonCelebrating > 0 ? celebratedDinersTotal / numNonCelebrating : 0
     const sharedTax = numNonCelebrating > 0 ? tax / numNonCelebrating : 0
     const sharedDinerItems = numNonCelebrating > 0 ? sharedDinerItemsTotal / numNonCelebrating : 0
 
-    let dinersWithTotals = []
+    let dinersWithTotals = baseDinerTotals.map((diner) => {
+      // Calculate the total including shared expenses, tax, and diner items for all diners
+      const total = diner.total + sharedExpensesForCelebratedDiners + sharedTax + sharedDinerItems
 
-    if (status === 'yes') {
-      dinersWithTotals = baseDinerTotals.map((diner) => {
-        if (diner.isCelebrating) {
-          return {
-            id: diner.userId,
-            username: diner.username,
-            firstName: diner.firstName,
-            isCelebrating: diner.isCelebrating,
-            total: 0,
-            isPrimaryDiner: diner.isPrimaryDiner,
-          }
-        } else {
-          return {
-            id: diner.userId,
-            username: diner.username,
-            firstName: diner.firstName,
-            isCelebrating: diner.isCelebrating,
-            total: diner.total + sharedExpensesForCelebratedDiners + sharedTax + sharedDinerItems,
-            isPrimaryDiner: diner.isPrimaryDiner,
-          }
-        }
-      })
-    } else if (status === 'no') {
-      dinersWithTotals = finalDiners.map((diner) => {
-        const total = (diner.items || []).reduce((sum, item) => sum + item.price, 0)
+      // If the status is 'yes', set the total of celebrated diners to 0, otherwise keep their total
+      if (diner.isCelebrating && status === 'yes') {
         return {
           id: diner.userId,
           username: diner.username,
           firstName: diner.firstName,
-          isCelebrating: diner.isCelebrating || null,
-          total: total,
+          isCelebrating: diner.isCelebrating,
+          total: 0, // Celebrating diners have a total of 0 if status is 'yes'
           isPrimaryDiner: diner.isPrimaryDiner,
         }
-      })
-    }
+      } else {
+        return {
+          id: diner.userId,
+          username: diner.username,
+          firstName: diner.firstName,
+          isCelebrating: diner.isCelebrating,
+          total: total, // Non-celebrating diners or any status, they get the calculated total
+          isPrimaryDiner: diner.isPrimaryDiner,
+        }
+      }
+    })
 
     navigation.navigate('Screens', {
       screen: 'ConfirmTotals',
-      params: { totals, dinersWithTotals, celebratedDinersTotal, sharedDinerItemsTotal, eventTitle },
+      params: { totals, dinersWithTotals, eventTitle, numNonCelebrating },
     })
   }
 

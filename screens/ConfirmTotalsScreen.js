@@ -5,17 +5,15 @@ import TotalsInput from '../components/ui/TotalsInput'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import CircularButton from '../components/ui/CircularButton'
 import { useEffect, useState } from 'react'
-import { COLORS, SCREEN_WIDTH } from '../constants/constants'
+import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
 import { useSelector } from 'react-redux'
 import { scaleFont } from '../utils/utils'
 import AddMissingFeesModal from '../components/ui/AddMissingFeesModal'
 
-//FINAL TIP AND ADDIIONAL FEES ASSESSED HERE
-
 const ConfirmTotalsScreen = ({ route, navigation }) => {
   const restaurantName = useSelector((state) => state.app.receiptData.restaurantName)
 
-  const { totals, dinersWithTotals, celebratedDinersTotal, sharedDinerItemsTotal, eventTitle } = route.params
+  const { totals, dinersWithTotals, eventTitle, numNonCelebrating } = route.params
 
   const [finalSubtotal, setFinalSubtotal] = useState(totals.subtotal)
   const [showMissingFeesModal, setShowMissingFeesModal] = useState(false)
@@ -34,7 +32,6 @@ const ConfirmTotalsScreen = ({ route, navigation }) => {
     totalsArray.filter(({ fee }) => fee.toLowerCase() !== 'subtotal').reduce((sum, { amount }) => sum + amount, 0)
   )
 
-  const finalSharedTotal = sharedTotal + sharedDinerItemsTotal
   const grandTotal = totalsArray.reduce((sum, item) => sum + item.amount, 0)
 
   //update shared totals as needed
@@ -74,31 +71,33 @@ const ConfirmTotalsScreen = ({ route, navigation }) => {
   }
 
   const handleAddFee = () => {
+    const parsedPrice = parseFloat(newFeePrice)
+
     const newFee = {
       fee: newFeeName,
-      amount: parseFloat(newFeePrice),
-      text: newFeePrice.toString(),
+      amount: !isNaN(parsedPrice) ? parsedPrice : 0,
+      text: !isNaN(parsedPrice) ? parsedPrice.toFixed(2) : '0.00',
     }
 
     setTotalsArray((prev) => [...prev, newFee])
   }
 
-  // console.log("DINERS:", dinersWithTotals)
+  const handleCloseCheck = () => {
+    const totalExtraFees = totalsArray.filter((item) => item.fee !== 'subtotal' && item.fee !== 'tax').reduce((sum, item) => sum + item.amount, 0)
 
-  //final diners totals result
-  const finalBill = dinersWithTotals.map((diner) => ({
-    ...diner,
-    total: (diner.total + finalSharedTotal / dinersWithTotals.length).toFixed(2),
-  }))
+    const splitCount = numNonCelebrating > 0 ? numNonCelebrating : dinersWithTotals.length
+    const finalSharedCosts = totalExtraFees / splitCount
 
-  // console.log('Totals: ', totals)
-  // console.log('Celebrated Diners Totals To Share:', celebratedDinersTotal)
-  // console.log('Shared Total: ', sharedTotal)
-  // console.log('Shared Food Items Between Diners: ', sharedDinerItemsTotal)
-  // console.log('Final Shared Total:', finalSharedTotal)
-  // console.log('Grand Total: ', grandTotal)
-  // console.log('Diners With Totals: ', dinersWithTotals)
-  // console.log('Final Bill: ', finalBill)
+    const finalBill = dinersWithTotals.map((diner) => {
+      if (!diner.isCelebrating) {
+        return { ...diner, total: diner.total + finalSharedCosts }
+      }
+      return diner
+    })
+
+    //ALSO NEED TO SEND ALL OF THIS TO BACKEND DATABASE
+    navigation.navigate('Screens', { screen: 'CheckClose', params: { finalBill, eventTitle } })
+  }
 
   return (
     <LogoScreenWrapper
@@ -127,6 +126,7 @@ const ConfirmTotalsScreen = ({ route, navigation }) => {
             keyExtractor={(item, index) => `${item.fee}-${index}`}
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
+            style={{ height: SCREEN_HEIGHT * 0.4 }}
           />
 
           <View style={Styles.confirmTotalsScreen.container.tipButtonsContainer}>
@@ -182,7 +182,7 @@ const ConfirmTotalsScreen = ({ route, navigation }) => {
               Yes, add fees!
             </PrimaryButton>
             <PrimaryButton
-              onPress={() => navigation.navigate('Screens', { screen: 'CheckClose' })} //navigate to next screen
+              onPress={handleCloseCheck}
               outerWidth={SCREEN_WIDTH * 0.38}
               innerWidth={SCREEN_WIDTH * 0.36}
             >
