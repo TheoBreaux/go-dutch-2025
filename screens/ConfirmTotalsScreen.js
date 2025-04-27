@@ -10,10 +10,12 @@ import { useSelector } from 'react-redux'
 import { scaleFont } from '../utils/utils'
 import AddMissingFeesModal from '../components/ui/AddMissingFeesModal'
 
+//FINAL TIP AND ADDIIONAL FEES ASSESSED HERE
+
 const ConfirmTotalsScreen = ({ route, navigation }) => {
   const restaurantName = useSelector((state) => state.app.receiptData.restaurantName)
 
-  const { totals, dinersWithTotals, eventTitle, celebratedDinersTotal, sharedDinerItemsTotal} = route.params
+  const { totals, dinersWithTotals, celebratedDinersTotal, sharedDinerItemsTotal, eventTitle } = route.params
 
   const [finalSubtotal, setFinalSubtotal] = useState(totals.subtotal)
   const [showMissingFeesModal, setShowMissingFeesModal] = useState(false)
@@ -81,9 +83,7 @@ const ConfirmTotalsScreen = ({ route, navigation }) => {
     setTotalsArray((prev) => [...prev, newFee])
   }
 
-
   // console.log("DINERS:", dinersWithTotals)
-
 
   //final diners totals result
   const finalBill = dinersWithTotals.map((diner) => ({

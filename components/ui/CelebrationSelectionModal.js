@@ -6,7 +6,7 @@ import { SCREEN_HEIGHT } from '../../constants/constants'
 import { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 
-const CelebrationSelectionModal = ({ diners, setShowSelectionModal, setShowCelebrationModal }) => {
+const CelebrationSelectionModal = ({ diners, setShowSelectionModal, setShowCelebrationModal, eventTitle }) => {
   const [updatedDiners, setUpdatedDiners] = useState(diners.map((diner) => ({ ...diner, isCelebrating: false })))
 
   const navigation = useNavigation()
@@ -26,7 +26,7 @@ const CelebrationSelectionModal = ({ diners, setShowSelectionModal, setShowCeleb
   const handleConfirm = () => {
     setShowCelebrationModal(false)
     setShowSelectionModal(false)
-    navigation.navigate('Screens', { screen: 'ItemAssignment', params: { diners: updatedDiners } })
+    navigation.navigate('Screens', { screen: 'ItemAssignment', params: { diners: updatedDiners, eventTitle } })
   }
 
   return (

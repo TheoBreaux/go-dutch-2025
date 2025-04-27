@@ -17,6 +17,8 @@ const DinnerItemAssignmentScreen = ({ route }) => {
   const [sharedItems, setSharedItems] = useState([])
   const currentDinerId = finalDiners[currentDinerIndex]?.userId
 
+  console.log(eventTitle)
+
   const opacity = useRef(new Animated.Value(1)).current
 
   useEffect(() => {
@@ -94,8 +96,8 @@ const DinnerItemAssignmentScreen = ({ route }) => {
           setReceiptItems={setReceiptItems}
           setFinalDiners={setFinalDiners}
           setCurrentDinerIndex={setCurrentDinerIndex}
-          eventTitle={eventTitle}
           sharedItems={sharedItems}
+          eventTitle={eventTitle}
         />
 
         {receiptItems.filter((item) => !item.isShared).length ? (

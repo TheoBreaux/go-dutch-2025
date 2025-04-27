@@ -18,8 +18,8 @@ const DinerItemReviewModal = ({
   dinerItemsToReview,
   setReceiptItems,
   updateFinalDinerItems,
-  eventTitle,
   sharedItems,
+  eventTitle,
 }) => {
   const [finalDinerItems, setFinalDinerItems] = useState(dinerItemsToReview)
   const [finalDinerConfirmed, setFinalDinerConfirmed] = useState(false)
@@ -73,14 +73,12 @@ const DinerItemReviewModal = ({
       if (celebratedDinersPresent) {
         setFinalDinerConfirmed(true)
       } else {
-        navigation.navigate('Screens', { screen: 'ConfirmTotals', params: { totals, dinersWithTotals, eventTitle, sharedDinerItemsTotal } })
+        navigation.navigate('Screens', { screen: 'ConfirmTotals', params: { totals, dinersWithTotals, sharedDinerItemsTotal, eventTitle } })
       }
     }
   }
 
-  const handleYesOnCelebratedDiners = () => {
-    console.log('HANDLE YES ON CELBRATED DINERS')
-
+  const handleCelebratedDiners = (status) => {
     const tip = subtotal * 0.2
     const totals = { subtotal, tax, tip }
 
@@ -96,64 +94,50 @@ const DinerItemReviewModal = ({
     const numNonCelebrating = finalDiners.length - celebratedDiners.length
     const sharedExpensesForCelebratedDiners = numNonCelebrating > 0 ? celebratedDinersTotal / numNonCelebrating : 0
     const sharedTax = numNonCelebrating > 0 ? tax / numNonCelebrating : 0
-    const sharedTip = numNonCelebrating > 0 ? tip / numNonCelebrating : 0
     const sharedDinerItems = numNonCelebrating > 0 ? sharedDinerItemsTotal / numNonCelebrating : 0
 
-    const dinersWithTotals = baseDinerTotals.map((diner) => {
-      if (diner.isCelebrating) {
+    let dinersWithTotals = []
+
+    if (status === 'yes') {
+      dinersWithTotals = baseDinerTotals.map((diner) => {
+        if (diner.isCelebrating) {
+          return {
+            id: diner.userId,
+            username: diner.username,
+            firstName: diner.firstName,
+            isCelebrating: diner.isCelebrating,
+            total: 0,
+            isPrimaryDiner: diner.isPrimaryDiner,
+          }
+        } else {
+          return {
+            id: diner.userId,
+            username: diner.username,
+            firstName: diner.firstName,
+            isCelebrating: diner.isCelebrating,
+            total: diner.total + sharedExpensesForCelebratedDiners + sharedTax + sharedDinerItems,
+            isPrimaryDiner: diner.isPrimaryDiner,
+          }
+        }
+      })
+    } else if (status === 'no') {
+      dinersWithTotals = finalDiners.map((diner) => {
+        const total = (diner.items || []).reduce((sum, item) => sum + item.price, 0)
         return {
           id: diner.userId,
           username: diner.username,
           firstName: diner.firstName,
-          isCelebrating: diner.isCelebrating,
-          total: 0,
-          isPrimaryDiner: diner.isPrimaryDiner,
+          isCelebrating: diner.isCelebrating || null,
+          total: total,
+          isPrimaryDiner: diner.isPrimaaryDiner,
         }
-      } else {
-        return {
-          id: diner.userId,
-          username: diner.username,
-          firstName: diner.firstName,
-          isCelebrating: diner.isCelebrating,
-          total: diner.total + sharedExpensesForCelebratedDiners + sharedTax + sharedTip + sharedDinerItems,
-          isPrimaryDiner: diner.isPrimaryDiner,
-        }
-      }
-    })
-
-    console.log('SHARED EXPENSES FOR CELEBRATED DINERS: ', sharedExpensesForCelebratedDiners)
-
-    console.log('Totals: ', totals)
-    console.log('Diners With Totals: ', dinersWithTotals)
-    console.log('Celebrated Diners Totals: ', celebratedDinersTotal)
-    console.log('Shared Diner Items Total: ', sharedDinerItemsTotal)
-    console.log('Celebrated Diners:', celebratedDiners)
+      })
+    }
 
     navigation.navigate('Screens', {
       screen: 'ConfirmTotals',
-      params: { totals, dinersWithTotals, eventTitle, celebratedDinersTotal, sharedDinerItemsTotal },
+      params: { totals, dinersWithTotals, celebratedDinersTotal, sharedDinerItemsTotal, eventTitle },
     })
-  }
-
-  const handleNoOnCelebratedDiners = () => {
-    console.log('HANDLE NO ON CELBRATED DINERS')
-    //do math for everyone paying their own
-    const tip = subtotal * 0.2
-    const totals = { subtotal, tax, tip } //subtotal, tax, tip
-
-    const dinersWithTotals = finalDiners.map((diner) => {
-      const total = (diner.items || []).reduce((sum, item) => sum + item.price, 0)
-      return {
-        id: diner.userId,
-        username: diner.username,
-        firstName: diner.firstName,
-        isCelebrating: diner.isCelebrating || null,
-        total: total,
-        isPrimaryDiner: diner.isPrimaaryDiner,
-      }
-    })
-
-    navigation.navigate('Screens', { screen: 'ConfirmTotals', params: { totals, dinersWithTotals, eventTitle, sharedDinerItemsTotal } })
   }
 
   const renderItem = ({ item }) => {
@@ -179,8 +163,8 @@ const DinerItemReviewModal = ({
       height={SCREEN_HEIGHT * 0.7}
       buttonText1={finalDinerConfirmed ? 'Yes' : 'Return'}
       buttonText2={finalDinerConfirmed ? 'No' : 'Confirm'}
-      onPress1={finalDinerConfirmed ? handleYesOnCelebratedDiners : handleResetDinerItems} //yes
-      onPress2={finalDinerConfirmed ? handleNoOnCelebratedDiners : handleNextDiner} //no
+      onPress1={finalDinerConfirmed ? () => handleCelebratedDiners('yes') : handleResetDinerItems} //yes
+      onPress2={finalDinerConfirmed ? () => handleCelebratedDiners('no') : handleNextDiner} //no
     >
       {finalDinerConfirmed ? (
         <View style={{ alignItems: 'center' }}>
