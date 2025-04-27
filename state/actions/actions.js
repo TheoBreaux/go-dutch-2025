@@ -6,6 +6,9 @@ import {
   FETCH_FEATURED_RESTAURANTS,
   FETCH_FEATURED_RESTAURANTS_FAILURE,
   FETCH_FEATURED_RESTAURANTS_SUCCESS,
+  POST_DINING_EVENT,
+  POST_DINING_EVENT_FAILURE,
+  POST_DINING_EVENT_SUCCESS,
   SET_CURRENT_CITY_SUCCESS,
   SET_RECEIPT_DATA_FAILURE,
   SET_RECEIPT_DATA_SUCCESS,
@@ -41,6 +44,20 @@ export const fetchFeaturedRestaurantsFailure = (error) => ({
 
 export const fetchFeaturedRestaurantsSuccess = (data) => ({
   type: FETCH_FEATURED_RESTAURANTS_SUCCESS,
+  payload: data,
+})
+
+export const postDiningEvent = () => ({
+  type: POST_DINING_EVENT,
+})
+
+export const postDiningEventFailure = (error) => ({
+  type: POST_DINING_EVENT_FAILURE,
+  error,
+})
+
+export const postDiningEventSuccess = (data) => ({
+  type: POST_DINING_EVENT_SUCCESS,
   payload: data,
 })
 

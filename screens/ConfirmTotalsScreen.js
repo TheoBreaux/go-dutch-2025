@@ -95,7 +95,8 @@ const ConfirmTotalsScreen = ({ route, navigation }) => {
       return diner
     })
 
-    //ALSO NEED TO SEND ALL OF THIS TO BACKEND DATABASE
+    //ALSO NEED TO SEND ALL OF THIS TO BACKEND DATABASE AND UPDATE STATE
+    // SEND PAYMENT NOTIFICATIONS
     navigation.navigate('Screens', { screen: 'CheckClose', params: { finalBill, eventTitle } })
   }
 

@@ -5,6 +5,9 @@ import {
   FETCH_FEATURED_RESTAURANTS,
   FETCH_FEATURED_RESTAURANTS_FAILURE,
   FETCH_FEATURED_RESTAURANTS_SUCCESS,
+  POST_DINING_EVENT,
+  POST_DINING_EVENT_FAILURE,
+  POST_DINING_EVENT_SUCCESS,
   SET_USER_SUCCESS,
   SET_CURRENT_CITY_SUCCESS,
   SET_LOCAL_RESTAURANTS,
@@ -44,6 +47,11 @@ const AppReducer = (state = initialState, action) => {
       return { ...state, error: action.error, loading: false }
     // case LOGOUT_USER:
     //   return { ...state, user: {}, currentCity: null, featuredRestaurants: [], localRestaurants: [] }
+
+    case POST_DINING_EVENT:
+    case POST_DINING_EVENT_FAILURE:
+    case POST_DINING_EVENT_SUCCESS:
+
     case SET_CURRENT_CITY_SUCCESS:
       return { ...state, currentCity: action.payload, loading: false }
     case SET_LOCAL_RESTAURANTS:
