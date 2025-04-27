@@ -129,7 +129,7 @@ const DinerItemReviewModal = ({
           firstName: diner.firstName,
           isCelebrating: diner.isCelebrating || null,
           total: total,
-          isPrimaryDiner: diner.isPrimaaryDiner,
+          isPrimaryDiner: diner.isPrimaryDiner,
         }
       })
     }
