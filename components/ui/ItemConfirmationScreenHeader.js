@@ -4,15 +4,17 @@ import Entypo from '@expo/vector-icons/Entypo'
 import { COLORS } from '../../constants/constants'
 import CircularButton from './CircularButton'
 import { useNavigation } from '@react-navigation/native'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setReceiptDataSuccess } from '../../state/actions/actions'
 
 const ItemConfirmationScreenHeader = ({ subtotal, restaurantName, setAddingNewItem, receiptItems, address, eventId, total, tax, date }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
 
+  const primaryDinerId = useSelector((state) => state.app.user.userId)
+
   const handleItemAssigment = () => {
-    dispatch(setReceiptDataSuccess({ restaurantName, eventId, address, receiptItems, subtotal, total, tax, date }))
+    dispatch(setReceiptDataSuccess({ restaurantName, eventId, address, receiptItems, subtotal, total, tax, date, primaryDinerId: primaryDinerId }))
     navigation.navigate('Screens', { screen: 'DiningDetail' })
   }
 

@@ -99,7 +99,7 @@ const DinerItemReviewModal = ({
           id: diner.userId,
           username: diner.username,
           firstName: diner.firstName,
-          isCelebrating: diner.isCelebrating,
+          isCelebrating: diner.isCelebrating || false,
           total: total, // Non-celebrating diners or any status, they get the calculated total
           isPrimaryDiner: diner.isPrimaryDiner,
         }

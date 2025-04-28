@@ -21,7 +21,7 @@ const DiningDetailScreen = ({ navigation }) => {
   const [eventDate, setEventDate] = useState(eventData.date)
   const [eventLocation, setEventLocation] = useState(eventData.restaurantName)
   const [eventTitle, setEventTitle] = useState('')
-  const [primaryDiner, setPrimaryDiner] = useState(updatedLoggedInUser) //this will eventually be searchable through database
+  const [primaryDiner, setPrimaryDiner] = useState(updatedLoggedInUser)
 
   const handleConfirmDetails = () => {
     let missingFields = {}

@@ -47,8 +47,9 @@ export const fetchFeaturedRestaurantsSuccess = (data) => ({
   payload: data,
 })
 
-export const postDiningEvent = () => ({
+export const postDiningEvent = (data) => ({
   type: POST_DINING_EVENT,
+  payload: data,
 })
 
 export const postDiningEventFailure = (error) => ({

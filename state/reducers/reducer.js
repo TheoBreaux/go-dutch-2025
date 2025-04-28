@@ -18,14 +18,16 @@ import {
 } from '../actions/actionTypes'
 
 const initialState = {
-  user: {},
   currentCity: null,
-  suggestions: [],
+  diningHistory: [],
+  error: null,
   featuredRestaurants: [],
+  favorites: [],
+  loading: false,
   localRestaurants: [],
   receiptData: null,
-  loading: false,
-  error: null,
+  suggestions: [],
+  user: {},
 }
 
 const AppReducer = (state = initialState, action) => {
@@ -47,23 +49,25 @@ const AppReducer = (state = initialState, action) => {
       return { ...state, error: action.error, loading: false }
     // case LOGOUT_USER:
     //   return { ...state, user: {}, currentCity: null, featuredRestaurants: [], localRestaurants: [] }
-
     case POST_DINING_EVENT:
+      return { ...state, loading: true, error: null }
     case POST_DINING_EVENT_FAILURE:
+      return { ...state, error: action.error, loading: false }
     case POST_DINING_EVENT_SUCCESS:
-
+      return { ...state, diningHistory: [action.payload, ...state.diningHistory], loading: false, error: null }
     case SET_CURRENT_CITY_SUCCESS:
       return { ...state, currentCity: action.payload, loading: false }
     case SET_LOCAL_RESTAURANTS:
       return { ...state, loading: true, error: null }
+    case SET_LOCAL_RESTAURANTS_FAILURE:
+      return { ...state, error: action.error, loading: false }
     case SET_LOCAL_RESTAURANTS_SUCCESS:
       return { ...state, localRestaurants: action.payload, loading: false, error: null }
-    case SET_LOCAL_RESTAURANTS_FAILURE:
+    case SET_RECEIPT_DATA_FAILURE:
       return { ...state, error: action.error, loading: false }
     case SET_RECEIPT_DATA_SUCCESS:
       return { ...state, receiptData: action.payload, loading: false, error: null }
-    case SET_RECEIPT_DATA_FAILURE:
-      return { ...state, error: action.error, loading: false }
+
     case SET_USER_SUCCESS:
       return { ...state, user: action.payload, loading: false }
     default:

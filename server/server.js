@@ -192,28 +192,31 @@ app.get('/diners/suggestions', async (req, res) => {
   }
 })
 
-
-
-
-
 // SEND NEW DINING EVENTS TO DATABASE
 app.post('/diningevents', async (req, res) => {
-  const { diningDate, restaurantBar, title, primaryDinerUsername, tax, tip, totalMealCost, receiptImageKey } = req.body
+  const { eventId, date, restaurantName, eventTitle, primaryDinerId, subtotal, tax, tip, totalMealCost, imgUrl, allDiners } = req.body
 
   try {
-    const newDiningEvent = await pool.query(
-      `INSERT INTO dining_events(dining_date, restaurant_bar, title, primary_diner_username, tax, tip, total_meal_cost, receipt_image_key) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING event_id`,
-      [diningDate, restaurantBar, title, primaryDinerUsername, tax, tip, totalMealCost, receiptImageKey]
+    await pool.query(
+      `INSERT INTO dining_events(event_id, dining_date, restaurant_bar, title, primary_diner_id, subtotal, tax, tip, total_meal_cost, img_url) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+      [eventId, date, restaurantName, eventTitle, primaryDinerId, subtotal, tax, tip, totalMealCost, imgUrl]
     )
-    const eventId = newDiningEvent.rows[0].event_id
-    res.json({ eventId: eventId })
+
+    for (const diner of allDiners) {
+      await pool.query('INSERT INTO event_diners(event_id, user_id, is_birthday, diner_meal_cost) VALUES($1, $2, $3, $4)', [
+        eventId,
+        diner.id,
+        diner.isCelebrating,
+        diner.total,
+      ])
+    }
+
+    res.status(200).json(req.body)
   } catch (error) {
     console.error(error)
+    res.status(500).json({ error: 'Failed to create dining event' })
   }
 })
-
-
-
 
 // CONFIRM THAT USER EXISTS IN DB SO CAN BE ADDED AS DINER
 // app.get('/users/:username', async (req, res) => {

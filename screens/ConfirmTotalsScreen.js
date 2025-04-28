@@ -6,12 +6,15 @@ import PrimaryButton from '../components/ui/PrimaryButton'
 import CircularButton from '../components/ui/CircularButton'
 import { useEffect, useState } from 'react'
 import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { scaleFont } from '../utils/utils'
 import AddMissingFeesModal from '../components/ui/AddMissingFeesModal'
+import { postDiningEvent } from '../state/actions/actions'
 
 const ConfirmTotalsScreen = ({ route, navigation }) => {
+  const dispatch = useDispatch()
   const restaurantName = useSelector((state) => state.app.receiptData.restaurantName)
+  const state = useSelector((state) => state.app)
 
   const { totals, dinersWithTotals, eventTitle, numNonCelebrating } = route.params
 
@@ -95,7 +98,23 @@ const ConfirmTotalsScreen = ({ route, navigation }) => {
       return diner
     })
 
+    const diningEventDetails = {
+      eventId: state.receiptData.eventId,
+      date: state.receiptData.date.substring(0, 10),
+      restaurantName,
+      eventTitle,
+      primaryDinerId: state.receiptData.primaryDinerId,
+      subtotal: totalsArray[0].amount,
+      tax: totalsArray[1].amount,
+      tip: totalsArray[2].amount,
+      totalMealCost: grandTotal,
+      allDiners: finalBill,
+      imgUrl: 'wwww.theodorebreaux.com', //TEMPORARY
+    }
+
     //ALSO NEED TO SEND ALL OF THIS TO BACKEND DATABASE AND UPDATE STATE
+    dispatch(postDiningEvent(diningEventDetails))
+
     // SEND PAYMENT NOTIFICATIONS
     navigation.navigate('Screens', { screen: 'CheckClose', params: { finalBill, eventTitle } })
   }

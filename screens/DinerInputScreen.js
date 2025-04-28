@@ -108,7 +108,7 @@ const DinerInputScreen = ({ route, navigation }) => {
       {showCelebrationModal && (
         <CelebrationModal
           onPress1={() => setShowSelectionModal(true)}
-          onPress2={() => navigation.navigate('Screens', { screen: 'ItemAssignment', params: { diners } })}
+          onPress2={() => navigation.navigate('Screens', { screen: 'ItemAssignment', params: { diners, eventTitle } })}
         />
       )}
       {showSelectionModal && (
