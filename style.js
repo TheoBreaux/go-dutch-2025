@@ -445,7 +445,7 @@ export default StyleSheet.create({
 
   // ====================================================================================================================================== SPLASH SCREEN
   splashScreen: {
-    logo: { marginTop: SCREEN_HEIGHT * 0.2, width: SCREEN_WIDTH * 0.6, height: SCREEN_HEIGHT * 0.325, resizeMode: 'contain' },
+    logo: { width: SCREEN_WIDTH * 0.6, height: SCREEN_HEIGHT * 0.325, resizeMode: 'contain' },
   },
 
   // ======================================================================================================================================= LOGO SCREEN WRAPPER
@@ -851,6 +851,59 @@ export default StyleSheet.create({
       fontSize: scaleFont(14),
       marginTop: 5,
     },
+  },
+  // ====================================================================================================================================== CHECK CLOSE OUT DETAILS SCREEN
+  checkCloseOutDetailsScreen: {
+    finalBillDisplayTileContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      width: SCREEN_WIDTH * 0.9,
+      height: SCREEN_HEIGHT * 0.05,
+      marginBottom: 5,
+      padding: 5,
+      backgroundColor: '#fff',
+      shadowColor: COLORS.goDutchRed,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.5,
+      shadowRadius: 3,
+      elevation: 5,
+      text: {
+        username: {
+          fontFamily: 'Poppins-Bold',
+          fontSize: scaleFont(15),
+          color: COLORS.goDutchBlue,
+        },
+        primaryDinerText: { color: COLORS.goDutchRed, fontFamily: 'Poppins-ExtraBold', fontSize: scaleFont(20) },
+        total: { color: COLORS.goDutchBlue, fontFamily: 'Poppins-ExtraBold', fontSize: scaleFont(20) },
+        eventTitle: { color: COLORS.goDutchBlue, fontFamily: 'Poppins-BlackItalic', fontSize: scaleFont(25) },
+        thankYou: {
+          fontFamily: 'Poppins-Medium',
+          fontSize: scaleFont(26),
+          color: COLORS.goDutchBlue,
+          textAlign: 'center',
+          marginBottom: SCREEN_HEIGHT * 0.015,
+        },
+      },
+      emoji: { width: CIRCLE_SIZE * 0.05, height: CIRCLE_SIZE * 0.05 },
+    },
+    header: {
+      borderRadius: 20,
+      elevation: 5,
+      backgroundColor: '#fff',
+      shadowColor: COLORS.goDutchRed,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.5,
+      shadowRadius: 3,
+      backgroundColor: 'white',
+      width: SCREEN_WIDTH * 0.9,
+      height: SCREEN_HEIGHT * 0.05,
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'row',
+      marginVertical: SCREEN_HEIGHT * 0.020,
+    },
+    confettiView: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 0, pointerEvents: 'none' },
   },
 
   // ====================================================================================================================================== CONFIRM TOTAL SCREEN

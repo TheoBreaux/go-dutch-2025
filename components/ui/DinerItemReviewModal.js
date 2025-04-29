@@ -82,7 +82,8 @@ const DinerItemReviewModal = ({
 
     let dinersWithTotals = baseDinerTotals.map((diner) => {
       // Calculate the total including shared expenses, tax, and diner items for all diners
-      const total = diner.total + sharedExpensesForCelebratedDiners + sharedTax + sharedDinerItems
+      const preliminaryTotal = diner.total + sharedExpensesForCelebratedDiners + sharedTax + sharedDinerItems
+      const total = preliminaryTotal.toFixed(2)
 
       // If the status is 'yes', set the total of celebrated diners to 0, otherwise keep their total
       if (diner.isCelebrating && status === 'yes') {

@@ -93,7 +93,7 @@ const ConfirmTotalsScreen = ({ route, navigation }) => {
 
     const finalBill = dinersWithTotals.map((diner) => {
       if (!diner.isCelebrating) {
-        return { ...diner, total: diner.total + finalSharedCosts }
+        return { ...diner, total: parseFloat(diner.total) + finalSharedCosts }
       }
       return diner
     })
@@ -116,7 +116,7 @@ const ConfirmTotalsScreen = ({ route, navigation }) => {
     dispatch(postDiningEvent(diningEventDetails))
 
     // SEND PAYMENT NOTIFICATIONS
-    navigation.navigate('Screens', { screen: 'CheckClose', params: { finalBill, eventTitle } })
+    navigation.navigate('Screens', { screen: 'CheckClose', params: { finalBill } })
   }
 
   return (
