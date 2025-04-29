@@ -84,6 +84,7 @@ const DinnerItemDropArea = ({
           currentDinerIndex={currentDinerIndex}
           setCurrentDinerIndex={setCurrentDinerIndex}
           setShowReviewModal={setShowReviewModal}
+          showReviewModal={showReviewModal}
           dinerItemsToReview={dinerItemsToReview}
           setDinerItemsToReview={setDinerItemsToReview}
           setReceiptItems={setReceiptItems}

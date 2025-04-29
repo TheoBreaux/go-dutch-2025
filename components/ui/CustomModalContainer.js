@@ -5,8 +5,8 @@ import Styles from '../../style'
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../../constants/constants'
 
 const CustomModalContainer = ({
-  animationType,
-  transparent,
+  animationType = 'fade',
+  transparent = true,
   visible,
   onPress1,
   onPress2,

@@ -136,7 +136,14 @@ const DinerItemReviewModal = ({
       height={SCREEN_HEIGHT * 0.7}
       buttonText1={finalDinerConfirmed ? 'Yes' : 'Return'}
       buttonText2={finalDinerConfirmed ? 'No' : 'Confirm'}
-      onPress1={finalDinerConfirmed ? () => handleCelebratedDiners('yes') : handleResetDinerItems} //yes
+      onPress1={
+        finalDinerConfirmed
+          ? () => {
+              setShowReviewModal(false)
+              handleCelebratedDiners('yes')
+            }
+          : handleResetDinerItems
+      }
       onPress2={finalDinerConfirmed ? () => handleCelebratedDiners('no') : handleNextDiner} //no
     >
       {finalDinerConfirmed ? (
@@ -145,7 +152,12 @@ const DinerItemReviewModal = ({
             source={Images.celebration_emoji}
             style={{ height: SCREEN_HEIGHT * 0.3, resizeMode: 'contain' }}
           />
-          <Text style={[Styles.dinerItemReviewModal.text.username, { fontSize: scaleFont(20), marginTop: 10, textAlign: 'center' }]}>
+          <Text
+            style={[
+              Styles.dinerItemReviewModal.text.username,
+              { fontSize: SCREEN_WIDTH < 400 ? scaleFont(18) : scaleFont(20), marginTop: 10, textAlign: 'center' },
+            ]}
+          >
             Taking care of celebrated diner(s)?
           </Text>
         </View>

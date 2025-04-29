@@ -47,29 +47,46 @@ const CheckCloseOutDetailsScreen = ({ route, navigation }) => {
         resizeMode="cover"
       />
 
-      <SpinningLogo marginTop={0} />
-
-      {viewReceipt && (
-        <Image
-          style={{}}
-          source={{}}
-        />
+      {viewReceipt ? (
+        <>
+          <View style={Styles.checkCloseOutDetailsScreen.receiptContainer}>
+            <Image
+              style={Styles.checkCloseOutDetailsScreen.receiptContainer.image}
+              source={Images.dummy_receipt}
+            />
+          </View>
+          <View style={{ marginBottom: -10 }}>
+            <PrimaryButton
+              onPress={() => navigation.navigate('Tabs', { screen: 'History' })}
+              outerWidth={SCREEN_WIDTH * 0.85}
+              innerWidth={SCREEN_WIDTH * 0.83}
+            >
+              Return to History
+            </PrimaryButton>
+          </View>
+        </>
+      ) : (
+        <SpinningLogo marginTop={0} />
       )}
 
-      <View style={{ flexDirection: 'row' }}>
-        <PrimaryButton
-          outerWidth={SCREEN_WIDTH * 0.4}
-          innerWidth={SCREEN_WIDTH * 0.38}
-        >
-          View Receipt
-        </PrimaryButton>
-        <PrimaryButton
-          outerWidth={SCREEN_WIDTH * 0.4}
-          innerWidth={SCREEN_WIDTH * 0.38}
-        >
-          Home
-        </PrimaryButton>
-      </View>
+      {!viewReceipt && (
+        <View style={{ flexDirection: 'row' }}>
+          <PrimaryButton
+            onPress={() => setViewReceipt(true)}
+            outerWidth={SCREEN_WIDTH * 0.4}
+            innerWidth={SCREEN_WIDTH * 0.38}
+          >
+            View Receipt
+          </PrimaryButton>
+          <PrimaryButton
+            onPress={() => navigation.navigate('Tabs', { screen: 'Home' })}
+            outerWidth={SCREEN_WIDTH * 0.4}
+            innerWidth={SCREEN_WIDTH * 0.38}
+          >
+            Home
+          </PrimaryButton>
+        </View>
+      )}
 
       <View style={Styles.checkCloseOutDetailsScreen.header}>
         <Text style={Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.eventTitle}>{eventLocation}</Text>

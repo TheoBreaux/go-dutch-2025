@@ -96,7 +96,7 @@ export const DUMMY_RECEIPT_EVENT_DATA = {
   address: '8284 Melrose Ave\nHollywood Ca',
   website: 'https://www.crossroadskitchen.com/',
   phone: '323-782-9245',
-  eventId: 23,
+  eventId: 34,
   subtotal: 154,
   items: [
     {

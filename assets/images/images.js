@@ -3,6 +3,7 @@ const images = {
   default_profile_image: require('./default_profile_image.jpg'),
   dining_detail: require('./dining_detail.png'),
   draggable_hand: require('./draggable_hand.png'),
+  dummy_receipt: require('./receipt.jpg'),
   glass_clanking: require('./glass_clanking.png'),
   go_dutch_logo: require('./go_dutch_logo.png'),
   go_dutch_background: require('./go-dutch-pattern.png'),

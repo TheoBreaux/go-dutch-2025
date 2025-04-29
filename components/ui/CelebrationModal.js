@@ -3,14 +3,14 @@ import CustomModalContainer from './CustomModalContainer'
 import Styles from '../../style'
 import Images from '../../assets/images/images'
 
-const CelebrationModal = ({ onPress1, onPress2 }) => {
+const CelebrationModal = ({ onPress1, onPress2, showCelebrationModal }) => {
   return (
     <CustomModalContainer
-      animationType="fade"
       buttonText1={'Yes'}
       buttonText2={'No'}
       onPress1={onPress1}
       onPress2={onPress2}
+      visible={showCelebrationModal}
     >
       <View style={Styles.celebrationModal.content}>
         <Image

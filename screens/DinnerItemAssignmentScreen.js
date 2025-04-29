@@ -1,4 +1,4 @@
-import { View, Text, Alert, Image, ScrollView, TouchableOpacity, Animated, Easing } from 'react-native'
+import { View, Text, Alert, Image, ScrollView, TouchableOpacity, Animated, Easing, Platform } from 'react-native'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import Styles from '../style'
 import Images from '../assets/images/images'
@@ -7,8 +7,11 @@ import DinnerItemDropArea from '../components/DinnerItemDropArea'
 import DinnerItem from '../components/ui/DinnerItem'
 import { useSelector } from 'react-redux'
 import { useEffect, useRef, useState } from 'react'
+import { scaleFont } from '../utils/utils'
 
 const DinnerItemAssignmentScreen = ({ route }) => {
+  const Container = Platform.OS === 'ios' ? View : ScrollView
+
   const { diners, eventTitle } = route.params
 
   const [receiptItems, setReceiptItems] = useState(useSelector((state) => state.app.receiptData.receiptItems))
@@ -83,9 +86,9 @@ const DinnerItemAssignmentScreen = ({ route }) => {
 
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
+      <Container
         style={{ marginBottom: SCREEN_HEIGHT * 0.025 }}
+        {...(Platform.OS === 'android' ? { showsVerticalScrollIndicator: false } : {})}
       >
         <DinnerItemDropArea
           finalDiners={finalDiners}
@@ -121,12 +124,14 @@ const DinnerItemAssignmentScreen = ({ route }) => {
               <Animated.Text style={[Styles.dinnerItemAssignmentScreen.reviewStamp, { opacity }]}>REVIEW!</Animated.Text>
             </TouchableOpacity>
 
-            <Text style={[Styles.dinnerItemAssignmentScreen.container.text.instruction, { marginTop: SCREEN_HEIGHT * 0.025, fontSize: 22 }]}>
+            <Text
+              style={[Styles.dinnerItemAssignmentScreen.container.text.instruction, { marginTop: SCREEN_HEIGHT * 0.025, fontSize: scaleFont(20) }]}
+            >
               Please review items for final diner.
             </Text>
           </View>
         )}
-      </ScrollView>
+      </Container>
     </LogoScreenWrapper>
   )
 }

@@ -146,7 +146,7 @@ const ConfirmTotalsScreen = ({ route, navigation }) => {
             keyExtractor={(item, index) => `${item.fee}-${index}`}
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
-            style={{ height: SCREEN_HEIGHT * 0.4 }}
+            style={{ height: SCREEN_HEIGHT * 0.35, paddingTop: SCREEN_HEIGHT * 0.015 }}
           />
 
           <View style={Styles.confirmTotalsScreen.container.tipButtonsContainer}>
@@ -209,7 +209,7 @@ const ConfirmTotalsScreen = ({ route, navigation }) => {
               No, confirm!
             </PrimaryButton>
           </View>
-          <Text style={{ fontFamily: 'Poppins-BlackItalic', fontSize: scaleFont(28) }}>GRAND TOTAL: ${grandTotal.toFixed(2)}</Text>
+          <Text style={{ fontFamily: 'Poppins-BlackItalic', fontSize: scaleFont(26) }}>GRAND TOTAL: ${grandTotal.toFixed(2)}</Text>
         </View>
       </KeyboardAvoidingView>
     </LogoScreenWrapper>
