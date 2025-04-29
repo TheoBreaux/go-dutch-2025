@@ -4,11 +4,11 @@ import Images from '../../assets/images/images'
 import { COLORS, SCREEN_WIDTH } from '../../constants/constants'
 import { scaleFont } from '../../utils/utils'
 
-const DiningTile = ({ date, restaurant, event, primaryDiner }) => {
+const DiningTile = ({ primaryDinerUsername, diningDate, eventTitle, eventLocation, onPress }) => {
   return (
     <TouchableOpacity
       style={[Styles.restaurantTile.container, { alignItems: 'center' }]}
-      onPress={() => {}}
+      onPress={onPress}
     >
       <View style={Styles.restaurantTile.container.imageContainer}>
         <Image
@@ -17,12 +17,22 @@ const DiningTile = ({ date, restaurant, event, primaryDiner }) => {
         />
       </View>
 
-      <View style={Styles.restaurantTile.container.textContainer}>
-        <Text style={[Styles.restaurantTile.container.textContainer.info, { color: COLORS.goDutchBlue, fontSize: scaleFont(18) }]}>{restaurant}</Text>
-        <Text style={[Styles.restaurantTile.container.textContainer.text, { fontSize: scaleFont(16) }]}>{date}</Text>
-        <Text style={[Styles.restaurantTile.container.textContainer.info, { fontSize: scaleFont(16), color: COLORS.goDutchRed }]}>{event}</Text>
-        <Text style={[Styles.restaurantTile.container.textContainer.info, { fontSize:  SCREEN_WIDTH < 400 ?  scaleFont(13): scaleFont(15) }]}>
-          <Text style={{ fontFamily: 'Poppins-ExtraBold', fontSize: SCREEN_WIDTH < 400 ? scaleFont(14): scaleFont(16) }}>Primary Diner:</Text> {primaryDiner}
+      <View style={[Styles.restaurantTile.container.textContainer, { width: SCREEN_WIDTH }]}>
+        <Text
+          style={[
+            Styles.restaurantTile.container.textContainer.info,
+            { color: COLORS.goDutchBlue, fontSize: scaleFont(20), fontFamily: 'Poppins-BlackItalic' },
+          ]}
+        >
+          {eventLocation}
+        </Text>
+        <Text style={[Styles.restaurantTile.container.textContainer.text, { fontSize: scaleFont(16) }]}>{diningDate.substring(0, 10)}</Text>
+        <Text style={[Styles.restaurantTile.container.textContainer.info, { fontSize: scaleFont(16), color: COLORS.goDutchRed }]}>{eventTitle}</Text>
+        <Text style={[Styles.restaurantTile.container.textContainer.info, { fontSize: SCREEN_WIDTH < 400 ? scaleFont(13) : scaleFont(16) }]}>
+          <Text style={{ fontFamily: 'Poppins-BlackItalic', color: COLORS.goDutchRed, fontSize: SCREEN_WIDTH < 400 ? scaleFont(15) : scaleFont(18) }}>
+            Primary Diner:
+          </Text>
+          @{primaryDinerUsername}
         </Text>
       </View>
     </TouchableOpacity>

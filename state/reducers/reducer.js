@@ -2,6 +2,9 @@ import {
   AUTO_COMPLETE_DINER,
   AUTO_COMPLETE_DINER_FAILURE,
   AUTO_COMPLETE_DINER_SUCCESS,
+  FETCH_DINING_HISTORY,
+  FETCH_DINING_HISTORY_FAILURE,
+  FETCH_DINING_HISTORY_SUCCESS,
   FETCH_FEATURED_RESTAURANTS,
   FETCH_FEATURED_RESTAURANTS_FAILURE,
   FETCH_FEATURED_RESTAURANTS_SUCCESS,
@@ -40,6 +43,12 @@ const AppReducer = (state = initialState, action) => {
     case AUTO_COMPLETE_DINER_SUCCESS:
       return { ...state, suggestions: action.payload, loading: false, error: null }
     case AUTO_COMPLETE_DINER_FAILURE:
+      return { ...state, error: action.error, loading: false }
+    case FETCH_DINING_HISTORY:
+      return { ...state, loading: true, error: null }
+    case FETCH_DINING_HISTORY_SUCCESS:
+      return { ...state, diningHistory: action.payload, loading: false, error: null }
+    case FETCH_DINING_HISTORY_FAILURE:
       return { ...state, error: action.error, loading: false }
     case FETCH_FEATURED_RESTAURANTS:
       return { ...state, loading: true, error: null }

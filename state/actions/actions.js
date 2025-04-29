@@ -3,6 +3,9 @@ import {
   AUTO_COMPLETE_DINER,
   AUTO_COMPLETE_DINER_FAILURE,
   AUTO_COMPLETE_DINER_SUCCESS,
+  FETCH_DINING_HISTORY,
+  FETCH_DINING_HISTORY_FAILURE,
+  FETCH_DINING_HISTORY_SUCCESS,
   FETCH_FEATURED_RESTAURANTS,
   FETCH_FEATURED_RESTAURANTS_FAILURE,
   FETCH_FEATURED_RESTAURANTS_SUCCESS,
@@ -30,6 +33,21 @@ export const autoCompleteDinerFailure = (error) => ({
 
 export const autoCompleteDinerSuccess = (data) => ({
   type: AUTO_COMPLETE_DINER_SUCCESS,
+  payload: data,
+})
+
+export const fetchDiningHistory = (data) => ({
+  type: FETCH_DINING_HISTORY,
+  payload: data,
+})
+
+export const fetchDiningHistoryFailure = (error) => ({
+  type: FETCH_DINING_HISTORY_FAILURE,
+  error,
+})
+
+export const fetchDiningHistorySuccess = (data) => ({
+  type: FETCH_DINING_HISTORY_SUCCESS,
   payload: data,
 })
 

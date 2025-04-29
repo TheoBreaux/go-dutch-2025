@@ -2,10 +2,18 @@
 import { put, takeLatest, all, call, debounce } from 'redux-saga/effects'
 import { API_URL } from '../../constants/constants'
 import Constants from 'expo-constants'
-import { FETCH_FEATURED_RESTAURANTS, SET_LOCAL_RESTAURANTS, AUTO_COMPLETE_DINER, POST_DINING_EVENT } from '../actions/actionTypes'
+import {
+  FETCH_FEATURED_RESTAURANTS,
+  SET_LOCAL_RESTAURANTS,
+  AUTO_COMPLETE_DINER,
+  POST_DINING_EVENT,
+  FETCH_DINING_HISTORY,
+} from '../actions/actionTypes'
 import {
   autoCompleteDinerFailure,
   autoCompleteDinerSuccess,
+  fetchDiningHistoryFailure,
+  fetchDiningHistorySuccess,
   fetchFeaturedRestaurantsFailure,
   fetchFeaturedRestaurantsSuccess,
   setLocalRestaurantsFailure,
@@ -42,6 +50,21 @@ function* fetchFeaturedRestaurants() {
 }
 function* watchFetchFeaturedRestaurants() {
   yield takeLatest(FETCH_FEATURED_RESTAURANTS, fetchFeaturedRestaurants)
+}
+
+function* fetchDiningHistory(action) {
+  const userId = action.payload
+
+  try {
+    const response = yield call(fetch, `${API_URL}/diningevents/${userId}`, { method: 'GET' })
+    const data = yield response.json()
+    yield put(fetchDiningHistorySuccess(data))
+  } catch (error) {
+    yield put(fetchDiningHistoryFailure(error.message))
+  }
+}
+function* watchFetchDiningHistory() {
+  yield takeLatest(FETCH_DINING_HISTORY, fetchDiningHistory)
 }
 
 function* postDiningEvent(action) {
@@ -93,5 +116,11 @@ function* watchSetLocalRestaurants() {
 }
 
 export default function* rootSaga() {
-  yield all([watchFetchFeaturedRestaurants(), watchSetLocalRestaurants(), watchAutoCompleteDiner(), watchPostDiningEvent()])
+  yield all([
+    watchFetchFeaturedRestaurants(),
+    watchSetLocalRestaurants(),
+    watchAutoCompleteDiner(),
+    watchPostDiningEvent(),
+    watchFetchDiningHistory(),
+  ])
 }

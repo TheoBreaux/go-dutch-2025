@@ -218,6 +218,36 @@ app.post('/diningevents', async (req, res) => {
   }
 })
 
+// FECTH DINING HISTORY
+app.get('/diningevents/:userId', async (req, res) => {
+  const { userId } = req.params
+
+  console.log('USER ID IN SERVER: ', userId)
+
+  try {
+    const diningEvents = await pool.query(
+      `SELECT dining_events.*, users.username
+      FROM dining_events
+      JOIN users ON dining_events.primary_diner_id = users.user_id
+      WHERE dining_events.primary_diner_id = $1`,
+      [userId]
+    )
+
+    const eventData = diningEvents.rows.map((event) => ({
+      diningDate: event.dining_date,
+      eventId: event.event_id,
+      // primaryDinerId: event.primary_diner_id,
+      eventLocation: event.restaurant_bar,
+      eventTitle: event.title,
+      primaryDinerUsername: event.username,
+    }))
+    res.json(eventData)
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('Internal Server Error')
+  }
+})
+
 // CONFIRM THAT USER EXISTS IN DB SO CAN BE ADDED AS DINER
 // app.get('/users/:username', async (req, res) => {
 //   const { username } = req.params
