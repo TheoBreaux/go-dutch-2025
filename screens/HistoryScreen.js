@@ -33,7 +33,7 @@ const HistoryScreen = ({ navigation }) => {
             <DiningTile
               {...item}
               onPress={() => {
-                console.log('HELLO')
+                navigation.navigate('Screens', { screen: 'CheckClose', params: {} })
               }}
             />
           )}
