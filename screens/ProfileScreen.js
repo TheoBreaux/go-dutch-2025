@@ -15,7 +15,13 @@ const ProfileScreen = ({ navigation }) => {
   const options = { year: 'numeric', month: 'long' }
   const formattedDate = convertedDate.toLocaleDateString('en-us', options)
 
+  const [notes, setNotes] = useState('')
+
   console.log(user)
+
+  const handleChangeNotes = (text) => {
+    setNotes(text)
+  }
 
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
@@ -92,8 +98,8 @@ const ProfileScreen = ({ navigation }) => {
 
               <PrimaryButton
                 onPress={() => navigation.goBack()}
-                outerWidth={SCREEN_WIDTH * 0.28}
-                innerWidth={SCREEN_WIDTH * 0.26}
+                outerWidth={SCREEN_WIDTH * 0.27}
+                innerWidth={SCREEN_WIDTH * 0.25}
               >
                 Return
               </PrimaryButton>
@@ -111,8 +117,8 @@ const ProfileScreen = ({ navigation }) => {
               }}
               multiline={true}
               numberOfLines={3}
-              // onChangeText={handleChangeNotes}
-              // value={notes}
+              onChangeText={handleChangeNotes}
+              value={notes}
               placeholder="Enter your notes..."
             />
           </View>
