@@ -8,6 +8,8 @@ import { useState } from 'react'
 
 const ProfileScreen = () => {
   const [image, setImage] = useState()
+  const [isUpdating, setIsUpdating] = useState(false)
+
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
       <EditProfileImageHeader
@@ -15,57 +17,59 @@ const ProfileScreen = () => {
         setImage={setImage}
       />
 
-      <ScrollView contentContainerStyle={Style.profileScreen.scrollViewContainer}>
-        <View style={Style.profileScreen.scrollViewContainer.bioContainer}>
-          <Text style={Style.profileScreen.inputContainer.inputLabel}>Bio</Text>
-          <TextInput
-            multiline={true}
-            style={Style.profileScreen.inputContainer.textInput}
-          />
+      {isUpdating && (
+        <ScrollView contentContainerStyle={Style.profileScreen.scrollViewContainer}>
+          <View style={Style.profileScreen.scrollViewContainer.bioContainer}>
+            <Text style={Style.profileScreen.inputContainer.inputLabel}>Bio</Text>
+            <TextInput
+              multiline={true}
+              style={Style.profileScreen.inputContainer.textInput}
+            />
 
-          <Text style={Style.profileScreen.inputContainer.inputLabel}>Favorite Cuisine</Text>
-          <TextInput style={Style.profileScreen.inputContainer.textInput} />
-        </View>
-
-        <View style={Style.profileScreen.inputContainer}>
-          <View style={{ flex: 1, marginRight: 10 }}>
-            <Text style={Style.profileScreen.inputContainer.inputLabel}>First Name</Text>
+            <Text style={Style.profileScreen.inputContainer.inputLabel}>Favorite Cuisine</Text>
             <TextInput style={Style.profileScreen.inputContainer.textInput} />
           </View>
 
-          <View style={{ flex: 1 }}>
-            <Text style={Style.profileScreen.inputContainer.inputLabel}>Last Name</Text>
-            <TextInput style={Style.profileScreen.inputContainer.textInput} />
-          </View>
-        </View>
+          <View style={Style.profileScreen.inputContainer}>
+            <View style={{ flex: 1, marginRight: 10 }}>
+              <Text style={Style.profileScreen.inputContainer.inputLabel}>First Name</Text>
+              <TextInput style={Style.profileScreen.inputContainer.textInput} />
+            </View>
 
-        <View style={Style.profileScreen.inputContainer}>
-          <View style={{ flex: 1, marginRight: 10 }}>
-            <Text style={Style.profileScreen.inputContainer.inputLabel}>Username</Text>
-            <TextInput style={Style.profileScreen.inputContainer.textInput} />
-          </View>
-
-          <View style={{ flex: 1 }}>
-            <Text style={Style.profileScreen.inputContainer.inputLabel}>Email</Text>
-            <TextInput style={Style.profileScreen.inputContainer.textInput} />
-          </View>
-        </View>
-        <View style={Style.profileScreen.inputContainer}>
-          <View style={{ flex: 1, marginRight: 10 }}>
-            <Text style={Style.profileScreen.inputContainer.inputLabel}>Birthday</Text>
-            <TextInput style={Style.profileScreen.inputContainer.textInput} />
+            <View style={{ flex: 1 }}>
+              <Text style={Style.profileScreen.inputContainer.inputLabel}>Last Name</Text>
+              <TextInput style={Style.profileScreen.inputContainer.textInput} />
+            </View>
           </View>
 
-          <View style={{ flex: 1 }}>
-            <Text style={Style.profileScreen.inputContainer.inputLabel}>Location</Text>
-            <TextInput style={Style.profileScreen.inputContainer.textInput} />
+          <View style={Style.profileScreen.inputContainer}>
+            <View style={{ flex: 1, marginRight: 10 }}>
+              <Text style={Style.profileScreen.inputContainer.inputLabel}>Username</Text>
+              <TextInput style={Style.profileScreen.inputContainer.textInput} />
+            </View>
+
+            <View style={{ flex: 1 }}>
+              <Text style={Style.profileScreen.inputContainer.inputLabel}>Email</Text>
+              <TextInput style={Style.profileScreen.inputContainer.textInput} />
+            </View>
           </View>
-        </View>
-        <View style={Style.profileScreen.buttonContainer}>
-          <PrimaryButton>Return</PrimaryButton>
-          <PrimaryButton>Save</PrimaryButton>
-        </View>
-      </ScrollView>
+          <View style={Style.profileScreen.inputContainer}>
+            <View style={{ flex: 1, marginRight: 10 }}>
+              <Text style={Style.profileScreen.inputContainer.inputLabel}>Birthday</Text>
+              <TextInput style={Style.profileScreen.inputContainer.textInput} />
+            </View>
+
+            <View style={{ flex: 1 }}>
+              <Text style={Style.profileScreen.inputContainer.inputLabel}>Location</Text>
+              <TextInput style={Style.profileScreen.inputContainer.textInput} />
+            </View>
+          </View>
+          <View style={Style.profileScreen.buttonContainer}>
+            <PrimaryButton>Return</PrimaryButton>
+            <PrimaryButton>Save</PrimaryButton>
+          </View>
+        </ScrollView>
+      )}
     </LogoScreenWrapper>
   )
 }
