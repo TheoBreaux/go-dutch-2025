@@ -40,6 +40,25 @@ export default StyleSheet.create({
       text: { fontFamily: 'Poppins-ExtraBold', color: 'white', fontSize: SCREEN_WIDTH < 400 ? scaleFont(14) : scaleFont(18) },
     },
   },
+  // ================================================================================================================================== DINING DETAILS MODAL
+  diningDetailsModal: {
+    container: {
+      flex: 1,
+      alignItems: 'center',
+      padding: 10,
+      borderRadius: 10,
+      width: SCREEN_WIDTH,
+      image: {
+        width: CIRCLE_SIZE * 0.25,
+        height: CIRCLE_SIZE * 0.25,
+        borderRadius: (CIRCLE_SIZE * 0.25) / 2,
+        resizeMode: 'contain',
+        elevation: 5,
+        shadowColor: COLORS.goDutchBlue,
+      },
+    },
+  },
+
   // ================================================================================================================================== DINNER ITEM
   dinnerItem: {
     animatedContainer: {
@@ -855,7 +874,7 @@ export default StyleSheet.create({
   // ====================================================================================================================================== CHECK CLOSE OUT DETAILS SCREEN
   checkCloseOutDetailsScreen: {
     receiptContainer: {
-      marginTop: SCREEN_HEIGHT *.010,
+      marginTop: SCREEN_HEIGHT * 0.01,
       borderRadius: 10,
       overflow: 'hidden',
       elevation: 5,
@@ -866,7 +885,7 @@ export default StyleSheet.create({
       shadowRadius: 3,
       width: SCREEN_WIDTH * 0.85,
       alignItems: 'center',
-      image: { height: SCREEN_HEIGHT * 0.40, width: SCREEN_WIDTH * 0.9, resizeMode: 'stretch' },
+      image: { height: SCREEN_HEIGHT * 0.4, width: SCREEN_WIDTH * 0.9, resizeMode: 'stretch' },
     },
 
     finalBillDisplayTileContainer: {
@@ -916,7 +935,7 @@ export default StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
       flexDirection: 'row',
-      marginVertical: SCREEN_HEIGHT * 0.010,
+      marginVertical: SCREEN_HEIGHT * 0.01,
     },
     confettiView: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 0, pointerEvents: 'none' },
   },

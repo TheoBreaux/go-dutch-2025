@@ -1,18 +1,13 @@
 import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native'
-import React, { useState } from 'react'
 import CustomModalContainer from './CustomModalContainer'
 import Styles from '../../style'
 import Images from '../../assets/images/images'
-import ProfileImageMedallion from './ProfileImageMedallion'
-import { ASSET_URL, CIRCLE_SIZE, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../constants/constants'
-import { scaleFont } from '../../utils/utils'
-import { useNavigation } from '@react-navigation/native'
-import { useSelector } from 'react-redux'
+import { CIRCLE_SIZE, SCREEN_WIDTH, SCREEN_HEIGHT, COLORS } from '../../constants/constants'
 import PrimaryButton from './PrimaryButton'
 
 const DiningDetailsModal = ({ diningEvent, onClose, showDiningDetailsModal }) => {
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer}>
+    <TouchableOpacity style={[Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer, { width: SCREEN_WIDTH * 0.8 }]}>
       <Text style={Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.username}>
         @{item.username}
         {item.isPrimaryDiner && (
@@ -21,7 +16,7 @@ const DiningDetailsModal = ({ diningEvent, onClose, showDiningDetailsModal }) =>
       </Text>
 
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Text style={Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.total}>${parseFloat(item.total).toFixed(2)}</Text>
+        <Text style={Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.total}>${parseFloat(item.dinerMealCost).toFixed(2)}</Text>
         {item.isCelebrating && (
           <Image
             source={Images.celebration_emoji}
@@ -38,20 +33,27 @@ const DiningDetailsModal = ({ diningEvent, onClose, showDiningDetailsModal }) =>
       animationType="fade"
       visible={showDiningDetailsModal}
     >
-      <View style={{ flex: 1, alignItems: 'center', padding: 20, borderRadius: 10, width: SCREEN_WIDTH }}>
+      <View style={Styles.diningDetailsModal.container}>
         <Image
           source={Images.go_dutch_split_button}
-          style={{ width: CIRCLE_SIZE * 0.25, height: CIRCLE_SIZE * 0.25, resizeMode: 'contain' }}
+          style={Styles.diningDetailsModal.container.image}
         />
-        <Text style={Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.eventTitle}>
-          {diningEvent.eventLocation} - {diningEvent.eventTitle}
+        <Text style={Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.eventTitle}>{diningEvent.eventLocation}</Text>
+        <Text
+          style={[
+            Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.eventTitle,
+            { marginTop: -SCREEN_HEIGHT * 0.025, color: COLORS.goDutchRed, fontFamily: 'Poppins-BlackItalic' },
+          ]}
+        >
+          {diningEvent.eventTitle}
         </Text>
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={{}}
+          data={diningEvent.diners}
           renderItem={renderItem}
           contentContainerStyle={{ paddingBottom: SCREEN_HEIGHT * 0.015 }}
         />
+        <Text style={Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.thankYou}>Thanks for going Dutch! 🎉</Text>
         <PrimaryButton onPress={onClose}>Close</PrimaryButton>
       </View>
     </CustomModalContainer>

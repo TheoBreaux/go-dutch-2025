@@ -222,24 +222,51 @@ app.post('/diningevents', async (req, res) => {
 app.get('/diningevents/:userId', async (req, res) => {
   const { userId } = req.params
 
-  console.log('USER ID IN SERVER: ', userId)
-
   try {
     const diningEvents = await pool.query(
-      `SELECT dining_events.*, users.username
-      FROM dining_events
-      JOIN users ON dining_events.primary_diner_id = users.user_id
-      WHERE dining_events.primary_diner_id = $1`,
+      `
+        SELECT 
+          dining_events.*, 
+          users.username AS primary_diner_username,
+          json_agg(
+            json_build_object(
+              'user_id', event_diners.user_id,
+              'username', diner_user.username,
+              'dinerMealCost', event_diners.diner_meal_cost,
+              'isCelebrating', event_diners.is_birthday,
+              'isPrimaryDiner', (event_diners.user_id = dining_events.primary_diner_id)
+            )
+          ) AS diners
+        FROM dining_events
+        JOIN users 
+          ON dining_events.primary_diner_id = users.user_id
+        JOIN event_diners 
+          ON dining_events.event_id = event_diners.event_id
+        JOIN users AS diner_user 
+          ON event_diners.user_id = diner_user.user_id
+        WHERE dining_events.event_id IN (
+          SELECT dining_events.event_id
+          FROM dining_events
+          LEFT JOIN event_diners 
+            ON dining_events.event_id = event_diners.event_id
+          WHERE dining_events.primary_diner_id = $1 
+             OR event_diners.user_id = $1
+        )
+        GROUP BY 
+          dining_events.event_id, 
+          users.username;
+      `,
       [userId]
     )
 
     const eventData = diningEvents.rows.map((event) => ({
       diningDate: event.dining_date,
-      eventId: event.event_id,
+      // eventId: event.event_id,
       // primaryDinerId: event.primary_diner_id,
       eventLocation: event.restaurant_bar,
       eventTitle: event.title,
-      primaryDinerUsername: event.username,
+      primaryDinerUsername: event.primary_diner_username,
+      diners: event.diners,
     }))
     res.json(eventData)
   } catch (error) {
