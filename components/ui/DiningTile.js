@@ -26,7 +26,7 @@ const DiningTile = ({ primaryDinerUsername, diningDate, eventTitle, eventLocatio
         >
           {eventLocation}
         </Text>
-        <Text style={[Styles.restaurantTile.container.textContainer.text, { fontSize: scaleFont(16) }]}>{diningDate.substring(0, 10)}</Text>
+        <Text style={[Styles.restaurantTile.container.textContainer.text, { fontSize: scaleFont(16) }]}>{diningDate?.substring(0, 10)}</Text>
         <Text style={[Styles.restaurantTile.container.textContainer.info, { fontSize: scaleFont(16), color: COLORS.goDutchRed }]}>{eventTitle}</Text>
         <Text style={[Styles.restaurantTile.container.textContainer.info, { fontSize: SCREEN_WIDTH < 400 ? scaleFont(13) : scaleFont(16) }]}>
           <Text style={{ fontFamily: 'Poppins-BlackItalic', color: COLORS.goDutchRed, fontSize: SCREEN_WIDTH < 400 ? scaleFont(15) : scaleFont(18) }}>

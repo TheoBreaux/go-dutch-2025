@@ -4,18 +4,17 @@ import FavoritesIcon from './ui/FavoritesIcon'
 import Styles from '../style'
 import Images from '../assets/images/images'
 import { handleExternalLink, handleCallRestaurant } from '../utils/utils'
+import { ASSET_URL } from '../constants/constants'
 
-const SliderItem = ({ name, image, address, city, state, zip, rating, website, phone }) => {
+const SliderItem = ({ name, imgUrl, address, city, state, zip, rating, website, phone }) => {
+
   return (
     <View style={Styles.homeScreen.sliderItem.container}>
       <View style={Styles.homeScreen.sliderItem.container.carouselContainer}>
-
-      
-          <Image
-            source={image || Images.dining_detail}
-            style={[Styles.homeScreen.sliderItem.container.carouselContainer.image]}
-          />
-      
+        <Image
+          source={imgUrl ? { uri: ASSET_URL + imgUrl } : Images.dining_detail}
+          style={[Styles.homeScreen.sliderItem.container.carouselContainer.image]}
+        />
 
         <View style={Styles.homeScreen.sliderItem.container.carouselContainer.favoritesIconContainer}>
           <FavoritesIcon />

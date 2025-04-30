@@ -63,7 +63,7 @@ const DinerInputScreen = ({ route, navigation }) => {
 
   const handleDinersConfirmed = () => {
     if (diners.length) {
-      const finalUpdatedDiners = [...diners, primaryDiner]
+      const finalUpdatedDiners = [primaryDiner, ...diners]
       setDiners(finalUpdatedDiners)
       setShowCelebrationModal(true)
     } else {
