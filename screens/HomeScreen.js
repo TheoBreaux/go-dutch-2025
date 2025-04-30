@@ -11,7 +11,7 @@ import Constants from 'expo-constants'
 import { getCityFromCoordinates } from '../utils/utils'
 import LocateUser from '../components/LocateUser'
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch()
 
   const [loadingLocation, setLoadingLocation] = useState(false)
@@ -58,7 +58,7 @@ const HomeScreen = () => {
       <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
         <View style={Styles.homeScreen.headingContainer}>
           <Text style={Styles.homeScreen.heading}>Welcome, {user.firstName}!</Text>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => navigation.navigate('Screens', { screen: 'Profile' })}>
             <ProfileImageMedallion
               height={CIRCLE_SIZE * 0.15}
               width={CIRCLE_SIZE * 0.15}
