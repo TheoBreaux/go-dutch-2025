@@ -863,7 +863,7 @@ export default StyleSheet.create({
       justifyContent: 'space-between',
       text: {
         name: { fontFamily: 'Poppins-ExtraBold', fontSize: scaleFont(25), marginTop: SCREEN_HEIGHT*.04, marginBottom: -SCREEN_HEIGHT * 0.005 },
-        address: { fontFamily: 'Poppins-Medium', fontSize: scaleFont(15) },
+        address: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(15) },
       },
     },
     buttonsContainer: {
@@ -873,7 +873,7 @@ export default StyleSheet.create({
       marginTop: -5,
       marginLeft: -SCREEN_WIDTH * 0.025,
     },
-    bio: { fontFamily: 'Poppins-Medium', fontSize: scaleFont(14), textAlign: 'justify' },
+    bio: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(14), textAlign: 'justify' },
     notesContainer: {
       width: SCREEN_WIDTH * 0.9,
       height: SCREEN_HEIGHT * 0.125,
