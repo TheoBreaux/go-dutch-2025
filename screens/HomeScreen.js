@@ -57,15 +57,17 @@ const HomeScreen = ({ navigation }) => {
       <LocateUser onLocationUpdate={handleLocationUpdate} />
       <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
         <View style={Styles.homeScreen.headingContainer}>
-          <Text style={Styles.homeScreen.heading}>Welcome, {user.firstName}!</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Screens', { screen: 'Profile' })}>
-            <ProfileImageMedallion
-              height={CIRCLE_SIZE * 0.15}
-              width={CIRCLE_SIZE * 0.15}
-              borderRadius={(CIRCLE_SIZE * 0.15) / 2}
-              imageUrl={ASSET_URL + user.imgUrl}
-            />
-          </TouchableOpacity>
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={Styles.homeScreen.heading}>Welcome, {user.firstName}!</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Screens', { screen: 'Profile' })}>
+              <ProfileImageMedallion
+                height={CIRCLE_SIZE * 0.15}
+                width={CIRCLE_SIZE * 0.15}
+                borderRadius={(CIRCLE_SIZE * 0.15) / 2}
+                imageUrl={ASSET_URL + user.imgUrl}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
 
         {loadingLocation ? (

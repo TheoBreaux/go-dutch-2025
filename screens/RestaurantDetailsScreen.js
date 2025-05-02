@@ -1,6 +1,6 @@
-import { View, Text, Image, TextInput, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform } from 'react-native'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
-import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
+import { COLORS, SCREEN_WIDTH } from '../constants/constants'
 import FavoritesIcon from '../components/ui/FavoritesIcon'
 import Images from '../assets/images/images'
 import Styles from '../style'
@@ -47,59 +47,70 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
           />
         </TouchableOpacity>
         <View style={Styles.restaurantDetailsScreen.rating}>
-          <Text style={[Styles.restaurantDetailsScreen.restaurantInfoContainer.text.name, { fontSize: 20 }]}>{rating}/5.0 ⭐</Text>
+          <Text style={[Styles.restaurantDetailsScreen.restaurantInfoContainer.text.name, { fontSize: 20, color: COLORS.goDutchRed }]}>
+            {rating}/5.0 ⭐
+          </Text>
         </View>
       </View>
 
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={[Styles.diningDetailsScreen.container, { marginTop: 10 }]}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}
+        // keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
       >
-        <View style={Styles.restaurantDetailsScreen.restaurantInfoContainer}>
-          <View style={{ width: '75%' }}>
-            <Text style={Styles.restaurantDetailsScreen.restaurantInfoContainer.text.name}>{name}</Text>
-            <Text style={[Styles.restaurantDetailsScreen.restaurantInfoContainer.text.address, { marginBottom: -5 }]}>{address}</Text>
-            <Text style={Styles.restaurantDetailsScreen.restaurantInfoContainer.text.address}>{`${city}, ${state} ${zip}`}</Text>
-          </View>
-        </View>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={[Styles.diningDetailsScreen.container, { marginTop: 10 }]}
+        >
+          <View style={Styles.restaurantDetailsScreen.restaurantInfoContainer}>
+            <View style={{ width: '75%' }}>
+              <View>
+                <Text style={Styles.restaurantDetailsScreen.restaurantInfoContainer.text.name}>{name}</Text>
+              </View>
 
-        <View style={Styles.restaurantDetailsScreen.buttonsContainer}>
-          <View style={{ marginRight: 20 }}>
+              <Text style={[Styles.restaurantDetailsScreen.restaurantInfoContainer.text.address, { marginBottom: -5 }]}>{address}</Text>
+              <Text style={Styles.restaurantDetailsScreen.restaurantInfoContainer.text.address}>{`${city}, ${state} ${zip}`}</Text>
+            </View>
+          </View>
+
+          <View style={Styles.restaurantDetailsScreen.buttonsContainer}>
+            <View style={{ marginRight: 20 }}>
+              <PrimaryButton
+                onPress={() => handleCallRestaurant(phone)}
+                outerWidth={SCREEN_WIDTH * 0.4}
+                innerWidth={SCREEN_WIDTH * 0.37}
+              >
+                Call
+              </PrimaryButton>
+            </View>
+
             <PrimaryButton
-              onPress={() => handleCallRestaurant(phone)}
+              onPress={() => handleExternalLink(website)}
               outerWidth={SCREEN_WIDTH * 0.4}
               innerWidth={SCREEN_WIDTH * 0.37}
             >
-              Call
+              Reserve
             </PrimaryButton>
           </View>
+          <Text style={Styles.restaurantDetailsScreen.bio}>{bio}</Text>
 
-          <PrimaryButton
-            onPress={() => handleExternalLink(website)}
-            outerWidth={SCREEN_WIDTH * 0.4}
-            innerWidth={SCREEN_WIDTH * 0.37}
-          >
-            Reserve
-          </PrimaryButton>
-        </View>
-        <Text style={Styles.restaurantDetailsScreen.bio}>{bio}</Text>
+          <TextInput
+            multiline={true}
+            numberOfLines={4}
+            placeholder="Type your notes here..."
+            style={Styles.restaurantDetailsScreen.notesContainer}
+          />
 
-        <TextInput
-          multiline={true}
-          numberOfLines={4}
-          placeholder="Type your notes here..."
-          style={Styles.restaurantDetailsScreen.notesContainer}
-        />
-
-        <View style={{ alignItems: 'flex-end', marginRight: -SCREEN_WIDTH * 0.025 }}>
-          <PrimaryButton
-            outerWidth={SCREEN_WIDTH * 0.4}
-            innerWidth={SCREEN_WIDTH * 0.37}
-          >
-            Save
-          </PrimaryButton>
-        </View>
-      </ScrollView>
+          <View style={{ alignItems: 'flex-end', marginRight: -SCREEN_WIDTH * 0.025 }}>
+            <PrimaryButton
+              outerWidth={SCREEN_WIDTH * 0.4}
+              innerWidth={SCREEN_WIDTH * 0.37}
+            >
+              Save
+            </PrimaryButton>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </LogoScreenWrapper>
   )
 }

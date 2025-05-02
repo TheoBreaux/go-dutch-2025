@@ -589,7 +589,7 @@ export default StyleSheet.create({
 
   // ====================================================================================================================================== HOME SCREEN
   homeScreen: {
-    headingContainer: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: SCREEN_WIDTH * 0.9 },
+    headingContainer: { flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: SCREEN_WIDTH * 0.9 },
     heading: {
       textAlign: 'center',
       marginRight: 10,
@@ -607,10 +607,17 @@ export default StyleSheet.create({
     sliderItem: {
       container: {
         alignItems: 'center',
-        width: 'auto',
+        width: SCREEN_WIDTH,
         carouselContainer: {
+          marginHorizontal: 10,
           borderWidth: 2,
-          borderColor: 'black',
+          borderColor: COLORS.goDutchBlue,
+          elevation: 5,
+          shadowColor: COLORS.goDutchBlue,
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.2,
+          shadowRadius: 4,
+          backgroundColor: 'white',
           borderRadius: 20,
           overflow: 'hidden',
           image: { width: SCREEN_WIDTH * 0.9, height: SCREEN_HEIGHT * 0.4, resizeMode: 'cover' },
@@ -628,6 +635,15 @@ export default StyleSheet.create({
             address: { fontFamily: 'Poppins-Regular', fontSize: scaleFont(18), marginBottom: -5 },
           },
         },
+      },
+      pagination: {
+        position: 'absolute',
+        bottom: SCREEN_HEIGHT * 0.115,
+        flexDirection: 'row',
+        width: SCREEN_WIDTH,
+        alignItems: 'center',
+        justifyContent: 'center',
+        dot: { height: 12, borderRadius: 6, backgroundColor: COLORS.goDutchRed, marginHorizontal: 3 },
       },
     },
   },
@@ -841,12 +857,12 @@ export default StyleSheet.create({
       left: SCREEN_WIDTH * 0.05,
       image: { width: SCREEN_WIDTH * 0.2, height: SCREEN_HEIGHT * 0.1, resizeMode: 'contain' },
     },
-    rating: { position: 'absolute', top: SCREEN_HEIGHT * 0.37, left: SCREEN_WIDTH * 0.3 },
+    rating: { position: 'absolute', top: SCREEN_HEIGHT * 0.34, left: SCREEN_WIDTH * 0.3 },
     restaurantInfoContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
       text: {
-        name: { fontFamily: 'Poppins-ExtraBold', fontSize: scaleFont(25), marginTop: 5, marginBottom: -SCREEN_HEIGHT * 0.005 },
+        name: { fontFamily: 'Poppins-ExtraBold', fontSize: scaleFont(25), marginTop: SCREEN_HEIGHT*.04, marginBottom: -SCREEN_HEIGHT * 0.005 },
         address: { fontFamily: 'Poppins-Medium', fontSize: scaleFont(15) },
       },
     },

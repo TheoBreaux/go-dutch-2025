@@ -1,4 +1,4 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, TouchableOpacity } from 'react-native'
 import PrimaryButton from './ui/PrimaryButton'
 import FavoritesIcon from './ui/FavoritesIcon'
 import Styles from '../style'
@@ -7,7 +7,6 @@ import { handleExternalLink, handleCallRestaurant } from '../utils/utils'
 import { ASSET_URL } from '../constants/constants'
 
 const SliderItem = ({ name, imgUrl, address, city, state, zip, rating, website, phone }) => {
-
   return (
     <View style={Styles.homeScreen.sliderItem.container}>
       <View style={Styles.homeScreen.sliderItem.container.carouselContainer}>
@@ -21,7 +20,10 @@ const SliderItem = ({ name, imgUrl, address, city, state, zip, rating, website, 
         </View>
 
         <View style={Styles.homeScreen.sliderItem.container.restaurantInfoContainer}>
-          <Text style={Styles.homeScreen.sliderItem.container.restaurantInfoContainer.text.name}>{name}</Text>
+          <TouchableOpacity>
+            <Text style={Styles.homeScreen.sliderItem.container.restaurantInfoContainer.text.name}>{name}</Text>
+          </TouchableOpacity>
+
           <Text style={Styles.homeScreen.sliderItem.container.restaurantInfoContainer.text.address}>{address}</Text>
           <Text style={Styles.homeScreen.sliderItem.container.restaurantInfoContainer.text.address}>{`${city}, ${state} ${zip}`}</Text>
           <Text style={Styles.homeScreen.sliderItem.container.restaurantInfoContainer.text.address}>{`Rating: ${rating} ⭐`}</Text>

@@ -1,8 +1,11 @@
 import SliderItem from '../SliderItem'
-import Carousel from 'react-native-snap-carousel'
-import { SCREEN_WIDTH } from '../../constants/constants'
+import { FlatList, Animated } from 'react-native'
+import Pagination from './Pagination'
+import { useRef } from 'react'
 
 const Slider = ({ featuredRestaurants }) => {
+  const scrollX = useRef(new Animated.Value(0)).current
+
   const renderItem = ({ item }) => {
     return (
       <SliderItem
@@ -11,17 +14,38 @@ const Slider = ({ featuredRestaurants }) => {
       />
     )
   }
+
+  const handleOnScroll = (event) => {
+    Animated.event(
+      [
+        {
+          nativeEvent: {
+            contentOffset: {
+              x: scrollX,
+            },
+          },
+        },
+      ],
+      { useNativeDriver: false }
+    )(event)
+  }
+
   return (
-    <Carousel
-      data={featuredRestaurants}
-      renderItem={renderItem}
-      sliderWidth={SCREEN_WIDTH}
-      itemWidth={SCREEN_WIDTH}
-      layout="default"
-      autoplay={true}
-      autoplayInterval={3000}
-      loop={true}
-    />
+    <>
+      <FlatList
+        showsHorizontalScrollIndicator={false}
+        data={featuredRestaurants}
+        renderItem={renderItem}
+        horizontal
+        pagingEnabled
+        snapToAlignment="center"
+        onScroll={handleOnScroll}
+      />
+      <Pagination
+        featuredRestaurants={featuredRestaurants}
+        scrollX={scrollX}
+      />
+    </>
   )
 }
 
