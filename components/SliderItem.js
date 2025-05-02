@@ -5,8 +5,11 @@ import Styles from '../style'
 import Images from '../assets/images/images'
 import { handleExternalLink, handleCallRestaurant } from '../utils/utils'
 import { ASSET_URL } from '../constants/constants'
+import { useNavigation } from '@react-navigation/native'
 
-const SliderItem = ({ name, imgUrl, address, city, state, zip, rating, website, phone }) => {
+const SliderItem = ({ name, imgUrl, address, city, state, zip, rating, website, phone, bio, cuisine }) => {
+  const navigation = useNavigation()
+
   return (
     <View style={Styles.homeScreen.sliderItem.container}>
       <View style={Styles.homeScreen.sliderItem.container.carouselContainer}>
@@ -20,7 +23,26 @@ const SliderItem = ({ name, imgUrl, address, city, state, zip, rating, website, 
         </View>
 
         <View style={Styles.homeScreen.sliderItem.container.restaurantInfoContainer}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('Screens', {
+                screen: 'RestaurantDetails',
+                params: {
+                  name,
+                  bio,
+                  address,
+                  city,
+                  state,
+                  zip,
+                  phone,
+                  rating,
+                  cuisine,
+                  imgUrl,
+                  website,
+                },
+              })
+            }
+          >
             <Text style={Styles.homeScreen.sliderItem.container.restaurantInfoContainer.text.name}>{name}</Text>
           </TouchableOpacity>
 

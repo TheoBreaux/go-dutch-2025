@@ -5,7 +5,7 @@ import FavoritesIcon from '../components/ui/FavoritesIcon'
 import Images from '../assets/images/images'
 import Styles from '../style'
 import PrimaryButton from '../components/ui/PrimaryButton'
-import { handleCallRestaurant, handleExternalLink } from '../utils/utils'
+import { handleCallRestaurant, handleExternalLink, scaleFont } from '../utils/utils'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 
 const RestaurantDetailsScreen = ({ navigation, route }) => {
@@ -46,8 +46,13 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
             style={Styles.restaurantDetailsScreen.goDutchIcon.image}
           />
         </TouchableOpacity>
+
+        <View style={Styles.restaurantDetailsScreen.cuisineMarker}>
+          <Text style={Styles.restaurantDetailsScreen.cuisineMarker.text}>{cuisine}</Text>
+        </View>
+
         <View style={Styles.restaurantDetailsScreen.rating}>
-          <Text style={[Styles.restaurantDetailsScreen.restaurantInfoContainer.text.name, { fontSize: 20, color: COLORS.goDutchRed }]}>
+          <Text style={[Styles.restaurantDetailsScreen.restaurantInfoContainer.text.name, { fontSize: scaleFont(20), color: COLORS.goDutchRed }]}>
             {rating}/5.0 ⭐
           </Text>
         </View>
