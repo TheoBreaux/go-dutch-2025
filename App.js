@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar'
 import { ActivityIndicator, Text, View } from 'react-native'
 import * as Font from 'expo-font'
-import SplashScreen from './screens/SplashScreen'
+import CustomSplashScreen from './screens/CustomSplashScreen'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { Provider } from 'react-redux'
