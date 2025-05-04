@@ -119,9 +119,9 @@ const EditProfileImageHeader = ({ image, setImage }) => {
         </Modal>
       )}
       <ProfileImageMedallion
-        height={CIRCLE_SIZE * 0.5}
-        width={CIRCLE_SIZE * 0.5}
-        borderRadius={(CIRCLE_SIZE * 0.5) / 2}
+        height={CIRCLE_SIZE * 0.45}
+        width={CIRCLE_SIZE * 0.45}
+        borderRadius={(CIRCLE_SIZE * 0.45) / 2}
         imageUrl={image}
       />
       <TouchableOpacity

@@ -59,7 +59,7 @@ const HomeScreen = ({ navigation }) => {
         <View style={Styles.homeScreen.headingContainer}>
           <View style={{ flexDirection: 'row' }}>
             <Text style={Styles.homeScreen.heading}>Welcome, {user.firstName}!</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Screens', { screen: 'Profile' })}>
+            <TouchableOpacity onPress={() => navigation.navigate('Tabs', { screen: 'Settings' })}>
               <ProfileImageMedallion
                 height={CIRCLE_SIZE * 0.15}
                 width={CIRCLE_SIZE * 0.15}

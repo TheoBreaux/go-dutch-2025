@@ -2,6 +2,7 @@ import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import SpinningLogo from '../components/ui/SpinningLogo'
 
 const CustomSplashScreen = () => {
+
   return (
     <LogoScreenWrapper
       backgroundColor="black"

@@ -19,6 +19,7 @@ import {
   SET_LOCAL_RESTAURANTS_FAILURE,
   SET_LOCAL_RESTAURANTS_SUCCESS,
   SET_USER_SUCCESS,
+  UPDATE_USER_SUCCESS
 } from './actionTypes'
 
 export const autoCompleteDiner = (query) => ({
@@ -114,3 +115,9 @@ export const setUser = (data) => ({
   type: SET_USER_SUCCESS,
   payload: data,
 })
+
+export const updateUser = (data) => ({
+  type: UPDATE_USER_SUCCESS,
+  payload: data,
+})
+

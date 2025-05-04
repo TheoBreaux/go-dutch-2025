@@ -35,6 +35,7 @@ import toastConfig from './config/toastConfig'
 import store from './state/store'
 import ReceiptCaptureScreen from './screens/ReceiptCaptureScreen'
 import CheckCloseOutDetailsScreen from './screens/CheckCloseOutDetailsScreen'
+import SettingsScreen from './screens/SettingsScreen'
 
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
@@ -88,7 +89,7 @@ const Tabs = () => {
         options={{
           tabBarIcon: ({ color, size }) => (
             <GoDutchIcon
-              size={40}
+              size={35}
               color="white"
             />
           ),
@@ -108,12 +109,25 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="Restaurants"
+        name="Dine"
         component={RestaurantsScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons
               name="restaurant"
+              size={30}
+              color="white"
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons
+              name="settings-sharp"
               size={30}
               color="white"
             />
@@ -175,6 +189,10 @@ const ScreensNavigator = () => {
         name="CheckClose"
         component={CheckCloseOutDetailsScreen}
       />
+      {/* <Stack.Screen
+        name="Update"
+        component={UpdateProfileScreen}
+      /> */}
     </Stack.Navigator>
   )
 }
@@ -221,7 +239,10 @@ const App = () => {
       {readyToRender ? (
         <>
           <NavigationContainer>
-            <StatusBar style="light" backgroundColor="black" />
+            <StatusBar
+              style="light"
+              backgroundColor="black"
+            />
             <Stack.Navigator>
               <Stack.Screen
                 name="Screens"
