@@ -10,9 +10,7 @@ export default {
     userInterfaceStyle: 'light',
     newArchEnabled: true,
     splash: {
-      image: './assets/splash-icon.png',
-      resizeMode: 'contain',
-      backgroundColor: '#ffffff',
+      backgroundColor: 'transparent',
     },
     ios: {
       supportsTablet: true,
@@ -20,7 +18,6 @@ export default {
     },
     android: {
       adaptiveIcon: {
-        foregroundImage: './assets/adaptive-icon.png',
         backgroundColor: '#ffffff',
       },
       package: 'com.theobreaux.godutch2025',

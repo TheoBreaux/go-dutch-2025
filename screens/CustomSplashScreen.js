@@ -1,18 +1,7 @@
-import { useEffect } from 'react'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import SpinningLogo from '../components/ui/SpinningLogo'
 
-const CustomSplashScreen = ({ navigation }) => {
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      navigation.replace('Welcome')
-    }, 3000)
-
-    return () => {
-      clearTimeout(timer)
-    }
-  }, [navigation])
-
+const CustomSplashScreen = () => {
   return (
     <LogoScreenWrapper
       backgroundColor="black"

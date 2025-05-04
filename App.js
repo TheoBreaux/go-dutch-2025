@@ -128,10 +128,6 @@ const ScreensNavigator = () => {
   return (
     <Stack.Navigator screenOptions={() => ({ headerShown: false })}>
       <Stack.Screen
-        name="Splash"
-        component={LoginScreen}
-      />
-      <Stack.Screen
         name="Welcome"
         component={WelcomeScreen}
       />
@@ -193,6 +189,7 @@ export default function AppWrapper() {
 
 const App = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false)
+  const [readyToRender, setReadyToRender] = useState(false)
 
   const loadFonts = async () => {
     await Font.loadAsync({
@@ -201,34 +198,48 @@ const App = () => {
       'Poppins-Medium': require('./assets/fonts/Poppins-Medium.ttf'),
       'Poppins-Regular': require('./assets/fonts/Poppins-Regular.ttf'),
       'Poppins-SemiBold': require('./assets/fonts/Poppins-SemiBold.ttf'),
-      'Poppins-BlackItalic': require('.//assets/fonts/Poppins-BlackItalic.ttf'),
+      'Poppins-BlackItalic': require('./assets/fonts/Poppins-BlackItalic.ttf'),
     })
     setFontsLoaded(true)
   }
 
-  loadFonts()
+  useEffect(() => {
+    loadFonts()
+  }, [])
+
+  useEffect(() => {
+    if (fontsLoaded) {
+      const timer = setTimeout(() => {
+        setReadyToRender(true)
+      }, 3000)
+      return () => clearTimeout(timer)
+    }
+  }, [fontsLoaded])
 
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
-        <StatusBar
-          style="light"
-          backgroundColor="black"
-        />
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Screens"
-            component={ScreensNavigator}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Tabs"
-            component={Tabs}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-      <Toast config={toastConfig} />
+      {readyToRender ? (
+        <>
+          <NavigationContainer>
+            <StatusBar style="light" backgroundColor="black" />
+            <Stack.Navigator>
+              <Stack.Screen
+                name="Screens"
+                component={ScreensNavigator}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Tabs"
+                component={Tabs}
+                options={{ headerShown: false }}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+          <Toast config={toastConfig} />
+        </>
+      ) : (
+        <CustomSplashScreen />
+      )}
     </SafeAreaProvider>
   )
 }
