@@ -11,7 +11,7 @@ import Toast from 'react-native-toast-message'
 import { loginUser } from '../state/actions/actions'
 import { useDispatch } from 'react-redux'
 
-const RegistrationScreen = ({ navigation }) => {
+const SignUpScreen = ({ navigation }) => {
   const dispatch = useDispatch()
 
   const [isFormValid, setIsFormValid] = useState(false)
@@ -284,4 +284,4 @@ const RegistrationScreen = ({ navigation }) => {
   )
 }
 
-export default RegistrationScreen
+export default SignUpScreen

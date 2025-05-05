@@ -65,14 +65,6 @@ const LoginScreen = ({ navigation }) => {
 
       dispatch(loginUser(responseData))
       navigation.navigate('Tabs', { screen: 'Home' })
-
-      Toast.show({
-        type: 'success',
-        text1: 'Success 🎉',
-        text2: responseData?.message || 'Login successful!',
-        position: 'top',
-        visibilityTime: 2000,
-      })
     } catch (error) {
       setError(error)
 

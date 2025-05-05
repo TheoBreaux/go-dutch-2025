@@ -31,7 +31,7 @@ pool
 
 app.listen(PORT, () => console.log(`SERVER running on PORT ${PORT}`))
 
-//REGISTER USER IN DATABASE
+//SIGN UP USER IN DATABASE
 app.post('/signUp', upload.single('profileImage'), async (req, res) => {
   const { firstName, lastName, email, username, password } = req.body
   const file = req.file
@@ -272,6 +272,123 @@ app.get('/diningevents/:userId', async (req, res) => {
   } catch (error) {
     console.error(error)
     res.status(500).send('Internal Server Error')
+  }
+})
+
+//UPDATE USER PROFILE
+app.post('/updateprofile', upload.single('profileImage'), async (req, res) => {
+
+  try {
+
+    const { firstName, lastName, email, username, bio, favoriteCuisine, birthday, location, userId, password } = req.body
+
+    const file = req.file // Uploaded image
+
+    // Check if user exists
+    const userCheck = await pool.query('SELECT * FROM users WHERE user_id = $1', [userId])
+
+    if (userCheck.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+      })
+    }
+
+    // Handle password update if provided
+    let hashedPassword
+
+    if (password) {
+      const salt = bcrypt.genSaltSync(10)
+      hashedPassword = bcrypt.hashSync(password, salt)
+    }
+
+    // Handle image upload if provided
+    let imgUrl = userCheck.rows[0].img_url
+    if (file) {
+      imgUrl = await uploadFileToS3(file, 'profileImages')
+    }
+
+    // Update user in database
+    const updateQuery = `
+      UPDATE users 
+      SET 
+        first_name = $1,
+        last_name = $2,
+        email = $3,
+        username = $4,
+        bio = $5,
+        favorite_cuisine = $6,
+        birthday = $7,
+        location = $8,
+        ${hashedPassword ? 'hashed_password = $10,' : ''}
+        img_url = $9
+      WHERE user_id = ${hashedPassword ? '$11' : '$10'}
+      RETURNING *
+    `
+
+    const queryParams = [firstName, lastName, email, username, bio, favoriteCuisine, birthday, location, imgUrl]
+
+    if (hashedPassword) {
+      queryParams.push(hashedPassword)
+    }
+    queryParams.push(userId)
+
+    const updatedUser = await pool.query(updateQuery, queryParams)
+
+    // Generate new token
+    const token = jwt.sign(
+      {
+        email: updatedUser.rows[0].email,
+        username: updatedUser.rows[0].username,
+        firstName: updatedUser.rows[0].first_name,
+        lastName: updatedUser.rows[0].last_name,
+        userId: updatedUser.rows[0].user_id,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: '1hr' }
+    )
+
+    res.status(200).json({
+      success: true,
+      message: 'Profile updated successfully',
+      user: {
+        firstName: updatedUser.rows[0].first_name,
+        lastName: updatedUser.rows[0].last_name,
+        email: updatedUser.rows[0].email,
+        username: updatedUser.rows[0].username,
+        bio: updatedUser.rows[0].bio,
+        favoriteCuisine: updatedUser.rows[0].favorite_cuisine,
+        birthday: updatedUser.rows[0].birthday,
+        location: updatedUser.rows[0].location,
+        imgUrl: updatedUser.rows[0].img_url,
+        userId: updatedUser.rows[0].user_id,
+      },
+      token,
+    })
+  } catch (error) {
+    console.error('Profile update error:', error)
+
+    // Handle unique constraint violations
+    if (error.code === '23505') {
+      const detail = error.detail
+      let message = 'Update failed'
+
+      if (detail.includes('email')) {
+        message = 'Email already in use'
+      } else if (detail.includes('username')) {
+        message = 'Username already taken'
+      }
+
+      return res.status(409).json({
+        success: false,
+        message,
+      })
+    }
+
+    res.status(500).json({
+      success: false,
+      message: 'Server error during profile update',
+    })
   }
 })
 

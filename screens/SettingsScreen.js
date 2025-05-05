@@ -9,20 +9,23 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ErrorMessage, Formik } from 'formik'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { scaleFont } from '../utils/utils'
-import Toast from 'react-native-toast-message'
-import { logoutUser } from '../state/actions/actions'
+import { logoutUser, updateUserProfile } from '../state/actions/actions'
 
 const SettingsScreen = ({ navigation }) => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.app.user)
+  const userId = useSelector((state) => state.app.user.userId)
 
   const [isFormValid, setIsFormValid] = useState(false)
-  const [image, setImage] = useState()
+  const [image, setImage] = useState(null)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [updatePassword, setUpdatePassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const [localImageUri, setLocalImageUri] = useState(null) // Track local image selection
+
+  const displayImageUri = localImageUri || (user.imgUrl ? ASSET_URL + user.imgUrl : null)
 
   const initialValues = {
     firstName: user.firstName || '',
@@ -35,6 +38,7 @@ const SettingsScreen = ({ navigation }) => {
     birthday: user.birthday || '',
     location: user.location || '',
     bio: user.bio || '',
+    imgUrl: user.imgUrl || '',
   }
 
   const validateForm = (values) => {
@@ -105,30 +109,49 @@ const SettingsScreen = ({ navigation }) => {
   }
 
   const handleUpdateUser = (values) => {
-    console.log('PRESSING')
-    const updatedUserInfo = {
-      firstName: values.firstName.trim(),
-      lastName: values.lastName.trim(),
-      email: values.email.trim(),
-      username: values.username.toLowerCase().trim(),
-      bio: values.bio,
-      favoriteCuisine: values.favoriteCuisine,
-      birthday: values.birthday,
-      location: values.location,
-      password: values.password,
-      confirmPassword: values.confirmPassword,
-      userId: user.userId,
+    const formData = new FormData()
+
+    // Append all text fields
+    formData.append('firstName', values.firstName.trim())
+    formData.append('lastName', values.lastName.trim())
+    formData.append('email', values.email.toLowerCase().trim())
+    formData.append('username', values.username.toLowerCase().trim())
+    formData.append('bio', values.bio)
+    formData.append('favoriteCuisine', values.favoriteCuisine)
+    formData.append('birthday', values.birthday)
+    formData.append('location', values.location)
+    formData.append('password', values.password.trim())
+    formData.append('userId', userId)
+
+    // Append the image file correctly
+    if (localImageUri) {
+      formData.append('profileImage', {
+        uri: localImageUri,
+        name: 'profile.jpg',
+        type: 'image/jpeg',
+      })
     }
 
-    console.log(updatedUserInfo)
+try {
+  
+} catch (error) {
+  
+}
+
+
+
+    dispatch(updateUserProfile(formData))
+
+    navigation.navigate('Tabs', { screen: 'Home' })
   }
 
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
       <EditProfileImageHeader
-        image={ASSET_URL + user.imgUrl}
-        setImage={setImage}
+        image={displayImageUri}
+        setImage={setLocalImageUri}
       />
+
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}

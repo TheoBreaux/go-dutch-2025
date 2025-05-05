@@ -1,13 +1,17 @@
 //this is where we handle data fetching
 import { put, takeLatest, all, call, debounce } from 'redux-saga/effects'
+import Toast from 'react-native-toast-message'
+import * as RootNavigation from '../../utils/RootNavigation'
 import { API_URL } from '../../constants/constants'
 import Constants from 'expo-constants'
 import {
   FETCH_FEATURED_RESTAURANTS,
   SET_LOCAL_RESTAURANTS,
+  SIGN_UP_USER,
   AUTO_COMPLETE_DINER,
   POST_DINING_EVENT,
   FETCH_DINING_HISTORY,
+  UPDATE_USER_PROFILE,
 } from '../actions/actionTypes'
 import {
   autoCompleteDinerFailure,
@@ -18,8 +22,12 @@ import {
   fetchFeaturedRestaurantsSuccess,
   setLocalRestaurantsFailure,
   setLocalRestaurantsSuccess,
+  signUpUserFailure,
+  signUpUserSuccess,
   postDiningEventFailure,
   postDiningEventSuccess,
+  updateUserProfileFailure,
+  updateUserProfileSuccess,
 } from '../actions/actions'
 
 const API_KEY = Constants.expoConfig.extra.API_KEY
@@ -93,6 +101,73 @@ function* watchPostDiningEvent() {
   yield takeLatest(POST_DINING_EVENT, postDiningEvent)
 }
 
+
+
+
+
+
+
+
+function* signUpUser(action) {
+  try {
+    const response = yield call(fetch, `${API_URL}/updateprofile`, {
+      method: 'POST',
+      body: action.payload,
+    })
+
+    if (!response.ok) {
+      const errorData = yield response.json()
+      throw new Error(errorData.message || 'Profile update failed')
+    }
+
+    const data = yield response.json()
+
+    // Dispatch success action with updated data
+    yield put(signUpUserSuccess(data.user))
+
+    // Show success toast
+    yield call(Toast.show, {
+      type: 'success',
+      text1: 'Success!',
+      text2: 'Profile updated successfully',
+      position: 'top',
+      visibilityTime: 2000,
+    })
+
+    // Navigate after toast is shown
+    yield call(RootNavigation.navigate, 'Tabs', { screen: 'Home' })
+  } catch (error) {
+    // Show error toast
+    yield call(Toast.show, {
+      type: 'error',
+      text1: 'Update Failed',
+      text2: error.message,
+      position: 'top',
+    })
+    yield put(signUpUserFailure(error.message))
+  }
+}
+function* watchSignUpUser() {
+  yield takeLatest(SIGN_UP_USER, signUpUser)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function* setLocalRestaurants(action) {
   const { latitude, longitude } = action.payload
 
@@ -115,6 +190,49 @@ function* watchSetLocalRestaurants() {
   yield takeLatest(SET_LOCAL_RESTAURANTS, setLocalRestaurants)
 }
 
+function* updateUserProfile(action) {
+  try {
+    const response = yield call(fetch, `${API_URL}/updateprofile`, {
+      method: 'POST',
+      body: action.payload,
+    })
+
+    if (!response.ok) {
+      const errorData = yield response.json()
+      throw new Error(errorData.message || 'Profile update failed')
+    }
+
+    const data = yield response.json()
+
+    // Dispatch success action with updated data
+    yield put(updateUserProfileSuccess(data.user))
+
+    // Show success toast
+    yield call(Toast.show, {
+      type: 'success',
+      text1: 'Success!',
+      text2: 'Profile updated successfully',
+      position: 'top',
+      visibilityTime: 2000,
+    })
+
+    // Navigate after toast is shown
+    yield call(RootNavigation.navigate, 'Tabs', { screen: 'Home' })
+  } catch (error) {
+    // Show error toast
+    yield call(Toast.show, {
+      type: 'error',
+      text1: 'Update Failed',
+      text2: error.message,
+      position: 'top',
+    })
+    yield put(updateUserProfileFailure(error.message))
+  }
+}
+function* watchUpdateUserProfile() {
+  yield takeLatest(UPDATE_USER_PROFILE, updateUserProfile)
+}
+
 export default function* rootSaga() {
   yield all([
     watchFetchFeaturedRestaurants(),
@@ -122,5 +240,7 @@ export default function* rootSaga() {
     watchAutoCompleteDiner(),
     watchPostDiningEvent(),
     watchFetchDiningHistory(),
+    watchUpdateUserProfile(),
+    watchSignUpUser(),
   ])
 }

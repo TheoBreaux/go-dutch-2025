@@ -15,7 +15,7 @@ import HomeScreen from './screens/HomeScreen'
 import RestaurantsScreen from './screens/RestaurantsScreen'
 import FavoritesScreen from './screens/FavoritesScreen'
 import HistoryScreen from './screens/HistoryScreen'
-import RegistrationScreen from './screens/RegistrationScreen'
+import SignUpScreen from './screens/SignUpScreen'
 import WelcomeScreen from './screens/WelcomeScreen'
 import LoginScreen from './screens/LoginScreen'
 import { PRETTIFY, useDisableBackButton } from './utils/utils'
@@ -146,8 +146,8 @@ const ScreensNavigator = () => {
         component={WelcomeScreen}
       />
       <Stack.Screen
-        name="Registration"
-        component={RegistrationScreen}
+        name="SignUp"
+        component={SignUpScreen}
       />
       <Stack.Screen
         name="Profile"
@@ -189,10 +189,6 @@ const ScreensNavigator = () => {
         name="CheckClose"
         component={CheckCloseOutDetailsScreen}
       />
-      {/* <Stack.Screen
-        name="Update"
-        component={UpdateProfileScreen}
-      /> */}
     </Stack.Navigator>
   )
 }
@@ -238,7 +234,7 @@ const App = () => {
     <SafeAreaProvider>
       {readyToRender ? (
         <>
-          <NavigationContainer>
+          <NavigationContainer ref={navigationRef}>
             <StatusBar
               style="light"
               backgroundColor="black"

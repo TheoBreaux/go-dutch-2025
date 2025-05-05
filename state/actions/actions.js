@@ -20,7 +20,12 @@ import {
   SET_LOCAL_RESTAURANTS,
   SET_LOCAL_RESTAURANTS_FAILURE,
   SET_LOCAL_RESTAURANTS_SUCCESS,
-  UPDATE_USER_SUCCESS,
+  SIGN_UP_USER,
+  SIGN_UP_USER_FAILURE,
+  SIGN_UP_USER_SUCCESS,
+  UPDATE_USER_PROFILE,
+  UPDATE_USER_PROFILE_FAILURE,
+  UPDATE_USER_PROFILE_SUCCESS,
 } from './actionTypes'
 
 export const autoCompleteDiner = (query) => ({
@@ -121,7 +126,32 @@ export const setReceiptDataFailure = (error) => ({
   error,
 })
 
-export const updateUser = (data) => ({
-  type: UPDATE_USER_SUCCESS,
+export const signUpUser = (data) => ({
+  type: SIGN_UP_USER,
+  payload: data,
+})
+
+export const signUpUserFailure = (error) => ({
+  type: SIGN_UP_USER_FAILURE,
+  error,
+})
+
+export const signUpUserSuccess = (data) => ({
+  type: SIGN_UP_USER_SUCCESS,
+  payload: data,
+})
+
+export const updateUserProfile = (data) => ({
+  type: UPDATE_USER_PROFILE,
+  payload: data,
+})
+
+export const updateUserProfileFailure = (error) => ({
+  type: UPDATE_USER_PROFILE_FAILURE,
+  error,
+})
+
+export const updateUserProfileSuccess = (data) => ({
+  type: UPDATE_USER_PROFILE_SUCCESS,
   payload: data,
 })

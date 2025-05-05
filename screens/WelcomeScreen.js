@@ -18,7 +18,7 @@ const WelcomeScreen = ({ navigation }) => {
         style={Style.welcomeScreen.icon}
       />
       <View style={Style.welcomeScreen.buttonContainer}>
-        <PrimaryButton onPress={() => navigation.navigate('Registration')}>Sign Up</PrimaryButton>
+        <PrimaryButton onPress={() => navigation.navigate('SignUp')}>Sign Up</PrimaryButton>
         <PrimaryButton onPress={() => navigation.navigate('LogIn')}>Log In</PrimaryButton>
       </View>
       <Image

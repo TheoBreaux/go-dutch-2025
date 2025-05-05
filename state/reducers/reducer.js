@@ -19,7 +19,12 @@ import {
   SET_LOCAL_RESTAURANTS_FAILURE,
   SET_RECEIPT_DATA_FAILURE,
   SET_RECEIPT_DATA_SUCCESS,
-  UPDATE_USER_SUCCESS,
+  SIGN_UP_USER,
+  SIGN_UP_USER_FAILURE,
+  SIGN_UP_USER_SUCCESS,
+  UPDATE_USER_PROFILE,
+  UPDATE_USER_PROFILE_FAILURE,
+  UPDATE_USER_PROFILE_SUCCESS,
 } from '../actions/actionTypes'
 
 const initialState = {
@@ -82,8 +87,21 @@ const AppReducer = (state = initialState, action) => {
       return { ...state, error: action.error, loading: false }
     case SET_RECEIPT_DATA_SUCCESS:
       return { ...state, receiptData: action.payload, loading: false, error: null }
-    case UPDATE_USER_SUCCESS:
-      return { ...state, user: action.payload, loading: false }
+
+    case SIGN_UP_USER:
+      return { ...state, loading: true, error: null }
+    case SIGN_UP_USER_FAILURE:
+      return { ...state, error: action.error, loading: false }
+    case SIGN_UP_USER_SUCCESS:
+      return { ...state, user: action.payload, loading: false, error: null }
+
+    case UPDATE_USER_PROFILE:
+      return { ...state, loading: true, error: null }
+    case UPDATE_USER_PROFILE_FAILURE:
+      return { ...state, error: action.error, loading: false }
+    case UPDATE_USER_PROFILE_SUCCESS:
+      return { ...state, user: action.payload, loading: false, error: null }
+
     default:
       return state
   }

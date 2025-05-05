@@ -57,8 +57,8 @@ const HomeScreen = ({ navigation }) => {
       <LocateUser onLocationUpdate={handleLocationUpdate} />
       <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
         <View style={Styles.homeScreen.headingContainer}>
-          <View style={{ flexDirection: 'row' }}>
-            <Text style={Styles.homeScreen.heading}>Welcome, {user.firstName}!</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Text style={[Styles.homeScreen.heading, { alignSelf: 'flex-end' }]}>Hi, {user.firstName}!</Text>
             <TouchableOpacity onPress={() => navigation.navigate('Tabs', { screen: 'Settings' })}>
               <ProfileImageMedallion
                 height={CIRCLE_SIZE * 0.15}
