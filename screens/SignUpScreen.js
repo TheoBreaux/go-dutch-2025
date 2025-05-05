@@ -142,11 +142,11 @@ const SignUpScreen = ({ navigation }) => {
         keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}
       >
         <ScrollView
-          contentContainerStyle={Styles.registrationScreen.inputsScrollContainer}
+          contentContainerStyle={Styles.signUpScreen.inputsScrollContainer}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          <View style={Styles.registrationScreen.formContainer}>
+          <View style={Styles.signUpScreen.formContainer}>
             <Formik
               initialValues={initialValues}
               validate={validateForm}
@@ -154,11 +154,11 @@ const SignUpScreen = ({ navigation }) => {
             >
               {({ handleChange, handleSubmit, handleBlur, values }) => (
                 <>
-                  <View style={Styles.registrationScreen.inputsScrollContainer.nameInputsContainer}>
-                    <View style={Styles.registrationScreen.inputsScrollContainer.nameInputsContainer.firstNameInput}>
-                      <Text style={Styles.registrationScreen.inputLabels}>First Name</Text>
+                  <View style={Styles.signUpScreen.inputsScrollContainer.nameInputsContainer}>
+                    <View style={Styles.signUpScreen.inputsScrollContainer.nameInputsContainer.firstNameInput}>
+                      <Text style={Styles.signUpScreen.inputLabels}>First Name</Text>
                       <TextInput
-                        style={[Styles.registrationScreen.textInput]}
+                        style={[Styles.signUpScreen.textInput]}
                         onChangeText={handleChange('firstName')}
                         onBlur={handleBlur('firstName')}
                         value={values.firstName}
@@ -170,10 +170,10 @@ const SignUpScreen = ({ navigation }) => {
                       />
                     </View>
 
-                    <View style={Styles.registrationScreen.inputsScrollContainer.nameInputsContainer.lastNameInput}>
-                      <Text style={Styles.registrationScreen.inputLabels}>Last Name</Text>
+                    <View style={Styles.signUpScreen.inputsScrollContainer.nameInputsContainer.lastNameInput}>
+                      <Text style={Styles.signUpScreen.inputLabels}>Last Name</Text>
                       <TextInput
-                        style={Styles.registrationScreen.textInput}
+                        style={Styles.signUpScreen.textInput}
                         onChangeText={handleChange('lastName')}
                         onBlur={handleBlur('lastName')}
                         value={values.lastName}
@@ -186,10 +186,10 @@ const SignUpScreen = ({ navigation }) => {
                     </View>
                   </View>
 
-                  <View style={Styles.registrationScreen.inputsScrollContainer.inputsContainer}>
-                    <Text style={Styles.registrationScreen.inputLabels}>Email</Text>
+                  <View style={Styles.signUpScreen.inputsScrollContainer.inputsContainer}>
+                    <Text style={Styles.signUpScreen.inputLabels}>Email</Text>
                     <TextInput
-                      style={Styles.registrationScreen.textInput}
+                      style={Styles.signUpScreen.textInput}
                       onChangeText={handleChange('email')}
                       onBlur={handleBlur('email')}
                       value={values.email}
@@ -201,9 +201,9 @@ const SignUpScreen = ({ navigation }) => {
                       component={Text}
                       style={{ color: COLORS.goDutchRed }}
                     />
-                    <Text style={Styles.registrationScreen.inputLabels}>Create Username</Text>
+                    <Text style={Styles.signUpScreen.inputLabels}>Create Username</Text>
                     <TextInput
-                      style={Styles.registrationScreen.textInput}
+                      style={Styles.signUpScreen.textInput}
                       onChangeText={handleChange('createUsername')}
                       onBlur={handleBlur('createUsername')}
                       value={values.createUsername}
@@ -215,10 +215,10 @@ const SignUpScreen = ({ navigation }) => {
                       style={{ color: COLORS.goDutchRed }}
                     />
 
-                    <Text style={Styles.registrationScreen.inputLabels}>Password</Text>
+                    <Text style={Styles.signUpScreen.inputLabels}>Password</Text>
                     <View style={Styles.logInScreen.container.modal.passwordInput}>
                       <TextInput
-                        style={[Styles.registrationScreen.textInput, { width: '100%' }]}
+                        style={[Styles.signUpScreen.textInput, { width: '100%' }]}
                         onChangeText={handleChange('password')}
                         onBlur={handleBlur('password')}
                         value={values.password}
@@ -241,10 +241,10 @@ const SignUpScreen = ({ navigation }) => {
                       component={Text}
                       style={{ color: COLORS.goDutchRed }}
                     />
-                    <Text style={Styles.registrationScreen.inputLabels}>Confirm Password</Text>
+                    <Text style={Styles.signUpScreen.inputLabels}>Confirm Password</Text>
                     <View style={Styles.logInScreen.container.modal.passwordInput}>
                       <TextInput
-                        style={[Styles.registrationScreen.textInput, { width: '100%' }]}
+                        style={[Styles.signUpScreen.textInput, { width: '100%' }]}
                         onChangeText={handleChange('confirmedPassword')}
                         onBlur={handleBlur('confirmedPassword')}
                         value={values.confirmedPassword}

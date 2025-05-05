@@ -125,7 +125,7 @@ const EditProfileImageHeader = ({ image, setImage }) => {
         imageUrl={image}
       />
       <TouchableOpacity
-        style={Styles.registrationScreen.imageContainer.icon}
+        style={Styles.signUpScreen.imageContainer.icon}
         onPress={handleImageUpload}
       >
         <MaterialCommunityIcons

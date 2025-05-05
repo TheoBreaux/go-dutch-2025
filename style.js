@@ -504,7 +504,7 @@ export default StyleSheet.create({
   },
 
   // ======================================================================================================================================= REGISTRATION SCREEN
-  registrationScreen: {
+  signUpScreen: {
     inputLabels: { fontFamily: 'Poppins-Bold', fontSize: scaleFont(16) },
     textInput: {
       fontFamily: 'Poppins-Regular',
@@ -660,6 +660,12 @@ export default StyleSheet.create({
 
   // ====================================================================================================================================== PROFILE SCREEN
   profileScreen: {
+    actionTextButtonContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      width: SCREEN_WIDTH * 0.9,
+      textButton: { fontFamily: 'Poppins-ExtraBold', fontSize: scaleFont(20), color: COLORS.goDutchRed },
+    },
     scrollViewContainer: {
       justifyContent: 'center',
       alignItems: 'center',
@@ -680,7 +686,6 @@ export default StyleSheet.create({
         borderBottomWidth: 3,
         borderRadius: 5,
         padding: 10,
-        
       },
     },
     buttonContainer: { flexDirection: 'row', width: SCREEN_WIDTH * 0.95, justifyContent: 'space-between' },

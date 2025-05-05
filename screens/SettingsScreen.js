@@ -1,14 +1,13 @@
 import { View, Text, ScrollView, TextInput, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import Styles from '../style'
-import { ASSET_URL, COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
+import { ASSET_URL, COLORS, SCREEN_HEIGHT } from '../constants/constants'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import EditProfileImageHeader from '../components/EditProfileImageHeader'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ErrorMessage, Formik } from 'formik'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { scaleFont } from '../utils/utils'
 import { logoutUser, updateUserProfile } from '../state/actions/actions'
 
 const SettingsScreen = ({ navigation }) => {
@@ -146,20 +145,18 @@ const SettingsScreen = ({ navigation }) => {
         image={displayImageUri}
         setImage={setLocalImageUri}
       />
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: SCREEN_WIDTH * 0.9 }}>
+      <View style={Styles.profileScreen.actionTextButtonContainer}>
         <TouchableOpacity
           style={{ marginTop: 10 }}
           onPress={() => setUpdatePassword(!updatePassword)}
         >
-          <Text style={{ fontFamily: 'Poppins-ExtraBold', fontSize: scaleFont(20), color: COLORS.goDutchRed }}>
-            {updatePassword ? 'Hide' : 'Update'} Password
-          </Text>
+          <Text style={Styles.profileScreen.actionTextButtonContainer.textButton}>{updatePassword ? 'Hide' : 'Update'} Password</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={{ marginTop: 10 }}
           onPress={handleLogOut}
         >
-          <Text style={{ fontFamily: 'Poppins-ExtraBold', fontSize: scaleFont(20), color: COLORS.goDutchRed }}>Sign Out</Text>
+          <Text style={Styles.profileScreen.actionTextButtonContainer.textButton}>Sign Out</Text>
         </TouchableOpacity>
       </View>
 
@@ -235,7 +232,7 @@ const SettingsScreen = ({ navigation }) => {
                         <Text style={Styles.profileScreen.inputContainer.inputLabel}>Password</Text>
                         <View style={Styles.logInScreen.container.modal.passwordInput}>
                           <TextInput
-                            style={[Styles.registrationScreen.textInput, { width: '100%', padding: 8 }]}
+                            style={[Styles.signUpScreen.textInput, { width: '100%', padding: 8 }]}
                             onChangeText={handleChange('password')}
                             onBlur={handleBlur('password')}
                             value={values.password}
@@ -265,7 +262,7 @@ const SettingsScreen = ({ navigation }) => {
                         <Text style={Styles.profileScreen.inputContainer.inputLabel}>Confirm Password</Text>
                         <View style={Styles.logInScreen.container.modal.passwordInput}>
                           <TextInput
-                            style={[Styles.registrationScreen.textInput, { width: '100%', padding: 8 }]}
+                            style={[Styles.signUpScreen.textInput, { width: '100%', padding: 8 }]}
                             onChangeText={handleChange('confirmPassword')}
                             onBlur={handleBlur('confirmPassword')}
                             value={values.confirmPassword}

@@ -104,9 +104,9 @@ const LoginScreen = ({ navigation }) => {
                   style={Styles.logInScreen.container.logo}
                 />
                 <View style={Styles.logInScreen.container.modal.inputsContainer}>
-                  <Text style={Styles.registrationScreen.inputLabels}>Email</Text>
+                  <Text style={Styles.signUpScreen.inputLabels}>Email</Text>
                   <TextInput
-                    style={Styles.registrationScreen.textInput}
+                    style={Styles.signUpScreen.textInput}
                     onChangeText={handleChange('email')}
                     onBlur={handleBlur('email')}
                     value={values.email}
@@ -118,11 +118,11 @@ const LoginScreen = ({ navigation }) => {
                     style={{ color: COLORS.goDutchRed }}
                   />
 
-                  <Text style={[Styles.registrationScreen.inputLabels, { marginTop: 10 }]}>Password</Text>
+                  <Text style={[Styles.signUpScreen.inputLabels, { marginTop: 10 }]}>Password</Text>
 
                   <View style={{ justifyContent: 'center' }}>
                     <TextInput
-                      style={Styles.registrationScreen.textInput}
+                      style={Styles.signUpScreen.textInput}
                       onChangeText={handleChange('password')}
                       onBlur={handleBlur('password')}
                       value={values.password}
