@@ -1,13 +1,14 @@
 import { TouchableOpacity, Text } from 'react-native'
 import Style from '../../style'
+import { COLORS } from '../../constants/constants'
 
-const FavoritesButton = ({ children, onPress }) => {
+const FavoritesButton = ({ children, onPress, isActive }) => {
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={Style.favoritesButton.container}
+      style={[Style.favoritesButton.container, isActive && { backgroundColor: COLORS.goDutchRed }]}
     >
-      <Text style={Style.favoritesButton.container.text}>{children}</Text>
+      <Text style={[Style.favoritesButton.container.text, isActive && { color: 'white' }]}>{children}</Text>
     </TouchableOpacity>
   )
 }

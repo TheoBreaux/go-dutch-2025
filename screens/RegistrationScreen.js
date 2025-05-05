@@ -8,7 +8,7 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import EditProfileImageHeader from '../components/EditProfileImageHeader'
 import { ErrorMessage, Formik } from 'formik'
 import Toast from 'react-native-toast-message'
-import { setUser } from '../state/actions/actions'
+import { loginUser } from '../state/actions/actions'
 import { useDispatch } from 'react-redux'
 
 const RegistrationScreen = ({ navigation }) => {
@@ -103,7 +103,7 @@ const RegistrationScreen = ({ navigation }) => {
 
       const responseData = await response.json()
 
-      dispatch(setUser(responseData))
+      dispatch(loginUser(responseData))
       navigation.navigate('Tabs', { screen: 'Home' })
 
       Toast.show({

@@ -8,11 +8,11 @@ import {
   FETCH_FEATURED_RESTAURANTS,
   FETCH_FEATURED_RESTAURANTS_FAILURE,
   FETCH_FEATURED_RESTAURANTS_SUCCESS,
+  LOGIN_USER,
   LOGOUT_USER,
   POST_DINING_EVENT,
   POST_DINING_EVENT_FAILURE,
   POST_DINING_EVENT_SUCCESS,
-  SET_USER_SUCCESS,
   SET_CURRENT_CITY_SUCCESS,
   SET_LOCAL_RESTAURANTS,
   SET_LOCAL_RESTAURANTS_SUCCESS,
@@ -58,6 +58,8 @@ const AppReducer = (state = initialState, action) => {
       return { ...state, featuredRestaurants: action.payload, loading: false, error: null }
     case FETCH_FEATURED_RESTAURANTS_FAILURE:
       return { ...state, error: action.error, loading: false }
+    case LOGIN_USER:
+      return { ...state, user: action.payload, loading: false }
     case LOGOUT_USER:
       return {
         ...initialState,
@@ -80,9 +82,6 @@ const AppReducer = (state = initialState, action) => {
       return { ...state, error: action.error, loading: false }
     case SET_RECEIPT_DATA_SUCCESS:
       return { ...state, receiptData: action.payload, loading: false, error: null }
-
-    case SET_USER_SUCCESS:
-      return { ...state, user: action.payload, loading: false }
     case UPDATE_USER_SUCCESS:
       return { ...state, user: action.payload, loading: false }
     default:

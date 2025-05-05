@@ -9,6 +9,8 @@ import {
   FETCH_FEATURED_RESTAURANTS,
   FETCH_FEATURED_RESTAURANTS_FAILURE,
   FETCH_FEATURED_RESTAURANTS_SUCCESS,
+  LOGIN_USER,
+  LOGOUT_USER,
   POST_DINING_EVENT,
   POST_DINING_EVENT_FAILURE,
   POST_DINING_EVENT_SUCCESS,
@@ -18,8 +20,7 @@ import {
   SET_LOCAL_RESTAURANTS,
   SET_LOCAL_RESTAURANTS_FAILURE,
   SET_LOCAL_RESTAURANTS_SUCCESS,
-  SET_USER_SUCCESS,
-  UPDATE_USER_SUCCESS
+  UPDATE_USER_SUCCESS,
 } from './actionTypes'
 
 export const autoCompleteDiner = (query) => ({
@@ -64,6 +65,15 @@ export const fetchFeaturedRestaurantsFailure = (error) => ({
 export const fetchFeaturedRestaurantsSuccess = (data) => ({
   type: FETCH_FEATURED_RESTAURANTS_SUCCESS,
   payload: data,
+})
+
+export const loginUser = (data) => ({
+  type: LOGIN_USER,
+  payload: data,
+})
+
+export const logoutUser = () => ({
+  type: LOGOUT_USER,
 })
 
 export const postDiningEvent = (data) => ({
@@ -111,13 +121,7 @@ export const setReceiptDataFailure = (error) => ({
   error,
 })
 
-export const setUser = (data) => ({
-  type: SET_USER_SUCCESS,
-  payload: data,
-})
-
 export const updateUser = (data) => ({
   type: UPDATE_USER_SUCCESS,
   payload: data,
 })
-

@@ -9,7 +9,7 @@ import { useState } from 'react'
 import { ErrorMessage, Formik } from 'formik'
 import Toast from 'react-native-toast-message'
 import { useDispatch } from 'react-redux'
-import { setUser } from '../state/actions/actions'
+import { loginUser } from '../state/actions/actions'
 
 const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch()
@@ -63,7 +63,7 @@ const LoginScreen = ({ navigation }) => {
 
       const responseData = await response.json()
 
-      dispatch(setUser(responseData))
+      dispatch(loginUser(responseData))
       navigation.navigate('Tabs', { screen: 'Home' })
 
       Toast.show({

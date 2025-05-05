@@ -649,7 +649,13 @@ export default StyleSheet.create({
   },
   // ====================================================================================================================================== FAVORITES SCREEN
   favoritesScreen: {
-    container: { flexDirection: 'row', justifyContent: 'space-between', marginTop: SCREEN_HEIGHT * 0.025, width: SCREEN_WIDTH * 0.9 },
+    container: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginTop: SCREEN_HEIGHT * 0.025,
+      marginBottom: SCREEN_HEIGHT * 0.01,
+      width: SCREEN_WIDTH * 0.9,
+    },
   },
 
   // ====================================================================================================================================== PROFILE SCREEN

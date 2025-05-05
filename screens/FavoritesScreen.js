@@ -32,8 +32,18 @@ const FavoritesScreen = () => {
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
       <View style={Styles.favoritesScreen.container}>
-        <FavoritesButton onPress={() => setActiveTab('restaurants')}>Restaurants</FavoritesButton>
-        <FavoritesButton onPress={() => setActiveTab('diners')}>Diners</FavoritesButton>
+        <FavoritesButton
+          isActive={activeTab === 'restaurants'}
+          onPress={() => setActiveTab('restaurants')}
+        >
+          Restaurants
+        </FavoritesButton>
+        <FavoritesButton
+          isActive={activeTab === 'diners'}
+          onPress={() => setActiveTab('diners')}
+        >
+          Diners
+        </FavoritesButton>
       </View>
 
       <View style={Styles.resturantsScreen.container}>
