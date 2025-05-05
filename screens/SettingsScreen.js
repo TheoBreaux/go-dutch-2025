@@ -132,13 +132,8 @@ const SettingsScreen = ({ navigation }) => {
       })
     }
 
-try {
-  
-} catch (error) {
-  
-}
-
-
+    try {
+    } catch (error) {}
 
     dispatch(updateUserProfile(formData))
 
@@ -151,6 +146,22 @@ try {
         image={displayImageUri}
         setImage={setLocalImageUri}
       />
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: SCREEN_WIDTH * 0.9 }}>
+        <TouchableOpacity
+          style={{ marginTop: 10 }}
+          onPress={() => setUpdatePassword(!updatePassword)}
+        >
+          <Text style={{ fontFamily: 'Poppins-ExtraBold', fontSize: scaleFont(20), color: COLORS.goDutchRed }}>
+            {updatePassword ? 'Hide' : 'Update'} Password
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{ marginTop: 10 }}
+          onPress={handleLogOut}
+        >
+          <Text style={{ fontFamily: 'Poppins-ExtraBold', fontSize: scaleFont(20), color: COLORS.goDutchRed }}>Sign Out</Text>
+        </TouchableOpacity>
+      </View>
 
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -169,23 +180,6 @@ try {
           >
             {({ handleChange, handleSubmit, handleBlur, values }) => (
               <>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: SCREEN_WIDTH * 0.9 }}>
-                  <TouchableOpacity
-                    style={{ marginTop: 10 }}
-                    onPress={() => setUpdatePassword(!updatePassword)}
-                  >
-                    <Text style={{ fontFamily: 'Poppins-ExtraBold', fontSize: scaleFont(20), color: COLORS.goDutchRed }}>
-                      {updatePassword ? 'Hide' : 'Update'} Password
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{ marginTop: 10 }}
-                    onPress={handleLogOut}
-                  >
-                    <Text style={{ fontFamily: 'Poppins-ExtraBold', fontSize: scaleFont(20), color: COLORS.goDutchRed }}>Sign Out</Text>
-                  </TouchableOpacity>
-                </View>
-
                 <View style={Styles.profileScreen.inputContainer}>
                   <View style={{ flex: 1, marginRight: 10 }}>
                     <Text style={Styles.profileScreen.inputContainer.inputLabel}>First Name</Text>
@@ -317,6 +311,7 @@ try {
                   <View style={{ flex: 1 }}>
                     <Text style={Styles.profileScreen.inputContainer.inputLabel}>Favorite Cuisine</Text>
                     <TextInput
+                      placeholder="ex. Lebanese"
                       style={Styles.profileScreen.inputContainer.textInput}
                       value={values.favoriteCuisine}
                       onChangeText={handleChange('favoriteCuisine')}
@@ -334,6 +329,7 @@ try {
                   <View style={{ flex: 1, marginRight: 10 }}>
                     <Text style={Styles.profileScreen.inputContainer.inputLabel}>Birthday</Text>
                     <TextInput
+                      placeholder="ex. July 4"
                       style={Styles.profileScreen.inputContainer.textInput}
                       value={values.birthday}
                       onChangeText={handleChange('birthday')}
@@ -349,6 +345,7 @@ try {
                   <View style={{ flex: 1 }}>
                     <Text style={Styles.profileScreen.inputContainer.inputLabel}>Location</Text>
                     <TextInput
+                      placeholder="Chicago, IL"
                       style={Styles.profileScreen.inputContainer.textInput}
                       value={values.location}
                       onChangeText={handleChange('location')}
@@ -365,6 +362,7 @@ try {
                 <View style={Styles.profileScreen.scrollViewContainer.bioContainer}>
                   <Text style={Styles.profileScreen.inputContainer.inputLabel}>Bio</Text>
                   <TextInput
+                    placeholder="ex. I love delicious food and travel."
                     multiline
                     numberOfLines={4}
                     textAlignVertical="top"

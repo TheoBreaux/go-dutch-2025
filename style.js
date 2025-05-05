@@ -680,7 +680,7 @@ export default StyleSheet.create({
         borderBottomWidth: 3,
         borderRadius: 5,
         padding: 10,
-        color: 'gray',
+        
       },
     },
     buttonContainer: { flexDirection: 'row', width: SCREEN_WIDTH * 0.95, justifyContent: 'space-between' },
