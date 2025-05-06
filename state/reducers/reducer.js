@@ -25,6 +25,7 @@ import {
   UPDATE_USER_PROFILE,
   UPDATE_USER_PROFILE_FAILURE,
   UPDATE_USER_PROFILE_SUCCESS,
+  TOGGLE_FAVORITE,
 } from '../actions/actionTypes'
 
 const initialState = {
@@ -45,63 +46,90 @@ const AppReducer = (state = initialState, action) => {
   // console.log('CURRENT STATE', state)
 
   switch (action.type) {
+    // Autocomplete
     case AUTO_COMPLETE_DINER:
       return { ...state, loading: true, error: null }
     case AUTO_COMPLETE_DINER_SUCCESS:
       return { ...state, suggestions: action.payload, loading: false, error: null }
     case AUTO_COMPLETE_DINER_FAILURE:
       return { ...state, error: action.error, loading: false }
+    // Dining History
     case FETCH_DINING_HISTORY:
       return { ...state, loading: true, error: null }
     case FETCH_DINING_HISTORY_SUCCESS:
       return { ...state, diningHistory: action.payload, loading: false, error: null }
     case FETCH_DINING_HISTORY_FAILURE:
       return { ...state, error: action.error, loading: false }
+    // Fetch Restaurants
     case FETCH_FEATURED_RESTAURANTS:
       return { ...state, loading: true, error: null }
     case FETCH_FEATURED_RESTAURANTS_SUCCESS:
       return { ...state, featuredRestaurants: action.payload, loading: false, error: null }
     case FETCH_FEATURED_RESTAURANTS_FAILURE:
       return { ...state, error: action.error, loading: false }
+    // Log In User
     case LOGIN_USER:
       return { ...state, user: action.payload, loading: false }
+    // Log Out User
     case LOGOUT_USER:
       return {
         ...initialState,
       }
+    // Post Dining Event
     case POST_DINING_EVENT:
       return { ...state, loading: true, error: null }
     case POST_DINING_EVENT_FAILURE:
       return { ...state, error: action.error, loading: false }
     case POST_DINING_EVENT_SUCCESS:
       return { ...state, diningHistory: [action.payload, ...state.diningHistory], loading: false, error: null }
+    // Set Current Location
     case SET_CURRENT_CITY_SUCCESS:
       return { ...state, currentCity: action.payload, loading: false }
+    // Fetch Google Local Restaurants
     case SET_LOCAL_RESTAURANTS:
       return { ...state, loading: true, error: null }
     case SET_LOCAL_RESTAURANTS_FAILURE:
       return { ...state, error: action.error, loading: false }
     case SET_LOCAL_RESTAURANTS_SUCCESS:
       return { ...state, localRestaurants: action.payload, loading: false, error: null }
+    // Fetch Receipt Details
     case SET_RECEIPT_DATA_FAILURE:
       return { ...state, error: action.error, loading: false }
     case SET_RECEIPT_DATA_SUCCESS:
       return { ...state, receiptData: action.payload, loading: false, error: null }
-
+    //Sign Up User
     case SIGN_UP_USER:
       return { ...state, loading: true, error: null }
     case SIGN_UP_USER_FAILURE:
       return { ...state, error: action.error, loading: false }
     case SIGN_UP_USER_SUCCESS:
       return { ...state, user: action.payload, loading: false, error: null }
+    //Toggle Favorite
+    case TOGGLE_FAVORITE:
+      const item = action.payload
+      const exists = state.favorites.some((fav) => fav.id === item.id && fav.category === item.category)
 
+      return {
+        ...state,
+        favorites: exists ? state.favorites.filter((fav) => !(fav.id === item.id && fav.category === item.category)) : [...state.favorites, item],
+      }
+    case TOGGLE_FAVORITE_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+      }
+    case TOGGLE_FAVORITE_SUCCESS:
+      return {
+        ...state,
+        favorites: action.payload,
+      }
+    // Update User Profile
     case UPDATE_USER_PROFILE:
       return { ...state, loading: true, error: null }
     case UPDATE_USER_PROFILE_FAILURE:
       return { ...state, error: action.error, loading: false }
     case UPDATE_USER_PROFILE_SUCCESS:
       return { ...state, user: action.payload, loading: false, error: null }
-
     default:
       return state
   }

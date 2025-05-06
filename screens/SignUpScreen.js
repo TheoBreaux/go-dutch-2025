@@ -2,13 +2,12 @@ import { View, Text, TextInput, ScrollView, TouchableOpacity, KeyboardAvoidingVi
 import { useState } from 'react'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import Styles from '../style'
-import { API_URL, COLORS, SCREEN_WIDTH } from '../constants/constants'
+import { COLORS, SCREEN_WIDTH } from '../constants/constants'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import EditProfileImageHeader from '../components/EditProfileImageHeader'
 import { ErrorMessage, Formik } from 'formik'
-import Toast from 'react-native-toast-message'
-import { loginUser } from '../state/actions/actions'
+import { signUpUser } from '../state/actions/actions'
 import { useDispatch } from 'react-redux'
 
 const SignUpScreen = ({ navigation }) => {
@@ -72,7 +71,7 @@ const SignUpScreen = ({ navigation }) => {
     return emailRegex.test(email)
   }
 
-  const handleRegistration = async (values, actions) => {
+  const handleSignup = async (values, actions) => {
     //actions.resetForm()
     setLoading(true)
 
@@ -92,42 +91,7 @@ const SignUpScreen = ({ navigation }) => {
       })
     }
 
-    try {
-      const response = await fetch(`${API_URL}/signUp`, { method: 'POST', body: formData })
-
-      if (!response.ok) {
-        // If the response is not OK (status not in 200 range), throw an error
-        const errorData = await response.json()
-        throw new Error(errorData?.message || 'Something went wrong. Please try again.')
-      }
-
-      const responseData = await response.json()
-
-      dispatch(loginUser(responseData))
-      navigation.navigate('Tabs', { screen: 'Home' })
-
-      Toast.show({
-        type: 'success',
-        text1: 'Success 🎉',
-        text2: responseData?.message || 'Registration successful!',
-        position: 'top',
-        visibilityTime: 2000,
-      })
-    } catch (error) {
-      setError(error.message)
-
-      Toast.show({
-        type: 'error',
-        text1: 'Error 😞',
-        text2: error.message,
-        position: 'top',
-        visibilityTime: 2000,
-      })
-
-      console.error('Error:', error.message)
-    } finally {
-      setLoading(false)
-    }
+    dispatch(signUpUser(formData))
   }
 
   return (
@@ -150,7 +114,7 @@ const SignUpScreen = ({ navigation }) => {
             <Formik
               initialValues={initialValues}
               validate={validateForm}
-              onSubmit={handleRegistration}
+              onSubmit={handleSignup}
             >
               {({ handleChange, handleSubmit, handleBlur, values }) => (
                 <>

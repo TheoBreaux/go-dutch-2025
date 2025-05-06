@@ -1,15 +1,19 @@
 import { FlatList, View } from 'react-native'
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import Styles from '../style'
 import FavoritesButton from '../components/ui/FavoritesButton'
 import RestaurantTile from '../components/ui/RestaurantTile'
 import DinerTile from '../components/ui/DinerTile'
-import { RESTAURANT_DATA, DINER_DATA } from '../constants/data'
 import { COLORS, SCREEN_HEIGHT } from '../constants/constants'
+import { useDispatch } from 'react-redux'
 
 const FavoritesScreen = () => {
   const [activeTab, setActiveTab] = useState('restaurants')
+  const [favoriteDiners, setFavoriteDiners] = useState(null)
+  const [favoriteRestaurants, setFavoriteRestaurants] = useState(null)
+
+  useEffect(() => {}, [])
 
   const renderItem = ({ item }) => {
     if (activeTab === 'restaurants') {

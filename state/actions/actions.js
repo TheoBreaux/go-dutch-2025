@@ -23,6 +23,9 @@ import {
   SIGN_UP_USER,
   SIGN_UP_USER_FAILURE,
   SIGN_UP_USER_SUCCESS,
+  TOGGLE_FAVORITE,
+  TOGGLE_FAVORITE_FAILURE,
+  TOGGLE_FAVORITE_SUCCESS,
   UPDATE_USER_PROFILE,
   UPDATE_USER_PROFILE_FAILURE,
   UPDATE_USER_PROFILE_SUCCESS,
@@ -139,6 +142,22 @@ export const signUpUserFailure = (error) => ({
 export const signUpUserSuccess = (data) => ({
   type: SIGN_UP_USER_SUCCESS,
   payload: data,
+})
+
+
+export const toggleFavorite = (item) => ({
+  type: TOGGLE_FAVORITE,
+  payload: item,
+})
+
+export const toggleFavoriteSuccess = (updatedFavorites) => ({
+  type: TOGGLE_FAVORITE_SUCCESS,
+  payload: updatedFavorites,
+})
+
+export const toggleFavoriteFailure = (error) => ({
+  type: TOGGLE_FAVORITE_FAILURE,
+  error,
 })
 
 export const updateUserProfile = (data) => ({

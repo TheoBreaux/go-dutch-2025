@@ -144,10 +144,10 @@ app.post('/logIn', async (req, res) => {
 //GET FEATURED SPONSORED RESTAURANTS
 app.get('/featuredRestaurants', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM featured_restaurants')
+    const result = await pool.query('SELECT * FROM restaurants')
 
     const featuredRestaurantData = result.rows.map(
-      ({ restaurant_id, name, address, city, state, zip, website, rating, phone, bio, cuisine, img_url, is_favorited }) => ({
+      ({ restaurant_id, name, address, city, state, zip, website, rating, phone, bio, cuisine, img_url, is_featured, is_restaurant }) => ({
         restaurantId: restaurant_id,
         name,
         address,
@@ -160,7 +160,8 @@ app.get('/featuredRestaurants', async (req, res) => {
         bio,
         cuisine,
         imgUrl: img_url,
-        isFavorited: is_favorited,
+        isFeatured: is_featured,
+        iSRestaurant: is_restaurant,
       })
     )
     res.json(featuredRestaurantData)
@@ -277,9 +278,7 @@ app.get('/diningevents/:userId', async (req, res) => {
 
 //UPDATE USER PROFILE
 app.post('/updateprofile', upload.single('profileImage'), async (req, res) => {
-
   try {
-
     const { firstName, lastName, email, username, bio, favoriteCuisine, birthday, location, userId, password } = req.body
 
     const file = req.file // Uploaded image
@@ -292,6 +291,17 @@ app.post('/updateprofile', upload.single('profileImage'), async (req, res) => {
         success: false,
         message: 'User not found',
       })
+    }
+
+    const existingUser = await pool.query('SELECT * FROM users WHERE (email = $1 OR username = $2) AND user_id != $3', [email, username, userId])
+
+    if (existingUser.rows.length > 0) {
+      const conflict = existingUser.rows[0]
+      let message = 'Update failed'
+      if (conflict.email === email) message = 'Email already in use'
+      if (conflict.username === username) message = 'Username already taken'
+
+      return res.status(409).json({ success: false, message })
     }
 
     // Handle password update if provided

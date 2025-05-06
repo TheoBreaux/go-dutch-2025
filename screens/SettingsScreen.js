@@ -104,7 +104,7 @@ const SettingsScreen = ({ navigation }) => {
 
   const handleLogOut = () => {
     dispatch(logoutUser())
-    navigation.navigate('Screens', { screen: 'Welcome', params: { user } })
+    navigation.navigate('Screens', { screen: 'Welcome' })
   }
 
   const handleUpdateUser = (values) => {
@@ -131,12 +131,7 @@ const SettingsScreen = ({ navigation }) => {
       })
     }
 
-    try {
-    } catch (error) {}
-
     dispatch(updateUserProfile(formData))
-
-    navigation.navigate('Tabs', { screen: 'Home' })
   }
 
   return (

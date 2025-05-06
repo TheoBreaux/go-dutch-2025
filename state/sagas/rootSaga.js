@@ -28,6 +28,7 @@ import {
   postDiningEventSuccess,
   updateUserProfileFailure,
   updateUserProfileSuccess,
+  loginUser,
 } from '../actions/actions'
 
 const API_KEY = Constants.expoConfig.extra.API_KEY
@@ -51,7 +52,9 @@ function* fetchFeaturedRestaurants() {
   try {
     const response = yield call(fetch, `${API_URL}/featuredRestaurants`, { method: 'GET' })
     const data = yield response.json()
-    yield put(fetchFeaturedRestaurantsSuccess(data))
+    const filteredRestaurants = data.filter((item) => item.isFeatured)
+
+    yield put(fetchFeaturedRestaurantsSuccess(filteredRestaurants))
   } catch (error) {
     yield put(fetchFeaturedRestaurantsFailure(error.message))
   }
@@ -101,35 +104,29 @@ function* watchPostDiningEvent() {
   yield takeLatest(POST_DINING_EVENT, postDiningEvent)
 }
 
-
-
-
-
-
-
-
 function* signUpUser(action) {
   try {
-    const response = yield call(fetch, `${API_URL}/updateprofile`, {
+    const response = yield call(fetch, `${API_URL}/signUp`, {
       method: 'POST',
       body: action.payload,
     })
 
     if (!response.ok) {
       const errorData = yield response.json()
-      throw new Error(errorData.message || 'Profile update failed')
+      throw new Error(errorData?.message || 'Something went wrong. Please try again.')
     }
 
     const data = yield response.json()
 
     // Dispatch success action with updated data
-    yield put(signUpUserSuccess(data.user))
+    yield put(signUpUserSuccess(data))
+    // Dispatch login action
+    yield put(loginUser(data))
 
-    // Show success toast
     yield call(Toast.show, {
       type: 'success',
-      text1: 'Success!',
-      text2: 'Profile updated successfully',
+      text1: 'Success 🎉',
+      text2: data?.message || 'Registration successful!',
       position: 'top',
       visibilityTime: 2000,
     })
@@ -137,36 +134,20 @@ function* signUpUser(action) {
     // Navigate after toast is shown
     yield call(RootNavigation.navigate, 'Tabs', { screen: 'Home' })
   } catch (error) {
-    // Show error toast
     yield call(Toast.show, {
       type: 'error',
-      text1: 'Update Failed',
+      text1: 'Error 😞',
       text2: error.message,
       position: 'top',
+      visibilityTime: 2000,
     })
+
     yield put(signUpUserFailure(error.message))
   }
 }
 function* watchSignUpUser() {
   yield takeLatest(SIGN_UP_USER, signUpUser)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function* setLocalRestaurants(action) {
   const { latitude, longitude } = action.payload

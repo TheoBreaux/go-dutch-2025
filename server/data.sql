@@ -1,7 +1,7 @@
 CREATE DATABASE godutch2025;
 
 -- OPTIMIZED
-CREATE TABLE featured_restaurants (
+CREATE TABLE restaurants (
     restaurant_id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     address VARCHAR(255) NOT NULL,
@@ -14,7 +14,8 @@ CREATE TABLE featured_restaurants (
     bio TEXT,
     cuisine TEXT,
     img_url TEXT,
-    is_favorited BOOLEAN DEFAULT FALSE
+    is_featured BOOLEAN DEFAULT FALSE,
+    is_restaurant BOOLEAN DEFAULT TRUE
 );
 
 
@@ -32,7 +33,8 @@ CREATE TABLE users (
     favorite_cuisine VARCHAR(100),
     date_joined DATE DEFAULT CURRENT_DATE,
     img_url TEXT,
-    available_splits INTEGER DEFAULT 1
+    available_splits INTEGER DEFAULT 1,
+    is_diner BOOLEAN DEFAULT TRUE
 );
 
 -- OPTIMIZED
