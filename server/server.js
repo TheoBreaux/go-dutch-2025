@@ -161,7 +161,7 @@ app.get('/featuredRestaurants', async (req, res) => {
         cuisine,
         imgUrl: img_url,
         isFeatured: is_featured,
-        iSRestaurant: is_restaurant,
+        isRestaurant: is_restaurant,
       })
     )
     res.json(featuredRestaurantData)
@@ -402,6 +402,41 @@ app.post('/updateprofile', upload.single('profileImage'), async (req, res) => {
   }
 })
 
+//TOGGLE FAVORITES
+app.post('/updatefavorites', async (req, res) => {
+  const { favoritedId, userId, type } = req.body
+
+  try {
+    // First check if this favorite already exists
+    const existingFavorite = await pool.query(
+      `SELECT * FROM favorites
+       WHERE user_id = $1 AND favorited_id = $2 AND favorited_type = $3`,
+      [userId, favoritedId, type]
+    )
+
+    if (existingFavorite.rows.length > 0) {
+      // If exists, remove it (unfavorite)
+      await pool.query(
+        `DELETE FROM favorites
+         WHERE user_id = $1 AND favorited_id = $2 AND favorited_type = $3`,
+        [userId, favoritedId, type]
+      )
+      // return res.status(200).json({ message: 'Favorite removed', action: 'removed' })
+    } else {
+      // If doesn't exist, add it (favorite)
+      await pool.query(
+        `INSERT INTO favorites (user_id, favorited_id, favorited_type)
+         VALUES ($1, $2, $3)`,
+        [userId, favoritedId, type]
+      )
+      // return res.status(201).json({ })
+    }
+  } catch (error) {
+    console.error('Error updating favorites:', error)
+    return res.status(500).json({ error: 'Internal server error' })
+  }
+})
+
 // CONFIRM THAT USER EXISTS IN DB SO CAN BE ADDED AS DINER
 // app.get('/users/:username', async (req, res) => {
 //   const { username } = req.params
@@ -414,3 +449,16 @@ app.post('/updateprofile', upload.single('profileImage'), async (req, res) => {
 //     res.status(500).send('Internal Server Error')
 //   }
 // })
+
+
+app.get('/favorites/:userId', async (req, res) => {
+  try {
+    const favorites = await pool.query(
+      `SELECT * FROM favorites WHERE user_id = $1`,
+      [req.params.userId]
+    );
+    res.status(200).json(favorites.rows);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});

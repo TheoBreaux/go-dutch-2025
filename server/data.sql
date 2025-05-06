@@ -75,6 +75,18 @@ CREATE TABLE split_purchases (
     purchased_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE favorites (
+  user_id BIGINT NOT NULL REFERENCES users(user_id),
+  favorited_id BIGINT NOT NULL,
+  favorited_type TEXT CHECK (favorited_type IN ('diner', 'restaurant')),
+  created_at TIMESTAMP DEFAULT NOW(),
+  UNIQUE(user_id, favorited_id, favorited_type)
+);
+
+SELECT * FROM favorites WHERE user_id = 1 AND favorited_type = 'restaurant';
+
+
+
 --     primary_payment_source VARCHAR(255),
 --     primary_payment_source_username VARCHAR(255),
 --     secondary_payment_source VARCHAR(255),

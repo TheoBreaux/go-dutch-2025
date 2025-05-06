@@ -6,9 +6,17 @@ import Images from '../assets/images/images'
 import { handleExternalLink, handleCallRestaurant } from '../utils/utils'
 import { ASSET_URL } from '../constants/constants'
 import { useNavigation } from '@react-navigation/native'
+import { useDispatch, useSelector } from 'react-redux'
+import { toggleFavorite } from '../state/actions/actions'
 
-const SliderItem = ({ name, imgUrl, address, city, state, zip, rating, website, phone, bio, cuisine }) => {
+const SliderItem = ({ name, imgUrl, address, city, state, zip, rating, website, phone, bio, cuisine, item }) => {
+  const dispatch = useDispatch()
   const navigation = useNavigation()
+  const favorites = useSelector((state) => state.app.favorites)
+
+  const isFavorite = favorites.some((favorite) => {
+    return (favorite.isRestaurant && favorite.restaurantId === item.restaurantId) || (favorite.isDiner && favorite.userId === item.userId)
+  })
 
   return (
     <View style={Styles.homeScreen.sliderItem.container}>
@@ -19,7 +27,12 @@ const SliderItem = ({ name, imgUrl, address, city, state, zip, rating, website, 
         />
 
         <View style={Styles.homeScreen.sliderItem.container.carouselContainer.favoritesIconContainer}>
-          <FavoritesIcon />
+          <FavoritesIcon
+            isFavorited={isFavorite}
+            onPress={() => {
+              dispatch(toggleFavorite((item)))
+            }}
+          />
         </View>
 
         <View style={Styles.homeScreen.sliderItem.container.restaurantInfoContainer}>

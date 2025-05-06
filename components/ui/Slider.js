@@ -9,6 +9,7 @@ const Slider = ({ featuredRestaurants }) => {
   const renderItem = ({ item }) => {
     return (
       <SliderItem
+        item={item}
         {...item}
         key={item.id}
       />

@@ -26,6 +26,8 @@ import {
   UPDATE_USER_PROFILE_FAILURE,
   UPDATE_USER_PROFILE_SUCCESS,
   TOGGLE_FAVORITE,
+  TOGGLE_FAVORITE_FAILURE,
+  TOGGLE_FAVORITE_SUCCESS,
 } from '../actions/actionTypes'
 
 const initialState = {
@@ -105,22 +107,25 @@ const AppReducer = (state = initialState, action) => {
     case SIGN_UP_USER_SUCCESS:
       return { ...state, user: action.payload, loading: false, error: null }
     //Toggle Favorite
-    case TOGGLE_FAVORITE:
+    case TOGGLE_FAVORITE: {
       const item = action.payload
+      console.log('TOGGLE FAVORITE HAPPENING: ', item)
+      const isDiner = item.isDiner
+      const isRestaurant = item.isRestaurant
 
-      // Check if item is a diner or restaurant, based on the flags
-      const exists = state.favorites.some(
-        (fav) => (fav.isDiner && item.isDiner && fav.id === item.id) || (fav.isRestaurant && item.isRestaurant && fav.id === item.id)
-      )
+      const itemId = isRestaurant ? item.restaurantId : item.userId
 
+      const exists = state.favorites.some((fav) => {
+        const favId = fav.isRestaurant ? fav.restaurantId : fav.userId
+        return ((isDiner && fav.isDiner) || (isRestaurant && fav.isRestaurant)) && favId === itemId
+      })
       return {
         ...state,
         favorites: exists
-          ? state.favorites.filter(
-              (fav) => !((fav.isDiner && item.isDiner && fav.id === item.id) || (fav.isRestaurant && item.isRestaurant && fav.id === item.id))
-            )
+          ? state.favorites.filter((fav) => !((fav.isRestaurant && fav.restaurantId === itemId) || (fav.isDiner && fav.userId === itemId)))
           : [...state.favorites, item],
       }
+    }
     case TOGGLE_FAVORITE_FAILURE:
       return {
         ...state,

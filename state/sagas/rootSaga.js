@@ -1,5 +1,5 @@
 //this is where we handle data fetching
-import { put, takeLatest, all, call, debounce } from 'redux-saga/effects'
+import { put, takeLatest, all, call, debounce, select } from 'redux-saga/effects'
 import Toast from 'react-native-toast-message'
 import * as RootNavigation from '../../utils/RootNavigation'
 import { API_URL } from '../../constants/constants'
@@ -12,23 +12,26 @@ import {
   POST_DINING_EVENT,
   FETCH_DINING_HISTORY,
   UPDATE_USER_PROFILE,
+  TOGGLE_FAVORITE,
 } from '../actions/actionTypes'
 import {
   autoCompleteDinerFailure,
   autoCompleteDinerSuccess,
+  loginUser,
   fetchDiningHistoryFailure,
   fetchDiningHistorySuccess,
   fetchFeaturedRestaurantsFailure,
   fetchFeaturedRestaurantsSuccess,
+  postDiningEventFailure,
+  postDiningEventSuccess,
   setLocalRestaurantsFailure,
   setLocalRestaurantsSuccess,
   signUpUserFailure,
   signUpUserSuccess,
-  postDiningEventFailure,
-  postDiningEventSuccess,
+  toggleFavoriteFailure,
+  toggleFavoriteSuccess,
   updateUserProfileFailure,
   updateUserProfileSuccess,
-  loginUser,
 } from '../actions/actions'
 
 const API_KEY = Constants.expoConfig.extra.API_KEY
@@ -171,6 +174,47 @@ function* watchSetLocalRestaurants() {
   yield takeLatest(SET_LOCAL_RESTAURANTS, setLocalRestaurants)
 }
 
+function* toggleFavorite(action) {
+  const item = action.payload
+  const userId = yield select((state) => state.app.user.userId)
+
+  try {
+    const type = item.restaurantId ? 'restaurant' : 'diner'
+    const favoritedId = item.restaurantId || item.userId
+
+    const response = yield call(fetch, `${API_URL}/updatefavorites`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        favoritedId,
+        userId,
+        type,
+      }),
+    })
+
+    if (!response.ok) {
+      const errorData = yield response.json()
+      throw new Error(errorData.message || 'Failed to update favorite')
+    }
+
+    const { item: updatedItem } = yield response.json()
+    yield put(
+      toggleFavoriteSuccess({
+        ...item,
+        isFavorite: updatedItem.isFavorite,
+      })
+    )
+  } catch (error) {
+    console.error('TOGGLE FAVORITE ERROR:', error)
+    yield put(toggleFavoriteFailure(error.message))
+  }
+}
+function* watchToggleFavorite() {
+  yield takeLatest(TOGGLE_FAVORITE, toggleFavorite)
+}
+
 function* updateUserProfile(action) {
   try {
     const response = yield call(fetch, `${API_URL}/updateprofile`, {
@@ -223,5 +267,6 @@ export default function* rootSaga() {
     watchFetchDiningHistory(),
     watchUpdateUserProfile(),
     watchSignUpUser(),
+    watchToggleFavorite(),
   ])
 }

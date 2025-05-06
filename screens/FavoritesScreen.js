@@ -6,12 +6,15 @@ import FavoritesButton from '../components/ui/FavoritesButton'
 import RestaurantTile from '../components/ui/RestaurantTile'
 import DinerTile from '../components/ui/DinerTile'
 import { COLORS, SCREEN_HEIGHT } from '../constants/constants'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 const FavoritesScreen = () => {
+  const favorites = useSelector((state) => state.app.favorites)
   const [activeTab, setActiveTab] = useState('restaurants')
   const [favoriteDiners, setFavoriteDiners] = useState(null)
   const [favoriteRestaurants, setFavoriteRestaurants] = useState(null)
+
+  console.log('FAVORITES:', favorites)
 
   useEffect(() => {}, [])
 
@@ -52,8 +55,8 @@ const FavoritesScreen = () => {
 
       <View style={Styles.resturantsScreen.container}>
         <FlatList
-          data={activeTab === 'restaurants' ? RESTAURANT_DATA : DINER_DATA}
-          keyExtractor={(item) => item.id.toString()}
+          data={activeTab === 'restaurants' ? favorites : favorites}
+          // keyExtractor={(item) => item.id.toString()}
           renderItem={renderItem}
           contentContainerStyle={{ paddingBottom: SCREEN_HEIGHT * 0.025 }}
           showsVerticalScrollIndicator={false}
