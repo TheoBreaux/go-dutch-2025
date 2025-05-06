@@ -107,11 +107,19 @@ const AppReducer = (state = initialState, action) => {
     //Toggle Favorite
     case TOGGLE_FAVORITE:
       const item = action.payload
-      const exists = state.favorites.some((fav) => fav.id === item.id && fav.category === item.category)
+
+      // Check if item is a diner or restaurant, based on the flags
+      const exists = state.favorites.some(
+        (fav) => (fav.isDiner && item.isDiner && fav.id === item.id) || (fav.isRestaurant && item.isRestaurant && fav.id === item.id)
+      )
 
       return {
         ...state,
-        favorites: exists ? state.favorites.filter((fav) => !(fav.id === item.id && fav.category === item.category)) : [...state.favorites, item],
+        favorites: exists
+          ? state.favorites.filter(
+              (fav) => !((fav.isDiner && item.isDiner && fav.id === item.id) || (fav.isRestaurant && item.isRestaurant && fav.id === item.id))
+            )
+          : [...state.favorites, item],
       }
     case TOGGLE_FAVORITE_FAILURE:
       return {
