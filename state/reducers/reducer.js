@@ -117,33 +117,12 @@ const AppReducer = (state = initialState, action) => {
     case SIGN_UP_USER_SUCCESS:
       return { ...state, user: action.payload, loading: false, error: null }
     //Toggle Favorite
-    case TOGGLE_FAVORITE: {
-      // const item = action.payload
-      // console.log('TOGGLE FAVORITE HAPPENING: ', item)
-      // const isDiner = item.isDiner
-      // const isRestaurant = item.isRestaurant
-      // const itemId = isRestaurant ? item.restaurantId : item.userId
-      // const exists = state.favorites.some((fav) => {
-      //   const favId = fav.isRestaurant ? fav.restaurantId : fav.userId
-      //   return ((isDiner && fav.isDiner) || (isRestaurant && fav.isRestaurant)) && favId === itemId
-      // })
-      // return {
-      //   ...state,
-      //   favorites: exists
-      //     ? state.favorites.filter((fav) => !((fav.isRestaurant && fav.restaurantId === itemId) || (fav.isDiner && fav.userId === itemId)))
-      //     : [...state.favorites, item],
-      // }
-    }
+    case TOGGLE_FAVORITE:
+      return { ...state, loading: true, error: null }
     case TOGGLE_FAVORITE_FAILURE:
-      return {
-        ...state,
-        error: action.error,
-      }
+      return { ...state, error: action.error }
     case TOGGLE_FAVORITE_SUCCESS:
-      return {
-        ...state,
-        favorites: action.payload,
-      }
+      return { ...state, favorites: action.payload }
     // Update User Profile
     case UPDATE_USER_PROFILE:
       return { ...state, loading: true, error: null }

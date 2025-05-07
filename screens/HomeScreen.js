@@ -6,7 +6,7 @@ import { ASSET_URL, CIRCLE_SIZE, COLORS } from '../constants/constants'
 import { useCallback, useEffect, useState } from 'react'
 import ProfileImageMedallion from '../components/ui/ProfileImageMedallion'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchFeaturedRestaurants, setCurrentCity, setLocalRestaurants } from '../state/actions/actions'
+import { fetchFavorites, fetchFeaturedRestaurants, setCurrentCity, setLocalRestaurants } from '../state/actions/actions'
 import Constants from 'expo-constants'
 import { getCityFromCoordinates } from '../utils/utils'
 import LocateUser from '../components/LocateUser'
@@ -17,6 +17,7 @@ const HomeScreen = ({ navigation }) => {
   const [loadingLocation, setLoadingLocation] = useState(false)
 
   const user = useSelector((state) => state.app.user)
+  const userId = useSelector((state) => state.app.user.userId)
   const currentCity = useSelector((state) => state.app.currentCity)
   const featuredRestaurants = useSelector((state) => state.app.featuredRestaurants)
 
@@ -29,11 +30,13 @@ const HomeScreen = ({ navigation }) => {
     if (latitude !== 0 && longitude !== 0 && !currentCity) {
       handleLocationSearch(latitude, longitude)
     }
-  }, [latitude, longitude, currentCity])
 
-  useEffect(() => {
     dispatch(fetchFeaturedRestaurants())
-  }, [dispatch])
+
+    if (userId) {
+      dispatch(fetchFavorites(userId))
+    }
+  }, [latitude, longitude, currentCity, dispatch, userId])
 
   const handleLocationUpdate = useCallback((lat, long) => {
     setLatitude(lat)

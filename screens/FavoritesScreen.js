@@ -1,44 +1,34 @@
 import { FlatList, View } from 'react-native'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import Styles from '../style'
 import FavoritesButton from '../components/ui/FavoritesButton'
 import RestaurantTile from '../components/ui/RestaurantTile'
 import DinerTile from '../components/ui/DinerTile'
 import { COLORS, SCREEN_HEIGHT } from '../constants/constants'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchFavorites } from '../state/actions/actions'
+import { useSelector } from 'react-redux'
 
 const FavoritesScreen = () => {
-  const dispatch = useDispatch()
   const favorites = useSelector((state) => state.app.favorites)
-  const userId = useSelector((state) => state.app.user.userId)
   const [activeTab, setActiveTab] = useState('restaurants')
-  const [favoriteDiners, setFavoriteDiners] = useState(favorites.filter((fav) => fav.favorited_type === 'diner'))
-  const [favoriteRestaurants, setFavoriteRestaurants] = useState(favorites.filter((fav) => fav.favorited_type === 'restaurant'))
 
-  console.log('FAVORITES:', favorites)
-  console.log('Fav Diners: ', favoriteDiners)
-  console.log('Fav Restaurants: ', favoriteRestaurants)
+  const favoriteDiners = favorites.filter((fav) => fav.favorited_type === 'diner')
+  const favoriteRestaurants = favorites.filter((fav) => fav.favorited_type === 'restaurant')
 
-  useEffect(() => {
-    if (userId) {
-      dispatch(fetchFavorites(userId))
-    }
-  }, [userId])
+  console.log(favoriteDiners)
 
   const renderItem = ({ item }) => {
     if (activeTab === 'restaurants') {
       return (
         <RestaurantTile
-          {...item}
+          {...item.restaurant}
           favoritesTile={true}
         />
       )
     } else if (activeTab === 'diners') {
       return (
         <DinerTile
-          {...item}
+          {...item.diner}
           favoritesTile={true}
         />
       )

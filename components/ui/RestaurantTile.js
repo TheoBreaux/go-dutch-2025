@@ -3,9 +3,16 @@ import Images from '../../assets/images/images'
 import Styles from '../../style'
 import FavoritesIcon from './FavoritesIcon'
 import { useNavigation } from '@react-navigation/native'
+import { useSelector } from 'react-redux'
 
-const RestaurantTile = ({ name, address, city, state, zip, phone, rating, cuisine, bio, image, website, favoritesTile = false }) => {
+const RestaurantTile = ({ name, address, city, state, zip, phone, rating, cuisine, bio, image, website, restaurant_id, favoritesTile = false }) => {
   const navigation = useNavigation()
+
+  const favorites = useSelector((state) => state.app.favorites)
+
+  const isFavorite = favorites.some((favorite) => {
+    return favorite.favorited_type === 'restaurant' && Number(favorite.favorited_id) === restaurant_id
+  })
 
   return (
     <TouchableOpacity
@@ -48,13 +55,9 @@ const RestaurantTile = ({ name, address, city, state, zip, phone, rating, cuisin
           <Text style={Styles.restaurantTile.container.textContainer.info}>{`${city}, ${state} ${zip}`}</Text>
           <Text style={Styles.restaurantTile.container.textContainer.info}>{phone}</Text>
           <Text style={Styles.restaurantTile.container.textContainer.info}>{`${rating}/5.0 ⭐ - ${cuisine}`}</Text>
-    
         </View>
-        {!favoritesTile && (
-          <View style={{ justifyContent: 'center' }}>
-            <FavoritesIcon />
-          </View>
-        )}
+
+        {favoritesTile && <FavoritesIcon isFavorited={isFavorite} />}
       </View>
     </TouchableOpacity>
   )

@@ -54,18 +54,12 @@ function* watchAutoCompleteDiner() {
   yield debounce(300, AUTO_COMPLETE_DINER, autoCompleteDiner)
 }
 
-
-
-
 function* fetchFavorites(action) {
-
   const userId = action.payload
 
   try {
     const response = yield call(fetch, `${API_URL}/favorites/${userId}`, { method: 'GET' })
     const data = yield response.json()
-
-    console.log('DATA IN SAGA: ', data)
 
     yield put(fetchFavoritesSuccess(data))
   } catch (error) {
@@ -75,11 +69,6 @@ function* fetchFavorites(action) {
 function* watchFetchFavorites() {
   yield takeLatest(FETCH_FAVORITES, fetchFavorites)
 }
-
-
-
-
-
 
 function* fetchFeaturedRestaurants() {
   try {

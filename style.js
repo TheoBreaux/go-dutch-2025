@@ -126,8 +126,9 @@ export default StyleSheet.create({
   // ================================================================================================================================== RESTAURANT TILE
   restaurantTile: {
     container: {
-      info: { justifyContent: 'center', alignItems: 'center', flexDirection: 'row' },
-      padding: 10,
+      width: SCREEN_WIDTH  ,
+      info: { alignItems: 'center', flexDirection: 'row', justifyContent: 'space-around' },
+      paddingHorizontal: 15,
       width: SCREEN_WIDTH * 0.9,
       height: SCREEN_HEIGHT * 0.15,
       elevation: 5,
@@ -139,11 +140,11 @@ export default StyleSheet.create({
       borderRadius: 20,
       marginTop: 10,
       flexDirection: 'row',
-      imageContainer: { borderRadius: 20, overflow: 'hidden', marginRight: 10, image: { width: 100, height: '100%', resizeMode: 'contain' } },
+      imageContainer: { borderRadius: 20, overflow: 'hidden', marginRight: 10, image: { width: SCREEN_WIDTH * 0.25, resizeMode: 'contain' } },
       textContainer: {
-        width: '50%',
+        width: SCREEN_WIDTH * 0.4,
         marginRight: 10,
-        text: { name: { fontFamily: 'Poppins-Bold', fontSize: SCREEN_WIDTH < 400 ? scaleFont(14) : scaleFont(15) } },
+        text: { name: { fontFamily: 'Poppins-BlackItalic', fontSize: SCREEN_WIDTH < 400 ? scaleFont(14) : scaleFont(15) } },
         info: { fontFamily: 'Poppins-Regular', fontSize: SCREEN_WIDTH < 400 ? scaleFont(12) : scaleFont(14), marginBottom: -5 },
       },
     },
