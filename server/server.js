@@ -14,6 +14,7 @@ const storage = multer.memoryStorage()
 const upload = multer({ storage })
 
 const { uploadFileToS3 } = require('./s3')
+const { PRETTIFY } = require('../utils/utils')
 
 const pool = new Pool({
   user: process.env.DB_USER,
@@ -437,6 +438,24 @@ app.post('/updatefavorites', async (req, res) => {
   }
 })
 
+app.get('/favorites/:userId', async (req, res) => {
+  try {
+    const favorites = await pool.query(
+      `SELECT *
+    FROM favorites
+    JOIN users AS u1 ON favorites.user_id = u1.user_id
+    LEFT JOIN restaurants ON favorites.favorited_type = 'restaurant' AND favorites.favorited_id = restaurants.restaurant_id
+    LEFT JOIN users AS u2 ON favorites.favorited_type = 'diner' AND favorites.favorited_id = u2.user_id
+    WHERE favorites.favorited_type IN ('restaurant', 'diner')
+      AND favorites.user_id = $1`,
+      [req.params.userId]
+    )
+    res.status(200).json(favorites.rows)
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' })
+  }
+})
+
 // CONFIRM THAT USER EXISTS IN DB SO CAN BE ADDED AS DINER
 // app.get('/users/:username', async (req, res) => {
 //   const { username } = req.params
@@ -449,16 +468,3 @@ app.post('/updatefavorites', async (req, res) => {
 //     res.status(500).send('Internal Server Error')
 //   }
 // })
-
-
-app.get('/favorites/:userId', async (req, res) => {
-  try {
-    const favorites = await pool.query(
-      `SELECT * FROM favorites WHERE user_id = $1`,
-      [req.params.userId]
-    );
-    res.status(200).json(favorites.rows);
-  } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});

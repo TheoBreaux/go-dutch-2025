@@ -5,6 +5,9 @@ import {
   FETCH_DINING_HISTORY,
   FETCH_DINING_HISTORY_FAILURE,
   FETCH_DINING_HISTORY_SUCCESS,
+  FETCH_FAVORITES,
+  FETCH_FAVORITES_FAILURE,
+  FETCH_FAVORITES_SUCCESS,
   FETCH_FEATURED_RESTAURANTS,
   FETCH_FEATURED_RESTAURANTS_FAILURE,
   FETCH_FEATURED_RESTAURANTS_SUCCESS,
@@ -62,6 +65,13 @@ const AppReducer = (state = initialState, action) => {
       return { ...state, diningHistory: action.payload, loading: false, error: null }
     case FETCH_DINING_HISTORY_FAILURE:
       return { ...state, error: action.error, loading: false }
+    // Fetch Favorites
+    case FETCH_FAVORITES:
+      return { ...state, loading: true, error: null }
+    case FETCH_FAVORITES_SUCCESS:
+      return { ...state, favorites: action.payload, loading: false, error: null }
+    case FETCH_FAVORITES_FAILURE:
+      return { ...state, error: action.error, loading: false }
     // Fetch Restaurants
     case FETCH_FEATURED_RESTAURANTS:
       return { ...state, loading: true, error: null }
@@ -108,23 +118,21 @@ const AppReducer = (state = initialState, action) => {
       return { ...state, user: action.payload, loading: false, error: null }
     //Toggle Favorite
     case TOGGLE_FAVORITE: {
-      const item = action.payload
-      console.log('TOGGLE FAVORITE HAPPENING: ', item)
-      const isDiner = item.isDiner
-      const isRestaurant = item.isRestaurant
-
-      const itemId = isRestaurant ? item.restaurantId : item.userId
-
-      const exists = state.favorites.some((fav) => {
-        const favId = fav.isRestaurant ? fav.restaurantId : fav.userId
-        return ((isDiner && fav.isDiner) || (isRestaurant && fav.isRestaurant)) && favId === itemId
-      })
-      return {
-        ...state,
-        favorites: exists
-          ? state.favorites.filter((fav) => !((fav.isRestaurant && fav.restaurantId === itemId) || (fav.isDiner && fav.userId === itemId)))
-          : [...state.favorites, item],
-      }
+      // const item = action.payload
+      // console.log('TOGGLE FAVORITE HAPPENING: ', item)
+      // const isDiner = item.isDiner
+      // const isRestaurant = item.isRestaurant
+      // const itemId = isRestaurant ? item.restaurantId : item.userId
+      // const exists = state.favorites.some((fav) => {
+      //   const favId = fav.isRestaurant ? fav.restaurantId : fav.userId
+      //   return ((isDiner && fav.isDiner) || (isRestaurant && fav.isRestaurant)) && favId === itemId
+      // })
+      // return {
+      //   ...state,
+      //   favorites: exists
+      //     ? state.favorites.filter((fav) => !((fav.isRestaurant && fav.restaurantId === itemId) || (fav.isDiner && fav.userId === itemId)))
+      //     : [...state.favorites, item],
+      // }
     }
     case TOGGLE_FAVORITE_FAILURE:
       return {

@@ -14,9 +14,9 @@ const SliderItem = ({ name, imgUrl, address, city, state, zip, rating, website, 
   const navigation = useNavigation()
   const favorites = useSelector((state) => state.app.favorites)
 
-  const isFavorite = favorites.some((favorite) => {
-    return (favorite.isRestaurant && favorite.restaurantId === item.restaurantId) || (favorite.isDiner && favorite.userId === item.userId)
-  })
+  // const isFavorite = favorites.some((favorite) => {
+  //   return (favorite.isRestaurant && favorite.restaurantId === item.restaurantId) || (favorite.isDiner && favorite.userId === item.userId)
+  // })
 
   return (
     <View style={Styles.homeScreen.sliderItem.container}>
@@ -28,9 +28,9 @@ const SliderItem = ({ name, imgUrl, address, city, state, zip, rating, website, 
 
         <View style={Styles.homeScreen.sliderItem.container.carouselContainer.favoritesIconContainer}>
           <FavoritesIcon
-            isFavorited={isFavorite}
+            // isFavorited={isFavorite}
             onPress={() => {
-              dispatch(toggleFavorite((item)))
+              dispatch(toggleFavorite(item))
             }}
           />
         </View>

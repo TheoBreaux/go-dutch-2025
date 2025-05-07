@@ -6,6 +6,9 @@ import {
   FETCH_DINING_HISTORY,
   FETCH_DINING_HISTORY_FAILURE,
   FETCH_DINING_HISTORY_SUCCESS,
+  FETCH_FAVORITES,
+  FETCH_FAVORITES_FAILURE,
+  FETCH_FAVORITES_SUCCESS,
   FETCH_FEATURED_RESTAURANTS,
   FETCH_FEATURED_RESTAURANTS_FAILURE,
   FETCH_FEATURED_RESTAURANTS_SUCCESS,
@@ -58,6 +61,21 @@ export const fetchDiningHistoryFailure = (error) => ({
 
 export const fetchDiningHistorySuccess = (data) => ({
   type: FETCH_DINING_HISTORY_SUCCESS,
+  payload: data,
+})
+
+export const fetchFavorites = (data) => ({
+  type: FETCH_FAVORITES,
+  payload: data,
+})
+
+export const fetchFavoritesFailure = (error) => ({
+  type: FETCH_FAVORITES_FAILURE,
+  error,
+})
+
+export const fetchFavoritesSuccess = (data) => ({
+  type: FETCH_FAVORITES_SUCCESS,
   payload: data,
 })
 
@@ -143,7 +161,6 @@ export const signUpUserSuccess = (data) => ({
   type: SIGN_UP_USER_SUCCESS,
   payload: data,
 })
-
 
 export const toggleFavorite = (item) => ({
   type: TOGGLE_FAVORITE,

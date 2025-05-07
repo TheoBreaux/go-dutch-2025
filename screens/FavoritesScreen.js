@@ -7,16 +7,24 @@ import RestaurantTile from '../components/ui/RestaurantTile'
 import DinerTile from '../components/ui/DinerTile'
 import { COLORS, SCREEN_HEIGHT } from '../constants/constants'
 import { useDispatch, useSelector } from 'react-redux'
+import { fetchFavorites } from '../state/actions/actions'
 
 const FavoritesScreen = () => {
+  const dispatch = useDispatch()
   const favorites = useSelector((state) => state.app.favorites)
+  const userId = useSelector((state) => state.app.user.userId)
   const [activeTab, setActiveTab] = useState('restaurants')
   const [favoriteDiners, setFavoriteDiners] = useState(null)
   const [favoriteRestaurants, setFavoriteRestaurants] = useState(null)
 
   console.log('FAVORITES:', favorites)
+  console.log(userId)
 
-  useEffect(() => {}, [])
+  useEffect(() => {
+    if (userId) {
+      dispatch(fetchFavorites(userId))
+    }
+  }, [userId])
 
   const renderItem = ({ item }) => {
     if (activeTab === 'restaurants') {

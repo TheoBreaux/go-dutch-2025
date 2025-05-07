@@ -5,6 +5,7 @@ import * as RootNavigation from '../../utils/RootNavigation'
 import { API_URL } from '../../constants/constants'
 import Constants from 'expo-constants'
 import {
+  FETCH_FAVORITES,
   FETCH_FEATURED_RESTAURANTS,
   SET_LOCAL_RESTAURANTS,
   SIGN_UP_USER,
@@ -20,6 +21,8 @@ import {
   loginUser,
   fetchDiningHistoryFailure,
   fetchDiningHistorySuccess,
+  fetchFavoritesFailure,
+  fetchFavoritesSuccess,
   fetchFeaturedRestaurantsFailure,
   fetchFeaturedRestaurantsSuccess,
   postDiningEventFailure,
@@ -49,6 +52,27 @@ function* autoCompleteDiner(action) {
 }
 function* watchAutoCompleteDiner() {
   yield debounce(300, AUTO_COMPLETE_DINER, autoCompleteDiner)
+}
+
+function* fetchFavorites(action) {
+  console.log('ACTION IN SAGA: ', action)
+  const userId = action.payload
+
+  console.log(userId)
+
+  try {
+    const response = yield call(fetch, `${API_URL}/favorites/${userId}`, { method: 'GET' })
+    const data = yield response.json()
+
+    console.log('DATA IN SAGA: ', data)
+
+    yield put(fetchFavoritesSuccess(data))
+  } catch (error) {
+    yield put(fetchFavoritesFailure(error.message))
+  }
+}
+function* watchFetchFavorites() {
+  yield takeLatest(FETCH_FAVORITES, fetchFavorites)
 }
 
 function* fetchFeaturedRestaurants() {
@@ -260,6 +284,7 @@ function* watchUpdateUserProfile() {
 
 export default function* rootSaga() {
   yield all([
+    watchFetchFavorites(),
     watchFetchFeaturedRestaurants(),
     watchSetLocalRestaurants(),
     watchAutoCompleteDiner(),
