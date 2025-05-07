@@ -126,7 +126,7 @@ export default StyleSheet.create({
   // ================================================================================================================================== RESTAURANT TILE
   restaurantTile: {
     container: {
-      width: SCREEN_WIDTH  ,
+      width: SCREEN_WIDTH,
       info: { alignItems: 'center', flexDirection: 'row', justifyContent: 'space-around' },
       paddingHorizontal: 15,
       width: SCREEN_WIDTH * 0.9,
@@ -661,6 +661,38 @@ export default StyleSheet.create({
 
   // ====================================================================================================================================== PROFILE SCREEN
   profileScreen: {
+    scrollViewContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      bioContainer: {
+        width: SCREEN_WIDTH * 0.9,
+        marginBottom: 50,
+        height: 'auto',
+        borderWidth: 2,
+        borderRadius: 15,
+        padding: 10,
+        elevation: 5,
+        backgroundColor: 'white',
+        borderRadius: 10,
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        text: { propertyName: { fontSize: scaleFont(20), fontFamily: 'Poppins-ExtraBold' }, fontSize: scaleFont(18), fontFamily: 'Poppins-Regular' },
+        textInput: {
+          borderWidth: 1,
+          borderColor: '#555151',
+          borderRadius: 5,
+          padding: 10,
+          fontSize: 14,
+          fontFamily: 'Poppins-Regular',
+          height: SCREEN_HEIGHT * 0.095,
+        },
+      },
+    },
+  },
+
+  // ====================================================================================================================================== SETTINGS SCREEN
+  settingsScreen: {
     actionTextButtonContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',

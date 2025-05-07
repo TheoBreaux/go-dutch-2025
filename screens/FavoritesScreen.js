@@ -19,14 +19,14 @@ const FavoritesScreen = () => {
     if (activeTab === 'restaurants') {
       return (
         <RestaurantTile
-          {...item.restaurant}
+          item={item.restaurant}
           favoritesTile={true}
         />
       )
     } else if (activeTab === 'diners') {
       return (
         <DinerTile
-          {...item.diner}
+          item={item.diner}
           favoritesTile={true}
         />
       )

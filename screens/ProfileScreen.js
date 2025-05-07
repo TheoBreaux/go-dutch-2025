@@ -1,23 +1,23 @@
-import { View, Text, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native'
+import { View, Text, ScrollView, TextInput, KeyboardAvoidingView, Platform } from 'react-native'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import Styles from '../style'
 import { ASSET_URL, CIRCLE_SIZE, COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import ProfileImageMedallion from '../components/ui/ProfileImageMedallion'
-import Ionicons from '@expo/vector-icons/Ionicons'
 import { scaleFont } from '../utils/utils'
+import { toggleFavorite } from '../state/actions/actions'
+import FavoritesIcon from '../components/ui/FavoritesIcon'
 
-const ProfileScreen = ({ navigation }) => {
-  const user = useSelector((state) => state.app.user)
-  const convertedDate = new Date(user.dateJoined)
+const ProfileScreen = ({ navigation, route }) => {
+  const dispatch = useDispatch()
+  const { item } = route.params
+  const convertedDate = new Date(item.date_joined)
   const options = { year: 'numeric', month: 'long' }
   const formattedDate = convertedDate.toLocaleDateString('en-us', options)
 
   const [notes, setNotes] = useState('')
-
-  console.log(user)
 
   const handleChangeNotes = (text) => {
     setNotes(text)
@@ -34,68 +34,68 @@ const ProfileScreen = ({ navigation }) => {
           showsVerticalScrollIndicator={false}
         >
           <ProfileImageMedallion
-            imageUrl={ASSET_URL + user.imgUrl}
+            imageUrl={ASSET_URL + item.img_url}
             height={CIRCLE_SIZE * 0.5}
             width={CIRCLE_SIZE * 0.5}
             borderRadius={(CIRCLE_SIZE * 0.5) / 2}
           />
-
           <Text style={{ fontSize: 22, fontFamily: 'Poppins-ExtraBold', marginTop: 10 }}>
             Member since:
             <Text style={{ fontSize: 20, fontFamily: 'Poppins-Medium' }}> {formattedDate}</Text>
           </Text>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={{ fontSize: 30, fontFamily: 'Poppins-ExtraBold' }}>{user.firstName + ' ' + user.lastName}</Text>
-            <TouchableOpacity>
-              <Ionicons
-                name={'heart-outline'}
-                size={SCREEN_WIDTH < 400 ? 30 : 40}
-                color={COLORS.goDutchBlue}
+            <Text style={{ fontSize: 30, fontFamily: 'Poppins-ExtraBold' }}>{item.first_name + ' ' + item.last_name}</Text>
+            <View style={{ marginBottom: 10, marginLeft: 10 }}>
+              <FavoritesIcon
+                onPress={() => {
+                  dispatch(toggleFavorite({ ...item, userId: item.user_id }))
+                }}
               />
-            </TouchableOpacity>
+            </View>
           </View>
-
-          <View
-            style={{
-              width: SCREEN_WIDTH * 0.9,
-              marginBottom: 50,
-              height: 'auto',
-              borderWidth: 2,
-              borderRadius: 15,
-              padding: 10,
-              elevation: 5,
-              backgroundColor: 'white',
-              borderRadius: 10,
-              shadowColor: 'black',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.2,
-              shadowRadius: 4,
-            }}
-          >
+          <View style={Styles.profileScreen.scrollViewContainer.bioContainer}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Text style={{ fontSize: scaleFont(30), fontFamily: 'Poppins-ExtraBold' }}>About</Text>
-              <Text style={{ fontSize: scaleFont(20), fontFamily: 'Poppins-ExtraBold', color: COLORS.goDutchRed }}>@{user.username}</Text>
+              <Text style={[Styles.profileScreen.scrollViewContainer.bioContainer.text.propertyName, { color: COLORS.goDutchRed }]}>
+                @{item.username}
+              </Text>
             </View>
 
-            <Text style={{ fontSize: scaleFont(18), fontFamily: 'Poppins-Regular' }}>{user.bio}</Text>
+            {item.bio && <Text style={Styles.profileScreen.scrollViewContainer.bioContainer.text}>{item.bio}</Text>}
 
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <View style={{ flexDirection: 'column' }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Text style={{ fontSize: scaleFont(20), fontFamily: 'Poppins-ExtraBold' }}>Location: </Text>
-                  <Text style={{ fontSize: scaleFont(18), fontFamily: 'Poppins-Regular' }}>{user.location}</Text>
-                </View>
+                {item.location && (
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={Styles.profileScreen.scrollViewContainer.bioContainer.text.propertyName}>Location: </Text>
+                    <Text style={Styles.profileScreen.scrollViewContainer.bioContainer.text}>{item.location}</Text>
+                  </View>
+                )}
 
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Text style={{ fontSize: scaleFont(20), fontFamily: 'Poppins-ExtraBold' }}>Birthday: </Text>
-                  <Text style={{ fontSize: scaleFont(18), fontFamily: 'Poppins-Regular' }}>{user.birthday}</Text>
-                </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Text style={{ fontSize: scaleFont(20), fontFamily: 'Poppins-ExtraBold' }}>Favorite Cuisine: </Text>
-                  <Text style={{ fontSize: scaleFont(18), fontFamily: 'Poppins-Regular' }}>{user.favoriteCuisine}</Text>
-                </View>
+                {item.birthday && (
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={Styles.profileScreen.scrollViewContainer.bioContainer.text.propertyName}>Birthday: </Text>
+                    <Text style={Styles.profileScreen.scrollViewContainer.bioContainer.text}>{item.birthday}</Text>
+                  </View>
+                )}
+                {item.favorite_cuisine && (
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={Styles.profileScreen.scrollViewContainer.bioContainer.text.propertyName}>Favorite Cuisine: </Text>
+                    <Text style={Styles.profileScreen.scrollViewContainer.bioContainer.text}>{item.favorite_cuisine}</Text>
+                  </View>
+                )}
               </View>
+            </View>
 
+            <TextInput
+              style={Styles.profileScreen.scrollViewContainer.bioContainer.textInput}
+              multiline={true}
+              numberOfLines={3}
+              onChangeText={handleChangeNotes}
+              value={notes}
+              placeholder={`Enter your notes about ${item.first_name}...`}
+            />
+            <View style={{ alignSelf: 'center' }}>
               <PrimaryButton
                 onPress={() => navigation.goBack()}
                 outerWidth={SCREEN_WIDTH * 0.27}
@@ -104,23 +104,6 @@ const ProfileScreen = ({ navigation }) => {
                 Return
               </PrimaryButton>
             </View>
-
-            <TextInput
-              style={{
-                borderWidth: 1,
-                borderColor: '#555151',
-                borderRadius: 5,
-                padding: 10,
-                fontSize: 14,
-                fontFamily: 'Poppins-Regular',
-                height: SCREEN_HEIGHT * 0.095,
-              }}
-              multiline={true}
-              numberOfLines={3}
-              onChangeText={handleChangeNotes}
-              value={notes}
-              placeholder="Enter your notes..."
-            />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

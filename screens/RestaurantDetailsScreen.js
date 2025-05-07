@@ -7,9 +7,12 @@ import Styles from '../style'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import { handleCallRestaurant, handleExternalLink, scaleFont } from '../utils/utils'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
+import { useDispatch } from 'react-redux'
+import { toggleFavorite } from '../state/actions/actions'
 
 const RestaurantDetailsScreen = ({ navigation, route }) => {
-  const { name, address, city, state, zip, phone, rating, cuisine, bio, image, website } = route.params
+  const dispatch = useDispatch()
+  const { item } = route.params
 
   return (
     <LogoScreenWrapper
@@ -29,12 +32,16 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
         </TouchableOpacity>
 
         <Image
-          source={image || Images.dining_detail}
+          source={item.image || Images.dining_detail}
           style={Styles.diningDetailsScreen.image}
         />
 
         <View style={Styles.restaurantDetailsScreen.favoritesIconContainer}>
-          <FavoritesIcon />
+          <FavoritesIcon
+            onPress={() => {
+              dispatch(toggleFavorite(item))
+            }}
+          />
         </View>
 
         <TouchableOpacity
@@ -48,12 +55,12 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
         </TouchableOpacity>
 
         <View style={Styles.restaurantDetailsScreen.cuisineMarker}>
-          <Text style={Styles.restaurantDetailsScreen.cuisineMarker.text}>{cuisine}</Text>
+          <Text style={Styles.restaurantDetailsScreen.cuisineMarker.text}>{item.cuisine}</Text>
         </View>
 
         <View style={Styles.restaurantDetailsScreen.rating}>
           <Text style={[Styles.restaurantDetailsScreen.restaurantInfoContainer.text.name, { fontSize: scaleFont(20), color: COLORS.goDutchRed }]}>
-            {rating}/5.0 ⭐
+            {item.rating}/5.0 ⭐
           </Text>
         </View>
       </View>
@@ -70,18 +77,18 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
           <View style={Styles.restaurantDetailsScreen.restaurantInfoContainer}>
             <View style={{ width: '75%' }}>
               <View>
-                <Text style={Styles.restaurantDetailsScreen.restaurantInfoContainer.text.name}>{name}</Text>
+                <Text style={Styles.restaurantDetailsScreen.restaurantInfoContainer.text.name}>{item.name}</Text>
               </View>
 
-              <Text style={[Styles.restaurantDetailsScreen.restaurantInfoContainer.text.address, { marginBottom: -5 }]}>{address}</Text>
-              <Text style={Styles.restaurantDetailsScreen.restaurantInfoContainer.text.address}>{`${city}, ${state} ${zip}`}</Text>
+              <Text style={[Styles.restaurantDetailsScreen.restaurantInfoContainer.text.address, { marginBottom: -5 }]}>{item.address}</Text>
+              <Text style={Styles.restaurantDetailsScreen.restaurantInfoContainer.text.address}>{`${item.city}, ${item.state} ${item.zip}`}</Text>
             </View>
           </View>
 
           <View style={Styles.restaurantDetailsScreen.buttonsContainer}>
             <View style={{ marginRight: 20 }}>
               <PrimaryButton
-                onPress={() => handleCallRestaurant(phone)}
+                onPress={() => handleCallRestaurant(item.phone)}
                 outerWidth={SCREEN_WIDTH * 0.4}
                 innerWidth={SCREEN_WIDTH * 0.37}
               >
@@ -90,14 +97,14 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
             </View>
 
             <PrimaryButton
-              onPress={() => handleExternalLink(website)}
+              onPress={() => handleExternalLink(item.website)}
               outerWidth={SCREEN_WIDTH * 0.4}
               innerWidth={SCREEN_WIDTH * 0.37}
             >
               Reserve
             </PrimaryButton>
           </View>
-          <Text style={Styles.restaurantDetailsScreen.bio}>{bio}</Text>
+          <Text style={Styles.restaurantDetailsScreen.bio}>{item.bio}</Text>
 
           <TextInput
             multiline={true}

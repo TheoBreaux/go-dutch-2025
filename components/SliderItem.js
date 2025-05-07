@@ -56,6 +56,7 @@ const SliderItem = ({ name, imgUrl, address, city, state, zip, rating, website, 
                   cuisine,
                   imgUrl,
                   website,
+                  item
                 },
               })
             }

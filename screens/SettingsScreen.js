@@ -140,18 +140,18 @@ const SettingsScreen = ({ navigation }) => {
         image={displayImageUri}
         setImage={setLocalImageUri}
       />
-      <View style={Styles.profileScreen.actionTextButtonContainer}>
+      <View style={Styles.settingsScreen.actionTextButtonContainer}>
         <TouchableOpacity
           style={{ marginTop: 10 }}
           onPress={() => setUpdatePassword(!updatePassword)}
         >
-          <Text style={Styles.profileScreen.actionTextButtonContainer.textButton}>{updatePassword ? 'Hide' : 'Update'} Password</Text>
+          <Text style={Styles.settingsScreen.actionTextButtonContainer.textButton}>{updatePassword ? 'Hide' : 'Update'} Password</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={{ marginTop: 10 }}
           onPress={handleLogOut}
         >
-          <Text style={Styles.profileScreen.actionTextButtonContainer.textButton}>Sign Out</Text>
+          <Text style={Styles.settingsScreen.actionTextButtonContainer.textButton}>Sign Out</Text>
         </TouchableOpacity>
       </View>
 
@@ -161,7 +161,7 @@ const SettingsScreen = ({ navigation }) => {
         keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}
       >
         <ScrollView
-          contentContainerStyle={Styles.profileScreen.scrollViewContainer}
+          contentContainerStyle={Styles.settingsScreen.scrollViewContainer}
           showsVerticalScrollIndicator={false}
           style={{ marginBottom: SCREEN_HEIGHT * 0.1 }}
         >
@@ -172,11 +172,11 @@ const SettingsScreen = ({ navigation }) => {
           >
             {({ handleChange, handleSubmit, handleBlur, values }) => (
               <>
-                <View style={Styles.profileScreen.inputContainer}>
+                <View style={Styles.settingsScreen.inputContainer}>
                   <View style={{ flex: 1, marginRight: 10 }}>
-                    <Text style={Styles.profileScreen.inputContainer.inputLabel}>First Name</Text>
+                    <Text style={Styles.settingsScreen.inputContainer.inputLabel}>First Name</Text>
                     <TextInput
-                      style={Styles.profileScreen.inputContainer.textInput}
+                      style={Styles.settingsScreen.inputContainer.textInput}
                       value={values.firstName}
                       onChangeText={handleChange('firstName')}
                       onBlur={handleBlur('firstName')}
@@ -189,9 +189,9 @@ const SettingsScreen = ({ navigation }) => {
                   </View>
 
                   <View style={{ flex: 1 }}>
-                    <Text style={Styles.profileScreen.inputContainer.inputLabel}>Last Name</Text>
+                    <Text style={Styles.settingsScreen.inputContainer.inputLabel}>Last Name</Text>
                     <TextInput
-                      style={Styles.profileScreen.inputContainer.textInput}
+                      style={Styles.settingsScreen.inputContainer.textInput}
                       value={values.lastName}
                       onChangeText={handleChange('lastName')}
                       onBlur={handleBlur('lastName')}
@@ -204,11 +204,11 @@ const SettingsScreen = ({ navigation }) => {
                   </View>
                 </View>
 
-                <View style={Styles.profileScreen.inputContainer}>
+                <View style={Styles.settingsScreen.inputContainer}>
                   <View style={{ flex: 1 }}>
-                    <Text style={Styles.profileScreen.inputContainer.inputLabel}>Email</Text>
+                    <Text style={Styles.settingsScreen.inputContainer.inputLabel}>Email</Text>
                     <TextInput
-                      style={Styles.profileScreen.inputContainer.textInput}
+                      style={Styles.settingsScreen.inputContainer.textInput}
                       value={values.email}
                       onChangeText={handleChange('email')}
                       onBlur={handleBlur('email')}
@@ -222,9 +222,9 @@ const SettingsScreen = ({ navigation }) => {
                 </View>
                 {updatePassword && (
                   <>
-                    <View style={Styles.profileScreen.inputContainer}>
+                    <View style={Styles.settingsScreen.inputContainer}>
                       <View style={{ flex: 1 }}>
-                        <Text style={Styles.profileScreen.inputContainer.inputLabel}>Password</Text>
+                        <Text style={Styles.settingsScreen.inputContainer.inputLabel}>Password</Text>
                         <View style={Styles.logInScreen.container.modal.passwordInput}>
                           <TextInput
                             style={[Styles.signUpScreen.textInput, { width: '100%', padding: 8 }]}
@@ -252,9 +252,9 @@ const SettingsScreen = ({ navigation }) => {
                         />
                       </View>
                     </View>
-                    <View style={Styles.profileScreen.inputContainer}>
+                    <View style={Styles.settingsScreen.inputContainer}>
                       <View style={{ flex: 1 }}>
-                        <Text style={Styles.profileScreen.inputContainer.inputLabel}>Confirm Password</Text>
+                        <Text style={Styles.settingsScreen.inputContainer.inputLabel}>Confirm Password</Text>
                         <View style={Styles.logInScreen.container.modal.passwordInput}>
                           <TextInput
                             style={[Styles.signUpScreen.textInput, { width: '100%', padding: 8 }]}
@@ -285,11 +285,11 @@ const SettingsScreen = ({ navigation }) => {
                   </>
                 )}
 
-                <View style={Styles.profileScreen.inputContainer}>
+                <View style={Styles.settingsScreen.inputContainer}>
                   <View style={{ flex: 1, marginRight: 10 }}>
-                    <Text style={Styles.profileScreen.inputContainer.inputLabel}>Username</Text>
+                    <Text style={Styles.settingsScreen.inputContainer.inputLabel}>Username</Text>
                     <TextInput
-                      style={Styles.profileScreen.inputContainer.textInput}
+                      style={Styles.settingsScreen.inputContainer.textInput}
                       value={values.username}
                       onChangeText={handleChange('username')}
                       onBlur={handleBlur('username')}
@@ -301,10 +301,10 @@ const SettingsScreen = ({ navigation }) => {
                     />
                   </View>
                   <View style={{ flex: 1 }}>
-                    <Text style={Styles.profileScreen.inputContainer.inputLabel}>Favorite Cuisine</Text>
+                    <Text style={Styles.settingsScreen.inputContainer.inputLabel}>Favorite Cuisine</Text>
                     <TextInput
                       placeholder="ex. Lebanese"
-                      style={Styles.profileScreen.inputContainer.textInput}
+                      style={Styles.settingsScreen.inputContainer.textInput}
                       value={values.favoriteCuisine}
                       onChangeText={handleChange('favoriteCuisine')}
                       onBlur={handleBlur('favoriteCuisine')}
@@ -317,12 +317,12 @@ const SettingsScreen = ({ navigation }) => {
                   </View>
                 </View>
 
-                <View style={Styles.profileScreen.inputContainer}>
+                <View style={Styles.settingsScreen.inputContainer}>
                   <View style={{ flex: 1, marginRight: 10 }}>
-                    <Text style={Styles.profileScreen.inputContainer.inputLabel}>Birthday</Text>
+                    <Text style={Styles.settingsScreen.inputContainer.inputLabel}>Birthday</Text>
                     <TextInput
                       placeholder="ex. July 4"
-                      style={Styles.profileScreen.inputContainer.textInput}
+                      style={Styles.settingsScreen.inputContainer.textInput}
                       value={values.birthday}
                       onChangeText={handleChange('birthday')}
                       onBlur={handleBlur('birthday')}
@@ -335,10 +335,10 @@ const SettingsScreen = ({ navigation }) => {
                   </View>
 
                   <View style={{ flex: 1 }}>
-                    <Text style={Styles.profileScreen.inputContainer.inputLabel}>Location</Text>
+                    <Text style={Styles.settingsScreen.inputContainer.inputLabel}>Location</Text>
                     <TextInput
                       placeholder="Chicago, IL"
-                      style={Styles.profileScreen.inputContainer.textInput}
+                      style={Styles.settingsScreen.inputContainer.textInput}
                       value={values.location}
                       onChangeText={handleChange('location')}
                       onBlur={handleBlur('location')}
@@ -351,14 +351,14 @@ const SettingsScreen = ({ navigation }) => {
                   </View>
                 </View>
 
-                <View style={Styles.profileScreen.scrollViewContainer.bioContainer}>
-                  <Text style={Styles.profileScreen.inputContainer.inputLabel}>Bio</Text>
+                <View style={Styles.settingsScreen.scrollViewContainer.bioContainer}>
+                  <Text style={Styles.settingsScreen.inputContainer.inputLabel}>Bio</Text>
                   <TextInput
                     placeholder="ex. I love delicious food and travel."
                     multiline
                     numberOfLines={4}
                     textAlignVertical="top"
-                    style={[Styles.profileScreen.inputContainer.textInput, { height: SCREEN_HEIGHT * 0.1 }]}
+                    style={[Styles.settingsScreen.inputContainer.textInput, { height: SCREEN_HEIGHT * 0.1 }]}
                     value={values.bio}
                     onChangeText={handleChange('bio')}
                     onBlur={handleBlur('bio')}
@@ -370,7 +370,7 @@ const SettingsScreen = ({ navigation }) => {
                   />
                 </View>
 
-                <View style={Styles.profileScreen.buttonContainer}>
+                <View style={Styles.settingsScreen.buttonContainer}>
                   <PrimaryButton onPress={() => navigation.goBack()}>Return</PrimaryButton>
                   <PrimaryButton onPress={handleSubmit}>Save</PrimaryButton>
                 </View>
