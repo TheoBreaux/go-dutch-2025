@@ -14,11 +14,12 @@ const FavoritesScreen = () => {
   const favorites = useSelector((state) => state.app.favorites)
   const userId = useSelector((state) => state.app.user.userId)
   const [activeTab, setActiveTab] = useState('restaurants')
-  const [favoriteDiners, setFavoriteDiners] = useState(null)
-  const [favoriteRestaurants, setFavoriteRestaurants] = useState(null)
+  const [favoriteDiners, setFavoriteDiners] = useState(favorites.filter((fav) => fav.favorited_type === 'diner'))
+  const [favoriteRestaurants, setFavoriteRestaurants] = useState(favorites.filter((fav) => fav.favorited_type === 'restaurant'))
 
   console.log('FAVORITES:', favorites)
-  console.log(userId)
+  console.log('Fav Diners: ', favoriteDiners)
+  console.log('Fav Restaurants: ', favoriteRestaurants)
 
   useEffect(() => {
     if (userId) {
@@ -63,7 +64,7 @@ const FavoritesScreen = () => {
 
       <View style={Styles.resturantsScreen.container}>
         <FlatList
-          data={activeTab === 'restaurants' ? favorites : favorites}
+          data={activeTab === 'restaurants' ? favoriteRestaurants : favoriteDiners}
           // keyExtractor={(item) => item.id.toString()}
           renderItem={renderItem}
           contentContainerStyle={{ paddingBottom: SCREEN_HEIGHT * 0.025 }}

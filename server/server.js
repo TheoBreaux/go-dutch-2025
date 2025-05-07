@@ -14,7 +14,6 @@ const storage = multer.memoryStorage()
 const upload = multer({ storage })
 
 const { uploadFileToS3 } = require('./s3')
-const { PRETTIFY } = require('../utils/utils')
 
 const pool = new Pool({
   user: process.env.DB_USER,
@@ -438,16 +437,20 @@ app.post('/updatefavorites', async (req, res) => {
   }
 })
 
+//FETCH FAVORITES
 app.get('/favorites/:userId', async (req, res) => {
   try {
     const favorites = await pool.query(
-      `SELECT *
-    FROM favorites
-    JOIN users AS u1 ON favorites.user_id = u1.user_id
-    LEFT JOIN restaurants ON favorites.favorited_type = 'restaurant' AND favorites.favorited_id = restaurants.restaurant_id
-    LEFT JOIN users AS u2 ON favorites.favorited_type = 'diner' AND favorites.favorited_id = u2.user_id
-    WHERE favorites.favorited_type IN ('restaurant', 'diner')
-      AND favorites.user_id = $1`,
+      `SELECT 
+  favorites.favorited_type,
+  favorites.favorited_id,
+  row_to_json(restaurants) AS restaurant,
+  row_to_json(u2) AS diner
+FROM favorites
+JOIN users AS u1 ON favorites.user_id = u1.user_id
+LEFT JOIN restaurants ON favorites.favorited_type = 'restaurant' AND favorites.favorited_id = restaurants.restaurant_id
+LEFT JOIN users AS u2 ON favorites.favorited_type = 'diner' AND favorites.favorited_id = u2.user_id
+WHERE favorites.user_id = $1`,
       [req.params.userId]
     )
     res.status(200).json(favorites.rows)
