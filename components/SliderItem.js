@@ -21,6 +21,7 @@ const SliderItem = ({ name, imgUrl, address, city, state, zip, rating, website, 
     )
   })
 
+ 
   return (
     <View style={Styles.homeScreen.sliderItem.container}>
       <View style={Styles.homeScreen.sliderItem.container.carouselContainer}>

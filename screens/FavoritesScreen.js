@@ -15,8 +15,6 @@ const FavoritesScreen = () => {
   const favoriteDiners = favorites.filter((fav) => fav.favorited_type === 'diner')
   const favoriteRestaurants = favorites.filter((fav) => fav.favorited_type === 'restaurant')
 
-  console.log(favoriteDiners)
-
   const renderItem = ({ item }) => {
     if (activeTab === 'restaurants') {
       return (
