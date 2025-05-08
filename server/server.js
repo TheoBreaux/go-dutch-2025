@@ -440,7 +440,7 @@ app.post('/updatefavorites', async (req, res) => {
         diner: null,
       }
     } else if (type === 'diner') {
-      const diner = await pool.query(`SELECT * FROM userss WHERE user_id = $1`, [favoritedId])
+      const diner = await pool.query(`SELECT * FROM users WHERE user_id = $1`, [favoritedId])
 
       updatedFavorite = {
         favorited_type: 'diner',

@@ -9,28 +9,22 @@ import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { useDispatch, useSelector } from 'react-redux'
 import { toggleFavorite } from '../../state/actions/actions'
 import { useNavigation } from '@react-navigation/native'
+import { PRETTIFY } from '../../utils/utils'
 
 const DinerTile = ({ primaryDiner = false, favoritesTile = false, onPress, user_id, additionalDiner = false, item }) => {
   const Container = favoritesTile ? TouchableOpacity : View
 
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  // const favorites = useSelector((state) => state.app.favorites)
-
-  // const isFavorite = favorites.some((favorite) => {
-  //   return favorite.favorited_type === 'diner' && Number(favorite.favorited_id) === item.user_id
-  // })
-
-  //FROM WORKING RESTAURANT TILE
+ 
   const favorites = useSelector((state) => state.app.favorites)
 
   const isFavorite = favorites.some((favorite) => {
-    return favorite.favorited_type === 'restaurant' && Number(favorite.favorited_id) === Number(item.restaurant_id)
+    return favorite.favorited_type === 'diner' && Number(favorite.favorited_id) === Number(item.user_id)
   })
 
 
-
-
+PRETTIFY(favorites.length)
 
   return (
     <Container

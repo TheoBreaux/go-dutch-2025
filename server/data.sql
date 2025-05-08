@@ -66,6 +66,7 @@ CREATE TABLE favorites (
   favorited_id BIGINT NOT NULL,
   favorited_type TEXT CHECK (favorited_type IN ('diner', 'restaurant')),
   created_at TIMESTAMP DEFAULT NOW(),
+  notes TEXT,
   UNIQUE(user_id, favorited_id, favorited_type)
 );
 

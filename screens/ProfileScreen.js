@@ -17,6 +17,12 @@ const ProfileScreen = ({ navigation, route }) => {
   const options = { year: 'numeric', month: 'long' }
   const formattedDate = convertedDate.toLocaleDateString('en-us', options)
 
+  const favorites = useSelector((state) => state.app.favorites)
+
+  const isFavorite = favorites.some((favorite) => {
+    return favorite.favorited_type === 'diner' && Number(favorite.favorited_id) === Number(item.user_id)
+  })
+
   const [notes, setNotes] = useState('')
 
   const handleChangeNotes = (text) => {
@@ -47,6 +53,7 @@ const ProfileScreen = ({ navigation, route }) => {
             <Text style={{ fontSize: 30, fontFamily: 'Poppins-ExtraBold' }}>{item.first_name + ' ' + item.last_name}</Text>
             <View style={{ marginBottom: 10, marginLeft: 10 }}>
               <FavoritesIcon
+                isFavorited={isFavorite}
                 onPress={() => {
                   dispatch(toggleFavorite({ ...item, userId: item.user_id }))
                 }}
