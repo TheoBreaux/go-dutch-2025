@@ -1,7 +1,7 @@
 import { View, Text, ScrollView, TextInput, KeyboardAvoidingView, Platform } from 'react-native'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import Styles from '../style'
-import { ASSET_URL, CIRCLE_SIZE, COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
+import { ASSET_URL, CIRCLE_SIZE, COLORS, SCREEN_WIDTH } from '../constants/constants'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -16,6 +16,8 @@ const ProfileScreen = ({ navigation, route }) => {
   const convertedDate = new Date(item.date_joined)
   const options = { year: 'numeric', month: 'long' }
   const formattedDate = convertedDate.toLocaleDateString('en-us', options)
+
+  console.log(item)
 
   const favorites = useSelector((state) => state.app.favorites)
 

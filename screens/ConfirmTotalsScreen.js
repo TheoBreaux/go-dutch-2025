@@ -18,6 +18,8 @@ const ConfirmTotalsScreen = ({ route, navigation }) => {
 
   const { totals, dinersWithTotals, eventTitle, numNonCelebrating } = route.params
 
+  console.log("DINERS WITH TOTALS: ", dinersWithTotals)
+
   const [finalSubtotal, setFinalSubtotal] = useState(totals.subtotal)
   const [showMissingFeesModal, setShowMissingFeesModal] = useState(false)
   const [newFeeName, setNewFeeName] = useState('')
@@ -109,7 +111,7 @@ const ConfirmTotalsScreen = ({ route, navigation }) => {
       tip: totalsArray[2].amount,
       totalMealCost: grandTotal,
       allDiners: finalBill,
-      imgUrl: 'wwww.theodorebreaux.com', //TEMPORARY
+      imgUrl: 'wwww.theodorebreaux.com', //TEMPORARY RECEIPT IMG URL
     }
 
     //ALSO NEED TO SEND ALL OF THIS TO BACKEND DATABASE AND UPDATE STATE

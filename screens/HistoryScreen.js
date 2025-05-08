@@ -26,10 +26,13 @@ const HistoryScreen = () => {
     setShowDiningDetailsModal(true)
   }
 
+  console.log(diningEventsHistory)
+
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
       {showDiningDetailsModal && (
         <DiningDetailsModal
+          setShowDiningDetailsModal={setShowDiningDetailsModal}
           showDiningDetailsModal={showDiningDetailsModal}
           diningEvent={selectedDiningEvent}
           onClose={() => setShowDiningDetailsModal(false)}
@@ -42,7 +45,7 @@ const HistoryScreen = () => {
       <View style={Styles.resturantsScreen.container}>
         <FlatList
           data={diningEventsHistory}
-          // keyExtractor={(item) => item.eventId}
+          keyExtractor={(item) => item.eventId.toString()}
           renderItem={({ item }) => (
             <DiningTile
               key={item.eventId}

@@ -55,7 +55,7 @@ CREATE TABLE dining_events (
 CREATE TABLE event_diners (
     event_id INT REFERENCES dining_events(event_id) ON DELETE CASCADE,
     user_id BIGINT REFERENCES users(user_id) ON DELETE CASCADE,
-    is_birthday BOOLEAN DEFAULT FALSE,
+    is_celebrating BOOLEAN DEFAULT FALSE,
     diner_meal_cost DECIMAL(10, 2),
     PRIMARY KEY (event_id, user_id)
 );

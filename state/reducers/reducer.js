@@ -121,20 +121,15 @@ const AppReducer = (state = initialState, action) => {
       return { ...state, loading: true, error: null }
     case TOGGLE_FAVORITE_FAILURE:
       return { ...state, error: action.error }
-
-      case TOGGLE_FAVORITE_SUCCESS:
-        console.log('TOGGLE FAVORITE SUCCESS HAPPENING IN REDUCER');
-        console.log(action.payload, 'IN REDUCER');
-      
-        const exists = state.favorites.some((fav) => {
-          return String(fav.favorited_id) === String(action.payload.favorited_id);
-        });
-      
-        const updatedFavorites = exists
-          ? state.favorites.filter(
-              (fav) => String(fav.favorited_id) !== String(action.payload.favorited_id)
-            )
-          : [...state.favorites, {
+    case TOGGLE_FAVORITE_SUCCESS:
+      const exists = state.favorites.some((fav) => {
+        return String(fav.favorited_id) === String(action.payload.favorited_id)
+      })
+      const updatedFavorites = exists
+        ? state.favorites.filter((fav) => String(fav.favorited_id) !== String(action.payload.favorited_id))
+        : [
+            ...state.favorites,
+            {
               ...action.payload,
               favorited_id: String(action.payload.favorited_id), // ensure consistent typing
               restaurant: {
@@ -142,17 +137,14 @@ const AppReducer = (state = initialState, action) => {
                 restaurant_id: Number(action.payload.restaurant.restaurant_id), // normalize here
                 rating: Number(action.payload.restaurant.rating), // if needed
               },
-            }];
-      
-        console.log('UPDATED FAVORITES IN REDUCER: ', updatedFavorites);
-      
-        return {
-          ...state,
-          favorites: updatedFavorites,
-          loading: false,
-          error: null,
-        };
-      
+            },
+          ]
+      return {
+        ...state,
+        favorites: updatedFavorites,
+        loading: false,
+        error: null,
+      }
     // Update User Profile
     case UPDATE_USER_PROFILE:
       return { ...state, loading: true, error: null }

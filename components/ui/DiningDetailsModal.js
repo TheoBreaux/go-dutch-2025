@@ -2,12 +2,22 @@ import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native'
 import CustomModalContainer from './CustomModalContainer'
 import Styles from '../../style'
 import Images from '../../assets/images/images'
-import { CIRCLE_SIZE, SCREEN_WIDTH, SCREEN_HEIGHT, COLORS } from '../../constants/constants'
+import { SCREEN_WIDTH, SCREEN_HEIGHT, COLORS } from '../../constants/constants'
 import PrimaryButton from './PrimaryButton'
+import { useNavigation } from '@react-navigation/native'
+import { scaleFont } from '../../utils/utils'
 
-const DiningDetailsModal = ({ diningEvent, onClose, showDiningDetailsModal }) => {
+const DiningDetailsModal = ({ diningEvent, onClose, showDiningDetailsModal, setShowDiningDetailsModal }) => {
+  const navigation = useNavigation()
+
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={[Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer, { width: SCREEN_WIDTH * 0.8 }]}>
+    <TouchableOpacity
+      style={[Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer, { width: SCREEN_WIDTH * 0.8 }]}
+      onPress={() => {
+        setShowDiningDetailsModal(false)
+        navigation.navigate('Screens', { screen: 'Profile', params: { item } })
+      }}
+    >
       <Text style={Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.username}>
         @{item.username}
         {item.isPrimaryDiner && (
@@ -26,6 +36,8 @@ const DiningDetailsModal = ({ diningEvent, onClose, showDiningDetailsModal }) =>
       </View>
     </TouchableOpacity>
   )
+
+  const totalMealCost = diningEvent.diners.reduce((sum, diner) => sum + diner.dinerMealCost, 0)
 
   return (
     <CustomModalContainer
@@ -53,6 +65,9 @@ const DiningDetailsModal = ({ diningEvent, onClose, showDiningDetailsModal }) =>
           renderItem={renderItem}
           contentContainerStyle={{ paddingBottom: SCREEN_HEIGHT * 0.015 }}
         />
+        <Text style={[Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.thankYou, { fontSize: scaleFont(20) }]}>
+          Total Meal Cost: ${totalMealCost}
+        </Text>
         <Text style={Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.thankYou}>Thanks for going Dutch! 🎉</Text>
         <PrimaryButton onPress={onClose}>Close</PrimaryButton>
       </View>

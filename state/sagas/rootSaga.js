@@ -100,6 +100,8 @@ function* watchFetchDiningHistory() {
   yield takeLatest(FETCH_DINING_HISTORY, fetchDiningHistory)
 }
 
+
+
 function* postDiningEvent(action) {
   try {
     const response = yield call(fetch, `${API_URL}/diningevents`, {
@@ -125,6 +127,11 @@ function* postDiningEvent(action) {
 function* watchPostDiningEvent() {
   yield takeLatest(POST_DINING_EVENT, postDiningEvent)
 }
+
+
+
+
+
 
 function* signUpUser(action) {
   try {
@@ -193,18 +200,12 @@ function* watchSetLocalRestaurants() {
   yield takeLatest(SET_LOCAL_RESTAURANTS, setLocalRestaurants)
 }
 
-
-
-
 function* toggleFavorite(action) {
   const item = action.payload
   const userId = yield select((state) => state.app.user.userId)
-  console.log("USER ID IN SAGA: ", userId)
-  console.log("ITEM IN SAGA: ", item)
 
   try {
     const type = item.restaurantId ? 'restaurant' : 'diner'
-    console.log("TYPE: ", type)
     const favoritedId = item.restaurantId || item.userId
 
     const response = yield call(fetch, `${API_URL}/updatefavorites`, {
@@ -226,7 +227,6 @@ function* toggleFavorite(action) {
     updatedFavorite
 
     const { updatedFavorite } = yield response.json()
-    console.log('RESPONSE IN SAGA:', updatedFavorite)
 
     yield put(toggleFavoriteSuccess(updatedFavorite))
   } catch (error) {
@@ -237,11 +237,6 @@ function* toggleFavorite(action) {
 function* watchToggleFavorite() {
   yield takeLatest(TOGGLE_FAVORITE, toggleFavorite)
 }
-
-
-
-
-
 
 function* updateUserProfile(action) {
   try {

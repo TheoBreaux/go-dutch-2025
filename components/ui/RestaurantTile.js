@@ -5,6 +5,7 @@ import FavoritesIcon from './FavoritesIcon'
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
 import { toggleFavorite } from '../../state/actions/actions'
+import { ASSET_URL } from '../../constants/constants'
 
 const RestaurantTile = ({ favoritesTile = false, item }) => {
   const navigation = useNavigation()
@@ -29,7 +30,7 @@ const RestaurantTile = ({ favoritesTile = false, item }) => {
       <View style={Styles.restaurantTile.container.info}>
         <View style={Styles.restaurantTile.container.imageContainer}>
           <Image
-            source={item.image || Images.dining_detail}
+            source={item?.img_url ? { uri: `${ASSET_URL}${item.img_url}` } : Images.dining_detail}
             style={Styles.restaurantTile.container.imageContainer.image}
           />
         </View>

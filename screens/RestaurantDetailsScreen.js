@@ -1,6 +1,6 @@
 import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform } from 'react-native'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
-import { COLORS, SCREEN_WIDTH } from '../constants/constants'
+import { ASSET_URL, COLORS, SCREEN_WIDTH } from '../constants/constants'
 import FavoritesIcon from '../components/ui/FavoritesIcon'
 import Images from '../assets/images/images'
 import Styles from '../style'
@@ -13,8 +13,6 @@ import { toggleFavorite } from '../state/actions/actions'
 const RestaurantDetailsScreen = ({ navigation, route }) => {
   const dispatch = useDispatch()
   const { item } = route.params
-
-  console.log(item)
 
   const favorites = useSelector((state) => state.app.favorites)
 
@@ -40,7 +38,7 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
         </TouchableOpacity>
 
         <Image
-          source={item.image || Images.dining_detail}
+          source={item?.imgUrl || item?.img_url ? { uri: ASSET_URL + (item.imgUrl || item.img_url) } : Images.dining_detail}
           style={Styles.diningDetailsScreen.image}
         />
 

@@ -86,7 +86,7 @@ const DiningDetailScreen = ({ navigation }) => {
           <View style={Styles.diningDetailsScreen.container.inputContainer}>
             <TextInput
               editable={false}
-              style={[Styles.profileScreen.inputContainer.textInput, { width: '100%' }]}
+              style={[Styles.settingsScreen.inputContainer.textInput, { width: '100%' }]}
               value={'@' + primaryDiner.username}
               onChangeText={setPrimaryDiner}
             />
@@ -97,7 +97,7 @@ const DiningDetailScreen = ({ navigation }) => {
           <View style={Styles.diningDetailsScreen.container.inputContainer}>
             <TextInput
               editable={false}
-              style={[Styles.profileScreen.inputContainer.textInput, { width: '100%' }]}
+              style={[Styles.settingsScreen.inputContainer.textInput, { width: '100%' }]}
               value={formatReceiptDate(eventDate)}
               onChangeText={setEventDate}
             />
@@ -110,7 +110,7 @@ const DiningDetailScreen = ({ navigation }) => {
               {Platform.OS === 'ios' ? (
                 <View style={{ justifyContent: 'center' }}>
                   <TextInput
-                    style={[Styles.profileScreen.inputContainer.textInput, { width: '100%', color: COLORS.goDutchRed }]}
+                    style={[Styles.settingsScreen.inputContainer.textInput, { width: '100%', color: COLORS.goDutchRed }]}
                     value={eventLocation}
                     onChangeText={setEventLocation}
                   />
@@ -151,7 +151,7 @@ const DiningDetailScreen = ({ navigation }) => {
 
           <View style={Styles.diningDetailsScreen.container.inputContainer}>
             <TextInput
-              style={[Styles.profileScreen.inputContainer.textInput, { width: '100%' }]}
+              style={[Styles.settingsScreen.inputContainer.textInput, { width: '100%' }]}
               value={eventTitle}
               onChangeText={setEventTitle}
             />

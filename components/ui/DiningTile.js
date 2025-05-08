@@ -7,7 +7,7 @@ import { scaleFont } from '../../utils/utils'
 const DiningTile = ({ primaryDinerUsername, diningDate, eventTitle, eventLocation, onPress }) => {
   return (
     <TouchableOpacity
-      style={[Styles.restaurantTile.container, { alignItems: 'center' }]}
+      style={[Styles.restaurantTile.container, { alignItems: 'center', paddingHorizontal: 10 }]}
       onPress={onPress}
     >
       <View style={Styles.restaurantTile.container.imageContainer}>

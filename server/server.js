@@ -185,6 +185,10 @@ app.get('/diners/suggestions', async (req, res) => {
       birthday: row.birthday,
       imgUrl: row.img_url,
       isPrimaryDiner: false,
+      bio: row.bio,
+      location: row.location,
+      favoriteCuisine: row.favorite_cuisine,
+      dateJoined: row.date_joined,
     }))
     res.json(suggestions)
   } catch (error) {
@@ -204,7 +208,7 @@ app.post('/diningevents', async (req, res) => {
     )
 
     for (const diner of allDiners) {
-      await pool.query('INSERT INTO event_diners(event_id, user_id, is_birthday, diner_meal_cost) VALUES($1, $2, $3, $4)', [
+      await pool.query('INSERT INTO event_diners(event_id, user_id, is_celebrating, diner_meal_cost) VALUES($1, $2, $3, $4)', [
         eventId,
         diner.id,
         diner.isCelebrating,
@@ -233,8 +237,16 @@ app.get('/diningevents/:userId', async (req, res) => {
             json_build_object(
               'user_id', event_diners.user_id,
               'username', diner_user.username,
+              'first_name', diner_user.first_name,
+              'last_name', diner_user.last_name,
+              'bio', diner_user.bio,
+              'location', diner_user.location,
+              'birthday', diner_user.birthday,
+              'date_joined', diner_user.date_joined,
+              'img_url', diner_user.img_url,
+              'favorite_cuisine', diner_user.favorite_cuisine,
               'dinerMealCost', event_diners.diner_meal_cost,
-              'isCelebrating', event_diners.is_birthday,
+              'isCelebrating', event_diners.is_celebrating,
               'isPrimaryDiner', (event_diners.user_id = dining_events.primary_diner_id)
             )
           ) AS diners
@@ -262,7 +274,7 @@ app.get('/diningevents/:userId', async (req, res) => {
 
     const eventData = diningEvents.rows.map((event) => ({
       diningDate: event.dining_date,
-      // eventId: event.event_id,
+      eventId: event.event_id,
       // primaryDinerId: event.primary_diner_id,
       eventLocation: event.restaurant_bar,
       eventTitle: event.title,
@@ -449,7 +461,6 @@ app.post('/updatefavorites', async (req, res) => {
         diner: diner.rows[0],
       }
     }
-    console.log("UPDATED FAVORITE FROM BACKEND: ", updatedFavorite)
     return res.status(200).json({
       updatedFavorite,
     })
@@ -458,8 +469,6 @@ app.post('/updatefavorites', async (req, res) => {
     return res.status(500).json({ error: 'Internal server error' })
   }
 })
-
-
 
 //FETCH FAVORITES
 app.get('/favorites/:userId', async (req, res) => {
