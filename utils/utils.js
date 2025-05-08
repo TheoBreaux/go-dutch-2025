@@ -133,10 +133,6 @@ export const formatReceiptDate = (rawDateStr) => {
   }
 }
 
-
-
-
-
 // export  const checkIfDinerExistsInDatabase = async (username) => {
 //   let isDinerInDatabase;
 //   try {

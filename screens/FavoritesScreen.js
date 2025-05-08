@@ -1,4 +1,4 @@
-import { FlatList, View } from 'react-native'
+import { FlatList, View, Text } from 'react-native'
 import { useState } from 'react'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import Styles from '../style'
@@ -7,12 +7,11 @@ import RestaurantTile from '../components/ui/RestaurantTile'
 import DinerTile from '../components/ui/DinerTile'
 import { COLORS, SCREEN_HEIGHT } from '../constants/constants'
 import { useSelector } from 'react-redux'
+import { scaleFont } from '../utils/utils'
 
 const FavoritesScreen = () => {
   const favorites = useSelector((state) => state.app.favorites)
   const [activeTab, setActiveTab] = useState('restaurants')
-
-  // console.log("FAVORITES IN FAVOIRTES: ", favorites)
 
   const favoriteDiners = favorites.filter((fav) => fav.favorited_type === 'diner')
   const favoriteRestaurants = favorites.filter((fav) => fav.favorited_type === 'restaurant')
@@ -52,14 +51,19 @@ const FavoritesScreen = () => {
         </FavoritesButton>
       </View>
 
-      <View style={Styles.resturantsScreen.container}>
-        <FlatList
-          data={activeTab === 'restaurants' ? favoriteRestaurants : favoriteDiners}
-          // keyExtractor={(item) => item.id.toString()}
-          renderItem={renderItem}
-          contentContainerStyle={{ paddingBottom: SCREEN_HEIGHT * 0.025 }}
-          showsVerticalScrollIndicator={false}
-        />
+      <View style={[Styles.resturantsScreen.container, { justifyContent: 'center', alignItems: 'center', flex: 1 }]}>
+        {activeTab === 'restaurants' && favoriteRestaurants.length === 0 ? (
+          <Text style={Styles.favoritesScreen.container.text}>No favorite restaurants yet.</Text>
+        ) : activeTab === 'diners' && favoriteDiners.length === 0 ? (
+          <Text style={Styles.favoritesScreen.container.text}>No favorite diners yet.</Text>
+        ) : (
+          <FlatList
+            data={activeTab === 'restaurants' ? favoriteRestaurants : favoriteDiners}
+            renderItem={renderItem}
+            contentContainerStyle={{ paddingBottom: SCREEN_HEIGHT * 0.025 }}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
       </View>
     </LogoScreenWrapper>
   )

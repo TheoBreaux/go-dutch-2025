@@ -7,12 +7,20 @@ import Styles from '../style'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import { handleCallRestaurant, handleExternalLink, scaleFont } from '../utils/utils'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { toggleFavorite } from '../state/actions/actions'
 
 const RestaurantDetailsScreen = ({ navigation, route }) => {
   const dispatch = useDispatch()
   const { item } = route.params
+
+  console.log(item)
+
+  const favorites = useSelector((state) => state.app.favorites)
+
+  const isFavorite = favorites.some((favorite) => {
+    return (favorite.favorited_type === 'restaurant' && Number(favorite.favorited_id) === Number(item.restaurantId)) || Number(item.restaurant_id)
+  })
 
   return (
     <LogoScreenWrapper
@@ -38,8 +46,9 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
 
         <View style={Styles.restaurantDetailsScreen.favoritesIconContainer}>
           <FavoritesIcon
+            isFavorited={isFavorite}
             onPress={() => {
-              dispatch(toggleFavorite(item))
+              dispatch(toggleFavorite({ ...item, restaurantId: item.restaurant_id }))
             }}
           />
         </View>

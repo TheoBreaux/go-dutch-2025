@@ -16,16 +16,8 @@ const SliderItem = ({ name, imgUrl, address, city, state, zip, rating, website, 
   const favorites = useSelector((state) => state.app.favorites)
 
   const isFavorite = favorites.some((favorite) => {
-    // console.log('FAVORITE IN IS FAVORITE: ', favorite)
-    // console.log('in is favorite:', typeof favorite.favorited_id)
-    // console.log('in is favorite:', typeof item.restaurantId, item)
     return favorite.favorited_type === 'restaurant' && Number(favorite.favorited_id) === Number(item.restaurantId)
   })
-
-  console.log(
-    'STATE:',
-    useSelector((state) => state.app)
-  )
 
   return (
     <View style={Styles.homeScreen.sliderItem.container}>

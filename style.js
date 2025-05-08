@@ -655,6 +655,7 @@ export default StyleSheet.create({
       marginTop: SCREEN_HEIGHT * 0.025,
       marginBottom: SCREEN_HEIGHT * 0.01,
       width: SCREEN_WIDTH * 0.9,
+      text: { fontFamily: 'Poppins-ExtraBold', fontSize: scaleFont(25), textAlign: 'center', color: COLORS.goDutchRed, paddingHorizontal: 10 },
     },
   },
 
