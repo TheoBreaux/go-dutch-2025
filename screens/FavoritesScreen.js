@@ -3,10 +3,10 @@ import { useState } from 'react'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import Styles from '../style'
 import FavoritesButton from '../components/ui/FavoritesButton'
-import RestaurantTile from '../components/ui/RestaurantTile'
 import { COLORS, SCREEN_HEIGHT } from '../constants/constants'
 import { useSelector } from 'react-redux'
 import FavoritesDinerTile from '../components/ui/FavoritesDinerTile'
+import FavoritesRestaurantTile from '../components/ui/FavoritesRestaurantTile'
 
 const FavoritesScreen = () => {
   const favorites = useSelector((state) => state.app.favorites)
@@ -17,12 +17,7 @@ const FavoritesScreen = () => {
 
   const renderItem = ({ item }) => {
     if (activeTab === 'restaurants') {
-      return (
-        <RestaurantTile
-          item={item.restaurant}
-          favoritesTile={true}
-        />
-      )
+      return <FavoritesRestaurantTile item={item.restaurant} />
     } else if (activeTab === 'diners') {
       return <FavoritesDinerTile item={item.diner} />
     }

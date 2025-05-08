@@ -1,11 +1,21 @@
 import { View, Text, TouchableOpacity, Image } from 'react-native'
 import Images from '../../assets/images/images'
 import Styles from '../../style'
+import FavoritesIcon from './FavoritesIcon'
 import { useNavigation } from '@react-navigation/native'
+import { useDispatch, useSelector } from 'react-redux'
+import { toggleFavorite } from '../../state/actions/actions'
 import { ASSET_URL } from '../../constants/constants'
 
-const RestaurantTile = ({ item }) => {
+const FavoritesRestaurantTile = ({ favoritesTile = false, item }) => {
   const navigation = useNavigation()
+  const dispatch = useDispatch()
+
+  const favorites = useSelector((state) => state.app.favorites)
+
+  const isFavorite = favorites.some((favorite) => {
+    return favorite.favorited_type === 'restaurant' && Number(favorite.favorited_id) === Number(item.restaurant_id)
+  })
 
   return (
     <TouchableOpacity
@@ -37,9 +47,16 @@ const RestaurantTile = ({ item }) => {
           <Text style={Styles.restaurantTile.container.textContainer.info}>{item.phone}</Text>
           <Text style={Styles.restaurantTile.container.textContainer.info}>{`${item.rating}/5.0 ⭐ - ${item.cuisine}`}</Text>
         </View>
+
+        <FavoritesIcon
+          isFavorited={isFavorite}
+          onPress={() => {
+            dispatch(toggleFavorite({ ...item, restaurantId: item.restaurant_id }))
+          }}
+        />
       </View>
     </TouchableOpacity>
   )
 }
 
-export default RestaurantTile
+export default FavoritesRestaurantTile

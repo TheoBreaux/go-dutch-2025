@@ -38,7 +38,7 @@ const RestaurantsScreen = () => {
         <FlatList
           data={featuredRestaurants}
           keyExtractor={(item) => item.restaurantId.toString()}
-          renderItem={({ item }) => <RestaurantTile {...item} />}
+          renderItem={({ item }) => <RestaurantTile item={item} />}
           contentContainerStyle={{
             paddingBottom: SCREEN_HEIGHT * 0.025,
           }}
