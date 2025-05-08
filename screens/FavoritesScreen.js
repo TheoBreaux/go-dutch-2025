@@ -12,6 +12,8 @@ const FavoritesScreen = () => {
   const favorites = useSelector((state) => state.app.favorites)
   const [activeTab, setActiveTab] = useState('restaurants')
 
+  // console.log("FAVORITES IN FAVOIRTES: ", favorites)
+
   const favoriteDiners = favorites.filter((fav) => fav.favorited_type === 'diner')
   const favoriteRestaurants = favorites.filter((fav) => fav.favorited_type === 'restaurant')
 

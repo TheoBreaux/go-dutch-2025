@@ -142,8 +142,7 @@ export default StyleSheet.create({
       flexDirection: 'row',
       imageContainer: { borderRadius: 20, overflow: 'hidden', marginRight: 10, image: { width: SCREEN_WIDTH * 0.25, resizeMode: 'contain' } },
       textContainer: {
-        width: SCREEN_WIDTH * 0.4,
-        marginRight: 10,
+        width: SCREEN_WIDTH * 0.45,
         text: { name: { fontFamily: 'Poppins-BlackItalic', fontSize: SCREEN_WIDTH < 400 ? scaleFont(14) : scaleFont(15) } },
         info: { fontFamily: 'Poppins-Regular', fontSize: SCREEN_WIDTH < 400 ? scaleFont(12) : scaleFont(14), marginBottom: -5 },
       },

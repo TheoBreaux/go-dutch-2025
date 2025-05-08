@@ -12,16 +12,21 @@ import { toggleFavorite } from '../state/actions/actions'
 const SliderItem = ({ name, imgUrl, address, city, state, zip, rating, website, phone, bio, cuisine, item }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
+
   const favorites = useSelector((state) => state.app.favorites)
 
   const isFavorite = favorites.some((favorite) => {
-    return (
-      (favorite.favorited_type === 'restaurant' && favorite.favorited_id === item.restaurantId) ||
-      (favorite.favorited_type === 'diner' && favorite.favorited_id === item.userId)
-    )
+    // console.log('FAVORITE IN IS FAVORITE: ', favorite)
+    // console.log('in is favorite:', typeof favorite.favorited_id)
+    // console.log('in is favorite:', typeof item.restaurantId, item)
+    return favorite.favorited_type === 'restaurant' && Number(favorite.favorited_id) === Number(item.restaurantId)
   })
 
- 
+  console.log(
+    'STATE:',
+    useSelector((state) => state.app)
+  )
+
   return (
     <View style={Styles.homeScreen.sliderItem.container}>
       <View style={Styles.homeScreen.sliderItem.container.carouselContainer}>
@@ -34,7 +39,7 @@ const SliderItem = ({ name, imgUrl, address, city, state, zip, rating, website, 
           <FavoritesIcon
             isFavorited={isFavorite}
             onPress={() => {
-              dispatch(toggleFavorite(item))
+              dispatch(toggleFavorite({ ...item, favorited_id: Number(item.favorited_id) }))
             }}
           />
         </View>
@@ -56,7 +61,7 @@ const SliderItem = ({ name, imgUrl, address, city, state, zip, rating, website, 
                   cuisine,
                   imgUrl,
                   website,
-                  item
+                  item,
                 },
               })
             }

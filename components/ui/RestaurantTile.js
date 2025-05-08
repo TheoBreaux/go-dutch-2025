@@ -13,7 +13,10 @@ const RestaurantTile = ({ favoritesTile = false, item }) => {
   const favorites = useSelector((state) => state.app.favorites)
 
   const isFavorite = favorites.some((favorite) => {
-    return favorite.favorited_type === 'restaurant' && Number(favorite.favorited_id) === item.restaurant_id
+    // console.log("is in restaurattile-favorited_id: ", typeof favorite.favorited_id)
+    // console.log("is in restaurattile-restaurant_id: ", typeof item.restaurant_id)
+
+    return favorite.favorited_type === 'restaurant' && Number(favorite.favorited_id) === Number(item.restaurant_id)
   })
 
   return (

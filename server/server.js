@@ -407,35 +407,59 @@ app.post('/updatefavorites', async (req, res) => {
   const { favoritedId, userId, type } = req.body
 
   try {
-    // First check if this favorite already exists
     const existingFavorite = await pool.query(
       `SELECT * FROM favorites
        WHERE user_id = $1 AND favorited_id = $2 AND favorited_type = $3`,
       [userId, favoritedId, type]
     )
 
+    let updatedFavorite = null
+
     if (existingFavorite.rows.length > 0) {
-      // If exists, remove it (unfavorite)
+      // Remove favorite
       await pool.query(
         `DELETE FROM favorites
          WHERE user_id = $1 AND favorited_id = $2 AND favorited_type = $3`,
         [userId, favoritedId, type]
       )
-      // return res.status(200).json({ message: 'Favorite removed', action: 'removed' })
     } else {
-      // If doesn't exist, add it (favorite)
+      // Add favorite
       await pool.query(
         `INSERT INTO favorites (user_id, favorited_id, favorited_type)
          VALUES ($1, $2, $3)`,
         [userId, favoritedId, type]
       )
-      // return res.status(201).json({ })
     }
+    if (type === 'restaurant') {
+      const restaurant = await pool.query(`SELECT * FROM restaurants WHERE restaurant_id = $1`, [favoritedId])
+
+      updatedFavorite = {
+        favorited_type: 'restaurant',
+        favorited_id: favoritedId,
+        restaurant: restaurant.rows[0],
+        diner: null,
+      }
+    } else if (type === 'diner') {
+      const diner = await pool.query(`SELECT * FROM userss WHERE user_id = $1`, [favoritedId])
+
+      updatedFavorite = {
+        favorited_type: 'diner',
+        favorited_id: favoritedId,
+        restaurant: null,
+        diner: diner.rows[0],
+      }
+    }
+    console.log("UPDATED FAVORITE FROM BACKEND: ", updatedFavorite)
+    return res.status(200).json({
+      updatedFavorite,
+    })
   } catch (error) {
     console.error('Error updating favorites:', error)
     return res.status(500).json({ error: 'Internal server error' })
   }
 })
+
+
 
 //FETCH FAVORITES
 app.get('/favorites/:userId', async (req, res) => {

@@ -217,14 +217,12 @@ function* toggleFavorite(action) {
       const errorData = yield response.json()
       throw new Error(errorData.message || 'Failed to update favorite')
     }
+    updatedFavorite
 
-    const { item: updatedItem } = yield response.json()
-    yield put(
-      toggleFavoriteSuccess({
-        ...item,
-        isFavorite: updatedItem.isFavorite,
-      })
-    )
+    const { updatedFavorite } = yield response.json()
+    console.log('RESPONSE IN SAGA:', updatedFavorite)
+
+    yield put(toggleFavoriteSuccess(updatedFavorite))
   } catch (error) {
     console.error('TOGGLE FAVORITE ERROR:', error)
     yield put(toggleFavoriteFailure(error.message))
