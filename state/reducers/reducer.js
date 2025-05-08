@@ -125,20 +125,22 @@ const AppReducer = (state = initialState, action) => {
       const exists = state.favorites.some((fav) => {
         return String(fav.favorited_id) === String(action.payload.favorited_id)
       })
+
+      console.log('ACTION.PAYLOAD IN REDUCER: ', action.payload)
+
       const updatedFavorites = exists
         ? state.favorites.filter((fav) => String(fav.favorited_id) !== String(action.payload.favorited_id))
         : [
             ...state.favorites,
             {
               ...action.payload,
-              favorited_id: String(action.payload.favorited_id), // ensure consistent typing
-              restaurant: {
-                ...action.payload.restaurant,
-                restaurant_id: Number(action.payload.restaurant.restaurant_id), // normalize here
-                rating: Number(action.payload.restaurant.rating), // if needed
-              },
+              favorited_id: String(action.payload.favorited_id), // normalize id
+              favorited: action.payload.favorited_type === 'restaurant' ? { ...action.payload.restaurant } : { ...action.payload.diner },
             },
           ]
+
+      console.log('UPDATED FAVORTIES IN REDUCER: ', updatedFavorites)
+
       return {
         ...state,
         favorites: updatedFavorites,

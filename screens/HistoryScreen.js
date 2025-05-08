@@ -26,8 +26,6 @@ const HistoryScreen = () => {
     setShowDiningDetailsModal(true)
   }
 
-  console.log(diningEventsHistory)
-
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
       {showDiningDetailsModal && (

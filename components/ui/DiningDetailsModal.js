@@ -66,7 +66,7 @@ const DiningDetailsModal = ({ diningEvent, onClose, showDiningDetailsModal, setS
           contentContainerStyle={{ paddingBottom: SCREEN_HEIGHT * 0.015 }}
         />
         <Text style={[Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.thankYou, { fontSize: scaleFont(20) }]}>
-          Total Meal Cost: ${totalMealCost}
+          Total Meal Cost: ${totalMealCost.toFixed(2)}
         </Text>
         <Text style={Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.thankYou}>Thanks for going Dutch! 🎉</Text>
         <PrimaryButton onPress={onClose}>Close</PrimaryButton>

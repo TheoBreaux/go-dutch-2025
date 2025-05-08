@@ -200,13 +200,18 @@ function* watchSetLocalRestaurants() {
   yield takeLatest(SET_LOCAL_RESTAURANTS, setLocalRestaurants)
 }
 
+
 function* toggleFavorite(action) {
   const item = action.payload
   const userId = yield select((state) => state.app.user.userId)
 
+  console.log("ITEM IN SAGA" ,item)
+
   try {
     const type = item.restaurantId ? 'restaurant' : 'diner'
     const favoritedId = item.restaurantId || item.userId
+
+    console.log(favoritedId)
 
     const response = yield call(fetch, `${API_URL}/updatefavorites`, {
       method: 'POST',
@@ -227,6 +232,7 @@ function* toggleFavorite(action) {
     updatedFavorite
 
     const { updatedFavorite } = yield response.json()
+console.log("UPDATED FAV IN SAGA: ", updatedFavorite)
 
     yield put(toggleFavoriteSuccess(updatedFavorite))
   } catch (error) {
@@ -237,6 +243,10 @@ function* toggleFavorite(action) {
 function* watchToggleFavorite() {
   yield takeLatest(TOGGLE_FAVORITE, toggleFavorite)
 }
+
+
+
+
 
 function* updateUserProfile(action) {
   try {
