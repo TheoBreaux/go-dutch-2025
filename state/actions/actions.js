@@ -29,6 +29,9 @@ import {
   TOGGLE_FAVORITE,
   TOGGLE_FAVORITE_FAILURE,
   TOGGLE_FAVORITE_SUCCESS,
+  UPDATE_NOTES,
+  UPDATE_NOTES_FAILURE,
+  UPDATE_NOTES_SUCCESS,
   UPDATE_USER_PROFILE,
   UPDATE_USER_PROFILE_FAILURE,
   UPDATE_USER_PROFILE_SUCCESS,
@@ -175,6 +178,21 @@ export const toggleFavoriteSuccess = (updatedFavorites) => ({
 export const toggleFavoriteFailure = (error) => ({
   type: TOGGLE_FAVORITE_FAILURE,
   error,
+})
+
+export const updateNotes = (data) => ({
+  type: UPDATE_NOTES,
+  payload: data,
+})
+
+export const updateNotesFailure = (error) => ({
+  type: UPDATE_NOTES_FAILURE,
+  error,
+})
+
+export const updateNotesSuccess = (data) => ({
+  type: UPDATE_NOTES_SUCCESS,
+  payload: data,
 })
 
 export const updateUserProfile = (data) => ({

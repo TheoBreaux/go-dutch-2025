@@ -224,7 +224,7 @@ const SettingsScreen = ({ navigation }) => {
                   <>
                     <View style={Styles.settingsScreen.inputContainer}>
                       <View style={{ flex: 1 }}>
-                        <Text style={Styles.settingsScreen.inputContainer.inputLabel}>Password</Text>
+                        <Text style={Styles.settingsScreen.inputContainer.inputLabel}>New Password</Text>
                         <View style={Styles.logInScreen.container.modal.passwordInput}>
                           <TextInput
                             style={[Styles.signUpScreen.textInput, { width: '100%', padding: 8 }]}
@@ -254,7 +254,7 @@ const SettingsScreen = ({ navigation }) => {
                     </View>
                     <View style={Styles.settingsScreen.inputContainer}>
                       <View style={{ flex: 1 }}>
-                        <Text style={Styles.settingsScreen.inputContainer.inputLabel}>Confirm Password</Text>
+                        <Text style={Styles.settingsScreen.inputContainer.inputLabel}>Confirm New Password</Text>
                         <View style={Styles.logInScreen.container.modal.passwordInput}>
                           <TextInput
                             style={[Styles.signUpScreen.textInput, { width: '100%', padding: 8 }]}

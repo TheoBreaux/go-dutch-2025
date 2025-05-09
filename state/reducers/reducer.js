@@ -25,6 +25,9 @@ import {
   SIGN_UP_USER,
   SIGN_UP_USER_FAILURE,
   SIGN_UP_USER_SUCCESS,
+  UPDATE_NOTES,
+  UPDATE_NOTES_FAILURE,
+  UPDATE_NOTES_SUCCESS,
   UPDATE_USER_PROFILE,
   UPDATE_USER_PROFILE_FAILURE,
   UPDATE_USER_PROFILE_SUCCESS,
@@ -125,9 +128,6 @@ const AppReducer = (state = initialState, action) => {
       const exists = state.favorites.some((fav) => {
         return String(fav.favorited_id) === String(action.payload.favorited_id)
       })
-
-      console.log('ACTION.PAYLOAD IN REDUCER: ', action.payload)
-
       const updatedFavorites = exists
         ? state.favorites.filter((fav) => String(fav.favorited_id) !== String(action.payload.favorited_id))
         : [
@@ -135,18 +135,21 @@ const AppReducer = (state = initialState, action) => {
             {
               ...action.payload,
               favorited_id: String(action.payload.favorited_id), // normalize id
-              favorited: action.payload.favorited_type === 'restaurant' ? { ...action.payload.restaurant } : { ...action.payload.diner },
             },
           ]
-
-      console.log('UPDATED FAVORTIES IN REDUCER: ', updatedFavorites)
-
       return {
         ...state,
         favorites: updatedFavorites,
         loading: false,
         error: null,
       }
+    //Update Notes: Profile & Restaurant Details
+    case UPDATE_NOTES:
+      return { ...state, loading: true, error: null }
+    case UPDATE_NOTES_FAILURE:
+      return { ...state, error: action.error, loading: false }
+    case UPDATE_NOTES_SUCCESS:
+      return { ...state, favorites: action.payload, loading: false, error: null }
     // Update User Profile
     case UPDATE_USER_PROFILE:
       return { ...state, loading: true, error: null }
@@ -154,6 +157,7 @@ const AppReducer = (state = initialState, action) => {
       return { ...state, error: action.error, loading: false }
     case UPDATE_USER_PROFILE_SUCCESS:
       return { ...state, user: action.payload, loading: false, error: null }
+
     default:
       return state
   }

@@ -17,15 +17,13 @@ const ProfileScreen = ({ navigation, route }) => {
   const options = { year: 'numeric', month: 'long' }
   const formattedDate = convertedDate.toLocaleDateString('en-us', options)
 
-  console.log(item)
+  const [notes, setNotes] = useState('')
 
   const favorites = useSelector((state) => state.app.favorites)
 
   const isFavorite = favorites.some((favorite) => {
     return favorite.favorited_type === 'diner' && Number(favorite.favorited_id) === Number(item.user_id)
   })
-
-  const [notes, setNotes] = useState('')
 
   const handleChangeNotes = (text) => {
     setNotes(text)

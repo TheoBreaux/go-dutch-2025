@@ -452,13 +452,19 @@ app.post('/updatefavorites', async (req, res) => {
         diner: null,
       }
     } else if (type === 'diner') {
-      const diner = await pool.query(`SELECT * FROM users WHERE user_id = $1`, [favoritedId])
+      const dinerResult = await pool.query(`SELECT * FROM users WHERE user_id = $1`, [favoritedId])
+      const diner = dinerResult.rows[0]
+
+      // Remove sensitive/unneeded fields
+      delete diner.email
+      delete diner.hashed_password
+      delete diner.available_splits
 
       updatedFavorite = {
         favorited_type: 'diner',
         favorited_id: favoritedId,
         restaurant: null,
-        diner: diner.rows[0],
+        diner,
       }
     }
     return res.status(200).json({
@@ -475,15 +481,31 @@ app.get('/favorites/:userId', async (req, res) => {
   try {
     const favorites = await pool.query(
       `SELECT 
-  favorites.favorited_type,
-  favorites.favorited_id,
-  row_to_json(restaurants) AS restaurant,
-  row_to_json(u2) AS diner
-FROM favorites
-JOIN users AS u1 ON favorites.user_id = u1.user_id
-LEFT JOIN restaurants ON favorites.favorited_type = 'restaurant' AND favorites.favorited_id = restaurants.restaurant_id
-LEFT JOIN users AS u2 ON favorites.favorited_type = 'diner' AND favorites.favorited_id = u2.user_id
-WHERE favorites.user_id = $1`,
+        favorites.favorited_type,
+        favorites.favorited_id,
+        favorites.notes,
+        row_to_json(restaurants) AS restaurant,
+        row_to_json((
+          SELECT u2_filtered FROM (
+            SELECT 
+              u2.user_id,
+              u2.first_name,
+              u2.last_name,
+              u2.username,
+              u2.location,
+              u2.birthday,
+              u2.bio,
+              u2.favorite_cuisine,
+              u2.date_joined,
+              u2.img_url,
+              u2.is_diner
+          ) AS u2_filtered
+        )) AS diner
+      FROM favorites
+      JOIN users AS u1 ON favorites.user_id = u1.user_id
+      LEFT JOIN restaurants ON favorites.favorited_type = 'restaurant' AND favorites.favorited_id = restaurants.restaurant_id
+      LEFT JOIN users AS u2 ON favorites.favorited_type = 'diner' AND favorites.favorited_id = u2.user_id
+      WHERE favorites.user_id = $1`,
       [req.params.userId]
     )
     res.status(200).json(favorites.rows)
@@ -491,6 +513,54 @@ WHERE favorites.user_id = $1`,
     res.status(500).json({ error: 'Internal server error' })
   }
 })
+
+//UPDATE NOTES
+app.post('/updatenotes', async (req, res) => {
+  const { favoritedType, restaurantId, notes, userId } = req.body
+  console.log('REQUEST: ', req.body)
+
+  try {
+    await pool.query(
+      `INSERT INTO favorites (user_id, favorited_id, favorited_type, notes)
+       VALUES ($1, $2, $3, $4)
+       ON CONFLICT (user_id, favorited_id, favorited_type)
+       DO UPDATE SET notes = EXCLUDED.notes`,
+      [userId, restaurantId, favoritedType, notes]
+    )
+
+    res.json({ message: 'Notes updated successfully.' })
+  } catch (error) {
+    console.error('Error updating notes:', error)
+    res.status(500).json({ message: 'Failed to update notes.' })
+  }
+})
+
+//FETCH NOTES
+app.post('/getnotes', async (req, res) => {
+  const { favoritedType, restaurantId, userId } = req.body
+  console.log('REQUEST to get notes: ', req.body)
+
+  try {
+    const result = await pool.query(
+      `SELECT notes
+       FROM favorites
+       WHERE user_id = $1 AND favorited_id = $2 AND favorited_type = $3`,
+      [userId, restaurantId, favoritedType]
+    )
+
+    if (result.rows.length > 0) {
+      const { notes } = result.rows[0]
+      res.json({ notes })
+    } else {
+      res.json({ notes: null })  // No notes found for this restaurant
+    }
+  } catch (error) {
+    console.error('Error fetching notes:', error)
+    res.status(500).json({ message: 'Failed to fetch notes.' })
+  }
+})
+
+
 
 // CONFIRM THAT USER EXISTS IN DB SO CAN BE ADDED AS DINER
 // app.get('/users/:username', async (req, res) => {

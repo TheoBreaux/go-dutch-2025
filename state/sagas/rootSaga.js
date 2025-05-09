@@ -12,6 +12,7 @@ import {
   AUTO_COMPLETE_DINER,
   POST_DINING_EVENT,
   FETCH_DINING_HISTORY,
+  UPDATE_NOTES,
   UPDATE_USER_PROFILE,
   TOGGLE_FAVORITE,
 } from '../actions/actionTypes'
@@ -33,6 +34,8 @@ import {
   signUpUserSuccess,
   toggleFavoriteFailure,
   toggleFavoriteSuccess,
+  updateNotesFailure,
+  updateNotesSuccess,
   updateUserProfileFailure,
   updateUserProfileSuccess,
 } from '../actions/actions'
@@ -100,8 +103,6 @@ function* watchFetchDiningHistory() {
   yield takeLatest(FETCH_DINING_HISTORY, fetchDiningHistory)
 }
 
-
-
 function* postDiningEvent(action) {
   try {
     const response = yield call(fetch, `${API_URL}/diningevents`, {
@@ -127,11 +128,6 @@ function* postDiningEvent(action) {
 function* watchPostDiningEvent() {
   yield takeLatest(POST_DINING_EVENT, postDiningEvent)
 }
-
-
-
-
-
 
 function* signUpUser(action) {
   try {
@@ -200,18 +196,13 @@ function* watchSetLocalRestaurants() {
   yield takeLatest(SET_LOCAL_RESTAURANTS, setLocalRestaurants)
 }
 
-
 function* toggleFavorite(action) {
   const item = action.payload
   const userId = yield select((state) => state.app.user.userId)
 
-  console.log("ITEM IN SAGA" ,item)
-
   try {
     const type = item.restaurantId ? 'restaurant' : 'diner'
     const favoritedId = item.restaurantId || item.userId
-
-    console.log(favoritedId)
 
     const response = yield call(fetch, `${API_URL}/updatefavorites`, {
       method: 'POST',
@@ -229,10 +220,13 @@ function* toggleFavorite(action) {
       const errorData = yield response.json()
       throw new Error(errorData.message || 'Failed to update favorite')
     }
-    updatedFavorite
 
     const { updatedFavorite } = yield response.json()
-console.log("UPDATED FAV IN SAGA: ", updatedFavorite)
+
+    // 🔧 Normalize diner.user_id if present
+    if (updatedFavorite.favorited_type === 'diner' && updatedFavorite.diner && typeof updatedFavorite.diner.user_id === 'string') {
+      updatedFavorite.diner.user_id = Number(updatedFavorite.diner.user_id)
+    }
 
     yield put(toggleFavoriteSuccess(updatedFavorite))
   } catch (error) {
@@ -240,13 +234,56 @@ console.log("UPDATED FAV IN SAGA: ", updatedFavorite)
     yield put(toggleFavoriteFailure(error.message))
   }
 }
+
 function* watchToggleFavorite() {
   yield takeLatest(TOGGLE_FAVORITE, toggleFavorite)
 }
 
+function* updateNotes(action) {
+  try {
+    const response = yield call(fetch, `${API_URL}/updatenotes`, {
+      method: 'POST',
+      body: JSON.stringify(action.payload),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
 
+    if (!response.ok) {
+      const errorData = yield response.json()
+      throw new Error(errorData.message || 'Note update failed')
+    }
 
+    const data = yield response.json()
 
+    // Dispatch success action with updated data
+    yield put(updateNotesSuccess(data))
+
+    // Show success toast
+    yield call(Toast.show, {
+      type: 'success',
+      text1: 'Success!',
+      text2: 'Notes updated successfully',
+      position: 'top',
+      visibilityTime: 2000,
+    })
+
+    // Navigate after toast is shown
+    yield call(RootNavigation.navigate, 'Tabs', { screen: 'Home' })
+  } catch (error) {
+    // Show error toast
+    yield call(Toast.show, {
+      type: 'error',
+      text1: 'Note update Failed',
+      text2: error.message,
+      position: 'top',
+    })
+    yield put(updateNotesFailure(error.message))
+  }
+}
+function* watchUpdateNotes() {
+  yield takeLatest(UPDATE_NOTES, updateNotes)
+}
 
 function* updateUserProfile(action) {
   try {
@@ -299,8 +336,9 @@ export default function* rootSaga() {
     watchAutoCompleteDiner(),
     watchPostDiningEvent(),
     watchFetchDiningHistory(),
-    watchUpdateUserProfile(),
     watchSignUpUser(),
     watchToggleFavorite(),
+    watchUpdateNotes(),
+    watchUpdateUserProfile(),
   ])
 }

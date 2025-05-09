@@ -8,17 +8,40 @@ import PrimaryButton from '../components/ui/PrimaryButton'
 import { handleCallRestaurant, handleExternalLink, scaleFont } from '../utils/utils'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import { useDispatch, useSelector } from 'react-redux'
-import { toggleFavorite } from '../state/actions/actions'
+import { toggleFavorite, updateNotes } from '../state/actions/actions'
+import { useState } from 'react'
 
 const RestaurantDetailsScreen = ({ navigation, route }) => {
+  const user = useSelector((state) => state.app.user)
   const dispatch = useDispatch()
   const { item } = route.params
+
+  const [notes, setNotes] = useState('')
+  const [saveButtonPressed, setSaveButtonPressed] = useState(false)
+  const [saveButtonText, setSaveButtonText] = useState('Save')
+  const [saveButtonColor, setSaveButtonColor] = useState(COLORS.goDutchBlue)
 
   const favorites = useSelector((state) => state.app.favorites)
 
   const isFavorite = favorites.some((favorite) => {
     return (favorite.favorited_type === 'restaurant' && Number(favorite.favorited_id) === Number(item.restaurantId)) || Number(item.restaurant_id)
   })
+
+  const handleChangeNotes = (text) => {
+    setNotes(text)
+  }
+
+  const handleUpdateNotes = () => {
+    const trimmedNotes = notes.trim()
+    if (!trimmedNotes) return // nothing to save
+
+    setSaveButtonText('Saving...')
+    setSaveButtonPressed(true)
+
+    dispatch(updateNotes({ favoritedType: 'restaurant', restaurantId: item.restaurantId, notes: trimmedNotes, userId: user.userId }))
+  }
+
+  console.log(useSelector((state) => state.app.favorites))
 
   return (
     <LogoScreenWrapper
@@ -75,7 +98,7 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}
-        // keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
       >
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -115,13 +138,16 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
 
           <TextInput
             multiline={true}
-            numberOfLines={4}
-            placeholder="Type your notes here..."
+            numberOfLines={3}
+            placeholder="Enter your notes..."
+            value={notes}
+            onChangeText={handleChangeNotes}
             style={Styles.restaurantDetailsScreen.notesContainer}
           />
 
           <View style={{ alignItems: 'flex-end', marginRight: -SCREEN_WIDTH * 0.025 }}>
             <PrimaryButton
+              onPress={handleUpdateNotes}
               outerWidth={SCREEN_WIDTH * 0.4}
               innerWidth={SCREEN_WIDTH * 0.37}
             >
