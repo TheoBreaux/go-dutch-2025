@@ -10,6 +10,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import { useDispatch, useSelector } from 'react-redux'
 import { toggleFavorite, updateNotes } from '../state/actions/actions'
 import { useState } from 'react'
+import { Ionicons } from '@expo/vector-icons'
 
 const RestaurantDetailsScreen = ({ navigation, route }) => {
   const user = useSelector((state) => state.app.user)
@@ -18,8 +19,6 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
 
   const [notes, setNotes] = useState('')
   const [saveButtonPressed, setSaveButtonPressed] = useState(false)
-  const [saveButtonText, setSaveButtonText] = useState('Save')
-  const [saveButtonColor, setSaveButtonColor] = useState(COLORS.goDutchBlue)
 
   const favorites = useSelector((state) => state.app.favorites)
 
@@ -35,13 +34,9 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
     const trimmedNotes = notes.trim()
     if (!trimmedNotes) return // nothing to save
 
-    setSaveButtonText('Saving...')
     setSaveButtonPressed(true)
-
-    dispatch(updateNotes({ favoritedType: 'restaurant', restaurantId: item.restaurantId, notes: trimmedNotes, userId: user.userId }))
+    dispatch(updateNotes({ favoritedType: 'restaurant', favoriteId: item.restaurantId, notes: trimmedNotes, userId: user.userId }))
   }
-
-  console.log(useSelector((state) => state.app.favorites))
 
   return (
     <LogoScreenWrapper
@@ -139,7 +134,7 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
           <TextInput
             multiline={true}
             numberOfLines={3}
-            placeholder="Enter your notes..."
+            placeholder={`Enter your notes for ${item.name}...`}
             value={notes}
             onChangeText={handleChangeNotes}
             style={Styles.restaurantDetailsScreen.notesContainer}
@@ -151,7 +146,18 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
               outerWidth={SCREEN_WIDTH * 0.4}
               innerWidth={SCREEN_WIDTH * 0.37}
             >
-              Save
+              {saveButtonPressed ? (
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Text style={Styles.primaryButton.text}>Saving... </Text>
+                  <Ionicons
+                    name="checkmark-sharp"
+                    size={20}
+                    color="white"
+                  />
+                </View>
+              ) : (
+                'Save'
+              )}
             </PrimaryButton>
           </View>
         </ScrollView>

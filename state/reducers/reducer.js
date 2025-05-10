@@ -149,7 +149,16 @@ const AppReducer = (state = initialState, action) => {
     case UPDATE_NOTES_FAILURE:
       return { ...state, error: action.error, loading: false }
     case UPDATE_NOTES_SUCCESS:
-      return { ...state, favorites: action.payload, loading: false, error: null }
+      return {
+        ...state,
+        favorites: state.favorites.map((fav) =>
+          fav.favorited_type === action.payload.favorited_type && fav.favorited_id === action.payload.favorited_id
+            ? { ...fav, notes: action.payload.notes }
+            : fav
+        ),
+        loading: false,
+        error: null,
+      }
     // Update User Profile
     case UPDATE_USER_PROFILE:
       return { ...state, loading: true, error: null }

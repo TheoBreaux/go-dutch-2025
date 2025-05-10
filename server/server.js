@@ -481,31 +481,41 @@ app.get('/favorites/:userId', async (req, res) => {
   try {
     const favorites = await pool.query(
       `SELECT 
-        favorites.favorited_type,
-        favorites.favorited_id,
-        favorites.notes,
-        row_to_json(restaurants) AS restaurant,
-        row_to_json((
-          SELECT u2_filtered FROM (
-            SELECT 
-              u2.user_id,
-              u2.first_name,
-              u2.last_name,
-              u2.username,
-              u2.location,
-              u2.birthday,
-              u2.bio,
-              u2.favorite_cuisine,
-              u2.date_joined,
-              u2.img_url,
-              u2.is_diner
-          ) AS u2_filtered
-        )) AS diner
-      FROM favorites
-      JOIN users AS u1 ON favorites.user_id = u1.user_id
-      LEFT JOIN restaurants ON favorites.favorited_type = 'restaurant' AND favorites.favorited_id = restaurants.restaurant_id
-      LEFT JOIN users AS u2 ON favorites.favorited_type = 'diner' AND favorites.favorited_id = u2.user_id
-      WHERE favorites.user_id = $1`,
+  favorites.favorited_type,
+  favorites.favorited_id,
+  favorites.notes,
+
+  CASE 
+    WHEN favorites.favorited_type = 'restaurant' THEN row_to_json(restaurants)
+    ELSE NULL
+  END AS restaurant,
+
+  CASE 
+    WHEN favorites.favorited_type = 'diner' THEN row_to_json(
+      (SELECT u2_filtered FROM (
+        SELECT 
+          u2.user_id,
+          u2.first_name,
+          u2.last_name,
+          u2.username,
+          u2.location,
+          u2.birthday,
+          u2.bio,
+          u2.favorite_cuisine,
+          u2.date_joined,
+          u2.img_url,
+          u2.is_diner
+      ) AS u2_filtered)
+    )
+    ELSE NULL
+  END AS diner
+
+FROM favorites
+JOIN users AS u1 ON favorites.user_id = u1.user_id
+LEFT JOIN restaurants ON favorites.favorited_type = 'restaurant' AND favorites.favorited_id = restaurants.restaurant_id
+LEFT JOIN users AS u2 ON favorites.favorited_type = 'diner' AND favorites.favorited_id = u2.user_id
+WHERE favorites.user_id = $1
+`,
       [req.params.userId]
     )
     res.status(200).json(favorites.rows)
@@ -516,7 +526,7 @@ app.get('/favorites/:userId', async (req, res) => {
 
 //UPDATE NOTES
 app.post('/updatenotes', async (req, res) => {
-  const { favoritedType, restaurantId, notes, userId } = req.body
+  const { favoritedType, favoriteId, notes, userId } = req.body
   console.log('REQUEST: ', req.body)
 
   try {
@@ -525,7 +535,7 @@ app.post('/updatenotes', async (req, res) => {
        VALUES ($1, $2, $3, $4)
        ON CONFLICT (user_id, favorited_id, favorited_type)
        DO UPDATE SET notes = EXCLUDED.notes`,
-      [userId, restaurantId, favoritedType, notes]
+      [userId, favoriteId, favoritedType, notes]
     )
 
     res.json({ message: 'Notes updated successfully.' })
@@ -552,15 +562,13 @@ app.post('/getnotes', async (req, res) => {
       const { notes } = result.rows[0]
       res.json({ notes })
     } else {
-      res.json({ notes: null })  // No notes found for this restaurant
+      res.json({ notes: null }) // No notes found for this restaurant
     }
   } catch (error) {
     console.error('Error fetching notes:', error)
     res.status(500).json({ message: 'Failed to fetch notes.' })
   }
 })
-
-
 
 // CONFIRM THAT USER EXISTS IN DB SO CAN BE ADDED AS DINER
 // app.get('/users/:username', async (req, res) => {

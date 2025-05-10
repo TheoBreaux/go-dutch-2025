@@ -7,11 +7,13 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import ProfileImageMedallion from '../components/ui/ProfileImageMedallion'
 import { scaleFont } from '../utils/utils'
-import { toggleFavorite } from '../state/actions/actions'
+import { toggleFavorite, updateNotes } from '../state/actions/actions'
 import FavoritesIcon from '../components/ui/FavoritesIcon'
+import { Ionicons } from '@expo/vector-icons'
 
 const ProfileScreen = ({ navigation, route }) => {
   const dispatch = useDispatch()
+  const user = useSelector((state) => state.app.user)
   const { item } = route.params
   const convertedDate = new Date(item.date_joined)
   const options = { year: 'numeric', month: 'long' }
@@ -19,8 +21,6 @@ const ProfileScreen = ({ navigation, route }) => {
 
   const [notes, setNotes] = useState('')
   const [saveButtonPressed, setSaveButtonPressed] = useState(false)
-  const [saveButtonText, setSaveButtonText] = useState('Save')
-  const [saveButtonColor, setSaveButtonColor] = useState(COLORS.goDutchBlue)
 
   const favorites = useSelector((state) => state.app.favorites)
 
@@ -33,14 +33,12 @@ const ProfileScreen = ({ navigation, route }) => {
   }
 
   const handleUpdateNotes = () => {
-      const trimmedNotes = notes.trim()
-      if (!trimmedNotes) return // nothing to save
-  
-      setSaveButtonText('Saving...')
-      setSaveButtonPressed(true)
-  
-      dispatch(updateNotes({ favoritedType: 'diner', restaurantId: item.restaurantId, notes: trimmedNotes, userId: user.userId }))
-    }
+    const trimmedNotes = notes.trim()
+    if (!trimmedNotes) return // nothing to save
+
+    setSaveButtonPressed(true)
+    dispatch(updateNotes({ favoritedType: 'diner', favoriteId: item.user_id, notes: trimmedNotes, userId: user.userId }))
+  }
 
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
@@ -115,13 +113,34 @@ const ProfileScreen = ({ navigation, route }) => {
               value={notes}
               placeholder={`Enter your notes about ${item.first_name}...`}
             />
-            <View style={{ alignSelf: 'center' }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
               <PrimaryButton
                 onPress={() => navigation.goBack()}
-                outerWidth={SCREEN_WIDTH * 0.27}
-                innerWidth={SCREEN_WIDTH * 0.25}
+                outerWidth={SCREEN_WIDTH * 0.4}
+                innerWidth={SCREEN_WIDTH * 0.38}
+                margin={0}
               >
                 Return
+              </PrimaryButton>
+
+              <PrimaryButton
+                onPress={handleUpdateNotes}
+                outerWidth={SCREEN_WIDTH * 0.4}
+                innerWidth={SCREEN_WIDTH * 0.38}
+                margin={0}
+              >
+                {saveButtonPressed ? (
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={Styles.primaryButton.text}>Saving... </Text>
+                    <Ionicons
+                      name="checkmark-sharp"
+                      size={20}
+                      color="white"
+                    />
+                  </View>
+                ) : (
+                  'Save'
+                )}
               </PrimaryButton>
             </View>
           </View>
