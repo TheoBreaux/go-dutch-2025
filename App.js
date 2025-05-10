@@ -36,6 +36,7 @@ import store from './state/store'
 import ReceiptCaptureScreen from './screens/ReceiptCaptureScreen'
 import CheckCloseOutDetailsScreen from './screens/CheckCloseOutDetailsScreen'
 import SettingsScreen from './screens/SettingsScreen'
+import SplitPurchaseScreen from './screens/SplitPurchaseScreen'
 
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
@@ -188,6 +189,10 @@ const ScreensNavigator = () => {
       <Stack.Screen
         name="CheckClose"
         component={CheckCloseOutDetailsScreen}
+      />
+      <Stack.Screen
+        name="PurchaseSplits"
+        component={SplitPurchaseScreen}
       />
     </Stack.Navigator>
   )

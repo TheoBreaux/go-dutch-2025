@@ -26,8 +26,8 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
     return (favorite.favorited_type === 'restaurant' && Number(favorite.favorited_id) === Number(item.restaurantId)) || Number(item.restaurant_id)
   })
 
-  console.log(favorites)
-  console.log(item)
+  console.log('FAVORITES: ', favorites)
+  console.log('ITEM: ', item)
 
   useEffect(() => {
     dispatch(fetchNotes({ userId: user.userId, favoritedType: 'restaurant', favoritedId: item.restaurantId }))

@@ -28,6 +28,9 @@ const ProfileScreen = ({ navigation, route }) => {
     return favorite.favorited_type === 'diner' && Number(favorite.favorited_id) === Number(item.user_id)
   })
 
+  console.log('FAVORITES: ', favorites)
+  console.log('ITEM: ', item)
+
   useEffect(() => {
     dispatch(fetchNotes({ userId: user.userId, favoritedType: 'diner', favoritedId: item.user_id }))
   }, [dispatch, user.userId, item.user_id])
@@ -37,7 +40,7 @@ const ProfileScreen = ({ navigation, route }) => {
   //   const favorite = favorites.find(
   //     (fav) => Number(fav.favorited_id) === item.user_id && fav.favorited_type === 'diner'
   //   );
-  
+
   //   // If notes exist, set them; otherwise, set empty notes
   //   if (favorite && favorite.notes) {
   //     setNotes(favorite.notes); // Set the fetched notes to the state
@@ -45,7 +48,6 @@ const ProfileScreen = ({ navigation, route }) => {
   //     setNotes(''); // Set empty notes if no notes exist
   //   }
   // }, [favorites, item.user_id]); // Dependency array to re-run when favorites or user_id change
-  
 
   const handleChangeNotes = (text) => {
     setNotes(text)
