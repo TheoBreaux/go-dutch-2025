@@ -18,6 +18,9 @@ const ProfileScreen = ({ navigation, route }) => {
   const formattedDate = convertedDate.toLocaleDateString('en-us', options)
 
   const [notes, setNotes] = useState('')
+  const [saveButtonPressed, setSaveButtonPressed] = useState(false)
+  const [saveButtonText, setSaveButtonText] = useState('Save')
+  const [saveButtonColor, setSaveButtonColor] = useState(COLORS.goDutchBlue)
 
   const favorites = useSelector((state) => state.app.favorites)
 
@@ -28,6 +31,16 @@ const ProfileScreen = ({ navigation, route }) => {
   const handleChangeNotes = (text) => {
     setNotes(text)
   }
+
+  const handleUpdateNotes = () => {
+      const trimmedNotes = notes.trim()
+      if (!trimmedNotes) return // nothing to save
+  
+      setSaveButtonText('Saving...')
+      setSaveButtonPressed(true)
+  
+      dispatch(updateNotes({ favoritedType: 'diner', restaurantId: item.restaurantId, notes: trimmedNotes, userId: user.userId }))
+    }
 
   return (
     <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
