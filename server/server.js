@@ -526,8 +526,8 @@ WHERE favorites.user_id = $1
 
 //UPDATE NOTES
 app.post('/updatenotes', async (req, res) => {
-  const { favoritedType, favoriteId, notes, userId } = req.body
-  console.log('REQUEST: ', req.body)
+  const { favoritedType, favoritedId, notes, userId } = req.body
+  console.log("REQUEST ", req.body)
 
   try {
     await pool.query(
@@ -535,7 +535,7 @@ app.post('/updatenotes', async (req, res) => {
        VALUES ($1, $2, $3, $4)
        ON CONFLICT (user_id, favorited_id, favorited_type)
        DO UPDATE SET notes = EXCLUDED.notes`,
-      [userId, favoriteId, favoritedType, notes]
+      [userId, favoritedId, favoritedType, notes]
     )
 
     res.json({ message: 'Notes updated successfully.' })
@@ -546,39 +546,25 @@ app.post('/updatenotes', async (req, res) => {
 })
 
 //FETCH NOTES
-app.post('/getnotes', async (req, res) => {
-  const { favoritedType, restaurantId, userId } = req.body
-  console.log('REQUEST to get notes: ', req.body)
+app.get('/fetchnotes/:userId/:favoritedType/:favoritedId', async (req, res) => {
+  const { userId, favoritedType, favoritedId } = req.params
 
   try {
     const result = await pool.query(
       `SELECT notes
        FROM favorites
        WHERE user_id = $1 AND favorited_id = $2 AND favorited_type = $3`,
-      [userId, restaurantId, favoritedType]
+      [userId, favoritedId, favoritedType]
     )
 
     if (result.rows.length > 0) {
       const { notes } = result.rows[0]
       res.json({ notes })
     } else {
-      res.json({ notes: null }) // No notes found for this restaurant
+      res.json({ notes: null })
     }
   } catch (error) {
     console.error('Error fetching notes:', error)
     res.status(500).json({ message: 'Failed to fetch notes.' })
   }
 })
-
-// CONFIRM THAT USER EXISTS IN DB SO CAN BE ADDED AS DINER
-// app.get('/users/:username', async (req, res) => {
-//   const { username } = req.params
-
-//   try {
-//     const userExists = await pool.query(`SELECT EXISTS (SELECT 1 FROM users WHERE username = $1)`, [username])
-//     res.json(userExists.rows[0].exists)
-//   } catch (error) {
-//     console.error(error)
-//     res.status(500).send('Internal Server Error')
-//   }
-// })

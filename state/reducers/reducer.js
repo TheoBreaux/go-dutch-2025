@@ -11,6 +11,9 @@ import {
   FETCH_FEATURED_RESTAURANTS,
   FETCH_FEATURED_RESTAURANTS_FAILURE,
   FETCH_FEATURED_RESTAURANTS_SUCCESS,
+  FETCH_NOTES,
+  FETCH_NOTES_FAILURE,
+  FETCH_NOTES_SUCCESS,
   LOGIN_USER,
   LOGOUT_USER,
   POST_DINING_EVENT,
@@ -82,6 +85,27 @@ const AppReducer = (state = initialState, action) => {
       return { ...state, featuredRestaurants: action.payload, loading: false, error: null }
     case FETCH_FEATURED_RESTAURANTS_FAILURE:
       return { ...state, error: action.error, loading: false }
+
+    // Fetch User Notes
+    case FETCH_NOTES:
+      return { ...state, loading: true, error: null }
+    case FETCH_NOTES_FAILURE:
+      return { ...state, error: action.error, loading: false }
+    case FETCH_NOTES_SUCCESS:
+      return {
+        ...state,
+        favorites: state.favorites.map((favorite) => {
+          if (
+            favorite.favorited_id === action.payload.favoriteId && // Check if the favorite ID matches
+            favorite.favorited_type === action.payload.favoritedType // Check if the favorite type matches
+          ) {
+            return { ...favorite, notes: action.payload.notes } // Update the notes for the matching favorite
+          }
+          return favorite // Otherwise return the favorite as is
+        }),
+        loading: false,
+        error: null,
+      }
     // Log In User
     case LOGIN_USER:
       return { ...state, user: action.payload, loading: false }

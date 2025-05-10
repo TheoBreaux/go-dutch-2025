@@ -3,11 +3,11 @@ import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import Styles from '../style'
 import { ASSET_URL, CIRCLE_SIZE, COLORS, SCREEN_WIDTH } from '../constants/constants'
 import PrimaryButton from '../components/ui/PrimaryButton'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import ProfileImageMedallion from '../components/ui/ProfileImageMedallion'
 import { scaleFont } from '../utils/utils'
-import { toggleFavorite, updateNotes } from '../state/actions/actions'
+import { fetchNotes, toggleFavorite, updateNotes } from '../state/actions/actions'
 import FavoritesIcon from '../components/ui/FavoritesIcon'
 import { Ionicons } from '@expo/vector-icons'
 
@@ -28,6 +28,25 @@ const ProfileScreen = ({ navigation, route }) => {
     return favorite.favorited_type === 'diner' && Number(favorite.favorited_id) === Number(item.user_id)
   })
 
+  useEffect(() => {
+    dispatch(fetchNotes({ userId: user.userId, favoritedType: 'diner', favoritedId: item.user_id }))
+  }, [dispatch, user.userId, item.user_id])
+
+  // useEffect(() => {
+  //   // Find the favorite (or any object) by user_id and favorited_type
+  //   const favorite = favorites.find(
+  //     (fav) => Number(fav.favorited_id) === item.user_id && fav.favorited_type === 'diner'
+  //   );
+  
+  //   // If notes exist, set them; otherwise, set empty notes
+  //   if (favorite && favorite.notes) {
+  //     setNotes(favorite.notes); // Set the fetched notes to the state
+  //   } else {
+  //     setNotes(''); // Set empty notes if no notes exist
+  //   }
+  // }, [favorites, item.user_id]); // Dependency array to re-run when favorites or user_id change
+  
+
   const handleChangeNotes = (text) => {
     setNotes(text)
   }
@@ -37,7 +56,7 @@ const ProfileScreen = ({ navigation, route }) => {
     if (!trimmedNotes) return // nothing to save
 
     setSaveButtonPressed(true)
-    dispatch(updateNotes({ favoritedType: 'diner', favoriteId: item.user_id, notes: trimmedNotes, userId: user.userId }))
+    dispatch(updateNotes({ favoritedType: 'diner', favoritedId: item.user_id, notes: trimmedNotes, userId: user.userId }))
   }
 
   return (

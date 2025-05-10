@@ -12,6 +12,9 @@ import {
   FETCH_FEATURED_RESTAURANTS,
   FETCH_FEATURED_RESTAURANTS_FAILURE,
   FETCH_FEATURED_RESTAURANTS_SUCCESS,
+  FETCH_NOTES,
+  FETCH_NOTES_FAILURE,
+  FETCH_NOTES_SUCCESS,
   LOGIN_USER,
   LOGOUT_USER,
   POST_DINING_EVENT,
@@ -93,6 +96,21 @@ export const fetchFeaturedRestaurantsFailure = (error) => ({
 
 export const fetchFeaturedRestaurantsSuccess = (data) => ({
   type: FETCH_FEATURED_RESTAURANTS_SUCCESS,
+  payload: data,
+})
+
+export const fetchNotes = (data) => ({
+  type: FETCH_NOTES,
+  payload: data,
+})
+
+export const fetchNotesFailure = (error) => ({
+  type: FETCH_NOTES_FAILURE,
+  error,
+})
+
+export const fetchNotesSuccess = (data) => ({
+  type: FETCH_NOTES_SUCCESS,
   payload: data,
 })
 

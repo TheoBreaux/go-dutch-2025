@@ -7,6 +7,7 @@ import Constants from 'expo-constants'
 import {
   FETCH_FAVORITES,
   FETCH_FEATURED_RESTAURANTS,
+  FETCH_NOTES,
   SET_LOCAL_RESTAURANTS,
   SIGN_UP_USER,
   AUTO_COMPLETE_DINER,
@@ -26,6 +27,8 @@ import {
   fetchFavoritesSuccess,
   fetchFeaturedRestaurantsFailure,
   fetchFeaturedRestaurantsSuccess,
+  fetchNotesFailure,
+  fetchNotesSuccess,
   postDiningEventFailure,
   postDiningEventSuccess,
   setLocalRestaurantsFailure,
@@ -101,6 +104,21 @@ function* fetchDiningHistory(action) {
 }
 function* watchFetchDiningHistory() {
   yield takeLatest(FETCH_DINING_HISTORY, fetchDiningHistory)
+}
+
+function* fetchNotes(action) {
+  const { userId, favoritedType, favoritedId } = action.payload
+
+  try {
+    const response = yield call(fetch, `${API_URL}/fetchnotes/${userId}/${favoritedType}/${favoritedId}`, { method: 'GET' })
+    const data = yield response.json()
+    yield put(fetchNotesSuccess(data))
+  } catch (error) {
+    yield put(fetchNotesFailure(error.message))
+  }
+}
+function* watchFetchNotes() {
+  yield takeLatest(FETCH_NOTES, fetchNotes)
 }
 
 function* postDiningEvent(action) {
@@ -332,6 +350,7 @@ export default function* rootSaga() {
   yield all([
     watchFetchFavorites(),
     watchFetchFeaturedRestaurants(),
+    watchFetchNotes(),
     watchSetLocalRestaurants(),
     watchAutoCompleteDiner(),
     watchPostDiningEvent(),
