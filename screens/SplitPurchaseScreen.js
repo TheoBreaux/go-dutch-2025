@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
-import { Button, TextInput } from 'react-native-paper'
+import { View, Text, ScrollView, TouchableOpacity, TextInput } from 'react-native'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import Styles from '../style'
+import PrimaryButton from '../components/ui/PrimaryButton'
+import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
 
 const SPLIT_PACKAGES = [
   { id: '1', count: 1, price: 0.5 },
@@ -20,67 +21,70 @@ const SplitPurchaseScreen = () => {
   const selected = SPLIT_PACKAGES.find((p) => p.id === selectedPackageId)
 
   return (
-    <LogoScreenWrapper
-      backgroundColor={COLORS.logoScreenBackground}
-      useLogo={false}
-    >
-      {' '}
-      <ScrollView contentContainerStyle={{ padding: 24 }}>
-        <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 16 }}>Buy Split Purchases</Text>
+    <LogoScreenWrapper backgroundColor={COLORS.logoScreenBackground}>
+      <Text style={{ fontSize: 30, fontFamily: 'Poppins-BlackItalic', color: COLORS.goDutchRed }}>Buy Split Purchases</Text>
+      <ScrollView
+        contentContainerStyle={{ padding: 10, alignItems: 'center' }}
+        showsVerticalScrollIndicator={false}
+      >
+        
 
-        <Text style={{ fontSize: 16, marginBottom: 12 }}>Select a package:</Text>
+        <Text style={{ fontSize: 20, fontFamily: 'Poppins-Medium', alignSelf: 'flex-start', marginHorizontal: 10 }}>Select a package:</Text>
+
         {SPLIT_PACKAGES.map((pkg) => (
           <TouchableOpacity
             key={pkg.id}
             onPress={() => setSelectedPackageId(pkg.id)}
             style={{
-              borderColor: selectedPackageId === pkg.id ? '#007bff' : '#ccc',
+              borderColor: selectedPackageId === pkg.id ? COLORS.goDutchRed : '#ccc',
               borderWidth: 2,
-              padding: 16,
+              padding: 8,
               borderRadius: 12,
               marginBottom: 10,
+              width: SCREEN_WIDTH * 0.9,
+              elevation: 5,
+              backgroundColor: 'white',
             }}
           >
-            <Text style={{ fontSize: 16 }}>{pkg.count} splits</Text>
-            <Text style={{ color: '#666' }}>
+            <Text style={{ fontSize: 16, fontFamily: 'Poppins-ExtraBold' }}>{pkg.count} splits</Text>
+            <Text style={{ fontFamily: 'Poppins-ExtraBold' }}>
               ${pkg.price.toFixed(2)} – ${(pkg.price / pkg.count).toFixed(2)} each
             </Text>
           </TouchableOpacity>
         ))}
 
-        <Text style={{ fontSize: 16, marginVertical: 16 }}>Payment Info:</Text>
+        <Text style={{ fontSize: 20, fontFamily: 'Poppins-Medium', alignSelf: 'flex-start', paddingHorizontal: 10 }}>Payment Info:</Text>
+
+        <Text style={[Styles.signUpScreen.inputLabels, { alignSelf: 'flex-start', paddingHorizontal: 10 }]}>Card Number</Text>
         <TextInput
-          label="Card Number"
           value={cardNumber}
           onChangeText={setCardNumber}
           keyboardType="number-pad"
-          style={{ marginBottom: 12 }}
+          style={[Styles.signUpScreen.textInput, { width: SCREEN_WIDTH * 0.9, marginBottom: 5 }]}
         />
+        <Text style={[Styles.signUpScreen.inputLabels, { alignSelf: 'flex-start', paddingHorizontal: 10 }]}>Expiry (MM/YY)</Text>
         <TextInput
-          label="Expiry (MM/YY)"
           value={expiry}
           onChangeText={setExpiry}
           keyboardType="number-pad"
-          style={{ marginBottom: 12 }}
+          style={[Styles.signUpScreen.textInput, { width: SCREEN_WIDTH * 0.9, marginBottom: 5 }]}
         />
+        <Text style={[Styles.signUpScreen.inputLabels, { alignSelf: 'flex-start', paddingHorizontal: 10 }]}>CVC</Text>
         <TextInput
-          label="CVC"
           value={cvc}
           onChangeText={setCvc}
           keyboardType="number-pad"
-          style={{ marginBottom: 24 }}
+          style={[Styles.signUpScreen.textInput, { width: SCREEN_WIDTH * 0.9, marginBottom: 5 }]}
         />
 
-        <Button
-          mode="contained"
-          onPress={() => {
-            // Trigger payment flow
-          }}
+        <PrimaryButton
+          outerWidth={SCREEN_WIDTH * 0.9}
+          innerWidth={SCREEN_WIDTH * 0.88}
         >
           Buy {selected?.count} Splits – ${selected?.price.toFixed(2)}
-        </Button>
+        </PrimaryButton>
 
-        <Text style={{ fontSize: 12, color: '#888', marginTop: 16 }}>Splits do not expire. All purchases are final.</Text>
+        <Text style={{ fontSize: 12, color: '#888', marginBottom: 20 }}>Splits do not expire. All purchases are final.</Text>
       </ScrollView>
     </LogoScreenWrapper>
   )
