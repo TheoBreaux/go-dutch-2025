@@ -56,6 +56,8 @@ const Tabs = () => {
         tabBarActiveBackgroundColor: COLORS.goDutchRed,
         tabBarItemStyle: Style.tabBar.tabBarItemStyle,
         tabBarIconStyle: { marginTop: 5 },
+        tabBarActiveTintColor: 'white',
+        tabBarInactiveTintColor: 'white',
       }}
     >
       <Tab.Screen
@@ -65,8 +67,8 @@ const Tabs = () => {
           tabBarIcon: ({ color, size }) => (
             <Ionicons
               name="home"
-              color="white"
-              size={30}
+              size={size}
+              color={color}
             />
           ),
         }}
@@ -78,8 +80,8 @@ const Tabs = () => {
           tabBarIcon: ({ color, size }) => (
             <Ionicons
               name="heart"
-              color="white"
-              size={30}
+              size={size}
+              color={color}
             />
           ),
         }}
@@ -90,8 +92,8 @@ const Tabs = () => {
         options={{
           tabBarIcon: ({ color, size }) => (
             <GoDutchIcon
-              size={35}
-              color="white"
+              size={size}
+              color={color}
             />
           ),
         }}
@@ -103,8 +105,8 @@ const Tabs = () => {
           tabBarIcon: ({ color, size }) => (
             <FontAwesome
               name="history"
-              size={30}
-              color="white"
+              size={size}
+              color={color}
             />
           ),
         }}
@@ -116,8 +118,8 @@ const Tabs = () => {
           tabBarIcon: ({ color, size }) => (
             <Ionicons
               name="restaurant"
-              size={30}
-              color="white"
+              size={size}
+              color={color}
             />
           ),
         }}
@@ -129,8 +131,8 @@ const Tabs = () => {
           tabBarIcon: ({ color, size }) => (
             <Ionicons
               name="settings-sharp"
-              size={30}
-              color="white"
+              size={size}
+              color={color}
             />
           ),
         }}
@@ -144,7 +146,7 @@ const ScreensNavigator = () => {
     <Stack.Navigator screenOptions={() => ({ headerShown: false })}>
       <Stack.Screen
         name="Welcome"
-        component={SplitPurchaseScreen}
+        component={WelcomeScreen}
       />
       <Stack.Screen
         name="SignUp"

@@ -292,7 +292,7 @@ export default StyleSheet.create({
     },
   },
 
-  // ================================================================================================================================== PRIMARY BUTTON
+  // ==================================================================================================================================================== PRIMARY BUTTON
   primaryButton: {
     outerContainer: {
       height: SCREEN_HEIGHT * 0.075,
@@ -315,7 +315,7 @@ export default StyleSheet.create({
     text: { color: 'whitesmoke', fontSize: scaleFont(18), fontFamily: 'Poppins-Bold' },
   },
 
-  // ================================================================================================================================== EDIT PROFILE IMAGE HEADER
+  // ================================================================================================================================================== EDIT PROFILE IMAGE HEADER
   editProfileImageHeader: {
     modalOverlay: {
       flex: 1,
@@ -347,7 +347,7 @@ export default StyleSheet.create({
       },
     },
   },
-  // ================================================================================================================================== ADD DINNER ITEM MODAL
+  // ================================================================================================================================================== ADD DINNER ITEM MODAL
   addDinnerItemModal: {
     container: {
       width: SCREEN_WIDTH * 0.9,
@@ -377,7 +377,7 @@ export default StyleSheet.create({
     },
   },
 
-  // ================================================================================================================================== CUSTOM MODAL CONTAINER
+  // ================================================================================================================================================ CUSTOM MODAL CONTAINER
   customModalContainer: {
     overlay: { flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.8)', justifyContent: 'center', alignItems: 'center' },
     modalContainer: { width: SCREEN_WIDTH * 0.9, borderRadius: 10, overflow: 'hidden' },
@@ -692,6 +692,7 @@ export default StyleSheet.create({
           height: SCREEN_HEIGHT * 0.095,
           marginBottom: SCREEN_HEIGHT * 0.015,
         },
+        buttonContainer: { flexDirection: 'row', justifyContent: 'space-between', width: '100%' },
       },
     },
   },
@@ -1063,6 +1064,33 @@ export default StyleSheet.create({
           marginBottom: SCREEN_HEIGHT * 0.005,
         },
       },
+    },
+  },
+
+  // ====================================================================================================================================== SPLIT PURCHASE SCREEN
+  splitPurchaseScreen: {
+    container: { padding: 10, alignItems: 'center' },
+    heading: { fontSize: scaleFont(30), fontFamily: 'Poppins-ExtraBold', color: COLORS.goDutchRed },
+    title: { fontSize: scaleFont(20), fontFamily: 'Poppins-SemiBold', alignSelf: 'flex-start', marginHorizontal: SCREEN_WIDTH * 0.025 },
+    priceCard: {
+      borderWidth: 2,
+      padding: 8,
+      borderRadius: 12,
+      marginBottom: SCREEN_HEIGHT * 0.005,
+      width: SCREEN_WIDTH * 0.9,
+      elevation: 5,
+      shadowColor: 'black',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
+      backgroundColor: 'white',
+    },
+    disclaimer: {
+      fontSize: scaleFont(16),
+      color: '#888',
+      marginBottom: SCREEN_HEIGHT * 0.05,
+      color: COLORS.goDutchRed,
+      fontFamily: 'Poppins-ExtraBold',
     },
   },
 })

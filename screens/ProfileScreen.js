@@ -1,7 +1,7 @@
 import { View, Text, ScrollView, TextInput, KeyboardAvoidingView, Platform } from 'react-native'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import Styles from '../style'
-import { ASSET_URL, CIRCLE_SIZE, COLORS, SCREEN_WIDTH } from '../constants/constants'
+import { ASSET_URL, CIRCLE_SIZE, COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -28,26 +28,19 @@ const ProfileScreen = ({ navigation, route }) => {
     return favorite.favorited_type === 'diner' && Number(favorite.favorited_id) === Number(item.user_id)
   })
 
-  console.log('FAVORITES: ', favorites)
-  console.log('ITEM: ', item)
-
   useEffect(() => {
     dispatch(fetchNotes({ userId: user.userId, favoritedType: 'diner', favoritedId: item.user_id }))
   }, [dispatch, user.userId, item.user_id])
 
-  // useEffect(() => {
-  //   // Find the favorite (or any object) by user_id and favorited_type
-  //   const favorite = favorites.find(
-  //     (fav) => Number(fav.favorited_id) === item.user_id && fav.favorited_type === 'diner'
-  //   );
-
-  //   // If notes exist, set them; otherwise, set empty notes
-  //   if (favorite && favorite.notes) {
-  //     setNotes(favorite.notes); // Set the fetched notes to the state
-  //   } else {
-  //     setNotes(''); // Set empty notes if no notes exist
-  //   }
-  // }, [favorites, item.user_id]); // Dependency array to re-run when favorites or user_id change
+  useEffect(() => {
+    const favorite = favorites.find((fav) => Number(fav.favorited_id) === item.user_id && fav.favorited_type === 'diner')
+    // If notes exist, set them; otherwise, set empty notes
+    if (favorite && favorite.notes) {
+      setNotes(favorite.notes) // Set the fetched notes to the state
+    } else {
+      setNotes('') // Set empty notes if no notes exist
+    }
+  }, [favorites, item.user_id]) // Dependency array to re-run when favorites or user_id change
 
   const handleChangeNotes = (text) => {
     setNotes(text)
@@ -77,13 +70,13 @@ const ProfileScreen = ({ navigation, route }) => {
             width={CIRCLE_SIZE * 0.5}
             borderRadius={(CIRCLE_SIZE * 0.5) / 2}
           />
-          <Text style={{ fontSize: 22, fontFamily: 'Poppins-ExtraBold', marginTop: 10 }}>
+          <Text style={{ fontSize: scaleFont(22), fontFamily: 'Poppins-ExtraBold', marginTop: SCREEN_HEIGHT * 0.01 }}>
             Member since:
-            <Text style={{ fontSize: 20, fontFamily: 'Poppins-Medium' }}> {formattedDate}</Text>
+            <Text style={{ fontSize: scaleFont(20), fontFamily: 'Poppins-Medium' }}> {formattedDate}</Text>
           </Text>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={{ fontSize: 30, fontFamily: 'Poppins-ExtraBold' }}>{item.first_name + ' ' + item.last_name}</Text>
-            <View style={{ marginBottom: 10, marginLeft: 10 }}>
+            <Text style={{ fontSize: scaleFont(30), fontFamily: 'Poppins-ExtraBold' }}>{item.first_name + ' ' + item.last_name}</Text>
+            <View style={{ marginBottom: SCREEN_HEIGHT * 0.01, marginLeft: SCREEN_WIDTH * 0.02 }}>
               <FavoritesIcon
                 isFavorited={isFavorite}
                 onPress={() => {
@@ -127,14 +120,17 @@ const ProfileScreen = ({ navigation, route }) => {
             </View>
 
             <TextInput
-              style={Styles.profileScreen.scrollViewContainer.bioContainer.textInput}
+              style={[Styles.profileScreen.scrollViewContainer.bioContainer.textInput, { marginBottom: 5 }]}
               multiline={true}
               numberOfLines={3}
               onChangeText={handleChangeNotes}
               value={notes}
               placeholder={`Enter your notes about ${item.first_name}...`}
             />
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
+            <Text style={[Styles.splitPurchaseScreen.disclaimer, { marginBottom: 5, textAlign: 'center' }]}>
+              Adding a note will favorite the diner.
+            </Text>
+            <View style={Styles.profileScreen.scrollViewContainer.bioContainer.buttonContainer}>
               <PrimaryButton
                 onPress={() => navigation.goBack()}
                 outerWidth={SCREEN_WIDTH * 0.4}
@@ -160,7 +156,7 @@ const ProfileScreen = ({ navigation, route }) => {
                     />
                   </View>
                 ) : (
-                  'Save'
+                  <Text>{notes ? 'Update' : 'Save'}</Text>
                 )}
               </PrimaryButton>
             </View>

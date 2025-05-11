@@ -23,27 +23,26 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
   const favorites = useSelector((state) => state.app.favorites)
 
   const isFavorite = favorites.some((favorite) => {
-    return (favorite.favorited_type === 'restaurant' && Number(favorite.favorited_id) === Number(item.restaurantId)) || Number(item.restaurant_id)
+    return (favorite.favorited_type === 'restaurant' && Number(favorite.favorited_id) === Number(item.restaurantId)) || Number(item.restaurant_id) //restaurant_id from favorites screen
   })
-
-  console.log('FAVORITES: ', favorites)
-  console.log('ITEM: ', item)
 
   useEffect(() => {
     dispatch(fetchNotes({ userId: user.userId, favoritedType: 'restaurant', favoritedId: item.restaurantId }))
   }, [dispatch, user.userId, item.restaurantId])
 
-  // useEffect(() => {
-  //   // Find the restaurant in the favorites list
-  //   const favorite = favorites.find((fav) => Number(fav.favorited_id) === item.restaurant_id || item.restaurantId && fav.favorited_type === 'restaurant')
+  useEffect(() => {
+    const favorite = favorites.find(
+      (fav) =>
+        fav.favorited_type === 'restaurant' &&
+        (Number(fav.favorited_id) === Number(item.restaurantId) || Number(fav.favorited_id) === Number(item.restaurant_id))
+    )
 
-  //   // If notes exist for this restaurant, set them; otherwise, set empty notes
-  //   if (favorite && favorite.notes) {
-  //     setNotes(favorite.notes) // Set the fetched notes to the state
-  //   } else {
-  //     setNotes('') // Set empty notes if no notes exist
-  //   }
-  // }, [favorites, item.restaurantId]) // Dependency array to re-run when favorites or restaurantId change
+    if (favorite?.notes) {
+      setNotes(favorite.notes)
+    } else {
+      setNotes('')
+    }
+  }, [favorites, item.restaurantId, item.restaurant_id])
 
   const handleChangeNotes = (text) => {
     setNotes(text)
@@ -158,6 +157,9 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
             onChangeText={handleChangeNotes}
             style={Styles.restaurantDetailsScreen.notesContainer}
           />
+          <Text style={[Styles.splitPurchaseScreen.disclaimer, { marginBottom: -5, textAlign: 'center' }]}>
+            Adding a note will favorite the restaurant.
+          </Text>
 
           <View style={{ alignItems: 'flex-end', marginRight: -SCREEN_WIDTH * 0.025 }}>
             <PrimaryButton
@@ -175,7 +177,7 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
                   />
                 </View>
               ) : (
-                'Save'
+                <Text>{notes ? 'Update' : 'Save'}</Text>
               )}
             </PrimaryButton>
           </View>

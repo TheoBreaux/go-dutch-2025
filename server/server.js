@@ -527,7 +527,7 @@ WHERE favorites.user_id = $1
 //UPDATE NOTES
 app.post('/updatenotes', async (req, res) => {
   const { favoritedType, favoritedId, notes, userId } = req.body
-  console.log("REQUEST ", req.body)
+  console.log('REQUEST ', req.body)
 
   try {
     await pool.query(
