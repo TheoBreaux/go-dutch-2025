@@ -18,7 +18,7 @@ import HistoryScreen from './screens/HistoryScreen'
 import SignUpScreen from './screens/SignUpScreen'
 import WelcomeScreen from './screens/WelcomeScreen'
 import LoginScreen from './screens/LoginScreen'
-import { PRETTIFY, useDisableBackButton } from './utils/utils'
+import { useDisableBackButton } from './utils/utils'
 import { COLORS } from './constants/constants'
 import { Ionicons } from '@expo/vector-icons'
 import { FontAwesome } from '@expo/vector-icons'
@@ -37,6 +37,7 @@ import ReceiptCaptureScreen from './screens/ReceiptCaptureScreen'
 import CheckCloseOutDetailsScreen from './screens/CheckCloseOutDetailsScreen'
 import SettingsScreen from './screens/SettingsScreen'
 import SplitPurchaseScreen from './screens/SplitPurchaseScreen'
+// import * as Notifications from 'expo-notifications'
 
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
@@ -211,6 +212,7 @@ export default function AppWrapper() {
 const App = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false)
   const [readyToRender, setReadyToRender] = useState(false)
+  // const [token, setToken] = useState(null)
 
   const loadFonts = async () => {
     await Font.loadAsync({
@@ -223,6 +225,38 @@ const App = () => {
     })
     setFontsLoaded(true)
   }
+
+  //get push notifications for payment notifications later on at app entry
+  // useEffect(() => {
+  //   const configurePushNotifications = async () => {
+  //     const { status } = await Notifications.getPermissionsAsync()
+  //     let finalStatus = status
+
+  //     if (finalStatus !== 'granted') {
+  //       const { status } = await Notifications.requestPermissionsAsync()
+  //       finalStatus = status
+  //     }
+
+  //     if (finalStatus !== 'granted') {
+  //       Alert.alert('Permission required', 'Push notifications need the appropriate permissions.')
+  //       return
+  //     }
+
+  //     const pushToken = await Notifications.getExpoPushTokenAsync({
+  //       projectId: Constants.expoConfig.extra.eas.projectId,
+  //     })
+  //     setToken(pushToken.data)
+
+  //     if (Platform.OS === 'android') {
+  //       Notifications.setNotificationChannelAsync('default', {
+  //         name: 'default',
+  //         importance: Notifications.AndroidImportance.DEFAULT,
+  //       })
+  //     }
+  //   }
+
+  //   configurePushNotifications()
+  // }, [])
 
   useEffect(() => {
     loadFonts()

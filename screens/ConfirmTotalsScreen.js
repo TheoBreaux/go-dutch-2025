@@ -10,6 +10,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { scaleFont } from '../utils/utils'
 import AddMissingFeesModal from '../components/ui/AddMissingFeesModal'
 import { postDiningEvent } from '../state/actions/actions'
+// import * as Notifications from 'expo-notifications'
+
+//PAYMENT NOTIFICATIONS HAPPENS HERE
 
 const ConfirmTotalsScreen = ({ route, navigation }) => {
   const dispatch = useDispatch()
@@ -18,7 +21,7 @@ const ConfirmTotalsScreen = ({ route, navigation }) => {
 
   const { totals, dinersWithTotals, eventTitle, numNonCelebrating } = route.params
 
-  console.log("DINERS WITH TOTALS: ", dinersWithTotals)
+  console.log('DINERS WITH TOTALS: ', dinersWithTotals)
 
   const [finalSubtotal, setFinalSubtotal] = useState(totals.subtotal)
   const [showMissingFeesModal, setShowMissingFeesModal] = useState(false)
