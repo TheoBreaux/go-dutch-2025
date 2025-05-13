@@ -82,7 +82,7 @@ const RestaurantDetailsScreen = ({ navigation, route }) => {
           <FavoritesIcon
             isFavorited={isFavorite}
             onPress={() => {
-              dispatch(toggleFavorite({ ...item, restaurantId: item.restaurant_id }))
+              dispatch(toggleFavorite({ ...item, restaurantId: item.restaurantId }))
             }}
           />
         </View>

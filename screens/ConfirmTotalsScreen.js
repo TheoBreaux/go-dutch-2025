@@ -10,9 +10,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import { scaleFont } from '../utils/utils'
 import AddMissingFeesModal from '../components/ui/AddMissingFeesModal'
 import { postDiningEvent } from '../state/actions/actions'
-// import * as Notifications from 'expo-notifications'
+import * as Notifications from 'expo-notifications'
 
-//PAYMENT NOTIFICATIONS HAPPENS HERE
+//push notification handler
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return {
+      shouldPlaySound: true,
+      shouldSetBadge: false,
+      shouldShowAlert: true,
+    }
+  },
+})
 
 const ConfirmTotalsScreen = ({ route, navigation }) => {
   const dispatch = useDispatch()
@@ -41,6 +50,26 @@ const ConfirmTotalsScreen = ({ route, navigation }) => {
   )
 
   const grandTotal = totalsArray.reduce((sum, item) => sum + item.amount, 0)
+
+  //handle receipt and tapping of notification
+  useEffect(() => {
+    const subscription = Notifications.addNotificationReceivedListener((notification) => {
+      console.log('NOTIFICATION RECEIVED')
+      console.log(notification)
+    })
+
+    const subscription2 = Notifications.addNotificationResponseReceivedListener((response) => {
+      //this is the activity i want to happen, i want the modal to show
+      console.log('NOTIFICATION RESPONSE RECEIVED')
+      console.log(response)
+      console.log('HELLO')
+    })
+
+    return () => {
+      subscription.remove()
+      subscription2.remove()
+    }
+  }, [])
 
   //update shared totals as needed
   useEffect(() => {
