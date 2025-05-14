@@ -6,15 +6,18 @@ export default {
     slug: 'go-dutch-2025',
     version: '1.0.0',
     orientation: 'portrait',
-    icon: './assets/images/go_dutch_logo.png',
+    icon: './assets/splash-icon.png',
     userInterfaceStyle: 'light',
     newArchEnabled: true,
     splash: {
       backgroundColor: '#000000',
+      resizeMode: 'contain',
+      image: './assets/splash-screen.png',
     },
     ios: {
       supportsTablet: true,
       bundleIdentifier: 'com.theobreaux.godutch2025',
+      icon: './assets/splash-icon.png',
     },
     android: {
       adaptiveIcon: {
