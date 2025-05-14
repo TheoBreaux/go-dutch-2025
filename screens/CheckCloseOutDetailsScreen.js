@@ -1,5 +1,5 @@
 import { View, Text, Image, FlatList, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
@@ -14,6 +14,7 @@ const CheckCloseOutDetailsScreen = ({ route, navigation }) => {
 
   const state = useSelector((state) => state.app)
   const eventLocation = state.receiptData.restaurantName
+  const receiptImageUri = state.receiptData.imageUri
   const { finalBill } = route.params
 
   const renderItem = ({ item }) => (
@@ -52,7 +53,8 @@ const CheckCloseOutDetailsScreen = ({ route, navigation }) => {
           <View style={Styles.checkCloseOutDetailsScreen.receiptContainer}>
             <Image
               style={Styles.checkCloseOutDetailsScreen.receiptContainer.image}
-              source={Images.dummy_receipt}
+              source={{ uri: receiptImageUri }}
+              resizeMode="cover"
             />
           </View>
           <View style={{ marginBottom: -10 }}>
@@ -89,7 +91,9 @@ const CheckCloseOutDetailsScreen = ({ route, navigation }) => {
       )}
 
       <View style={Styles.checkCloseOutDetailsScreen.header}>
-        <Text style={Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.eventTitle}>{eventLocation}</Text>
+        <Text style={[Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.eventTitle, { maxWidth: SCREEN_WIDTH * 0.7 }]}>
+          {eventLocation}
+        </Text>
         <Text style={[Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.eventTitle, { color: COLORS.goDutchRed }]}>Diners</Text>
       </View>
 
@@ -99,6 +103,7 @@ const CheckCloseOutDetailsScreen = ({ route, navigation }) => {
         renderItem={renderItem}
         contentContainerStyle={{ paddingBottom: SCREEN_HEIGHT * 0.015 }}
       />
+      <Text>TOTAL GOES HERE</Text>
       <Text style={Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.thankYou}>Thanks for going Dutch! 🎉</Text>
     </LogoScreenWrapper>
   )

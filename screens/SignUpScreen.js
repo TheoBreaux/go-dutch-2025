@@ -14,7 +14,7 @@ const SignUpScreen = ({ navigation }) => {
   const dispatch = useDispatch()
 
   const [isFormValid, setIsFormValid] = useState(false)
-  const [image, setImage] = useState()
+  const [image, setImage] = useState(null)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmedPassword, setShowConfirmedPassword] = useState(false)
   const [loading, setLoading] = useState(false)

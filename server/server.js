@@ -32,7 +32,7 @@ pool
 app.listen(PORT, () => console.log(`SERVER running on PORT ${PORT}`))
 
 //SIGN UP USER IN DATABASE
-app.post('/signUp', upload.single('profileImage'), async (req, res) => {
+app.post('/signup', upload.single('profileImage'), async (req, res) => {
   const { firstName, lastName, email, username, password } = req.body
   const file = req.file
 
@@ -198,8 +198,15 @@ app.get('/diners/suggestions', async (req, res) => {
 })
 
 // SEND NEW DINING EVENTS TO DATABASE
-app.post('/diningevents', async (req, res) => {
-  const { eventId, date, restaurantName, eventTitle, primaryDinerId, subtotal, tax, tip, totalMealCost, imgUrl, allDiners } = req.body
+app.post('/diningevents', upload.single('receiptImage'), async (req, res) => {
+  const { eventId, date, restaurantName, eventTitle, primaryDinerId, subtotal, tax, tip, totalMealCost, allDiners } = req.body
+  const file = req.file
+
+  let imgUrl = null
+
+  if (file) {
+    imgUrl = await uploadFileToS3(file, 'receiptImages')
+  }
 
   try {
     await pool.query(
@@ -207,7 +214,9 @@ app.post('/diningevents', async (req, res) => {
       [eventId, date, restaurantName, eventTitle, primaryDinerId, subtotal, tax, tip, totalMealCost, imgUrl]
     )
 
-    for (const diner of allDiners) {
+    const diners = JSON.parse(allDiners) // ✅ turns string into array of objects
+
+    for (const diner of diners) {
       await pool.query('INSERT INTO event_diners(event_id, user_id, is_celebrating, diner_meal_cost) VALUES($1, $2, $3, $4)', [
         eventId,
         diner.id,

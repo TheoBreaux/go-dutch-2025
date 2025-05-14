@@ -1,4 +1,4 @@
-import { View, FlatList, Platform, Text } from 'react-native'
+import { View, FlatList, Platform } from 'react-native'
 import LogoScreenWrapper from '../components/LogoScreenWrapper'
 import { COLORS, SCREEN_HEIGHT } from '../constants/constants'
 import ConfirmableDinnerItemTile from '../components/ui/ConfirmableDinnerItemTile'
@@ -9,15 +9,15 @@ import { nanoid } from 'nanoid/non-secure'
 import { DUMMY_RECEIPT_EVENT_DATA } from '../constants/data'
 
 const ItemConfirmationScreen = ({ route }) => {
-  // const { eventData } = route.params
+  const { eventData } = route.params
 
-  const items = DUMMY_RECEIPT_EVENT_DATA.items.map((item) => ({ id: item.id, name: item.description, price: item.total, isShared: null }))
+  const items = eventData.items.map((item) => ({ id: item.id, name: item.description, price: item.total, isShared: null }))
 
   const [addingNewItem, setAddingNewItem] = useState(false)
   const [newItemName, setNewItemName] = useState('')
   const [newItemPrice, setNewItemPrice] = useState(0)
   const [receiptData, setreceiptData] = useState(items)
-  const [subtotal, setSubtotal] = useState(DUMMY_RECEIPT_EVENT_DATA.subtotal)
+  const [subtotal, setSubtotal] = useState(eventData.subtotal)
 
   const removeItem = (itemId) => {
     const updatedItems = receiptData.filter((item) => item.id !== itemId)
@@ -79,7 +79,7 @@ const ItemConfirmationScreen = ({ route }) => {
       )}
       <View style={{ marginBottom: SCREEN_HEIGHT * 0.025 }}>
         <ItemConfirmationScreenHeader
-          {...DUMMY_RECEIPT_EVENT_DATA}
+          {...eventData}
           subtotal={subtotal}
           setAddingNewItem={setAddingNewItem}
           receiptItems={receiptData}

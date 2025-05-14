@@ -1,16 +1,18 @@
 import { View, Text, Button, TouchableOpacity, Image } from 'react-native'
 import { useState, useRef } from 'react'
 import { CameraView, useCameraPermissions } from 'expo-camera'
-import { COLORS, SCREEN_HEIGHT } from '../constants/constants'
+import { COLORS, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/constants'
 import { CameraType } from 'expo-image-picker'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import AntDesign from '@expo/vector-icons/AntDesign'
 import Styles from '../style'
 import ReceiptCaptureButton from '../components/ui/ReceiptCaptureButton'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
-import { handleReceiptParse } from '../utils/utils'
+import { handleReceiptParse, scaleFont } from '../utils/utils'
 import ReceiptAnalyzingScreen from './ReceiptAnalyzingScreen'
 import * as ImageManipulator from 'expo-image-manipulator'
+import PrimaryButton from '../components/ui/PrimaryButton'
+import LogoScreenWrapper from '../components/LogoScreenWrapper'
 
 const ReceiptCaptureScreen = ({ navigation }) => {
   const [facing, setFacing] = useState(CameraType.back)
@@ -30,13 +32,18 @@ const ReceiptCaptureScreen = ({ navigation }) => {
   if (!permission.granted) {
     // Camera permissions are not granted yet.
     return (
-      <View style={{}}>
-        <Text style={{}}>We need your permission to show the camera</Text>
-        <Button
-          onPress={requestPermission}
-          title="grant permission"
-        />
-      </View>
+      <LogoScreenWrapper>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: SCREEN_HEIGHT * 0.25 }}>
+          <Text style={{ fontFamily: 'Poppins-Bold', fontSize: scaleFont(15) }}>We need your permission to show the camera</Text>
+          <PrimaryButton
+            onPress={requestPermission}
+            outerWidth={SCREEN_WIDTH * 0.42}
+            innerWidth={SCREEN_WIDTH * 0.4}
+          >
+            Grant Permission
+          </PrimaryButton>
+        </View>
+      </LogoScreenWrapper>
     )
   }
 
@@ -48,7 +55,7 @@ const ReceiptCaptureScreen = ({ navigation }) => {
         const manipulated = await ImageManipulator.manipulateAsync(
           data.uri,
           [], // no operations, just re-save to fix orientation
-          { compress: 0.5, format: ImageManipulator.SaveFormat.JPEG }
+          { compress: 0.3, format: ImageManipulator.SaveFormat.JPEG }
         )
         setImage(manipulated.uri)
       } catch (error) {
@@ -69,6 +76,7 @@ const ReceiptCaptureScreen = ({ navigation }) => {
       address: data.vendor.address,
       website: data.vendor.web,
       phone: data.vendor.phone_number,
+      imageUri: image
     }
   }
 

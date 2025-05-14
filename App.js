@@ -37,6 +37,8 @@ import ReceiptCaptureScreen from './screens/ReceiptCaptureScreen'
 import CheckCloseOutDetailsScreen from './screens/CheckCloseOutDetailsScreen'
 import SettingsScreen from './screens/SettingsScreen'
 import SplitPurchaseScreen from './screens/SplitPurchaseScreen'
+import * as Notifications from 'expo-notifications'
+import * as SplashScreen from 'expo-splash-screen'
 
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
@@ -208,6 +210,9 @@ export default function AppWrapper() {
   )
 }
 
+// Prevent auto-hide before anything loads
+SplashScreen.preventAutoHideAsync()
+
 const App = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false)
   const [readyToRender, setReadyToRender] = useState(false)
@@ -230,30 +235,49 @@ const App = () => {
 
   useEffect(() => {
     if (fontsLoaded) {
-      setReadyToRender(true) // Set readyToRender to true once fonts are loaded
+      const timer = setTimeout(() => {
+        setReadyToRender(true)
+      }, 3000) // Customize your splash screen duration
+      return () => clearTimeout(timer)
     }
   }, [fontsLoaded])
 
+  useEffect(() => {
+    const hideSplash = async () => {
+      if (readyToRender) {
+        await SplashScreen.hideAsync()
+      }
+    }
+    hideSplash()
+  }, [readyToRender])
+
   return (
     <SafeAreaProvider>
-      <NavigationContainer ref={navigationRef}>
-        <StatusBar
-          style="light"
-          backgroundColor="black"
-        />
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Screens"
-            component={ScreensNavigator}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Tabs"
-            component={Tabs}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      {readyToRender ? (
+        <>
+          <NavigationContainer ref={navigationRef}>
+            <StatusBar
+              style="light"
+              backgroundColor="black"
+            />
+            <Stack.Navigator>
+              <Stack.Screen
+                name="Screens"
+                component={ScreensNavigator}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Tabs"
+                component={Tabs}
+                options={{ headerShown: false }}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+          <Toast config={toastConfig} />
+        </>
+      ) : (
+        <CustomSplashScreen />
+      )}
     </SafeAreaProvider>
   )
 }

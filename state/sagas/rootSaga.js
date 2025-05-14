@@ -125,10 +125,7 @@ function* postDiningEvent(action) {
   try {
     const response = yield call(fetch, `${API_URL}/diningevents`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(action.payload),
+      body: action.payload,
     })
 
     if (!response.ok) {
@@ -149,7 +146,7 @@ function* watchPostDiningEvent() {
 
 function* signUpUser(action) {
   try {
-    const response = yield call(fetch, `${API_URL}/signUp`, {
+    const response = yield call(fetch, `${API_URL}/signup`, {
       method: 'POST',
       body: action.payload,
     })

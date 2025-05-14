@@ -16,7 +16,7 @@ const SplitScreen = ({ navigation }) => {
         />
         <TouchableOpacity
           style={{ marginTop: SCREEN_HEIGHT * 0.05 }}
-          onPress={() => navigation.navigate('Screens', { screen: 'ItemConfirmation' })} //Temporary will switch back to "ReceiptCapture"
+          onPress={() => navigation.navigate('Screens', { screen: 'ReceiptCapture' })} //Temporary will switch back to "ReceiptCapture" or "ItemConfirmation"
         >
           <GoDutchIcon size={SCREEN_WIDTH < 400 ? 125 : 150} />
         </TouchableOpacity>

@@ -10,9 +10,9 @@ export default {
     userInterfaceStyle: 'light',
     newArchEnabled: true,
     splash: {
-      backgroundColor: '#000000',
-      resizeMode: 'contain',
-      image: './assets/splash-screen.png',
+      image: './assets/splash-screen.png', // or your splash image
+      resizeMode: 'contain', // or "cover"
+      backgroundColor: '#000000', // make this match your splash screen bg
     },
     ios: {
       supportsTablet: true,
@@ -51,6 +51,12 @@ export default {
           cameraPermission: 'Allow $(PRODUCT_NAME) to access your camera',
           microphonePermission: 'Allow $(PRODUCT_NAME) to access your microphone',
           recordAudioAndroid: true,
+        },
+      ],
+      [
+        'expo-splash-screen',
+        {
+          preventAutoHide: true,
         },
       ],
     ],

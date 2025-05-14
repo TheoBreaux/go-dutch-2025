@@ -30,12 +30,11 @@ const ConfirmTotalsScreen = ({ route, navigation }) => {
 
   const { totals, dinersWithTotals, eventTitle, numNonCelebrating } = route.params
 
-  console.log('DINERS WITH TOTALS: ', dinersWithTotals)
-
   const [finalSubtotal, setFinalSubtotal] = useState(totals.subtotal)
   const [showMissingFeesModal, setShowMissingFeesModal] = useState(false)
   const [newFeeName, setNewFeeName] = useState('')
   const [newFeePrice, setNewFeePrice] = useState(0)
+  const [image, setImage] = useState(useSelector((state) => state.app.receiptData.imageUri))
 
   const [totalsArray, setTotalsArray] = useState(
     Object.entries(totals).map(([key, amount]) => ({
@@ -50,26 +49,6 @@ const ConfirmTotalsScreen = ({ route, navigation }) => {
   )
 
   const grandTotal = totalsArray.reduce((sum, item) => sum + item.amount, 0)
-
-  //handle receipt and tapping of notification
-  useEffect(() => {
-    const subscription = Notifications.addNotificationReceivedListener((notification) => {
-      console.log('NOTIFICATION RECEIVED')
-      console.log(notification)
-    })
-
-    const subscription2 = Notifications.addNotificationResponseReceivedListener((response) => {
-      //this is the activity i want to happen, i want the modal to show
-      console.log('NOTIFICATION RESPONSE RECEIVED')
-      console.log(response)
-      console.log('HELLO')
-    })
-
-    return () => {
-      subscription.remove()
-      subscription2.remove()
-    }
-  }, [])
 
   //update shared totals as needed
   useEffect(() => {
@@ -132,22 +111,27 @@ const ConfirmTotalsScreen = ({ route, navigation }) => {
       return diner
     })
 
-    const diningEventDetails = {
-      eventId: state.receiptData.eventId,
-      date: state.receiptData.date.substring(0, 10),
-      restaurantName,
-      eventTitle,
-      primaryDinerId: state.receiptData.primaryDinerId,
-      subtotal: totalsArray[0].amount,
-      tax: totalsArray[1].amount,
-      tip: totalsArray[2].amount,
-      totalMealCost: grandTotal,
-      allDiners: finalBill,
-      imgUrl: 'wwww.theodorebreaux.com', //TEMPORARY RECEIPT IMG URL
-    }
+    const formData = new FormData()
 
-    //ALSO NEED TO SEND ALL OF THIS TO BACKEND DATABASE AND UPDATE STATE
-    dispatch(postDiningEvent(diningEventDetails))
+    formData.append('eventId', state.receiptData.eventId)
+    formData.append('date', new Date(state.receiptData.date).toISOString().substring(0, 10))
+    formData.append('restaurantName', restaurantName)
+    formData.append('eventTitle', eventTitle)
+    formData.append('primaryDinerId', state.receiptData.primaryDinerId)
+    formData.append('subtotal', totalsArray[0].amount)
+    formData.append('tax', totalsArray[1].amount)
+    formData.append('tip', totalsArray[2].amount)
+    formData.append('totalMealCost', grandTotal)
+    formData.append('allDiners', JSON.stringify(finalBill)) // serialize the array
+
+    if (image) {
+      formData.append('receiptImage', {
+        uri: image,
+        name: 'receipt.jpg',
+        type: 'image/jpeg',
+      })
+    }
+    dispatch(postDiningEvent(formData))
 
     // SEND PAYMENT NOTIFICATIONS
     navigation.navigate('Screens', { screen: 'CheckClose', params: { finalBill } })
