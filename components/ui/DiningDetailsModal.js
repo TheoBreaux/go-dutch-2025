@@ -49,62 +49,69 @@ const DiningDetailsModal = ({ diningEvent, onClose, showDiningDetailsModal, setS
       animationType="fade"
       visible={showDiningDetailsModal}
     >
-      {showReceipt ? (
-        <>
-          {diningEvent.imgUrl ? (
+      <View
+        style={{
+          borderColor: showReceipt ? COLORS.goDutchRed : null,
+          borderWidth: showReceipt ? 10 : null,
+        }}
+      >
+        {showReceipt ? (
+          <>
+            {diningEvent.imgUrl ? (
+              <Image
+                source={{ uri: ASSET_URL + diningEvent.imgUrl }}
+                style={{ width: SCREEN_WIDTH, height: '100%' }}
+              />
+            ) : (
+              <Text style={Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.eventTitle}>IMAGE NOT AVAILABLE</Text>
+            )}
+            <View style={{ position: 'absolute', top: SCREEN_HEIGHT * 0.015, right: SCREEN_WIDTH * 0.075 }}>
+              <CircularButton
+                onPress={() => {
+                  setShowReceipt(false)
+                }}
+                icon={
+                  <AntDesign
+                    name="closecircleo"
+                    size={30}
+                    color="white"
+                  />
+                }
+              />
+            </View>
+          </>
+        ) : (
+          <View style={Styles.diningDetailsModal.container}>
             <Image
-              source={{ uri: ASSET_URL + diningEvent.imgUrl }}
-              style={{ width: SCREEN_WIDTH, height: SCREEN_HEIGHT }}
+              source={Images.go_dutch_split_button}
+              style={Styles.diningDetailsModal.container.image}
             />
-          ) : (
-            <Text style={Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.eventTitle}>IMAGE NOT AVAILABLE</Text>
-          )}
-          <View style={{ position: 'absolute', top: SCREEN_HEIGHT * 0.015, right: SCREEN_WIDTH * 0.03 }}>
-            <CircularButton
-              onPress={() => {
-                setShowReceipt(false)
-              }}
-              icon={
-                <AntDesign
-                  name="closecircleo"
-                  size={30}
-                  color="white"
-                />
-              }
+            <Text style={Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.eventTitle}>{diningEvent.eventLocation}</Text>
+            <Text
+              style={[
+                Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.eventTitle,
+                { marginTop: -SCREEN_HEIGHT * 0.025, color: COLORS.goDutchRed, fontFamily: 'Poppins-BlackItalic' },
+              ]}
+            >
+              {diningEvent.eventTitle}
+            </Text>
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              data={diningEvent.diners}
+              renderItem={renderItem}
+              contentContainerStyle={{ paddingBottom: SCREEN_HEIGHT * 0.015 }}
             />
+            <Text style={[Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.thankYou, { fontSize: scaleFont(20) }]}>
+              Total Meal Cost: ${totalMealCost.toFixed(2)}
+            </Text>
+            <Text style={Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.thankYou}>Thanks for going Dutch! 🎉</Text>
+            <View style={{ flexDirection: 'row' }}>
+              <PrimaryButton onPress={() => setShowReceipt(true)}>View Receipt</PrimaryButton>
+              <PrimaryButton onPress={onClose}>Close</PrimaryButton>
+            </View>
           </View>
-        </>
-      ) : (
-        <View style={Styles.diningDetailsModal.container}>
-          <Image
-            source={Images.go_dutch_split_button}
-            style={Styles.diningDetailsModal.container.image}
-          />
-          <Text style={Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.eventTitle}>{diningEvent.eventLocation}</Text>
-          <Text
-            style={[
-              Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.eventTitle,
-              { marginTop: -SCREEN_HEIGHT * 0.025, color: COLORS.goDutchRed, fontFamily: 'Poppins-BlackItalic' },
-            ]}
-          >
-            {diningEvent.eventTitle}
-          </Text>
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            data={diningEvent.diners}
-            renderItem={renderItem}
-            contentContainerStyle={{ paddingBottom: SCREEN_HEIGHT * 0.015 }}
-          />
-          <Text style={[Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.thankYou, { fontSize: scaleFont(20) }]}>
-            Total Meal Cost: ${totalMealCost.toFixed(2)}
-          </Text>
-          <Text style={Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.thankYou}>Thanks for going Dutch! 🎉</Text>
-          <View style={{ flexDirection: 'row' }}>
-            <PrimaryButton onPress={() => setShowReceipt(true)}>View Receipt</PrimaryButton>
-            <PrimaryButton onPress={onClose}>Close</PrimaryButton>
-          </View>
-        </View>
-      )}
+        )}
+      </View>
     </CustomModalContainer>
   )
 }
