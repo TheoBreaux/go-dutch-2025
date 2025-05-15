@@ -53,12 +53,12 @@ export default {
           recordAudioAndroid: true,
         },
       ],
-      [
-        'expo-splash-screen',
-        {
-          preventAutoHide: true,
-        },
-      ],
+      // [
+      //   'expo-splash-screen',
+      //   {
+      //     preventAutoHide: true,
+      //   },
+      // ],
     ],
   },
 }

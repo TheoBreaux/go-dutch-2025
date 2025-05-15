@@ -103,7 +103,22 @@ const CheckCloseOutDetailsScreen = ({ route, navigation }) => {
         renderItem={renderItem}
         contentContainerStyle={{ paddingBottom: SCREEN_HEIGHT * 0.015 }}
       />
-      <Text>TOTAL GOES HERE</Text>
+
+
+
+
+
+
+      <Text style={Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.thankYou}>TOTAL GOES HERE</Text>
+
+
+
+
+
+
+
+
+
       <Text style={Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.thankYou}>Thanks for going Dutch! 🎉</Text>
     </LogoScreenWrapper>
   )
