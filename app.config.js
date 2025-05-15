@@ -6,22 +6,22 @@ export default {
     slug: 'go-dutch-2025',
     version: '1.0.0',
     orientation: 'portrait',
-    icon: './assets/splash-icon.png',
+    icon: './assets/icons/adaptive-icon.png',
     userInterfaceStyle: 'light',
     newArchEnabled: true,
     splash: {
-      image: './assets/splash-screen.png', // or your splash image
+      image: './assets/icons/splash-icon.png', // or your splash image
       resizeMode: 'contain', // or "cover"
-      backgroundColor: '#000000', // make this match your splash screen bg
+      backgroundColor: '#00000', // make this match your splash screen bg
     },
     ios: {
       supportsTablet: true,
       bundleIdentifier: 'com.theobreaux.godutch2025',
-      icon: './assets/splash-icon.png',
+      icon: './assets/icons/adaptive-icon.png',
     },
     android: {
       adaptiveIcon: {
-        foregroundImage: './assets/adaptive-icon.png',
+        foregroundImage: './assets/icons/adaptive-icon.png',
         backgroundColor: '#000000',
       },
       package: 'com.theobreaux.godutch2025',
@@ -53,12 +53,6 @@ export default {
           recordAudioAndroid: true,
         },
       ],
-      // [
-      //   'expo-splash-screen',
-      //   {
-      //     preventAutoHide: true,
-      //   },
-      // ],
     ],
   },
 }

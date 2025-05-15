@@ -8,6 +8,7 @@ import Styles from '../style'
 import Images from '../assets/images/images'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import SpinningLogo from '../components/ui/SpinningLogo'
+import { scaleFont } from '../utils/utils'
 
 const CheckCloseOutDetailsScreen = ({ route, navigation }) => {
   const [viewReceipt, setViewReceipt] = useState(false)
@@ -16,6 +17,8 @@ const CheckCloseOutDetailsScreen = ({ route, navigation }) => {
   const eventLocation = state.receiptData.restaurantName
   const receiptImageUri = state.receiptData.imageUri
   const { finalBill } = route.params
+
+  const totalMealCost = finalBill.reduce((sum, diner) => sum + diner.total, 0)
 
   const renderItem = ({ item }) => (
     <TouchableOpacity style={Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer}>
@@ -104,20 +107,10 @@ const CheckCloseOutDetailsScreen = ({ route, navigation }) => {
         contentContainerStyle={{ paddingBottom: SCREEN_HEIGHT * 0.015 }}
       />
 
-
-
-
-
-
-      <Text style={Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.thankYou}>TOTAL GOES HERE</Text>
-
-
-
-
-
-
-
-
+      <Text style={[Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.thankYou, { fontSize: scaleFont(20) }]}>
+        {' '}
+        Total Meal Cost: ${totalMealCost}
+      </Text>
 
       <Text style={Styles.checkCloseOutDetailsScreen.finalBillDisplayTileContainer.text.thankYou}>Thanks for going Dutch! 🎉</Text>
     </LogoScreenWrapper>

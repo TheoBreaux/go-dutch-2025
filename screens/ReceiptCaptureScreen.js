@@ -33,7 +33,7 @@ const ReceiptCaptureScreen = ({ navigation }) => {
     // Camera permissions are not granted yet.
     return (
       <LogoScreenWrapper>
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: SCREEN_HEIGHT * 0.25 }}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: SCREEN_HEIGHT * 0.15 }}>
           <Text style={{ fontFamily: 'Poppins-Bold', fontSize: scaleFont(15) }}>We need your permission to show the camera</Text>
           <PrimaryButton
             onPress={requestPermission}
@@ -76,7 +76,7 @@ const ReceiptCaptureScreen = ({ navigation }) => {
       address: data.vendor.address,
       website: data.vendor.web,
       phone: data.vendor.phone_number,
-      imageUri: image
+      imageUri: image,
     }
   }
 

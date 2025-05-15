@@ -289,6 +289,7 @@ app.get('/diningevents/:userId', async (req, res) => {
       eventTitle: event.title,
       primaryDinerUsername: event.primary_diner_username,
       diners: event.diners,
+      imgUrl: event.img_url,
     }))
     res.json(eventData)
   } catch (error) {
