@@ -12,5 +12,6 @@ export const COLORS = {
   favoritesIconBackground: '#0000004D',
 }
 
-export const API_URL = 'http://192.168.1.198:8000'
+// export const API_URL = 'http://192.168.1.198:8000'
+export const API_URL = 'https://877d-2603-8000-c000-4fc2-8df9-4c44-96e8-89ba.ngrok-free.app' //ngrok - app preview testing
 export const ASSET_URL = 'https://go-dutch-bucket.s3.us-west-1.amazonaws.com/'
