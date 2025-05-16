@@ -31,6 +31,11 @@ pool
 
 app.listen(PORT, () => console.log(`SERVER running on PORT ${PORT}`))
 
+// Add this route to handle the root path
+app.get('/', (req, res) => {
+  res.send('Go Dutch Server is running! 🚀')
+})
+
 //SIGN UP USER IN DATABASE
 app.post('/signup', upload.single('profileImage'), async (req, res) => {
   const { firstName, lastName, email, username, password } = req.body
@@ -89,7 +94,7 @@ app.post('/signup', upload.single('profileImage'), async (req, res) => {
 })
 
 //LOG IN USER
-app.post('/logIn', async (req, res) => {
+app.post('/login', async (req, res) => {
   const { email, password } = req.body
 
   try {

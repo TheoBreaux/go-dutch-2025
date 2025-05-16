@@ -2,7 +2,7 @@ import 'dotenv/config'
 
 export default {
   expo: {
-    name: 'go-dutch-2025',
+    name: 'Go Dutch',
     slug: 'go-dutch-2025',
     version: '1.0.0',
     orientation: 'portrait',
@@ -12,7 +12,7 @@ export default {
     splash: {
       image: './assets/icons/splash-icon.png', // or your splash image
       resizeMode: 'contain', // or "cover"
-      backgroundColor: '#00000', // make this match your splash screen bg
+      backgroundColor: '#000000', // make this match your splash screen bg
     },
     ios: {
       supportsTablet: true,
